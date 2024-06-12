@@ -219,7 +219,6 @@
 				24477EF9A6A8666076A10E9A /* Pods-RunnerTests.profile-development.xcconfig */,
 				C2AAED7F09DA3D644BCFF17F /* Pods-RunnerTests.profile-staging.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -592,14 +591,17 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/DebugProfile.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = C9387PQ63V;
 				FLAVOR_APP_NAME = "Secure Chat";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fuzzzytechnologies.secure-chat";
 				PRODUCT_NAME = "$(FLAVOR_APP_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -720,14 +722,17 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/DebugProfile.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = C9387PQ63V;
 				FLAVOR_APP_NAME = "Secure Chat";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fuzzzytechnologies.secure-chat";
 				PRODUCT_NAME = "$(FLAVOR_APP_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -742,14 +747,17 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Release.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = C9387PQ63V;
 				FLAVOR_APP_NAME = "Secure Chat";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fuzzzytechnologies.secure-chat";
 				PRODUCT_NAME = "$(FLAVOR_APP_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -840,7 +848,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.myApp.stg;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fuzzzytechnologies.secure-chat.dev";
 				PRODUCT_NAME = "$(FLAVOR_APP_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -939,7 +947,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.myApp.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fuzzzytechnologies.secure-chat.dev";
 				PRODUCT_NAME = "$(FLAVOR_APP_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1031,7 +1039,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.myApp.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fuzzzytechnologies.secure-chat.dev";
 				PRODUCT_NAME = "$(FLAVOR_APP_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -1122,7 +1130,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.myApp.stg;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fuzzzytechnologies.secure-chat.dev";
 				PRODUCT_NAME = "$(FLAVOR_APP_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -1213,7 +1221,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.myApp.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fuzzzytechnologies.secure-chat.dev";
 				PRODUCT_NAME = "$(FLAVOR_APP_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -1304,7 +1312,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.myApp.stg;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fuzzzytechnologies.secure-chat.dev";
 				PRODUCT_NAME = "$(FLAVOR_APP_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

@@ -26,6 +26,7 @@ class _SendSetupPageState extends State<SendSetupPage> {
 
   Future<void> _importPublicKeyFromFile(dynamic event) async {
     final messenger = scaffoldMessengerKey.currentState;
+
     try {
       final bytes = await _controller.getFileData(event);
       final originalStringBytes = base64Decode(utf8.decode(bytes));
@@ -49,6 +50,7 @@ class _SendSetupPageState extends State<SendSetupPage> {
 
   Future<void> _importPublicKeyFromPicker() async {
     final messenger = scaffoldMessengerKey.currentState;
+
     try {
       final result = await FilePicker.platform.pickFiles();
       if (result != null) {
@@ -247,7 +249,7 @@ class _SendSetupPageState extends State<SendSetupPage> {
                 ),
               ),
             ),
-          const SizedBox(height: 50),
+          const SizedBox(height: 100),
         ],
       ),
     );

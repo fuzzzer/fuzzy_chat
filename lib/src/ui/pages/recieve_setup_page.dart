@@ -203,8 +203,6 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                const Text('Public Key:'),
-                Text(base64Public),
                 ElevatedButton(
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: base64Public));
@@ -214,9 +212,9 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
                   },
                   child: const Text('Copy Public Key'),
                 ),
+                const Text('Public Key:'),
+                Text(base64Public),
                 const SizedBox(height: 16),
-                const Text('Private Key:'),
-                Text(base64Private),
                 ElevatedButton(
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: base64Private));
@@ -226,6 +224,8 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
                   },
                   child: const Text('Copy Private Key'),
                 ),
+                const Text('Private Key:'),
+                Text(base64Private),
               ],
             ),
           ),
@@ -402,6 +402,7 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
                 ),
               ),
             ),
+          const SizedBox(height: 100),
         ],
       ),
     );

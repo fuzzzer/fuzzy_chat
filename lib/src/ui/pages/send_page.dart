@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
 import 'package:pointycastle/impl.dart' as pointy;
 import 'package:secure_chat/src/app/app.dart';
@@ -20,7 +21,7 @@ class SendPage extends StatefulWidget {
 
 class _SendPageState extends State<SendPage> {
   final TextEditingController _plainTextController = TextEditingController();
-  final TextEditingController _encryptedTextController = TextEditingController();
+  String _encryptedText = '';
   late DropzoneViewController _controller;
   bool _highlighted = false;
 
@@ -43,12 +44,13 @@ class _SendPageState extends State<SendPage> {
     final plainText = _plainTextController.text;
     final encryptedText = RSAManager.encrypt(plainText, publicKey!);
     setState(() {
-      _encryptedTextController.text = encryptedText;
+      _encryptedText = encryptedText;
     });
   }
 
   Future<void> _importPublicKeyFromFile(dynamic event) async {
     final messenger = scaffoldMessengerKey.currentState;
+
     try {
       final bytes = await _controller.getFileData(event);
       final jsonString = utf8.decode(bytes);
@@ -75,29 +77,37 @@ class _SendPageState extends State<SendPage> {
         children: [
           Padding(
             padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                TextField(
-                  controller: _plainTextController,
-                  decoration: const InputDecoration(
-                    labelText: 'Plain Text',
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  TextField(
+                    controller: _plainTextController,
+                    decoration: const InputDecoration(
+                      labelText: 'Plain Text',
+                    ),
+                    maxLines: null,
                   ),
-                  maxLines: null,
-                ),
-                const SizedBox(height: 50),
-                ElevatedButton(
-                  onPressed: _encrypt,
-                  child: const Text('Encrypt'),
-                ),
-                const SizedBox(height: 50),
-                TextField(
-                  controller: _encryptedTextController,
-                  decoration: const InputDecoration(
-                    labelText: 'Encrypted Text',
+                  const SizedBox(height: 50),
+                  ElevatedButton(
+                    onPressed: _encrypt,
+                    child: const Text('Encrypt'),
                   ),
-                  maxLines: null,
-                ),
-              ],
+                  const SizedBox(height: 50),
+                  Text(
+                    _encryptedText,
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      Clipboard.setData(ClipboardData(text: _encryptedText));
+                      scaffoldMessengerKey.currentState?.showSnackBar(
+                        const SnackBar(content: Text('Decoded Text Copied')),
+                      );
+                    },
+                    child: const Text('Copy Encrypted Text'),
+                  ),
+                ],
+              ),
             ),
           ),
           if (kIsWeb)
@@ -133,6 +143,7 @@ class _SendPageState extends State<SendPage> {
                 ),
               ),
             ),
+          const SizedBox(height: 100),
         ],
       ),
     );
