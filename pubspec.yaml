@@ -1,0 +1,32 @@
+name: secure_chat
+description: End to End encripted chat, It's content is stored llocally only and can be read only by chat members
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  bloc: ^8.1.2
+  file_picker: ^4.0.0
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^8.1.3
+  flutter_dropzone: ^4.0.0
+  flutter_localizations:
+    sdk: flutter
+  go_router: ^13.0.1
+  intl: ^0.18.0
+  path_provider: ^2.0.11
+  pointycastle: ^3.7.4
+
+dev_dependencies:
+  bloc_test: ^9.1.4
+  flutter_test:
+    sdk: flutter
+  mocktail: ^1.0.0
+  very_good_analysis: ^5.1.0
+
+flutter:
+  uses-material-design: true
+  generate: true
