@@ -11,7 +11,7 @@ import 'package:pointycastle/asymmetric/api.dart';
 import 'package:pointycastle/pointycastle.dart' as pointy;
 import 'package:secure_chat/src/app/app.dart';
 
-import '../../core/utils/security_logic.dart';
+import '../../../core/utils/security_logic.dart';
 import 'recieve_page.dart';
 
 class ReceiveSetupPage extends StatefulWidget {

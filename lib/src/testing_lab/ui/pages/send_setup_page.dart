@@ -8,7 +8,7 @@ import 'package:flutter_dropzone/flutter_dropzone.dart';
 import 'package:pointycastle/pointycastle.dart' as pointy;
 import 'package:secure_chat/src/app/app.dart';
 
-import '../../core/utils/security_logic.dart';
+import '../../../core/utils/security_logic.dart';
 import 'send_page.dart';
 
 class SendSetupPage extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:secure_chat/src/core/core.dart';
-import 'package:secure_chat/src/ui/ui.dart';
+import 'package:secure_chat/src/testing_lab/ui/ui.dart';
 
 export 'components/components.dart';
 
@@ -14,8 +14,9 @@ class App extends StatelessWidget {
     return MaterialApp(
       scaffoldMessengerKey: scaffoldMessengerKey,
       theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        colorScheme: const ColorScheme.dark(),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color.fromARGB(26, 181, 168, 168),
         ),
         useMaterial3: true,
       ),
