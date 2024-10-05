@@ -1,12 +1,6 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:math';
-import 'dart:typed_data';
+part of 'rsa_manager.dart';
 
-import 'package:path_provider/path_provider.dart';
-import 'package:pointycastle/export.dart';
-
-class RSAManager {
+class _RSAManagerImpl {
   static final _publicExponent = BigInt.from(65537);
   static const _bitStrength = 4096;
   // certainty minimizes the probability that chosen numbers p,q for key construction will not be prime
@@ -14,7 +8,7 @@ class RSAManager {
   // for example for certainty 100 the chance that algorithm messes up is 1 / (2^100) ≈ (can )
   static const _certainty = 100;
 
-  static AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> generateRSAKeyPair() {
+  static AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> generateRSAKeyPairSync() {
     final keyParams = RSAKeyGeneratorParameters(_publicExponent, _bitStrength, _certainty);
 
     final keyGenerator = RSAKeyGenerator()
@@ -40,7 +34,7 @@ class RSAManager {
     return secureRandom;
   }
 
-  static String encrypt(String value, RSAPublicKey publicKey) {
+  static String syncEncrypt(String value, RSAPublicKey publicKey) {
     final encryptor = OAEPEncoding(RSAEngine())
       ..init(
         true,
@@ -52,7 +46,7 @@ class RSAManager {
     return base64.encode(encrypted);
   }
 
-  static String decrypt(String encryptedValue, RSAPrivateKey privateKey) {
+  static String syncDecrypt(String encryptedValue, RSAPrivateKey privateKey) {
     final decryptor = OAEPEncoding(RSAEngine())
       ..init(
         false,
@@ -64,7 +58,7 @@ class RSAManager {
     return String.fromCharCodes(decrypted);
   }
 
-  static Uint8List sign(Uint8List value, RSAPrivateKey privateKey) {
+  static Uint8List syncSign(Uint8List value, RSAPrivateKey privateKey) {
     final signer = RSASigner(SHA256Digest(), _sha256DigestIdentifierHex)
       ..init(true, PrivateKeyParameter<RSAPrivateKey>(privateKey));
 
@@ -72,7 +66,7 @@ class RSAManager {
     return signature.bytes;
   }
 
-  static bool verify(Uint8List value, Uint8List signature, RSAPublicKey publicKey) {
+  static bool syncVerify(Uint8List value, Uint8List signature, RSAPublicKey publicKey) {
     final verifier = RSASigner(SHA256Digest(), _sha256DigestIdentifierHex)
       ..init(false, PublicKeyParameter<RSAPublicKey>(publicKey));
 
@@ -117,48 +111,4 @@ class RSAManager {
       BigInt.parse(map['publicExponent']!),
     );
   }
-
-  static Future<void> saveKeyToFile(String key, String fileName) async {
-    final directory = await getApplicationDocumentsDirectory();
-    final path = '${directory.path}/$fileName';
-    final file = File(path);
-    await file.writeAsString(key);
-  }
-
-  static Future<String> loadKeyFromFile(String fileName) async {
-    final directory = await getApplicationDocumentsDirectory();
-    final path = '${directory.path}/$fileName';
-    final file = File(path);
-    return file.readAsString();
-  }
-
-  static Future<void> savePrivateKeyToFile(RSAPrivateKey privateKey, String fileName) async {
-    final privateKeyMap = transformRSAPrivateKeyToMap(privateKey);
-    final privateKeyJson = json.encode(privateKeyMap);
-    await saveKeyToFile(privateKeyJson, fileName);
-  }
-
-  static Future<void> savePublicKeyToFile(RSAPublicKey publicKey, String fileName) async {
-    final publicKeyMap = transformRSAPublicKeyToMap(publicKey);
-    final publicKeyJson = json.encode(publicKeyMap);
-    await saveKeyToFile(publicKeyJson, fileName);
-  }
-
-  static Future<RSAPrivateKey> loadPrivateKeyFromFile(String fileName) async {
-    final privateKeyJson = await loadKeyFromFile(fileName);
-    final privateKeyMap = castMapToAllStringMap(json.decode(privateKeyJson) as Map<String, dynamic>);
-
-    return transformMapToRSAPrivateKey(privateKeyMap);
-  }
-
-  static Future<RSAPublicKey> loadPublicKeyFromFile(String fileName) async {
-    final publicKeyJson = await loadKeyFromFile(fileName);
-    final publicKeyMap = castMapToAllStringMap(json.decode(publicKeyJson) as Map<String, dynamic>);
-
-    return transformMapToRSAPublicKey(publicKeyMap);
-  }
-}
-
-Map<String, String> castMapToAllStringMap(Map<String, dynamic> map) {
-  return map.map((key, value) => MapEntry(key, value.toString()));
 }

@@ -5,7 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
 import 'package:pointycastle/impl.dart' as pointy;
 import 'package:secure_chat/src/app/app.dart';
-import 'package:secure_chat/src/core/utils/security_logic.dart';
+import 'package:secure_chat/src/core/utils/rsa_manager/rsa_manager.dart';
+
+import '../../../core/utils/map_casting.dart';
 
 class SendPage extends StatefulWidget {
   const SendPage({
@@ -34,7 +36,7 @@ class _SendPageState extends State<SendPage> {
     super.initState();
   }
 
-  void _encrypt() {
+  Future<void> _encrypt() async {
     if (publicKey == null) {
       scaffoldMessengerKey.currentState?.showSnackBar(
         const SnackBar(content: Text('Public key not loaded')),
@@ -42,7 +44,7 @@ class _SendPageState extends State<SendPage> {
       return;
     }
     final plainText = _plainTextController.text;
-    final encryptedText = RSAManager.encrypt(plainText, publicKey!);
+    final encryptedText = await RSAManager.encrypt(plainText, publicKey!);
     setState(() {
       _encryptedText = encryptedText;
     });

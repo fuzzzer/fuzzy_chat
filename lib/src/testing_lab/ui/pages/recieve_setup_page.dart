@@ -11,7 +11,9 @@ import 'package:pointycastle/asymmetric/api.dart';
 import 'package:pointycastle/pointycastle.dart' as pointy;
 import 'package:secure_chat/src/app/app.dart';
 
-import '../../../core/utils/security_logic.dart';
+import '../../../core/utils/keys_repository/keys_repository.dart';
+import '../../../core/utils/map_casting.dart';
+import '../../../core/utils/rsa_manager/rsa_manager.dart';
 import 'recieve_page.dart';
 
 class ReceiveSetupPage extends StatefulWidget {
@@ -41,8 +43,8 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
     final messenger = scaffoldMessengerKey.currentState;
 
     try {
-      final publicKey = await RSAManager.loadPublicKeyFromFile('public_key.json');
-      final privateKey = await RSAManager.loadPrivateKeyFromFile('private_key.json');
+      final publicKey = await KeysRepository.loadPublicKeyFromFile('public_key.json');
+      final privateKey = await KeysRepository.loadPrivateKeyFromFile('private_key.json');
       setState(() {
         _keyPair = pointy.AsymmetricKeyPair(publicKey, privateKey);
       });
@@ -74,8 +76,8 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
 
     setState(() {
       _keyPair = newKeyPair;
-      RSAManager.savePublicKeyToFile(newKeyPair.publicKey, 'public_key.json');
-      RSAManager.savePrivateKeyToFile(newKeyPair.privateKey, 'private_key.json');
+      KeysRepository.savePublicKeyToFile(newKeyPair.publicKey, 'public_key.json');
+      KeysRepository.savePrivateKeyToFile(newKeyPair.privateKey, 'private_key.json');
     });
 
     messenger?.showSnackBar(
@@ -126,7 +128,7 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
     pointy.RSAPublicKey? importedPublicKey;
     try {
       importedPublicKey = RSAManager.transformMapToRSAPublicKey(keyMap);
-      RSAManager.savePublicKeyToFile(importedPublicKey, 'public_key.json');
+      KeysRepository.savePublicKeyToFile(importedPublicKey, 'public_key.json');
       debugPrint('Public key imported successfully');
     } catch (e) {
       importedPublicKey = null;
@@ -147,8 +149,8 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
 
       isPrivateKeyLoaded = true;
 
-      RSAManager.savePublicKeyToFile(importedPublicKey, 'public_key.json');
-      RSAManager.savePrivateKeyToFile(importedPrivateKey, 'private_key.json');
+      KeysRepository.savePublicKeyToFile(importedPublicKey, 'public_key.json');
+      KeysRepository.savePrivateKeyToFile(importedPrivateKey, 'private_key.json');
     } catch (e) {
       scaffoldMessengerKey.currentState?.showSnackBar(
         const SnackBar(content: Text('Could Not Import Private Key')),
@@ -168,8 +170,8 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
 
     if (readsLocalFile) {
       await Future.wait([
-        (() async => RSAManager.loadPublicKeyFromFile('public_key.json'))(),
-        (() async => RSAManager.loadPrivateKeyFromFile('private_key.json'))(),
+        (() async => KeysRepository.loadPublicKeyFromFile('public_key.json'))(),
+        (() async => KeysRepository.loadPrivateKeyFromFile('private_key.json'))(),
       ]).then((value) {
         setState(() {
           publicKeyMap = RSAManager.transformRSAPublicKeyToMap(value[0] as RSAPublicKey);
