@@ -1,4 +1,4 @@
-name: secure_chat
+name: fuzzy_chat
 
 concurrency:
   group: $-$

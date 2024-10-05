@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
 import 'package:pointycastle/impl.dart' as pointy;
-import 'package:secure_chat/src/app/app.dart';
-import 'package:secure_chat/src/core/utils/rsa_manager/rsa_manager.dart';
+import 'package:fuzzy_chat/src/app/app.dart';
+import 'package:fuzzy_chat/src/core/utils/rsa_manager/rsa_manager.dart';
 
 import '../../../core/utils/map_casting.dart';
 

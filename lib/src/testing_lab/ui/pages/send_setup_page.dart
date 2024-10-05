@@ -5,9 +5,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
+import 'package:fuzzy_chat/src/app/app.dart';
+import 'package:fuzzy_chat/src/core/utils/keys_repository/keys_repository.dart';
 import 'package:pointycastle/pointycastle.dart' as pointy;
-import 'package:secure_chat/src/app/app.dart';
-import 'package:secure_chat/src/core/utils/keys_repository/keys_repository.dart';
 
 import '../../../core/utils/map_casting.dart';
 import '../../../core/utils/rsa_manager/rsa_manager.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:secure_chat/src/core/core.dart';
-import 'package:secure_chat/src/testing_lab/ui/ui.dart';
+import 'package:fuzzy_chat/src/core/core.dart';
+import 'package:fuzzy_chat/src/testing_lab/ui/ui.dart';
 
 export 'components/components.dart';
 
@@ -20,8 +20,8 @@ class App extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      localizationsDelegates: SecureChatLocalizations.localizationsDelegates,
-      supportedLocales: SecureChatLocalizations.supportedLocales,
+      localizationsDelegates: FuzzyChatLocalizations.localizationsDelegates,
+      supportedLocales: FuzzyChatLocalizations.supportedLocales,
       home: const InitialPage(),
     );
   }

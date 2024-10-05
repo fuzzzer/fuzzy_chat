@@ -5,22 +5,22 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
-import 'secure_chat_localizations_en.dart';
-import 'secure_chat_localizations_ka.dart';
+import 'fuzzy_chat_localizations_en.dart';
+import 'fuzzy_chat_localizations_ka.dart';
 
-/// Callers can lookup localized strings with an instance of SecureChatLocalizations
-/// returned by `SecureChatLocalizations.of(context)`.
+/// Callers can lookup localized strings with an instance of FuzzyChatLocalizations
+/// returned by `FuzzyChatLocalizations.of(context)`.
 ///
-/// Applications need to include `SecureChatLocalizations.delegate()` in their app's
+/// Applications need to include `FuzzyChatLocalizations.delegate()` in their app's
 /// `localizationDelegates` list, and the locales they support in the app's
 /// `supportedLocales` list. For example:
 ///
 /// ```dart
-/// import 'generated_localizations/secure_chat_localizations.dart';
+/// import 'generated_localizations/fuzzy_chat_localizations.dart';
 ///
 /// return MaterialApp(
-///   localizationsDelegates: SecureChatLocalizations.localizationsDelegates,
-///   supportedLocales: SecureChatLocalizations.supportedLocales,
+///   localizationsDelegates: FuzzyChatLocalizations.localizationsDelegates,
+///   supportedLocales: FuzzyChatLocalizations.supportedLocales,
 ///   home: MyApplicationHome(),
 /// );
 /// ```
@@ -57,18 +57,18 @@ import 'secure_chat_localizations_ka.dart';
 /// Select and expand the newly-created Localizations item then, for each
 /// locale your application supports, add a new item and select the locale
 /// you wish to add from the pop-up menu in the Value field. This list should
-/// be consistent with the languages listed in the SecureChatLocalizations.supportedLocales
+/// be consistent with the languages listed in the FuzzyChatLocalizations.supportedLocales
 /// property.
-abstract class SecureChatLocalizations {
-  SecureChatLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+abstract class FuzzyChatLocalizations {
+  FuzzyChatLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
-  static SecureChatLocalizations? of(BuildContext context) {
-    return Localizations.of<SecureChatLocalizations>(context, SecureChatLocalizations);
+  static FuzzyChatLocalizations? of(BuildContext context) {
+    return Localizations.of<FuzzyChatLocalizations>(context, FuzzyChatLocalizations);
   }
 
-  static const LocalizationsDelegate<SecureChatLocalizations> delegate = _SecureChatLocalizationsDelegate();
+  static const LocalizationsDelegate<FuzzyChatLocalizations> delegate = _FuzzyChatLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -100,32 +100,32 @@ abstract class SecureChatLocalizations {
   String get chat;
 }
 
-class _SecureChatLocalizationsDelegate extends LocalizationsDelegate<SecureChatLocalizations> {
-  const _SecureChatLocalizationsDelegate();
+class _FuzzyChatLocalizationsDelegate extends LocalizationsDelegate<FuzzyChatLocalizations> {
+  const _FuzzyChatLocalizationsDelegate();
 
   @override
-  Future<SecureChatLocalizations> load(Locale locale) {
-    return SynchronousFuture<SecureChatLocalizations>(lookupSecureChatLocalizations(locale));
+  Future<FuzzyChatLocalizations> load(Locale locale) {
+    return SynchronousFuture<FuzzyChatLocalizations>(lookupFuzzyChatLocalizations(locale));
   }
 
   @override
   bool isSupported(Locale locale) => <String>['en', 'ka'].contains(locale.languageCode);
 
   @override
-  bool shouldReload(_SecureChatLocalizationsDelegate old) => false;
+  bool shouldReload(_FuzzyChatLocalizationsDelegate old) => false;
 }
 
-SecureChatLocalizations lookupSecureChatLocalizations(Locale locale) {
+FuzzyChatLocalizations lookupFuzzyChatLocalizations(Locale locale) {
 
 
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en': return SecureChatLocalizationsEn();
-    case 'ka': return SecureChatLocalizationsKa();
+    case 'en': return FuzzyChatLocalizationsEn();
+    case 'ka': return FuzzyChatLocalizationsKa();
   }
 
   throw FlutterError(
-    'SecureChatLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'FuzzyChatLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
     'an issue with the localizations generation tool. Please file an issue '
     'on GitHub with a reproducible sample app and the gen-l10n configuration '
     'that was used.'

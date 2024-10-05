@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
 import 'package:pointycastle/asymmetric/api.dart';
 import 'package:pointycastle/pointycastle.dart' as pointy;
-import 'package:secure_chat/src/app/app.dart';
+import 'package:fuzzy_chat/src/app/app.dart';
 
 import '../../../core/utils/keys_repository/keys_repository.dart';
 import '../../../core/utils/map_casting.dart';
