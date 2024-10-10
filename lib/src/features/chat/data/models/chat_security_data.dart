@@ -33,4 +33,20 @@ class ChatSecurityData {
       ..encryptedSymmetricKey = encryptedSymmetricKey
       ..createdAt = createdAt;
   }
+
+  ChatSecurityData copyWith({
+    String? chatId,
+    DateTime? createdAt,
+    String? invitationFilePath,
+    String? acceptanceFilePath,
+    String? encryptedSymmetricKey,
+  }) {
+    return ChatSecurityData(
+      chatId: chatId ?? this.chatId,
+      createdAt: createdAt ?? this.createdAt,
+      invitationFilePath: invitationFilePath ?? this.invitationFilePath,
+      acceptanceFilePath: acceptanceFilePath ?? this.acceptanceFilePath,
+      encryptedSymmetricKey: encryptedSymmetricKey ?? this.encryptedSymmetricKey,
+    );
+  }
 }

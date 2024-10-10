@@ -27,4 +27,16 @@ class ChatGeneralData {
       ..setupStatus = setupStatus
       ..createdAt = DateTime.now();
   }
+
+  ChatGeneralData copyWith({
+    String? chatId,
+    String? chatName,
+    ChatSetupStatus? setupStatus,
+  }) {
+    return ChatGeneralData(
+      chatId: chatId ?? this.chatId,
+      chatName: chatName ?? this.chatName,
+      setupStatus: setupStatus ?? this.setupStatus,
+    );
+  }
 }

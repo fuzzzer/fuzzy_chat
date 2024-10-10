@@ -29,4 +29,18 @@ class MessageData {
       ..sentAt = sentAt
       ..isSent = isSent;
   }
+
+  MessageData copyWith({
+    String? chatId,
+    String? fuzzyMessage,
+    DateTime? sentAt,
+    bool? isSent,
+  }) {
+    return MessageData(
+      chatId: chatId ?? this.chatId,
+      fuzzyMessage: fuzzyMessage ?? this.fuzzyMessage,
+      sentAt: sentAt ?? this.sentAt,
+      isSent: isSent ?? this.isSent,
+    );
+  }
 }

@@ -25,4 +25,16 @@ class ChatPreferences {
       ..showTimestamps = showTimestamps
       ..lastUpdated = lastUpdated;
   }
+
+  ChatPreferences copyWith({
+    String? theme,
+    bool? showTimestamps,
+    DateTime? lastUpdated,
+  }) {
+    return ChatPreferences(
+      theme: theme ?? this.theme,
+      showTimestamps: showTimestamps ?? this.showTimestamps,
+      lastUpdated: lastUpdated ?? this.lastUpdated,
+    );
+  }
 }
