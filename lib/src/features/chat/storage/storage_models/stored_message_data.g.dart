@@ -22,9 +22,9 @@ const StoredMessageDataSchema = CollectionSchema(
       name: r'chatId',
       type: IsarType.string,
     ),
-    r'encryptedContent': PropertySchema(
+    r'encryptedMessage': PropertySchema(
       id: 1,
-      name: r'encryptedContent',
+      name: r'encryptedMessage',
       type: IsarType.string,
     ),
     r'isSent': PropertySchema(
@@ -73,7 +73,7 @@ int _storedMessageDataEstimateSize(
 ) {
   var bytesCount = offsets.last;
   bytesCount += 3 + object.chatId.length * 3;
-  bytesCount += 3 + object.fuzzyMessage.length * 3;
+  bytesCount += 3 + object.encryptedMessage.length * 3;
   return bytesCount;
 }
 
@@ -84,7 +84,7 @@ void _storedMessageDataSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.chatId);
-  writer.writeString(offsets[1], object.fuzzyMessage);
+  writer.writeString(offsets[1], object.encryptedMessage);
   writer.writeBool(offsets[2], object.isSent);
   writer.writeDateTime(offsets[3], object.sentAt);
 }
@@ -97,7 +97,7 @@ StoredMessageData _storedMessageDataDeserialize(
 ) {
   final object = StoredMessageData();
   object.chatId = reader.readString(offsets[0]);
-  object.fuzzyMessage = reader.readString(offsets[1]);
+  object.encryptedMessage = reader.readString(offsets[1]);
   object.id = id;
   object.isSent = reader.readBool(offsets[2]);
   object.sentAt = reader.readDateTime(offsets[3]);
@@ -128,15 +128,18 @@ Id _storedMessageDataGetId(StoredMessageData object) {
   return object.id;
 }
 
-List<IsarLinkBase<dynamic>> _storedMessageDataGetLinks(StoredMessageData object) {
+List<IsarLinkBase<dynamic>> _storedMessageDataGetLinks(
+    StoredMessageData object) {
   return [];
 }
 
-void _storedMessageDataAttach(IsarCollection<dynamic> col, Id id, StoredMessageData object) {
+void _storedMessageDataAttach(
+    IsarCollection<dynamic> col, Id id, StoredMessageData object) {
   object.id = id;
 }
 
-extension StoredMessageDataQueryWhereSort on QueryBuilder<StoredMessageData, StoredMessageData, QWhere> {
+extension StoredMessageDataQueryWhereSort
+    on QueryBuilder<StoredMessageData, StoredMessageData, QWhere> {
   QueryBuilder<StoredMessageData, StoredMessageData, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
@@ -144,8 +147,10 @@ extension StoredMessageDataQueryWhereSort on QueryBuilder<StoredMessageData, Sto
   }
 }
 
-extension StoredMessageDataQueryWhere on QueryBuilder<StoredMessageData, StoredMessageData, QWhereClause> {
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterWhereClause> idEqualTo(Id id) {
+extension StoredMessageDataQueryWhere
+    on QueryBuilder<StoredMessageData, StoredMessageData, QWhereClause> {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterWhereClause>
+      idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -154,7 +159,8 @@ extension StoredMessageDataQueryWhere on QueryBuilder<StoredMessageData, StoredM
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterWhereClause> idNotEqualTo(Id id) {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterWhereClause>
+      idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -176,7 +182,8 @@ extension StoredMessageDataQueryWhere on QueryBuilder<StoredMessageData, StoredM
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterWhereClause> idGreaterThan(Id id, {bool include = false}) {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterWhereClause>
+      idGreaterThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.greaterThan(lower: id, includeLower: include),
@@ -184,7 +191,8 @@ extension StoredMessageDataQueryWhere on QueryBuilder<StoredMessageData, StoredM
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterWhereClause> idLessThan(Id id, {bool include = false}) {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterWhereClause>
+      idLessThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.lessThan(upper: id, includeUpper: include),
@@ -192,7 +200,8 @@ extension StoredMessageDataQueryWhere on QueryBuilder<StoredMessageData, StoredM
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterWhereClause> idBetween(
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterWhereClause>
+      idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -208,7 +217,8 @@ extension StoredMessageDataQueryWhere on QueryBuilder<StoredMessageData, StoredM
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterWhereClause> chatIdEqualTo(String chatId) {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterWhereClause>
+      chatIdEqualTo(String chatId) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'chatId',
@@ -217,7 +227,8 @@ extension StoredMessageDataQueryWhere on QueryBuilder<StoredMessageData, StoredM
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterWhereClause> chatIdNotEqualTo(String chatId) {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterWhereClause>
+      chatIdNotEqualTo(String chatId) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -252,8 +263,10 @@ extension StoredMessageDataQueryWhere on QueryBuilder<StoredMessageData, StoredM
   }
 }
 
-extension StoredMessageDataQueryFilter on QueryBuilder<StoredMessageData, StoredMessageData, QFilterCondition> {
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> chatIdEqualTo(
+extension StoredMessageDataQueryFilter
+    on QueryBuilder<StoredMessageData, StoredMessageData, QFilterCondition> {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      chatIdEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -266,7 +279,8 @@ extension StoredMessageDataQueryFilter on QueryBuilder<StoredMessageData, Stored
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> chatIdGreaterThan(
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      chatIdGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -281,7 +295,8 @@ extension StoredMessageDataQueryFilter on QueryBuilder<StoredMessageData, Stored
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> chatIdLessThan(
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      chatIdLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -296,7 +311,8 @@ extension StoredMessageDataQueryFilter on QueryBuilder<StoredMessageData, Stored
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> chatIdBetween(
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      chatIdBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -315,7 +331,8 @@ extension StoredMessageDataQueryFilter on QueryBuilder<StoredMessageData, Stored
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> chatIdStartsWith(
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      chatIdStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -328,7 +345,8 @@ extension StoredMessageDataQueryFilter on QueryBuilder<StoredMessageData, Stored
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> chatIdEndsWith(
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      chatIdEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -341,8 +359,8 @@ extension StoredMessageDataQueryFilter on QueryBuilder<StoredMessageData, Stored
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> chatIdContains(String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      chatIdContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'chatId',
@@ -352,8 +370,8 @@ extension StoredMessageDataQueryFilter on QueryBuilder<StoredMessageData, Stored
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> chatIdMatches(String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      chatIdMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'chatId',
@@ -363,7 +381,8 @@ extension StoredMessageDataQueryFilter on QueryBuilder<StoredMessageData, Stored
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> chatIdIsEmpty() {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      chatIdIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'chatId',
@@ -372,7 +391,8 @@ extension StoredMessageDataQueryFilter on QueryBuilder<StoredMessageData, Stored
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> chatIdIsNotEmpty() {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      chatIdIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'chatId',
@@ -381,20 +401,22 @@ extension StoredMessageDataQueryFilter on QueryBuilder<StoredMessageData, Stored
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> encryptedContentEqualTo(
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      encryptedMessageEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'encryptedContent',
+        property: r'encryptedMessage',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> encryptedContentGreaterThan(
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      encryptedMessageGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -402,14 +424,15 @@ extension StoredMessageDataQueryFilter on QueryBuilder<StoredMessageData, Stored
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'encryptedContent',
+        property: r'encryptedMessage',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> encryptedContentLessThan(
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      encryptedMessageLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -417,14 +440,15 @@ extension StoredMessageDataQueryFilter on QueryBuilder<StoredMessageData, Stored
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'encryptedContent',
+        property: r'encryptedMessage',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> encryptedContentBetween(
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      encryptedMessageBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -433,7 +457,7 @@ extension StoredMessageDataQueryFilter on QueryBuilder<StoredMessageData, Stored
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'encryptedContent',
+        property: r'encryptedMessage',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -443,73 +467,78 @@ extension StoredMessageDataQueryFilter on QueryBuilder<StoredMessageData, Stored
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> encryptedContentStartsWith(
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      encryptedMessageStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'encryptedContent',
+        property: r'encryptedMessage',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> encryptedContentEndsWith(
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      encryptedMessageEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'encryptedContent',
+        property: r'encryptedMessage',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> encryptedContentContains(String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      encryptedMessageContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
-        property: r'encryptedContent',
+        property: r'encryptedMessage',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> encryptedContentMatches(String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      encryptedMessageMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
-        property: r'encryptedContent',
+        property: r'encryptedMessage',
         wildcard: pattern,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> encryptedContentIsEmpty() {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      encryptedMessageIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'encryptedContent',
+        property: r'encryptedMessage',
         value: '',
       ));
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> encryptedContentIsNotEmpty() {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      encryptedMessageIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'encryptedContent',
+        property: r'encryptedMessage',
         value: '',
       ));
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> idEqualTo(Id value) {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -518,7 +547,8 @@ extension StoredMessageDataQueryFilter on QueryBuilder<StoredMessageData, Stored
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      idGreaterThan(
     Id value, {
     bool include = false,
   }) {
@@ -531,7 +561,8 @@ extension StoredMessageDataQueryFilter on QueryBuilder<StoredMessageData, Stored
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> idLessThan(
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      idLessThan(
     Id value, {
     bool include = false,
   }) {
@@ -544,7 +575,8 @@ extension StoredMessageDataQueryFilter on QueryBuilder<StoredMessageData, Stored
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> idBetween(
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -561,7 +593,8 @@ extension StoredMessageDataQueryFilter on QueryBuilder<StoredMessageData, Stored
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> isSentEqualTo(bool value) {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      isSentEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'isSent',
@@ -570,7 +603,8 @@ extension StoredMessageDataQueryFilter on QueryBuilder<StoredMessageData, Stored
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> sentAtEqualTo(DateTime value) {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      sentAtEqualTo(DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'sentAt',
@@ -579,7 +613,8 @@ extension StoredMessageDataQueryFilter on QueryBuilder<StoredMessageData, Stored
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> sentAtGreaterThan(
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      sentAtGreaterThan(
     DateTime value, {
     bool include = false,
   }) {
@@ -592,7 +627,8 @@ extension StoredMessageDataQueryFilter on QueryBuilder<StoredMessageData, Stored
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> sentAtLessThan(
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      sentAtLessThan(
     DateTime value, {
     bool include = false,
   }) {
@@ -605,7 +641,8 @@ extension StoredMessageDataQueryFilter on QueryBuilder<StoredMessageData, Stored
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition> sentAtBetween(
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      sentAtBetween(
     DateTime lower,
     DateTime upper, {
     bool includeLower = true,
@@ -623,82 +660,98 @@ extension StoredMessageDataQueryFilter on QueryBuilder<StoredMessageData, Stored
   }
 }
 
-extension StoredMessageDataQueryObject on QueryBuilder<StoredMessageData, StoredMessageData, QFilterCondition> {}
+extension StoredMessageDataQueryObject
+    on QueryBuilder<StoredMessageData, StoredMessageData, QFilterCondition> {}
 
-extension StoredMessageDataQueryLinks on QueryBuilder<StoredMessageData, StoredMessageData, QFilterCondition> {}
+extension StoredMessageDataQueryLinks
+    on QueryBuilder<StoredMessageData, StoredMessageData, QFilterCondition> {}
 
-extension StoredMessageDataQuerySortBy on QueryBuilder<StoredMessageData, StoredMessageData, QSortBy> {
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy> sortByChatId() {
+extension StoredMessageDataQuerySortBy
+    on QueryBuilder<StoredMessageData, StoredMessageData, QSortBy> {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy>
+      sortByChatId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'chatId', Sort.asc);
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy> sortByChatIdDesc() {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy>
+      sortByChatIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'chatId', Sort.desc);
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy> sortByEncryptedContent() {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy>
+      sortByEncryptedMessage() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'encryptedContent', Sort.asc);
+      return query.addSortBy(r'encryptedMessage', Sort.asc);
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy> sortByEncryptedContentDesc() {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy>
+      sortByEncryptedMessageDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'encryptedContent', Sort.desc);
+      return query.addSortBy(r'encryptedMessage', Sort.desc);
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy> sortByIsSent() {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy>
+      sortByIsSent() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isSent', Sort.asc);
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy> sortByIsSentDesc() {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy>
+      sortByIsSentDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isSent', Sort.desc);
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy> sortBySentAt() {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy>
+      sortBySentAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'sentAt', Sort.asc);
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy> sortBySentAtDesc() {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy>
+      sortBySentAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'sentAt', Sort.desc);
     });
   }
 }
 
-extension StoredMessageDataQuerySortThenBy on QueryBuilder<StoredMessageData, StoredMessageData, QSortThenBy> {
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy> thenByChatId() {
+extension StoredMessageDataQuerySortThenBy
+    on QueryBuilder<StoredMessageData, StoredMessageData, QSortThenBy> {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy>
+      thenByChatId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'chatId', Sort.asc);
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy> thenByChatIdDesc() {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy>
+      thenByChatIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'chatId', Sort.desc);
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy> thenByEncryptedContent() {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy>
+      thenByEncryptedMessage() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'encryptedContent', Sort.asc);
+      return query.addSortBy(r'encryptedMessage', Sort.asc);
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy> thenByEncryptedContentDesc() {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy>
+      thenByEncryptedMessageDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'encryptedContent', Sort.desc);
+      return query.addSortBy(r'encryptedMessage', Sort.desc);
     });
   }
 
@@ -708,65 +761,76 @@ extension StoredMessageDataQuerySortThenBy on QueryBuilder<StoredMessageData, St
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy>
+      thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy> thenByIsSent() {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy>
+      thenByIsSent() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isSent', Sort.asc);
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy> thenByIsSentDesc() {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy>
+      thenByIsSentDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isSent', Sort.desc);
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy> thenBySentAt() {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy>
+      thenBySentAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'sentAt', Sort.asc);
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy> thenBySentAtDesc() {
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy>
+      thenBySentAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'sentAt', Sort.desc);
     });
   }
 }
 
-extension StoredMessageDataQueryWhereDistinct on QueryBuilder<StoredMessageData, StoredMessageData, QDistinct> {
-  QueryBuilder<StoredMessageData, StoredMessageData, QDistinct> distinctByChatId({bool caseSensitive = true}) {
+extension StoredMessageDataQueryWhereDistinct
+    on QueryBuilder<StoredMessageData, StoredMessageData, QDistinct> {
+  QueryBuilder<StoredMessageData, StoredMessageData, QDistinct>
+      distinctByChatId({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'chatId', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QDistinct> distinctByEncryptedContent(
-      {bool caseSensitive = true}) {
+  QueryBuilder<StoredMessageData, StoredMessageData, QDistinct>
+      distinctByEncryptedMessage({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'encryptedContent', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'encryptedMessage',
+          caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QDistinct> distinctByIsSent() {
+  QueryBuilder<StoredMessageData, StoredMessageData, QDistinct>
+      distinctByIsSent() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isSent');
     });
   }
 
-  QueryBuilder<StoredMessageData, StoredMessageData, QDistinct> distinctBySentAt() {
+  QueryBuilder<StoredMessageData, StoredMessageData, QDistinct>
+      distinctBySentAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'sentAt');
     });
   }
 }
 
-extension StoredMessageDataQueryProperty on QueryBuilder<StoredMessageData, StoredMessageData, QQueryProperty> {
+extension StoredMessageDataQueryProperty
+    on QueryBuilder<StoredMessageData, StoredMessageData, QQueryProperty> {
   QueryBuilder<StoredMessageData, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
@@ -779,9 +843,10 @@ extension StoredMessageDataQueryProperty on QueryBuilder<StoredMessageData, Stor
     });
   }
 
-  QueryBuilder<StoredMessageData, String, QQueryOperations> encryptedContentProperty() {
+  QueryBuilder<StoredMessageData, String, QQueryOperations>
+      encryptedMessageProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'encryptedContent');
+      return query.addPropertyName(r'encryptedMessage');
     });
   }
 

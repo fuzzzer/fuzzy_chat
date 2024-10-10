@@ -1,14 +1,14 @@
 import 'package:isar/isar.dart';
 import '../storage_models/storage_models.dart';
 
-class StoredMessageDataLocalDataSource {
+class MessageDataLocalDataSource {
   final Isar isar;
 
-  StoredMessageDataLocalDataSource(this.isar);
+  MessageDataLocalDataSource(this.isar);
 
-  Future<void> addMessage(StoredMessageData messageData) async {
-    await isar.writeTxn(() async {
-      await isar.storedMessageDatas.put(messageData);
+  Future<int> addMessage(StoredMessageData messageData) async {
+    return await isar.writeTxn<int>(() async {
+      return await isar.storedMessageDatas.put(messageData);
     });
   }
 
@@ -16,9 +16,9 @@ class StoredMessageDataLocalDataSource {
     return await isar.storedMessageDatas.filter().chatIdEqualTo(chatId).sortBySentAt().findAll();
   }
 
-  Future<void> updateMessage(StoredMessageData messageData) async {
-    await isar.writeTxn(() async {
-      await isar.storedMessageDatas.put(messageData);
+  Future<int> updateMessage(StoredMessageData messageData) async {
+    return await isar.writeTxn<int>(() async {
+      return await isar.storedMessageDatas.put(messageData);
     });
   }
 

@@ -9,7 +9,7 @@ class StoredMessageData {
   @Index()
   late String chatId;
 
-  late String fuzzyMessage;
+  late String encryptedMessage;
 
   DateTime sentAt = DateTime.now();
 

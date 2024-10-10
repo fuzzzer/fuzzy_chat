@@ -37,7 +37,7 @@ class MessageArea extends StatelessWidget {
             ),
           ),
           child: Text(
-            message.fuzzyMessage,
+            message.encryptedMessage,
             style: uiTextStyles.body16.copyWith(
               color: message.isSent ? Colors.white : Colors.black,
             ),

@@ -1,10 +1,10 @@
 import 'package:isar/isar.dart';
 import '../storage_models/storage_models.dart';
 
-class StoredChatSecurityDataLocalDataSource {
+class ChatSecurityDataLocalDataSource {
   final Isar isar;
 
-  StoredChatSecurityDataLocalDataSource(this.isar);
+  ChatSecurityDataLocalDataSource(this.isar);
 
   Future<void> addSecurityData(StoredChatSecurityData securityData) async {
     await isar.writeTxn(() async {

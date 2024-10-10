@@ -41,8 +41,10 @@ class _ConnectedChatPageState extends State<ConnectedChatPage> {
       setState(() {
         messages.add(
           MessageData(
+            id: 0,
             chatId: widget.payload.chatId,
-            fuzzyMessage: _messageController.text,
+            encryptedMessage: _messageController.text,
+            decryptedMessage: '',
             sentAt: DateTime.now(),
             isSent: isSent,
           ),
