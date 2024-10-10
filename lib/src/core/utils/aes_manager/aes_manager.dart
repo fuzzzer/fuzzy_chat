@@ -5,20 +5,19 @@ import 'dart:typed_data';
 import 'package:pointycastle/export.dart';
 
 import '../secure_bytes_generation.dart';
-import 'aes_key.dart';
 
 part 'aes_manger_impl.dart';
 
 class AESManager {
-  static Future<String> encrypt(String text, AESKey key) async {
+  static Future<String> encrypt(String text, Uint8List key) async {
     return Isolate.run(() => _AESManagerImpl.syncEncrypt(text, key));
   }
 
-  static Future<String> decrypt(String encryptedText, AESKey key) async {
+  static Future<String> decrypt(String encryptedText, Uint8List key) async {
     return Isolate.run(() => _AESManagerImpl.syncDecrypt(encryptedText, key));
   }
 
-  static Future<AESKey> generateKey() async {
+  static Future<Uint8List> generateKey() async {
     return Isolate.run(_AESManagerImpl.generateKey);
   }
 }
