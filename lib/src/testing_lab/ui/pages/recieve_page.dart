@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pointycastle/pointycastle.dart' as pointy;
 import 'package:fuzzy_chat/src/app/app.dart';
+import 'package:pointycastle/pointycastle.dart' as pointy;
 
 import '../../../core/utils/rsa_manager/rsa_manager.dart';
 

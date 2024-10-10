@@ -8,6 +8,8 @@ import 'package:intl/intl.dart' as intl;
 import 'fuzzy_chat_localizations_en.dart';
 import 'fuzzy_chat_localizations_ka.dart';
 
+// ignore_for_file: type=lint
+
 /// Callers can lookup localized strings with an instance of FuzzyChatLocalizations
 /// returned by `FuzzyChatLocalizations.of(context)`.
 ///

@@ -4,6 +4,11 @@ analyzer:
   exclude:
     - lib/src/core/l10n/**
     - code_generators/**
+    - "**/*.g.dart"
+
+  errors:
+    inference_failure_on_instance_creation: ignore
+    inference_failure_on_function_invocation: ignore
 
 linter:
   rules:
@@ -11,3 +16,6 @@ linter:
     always_use_package_imports: false
     lines_longer_than_80_chars: false
     sort_constructors_first: false
+    avoid_equals_and_hash_code_on_mutable_classes: false
+    unnecessary_await_in_return: false
+    cascade_invocations: false

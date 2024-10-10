@@ -3,8 +3,8 @@ import 'dart:isolate';
 import 'dart:typed_data';
 
 import 'package:pointycastle/export.dart';
-import 'package:fuzzy_chat/src/core/utils/secure_bytes_generation.dart';
 
+import '../secure_bytes_generation.dart';
 import 'aes_key.dart';
 
 part 'aes_manger_impl.dart';
