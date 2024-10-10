@@ -1,5 +1,3 @@
-// invitation_acceptance_cubit.dart
-
 part of 'invitation_acceptance_cubit.dart';
 
 class InvitationAcceptanceState {
