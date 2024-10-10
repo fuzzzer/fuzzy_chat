@@ -81,7 +81,7 @@ class InvitationAcceptanceCubit extends Cubit<InvitationAcceptanceState> {
     required String encryptedSymmetricKey,
   }) async {
     final recipientPublicKeyMap = RSAManager.transformRSAPublicKeyToMap(recipientPublicKey);
-
+    //TODO map there parameters some other way, crete better organizational system of acceptance and invitation in general
     final acceptanceData = {
       'chatId': chatId,
       'publicKey': recipientPublicKeyMap,
