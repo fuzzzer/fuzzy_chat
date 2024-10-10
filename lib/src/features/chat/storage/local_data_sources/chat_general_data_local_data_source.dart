@@ -6,9 +6,13 @@ class ChatGeneralDataLocalDataSource {
 
   ChatGeneralDataLocalDataSource(this.isar);
 
-  Future<void> addChat(StoredChatGeneralData chatGeneralData) async {
+  Future<List<StoredChatGeneralData>> getAllChats() async {
+    return await isar.storedChatGeneralDatas.where().findAll();
+  }
+
+  Future<void> addChat(StoredChatGeneralData storedChatGeneralData) async {
     await isar.writeTxn(() async {
-      await isar.storedChatGeneralDatas.put(chatGeneralData);
+      await isar.storedChatGeneralDatas.put(storedChatGeneralData);
     });
   }
 
@@ -16,21 +20,17 @@ class ChatGeneralDataLocalDataSource {
     return await isar.storedChatGeneralDatas.filter().chatIdEqualTo(chatId).findFirst();
   }
 
-  Future<List<StoredChatGeneralData>> getAllChats() async {
-    return await isar.storedChatGeneralDatas.where().findAll();
-  }
-
-  Future<void> updateChat(StoredChatGeneralData chatGeneralData) async {
+  Future<void> updateChat(StoredChatGeneralData storedChatGeneralData) async {
     await isar.writeTxn(() async {
-      await isar.storedChatGeneralDatas.put(chatGeneralData);
+      await isar.storedChatGeneralDatas.put(storedChatGeneralData);
     });
   }
 
   Future<void> deleteChat(String chatId) async {
-    final chatGeneralData = await getChatById(chatId);
-    if (chatGeneralData != null) {
+    final storedChatGeneralData = await getChatById(chatId);
+    if (storedChatGeneralData != null) {
       await isar.writeTxn(() async {
-        await isar.storedChatGeneralDatas.delete(chatGeneralData.id);
+        await isar.storedChatGeneralDatas.delete(storedChatGeneralData.id);
       });
     }
   }
