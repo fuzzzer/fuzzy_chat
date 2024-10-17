@@ -52,13 +52,13 @@ class KeyStorageRepository {
     return null;
   }
 
-  Future<void> saveRecipientPublicKey(String chatId, RSAPublicKey publicKey) async {
+  Future<void> saveOtherPartyPublicKey(String chatId, RSAPublicKey publicKey) async {
     final publicKeyMap = RSAManager.transformRSAPublicKeyToMap(publicKey);
-    await _secureStorage.write(key: 'recipientPublicKey_$chatId', value: jsonEncode(publicKeyMap));
+    await _secureStorage.write(key: 'otherPartyPublicKey_$chatId', value: jsonEncode(publicKeyMap));
   }
 
-  Future<RSAPublicKey?> getRecipientPublicKey(String chatId) async {
-    final publicKeyMap = await _secureStorage.read(key: 'recipientPublicKey_$chatId');
+  Future<RSAPublicKey?> getOtherPartyPublicKey(String chatId) async {
+    final publicKeyMap = await _secureStorage.read(key: 'otherPartyPublicKey_$chatId');
     if (publicKeyMap != null) {
       return RSAManager.transformMapToRSAPublicKey(
         jsonDecode(publicKeyMap) as Map<String, String>,

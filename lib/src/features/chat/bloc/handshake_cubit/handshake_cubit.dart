@@ -6,28 +6,32 @@ import 'package:fuzzy_chat/src/core/utils/keys_repository/key_storage_repository
 import 'package:fuzzy_chat/src/features/chat/chat.dart';
 import 'package:fuzzy_chat/src/features/chat/data/repositories/chat_general_data_list_repository.dart';
 
+import '../../core/core.dart';
+
 part 'handshake_state.dart';
 
 class HandshakeCubit extends Cubit<HandshakeState> {
   HandshakeCubit({
-    required this.chatGeneralDataListRepository,
+    required this.handshakeManager,
     required this.keyStorageRepository,
+    required this.chatGeneralDataListRepository,
   }) : super(const HandshakeState(status: StateStatus.initial));
 
-  final ChatGeneralDataListRepository chatGeneralDataListRepository;
+  final HandshakeManager handshakeManager;
   final KeyStorageRepository keyStorageRepository;
+  final ChatGeneralDataListRepository chatGeneralDataListRepository;
 
   Future<void> completeHandshake(String acceptanceContent) async {
     emit(state.copyWith(status: StateStatus.loading));
 
     try {
-      final acceptanceData = jsonDecode(acceptanceContent) as Map<String, dynamic>;
-      final chatId = acceptanceData['chatId'] as String;
-      final recipientPublicKeyMap = acceptanceData['publicKey'] as Map<String, String>;
-      final encryptedSymmetricKey = acceptanceData['encryptedSymmetricKey'] as String;
+      final receivedAcceptance = await handshakeManager.parseAcceptance(acceptanceContent);
+      final chatId = receivedAcceptance.chatId;
+      final otherPartyPublicKey = receivedAcceptance.publicKey;
+      final encryptedSymmetricKey = receivedAcceptance.encryptedSymmetricKey;
 
-      final inviterPrivateKey = await keyStorageRepository.getPrivateKey(chatId);
-      if (inviterPrivateKey == null) {
+      final privateKey = await keyStorageRepository.getPrivateKey(chatId);
+      if (privateKey == null) {
         emit(
           state.copyWith(
             status: StateStatus.failed,
@@ -41,14 +45,12 @@ class HandshakeCubit extends Cubit<HandshakeState> {
 
       final symmetricKeyBase64 = await RSAManager.decrypt(
         encryptedSymmetricKey,
-        inviterPrivateKey,
+        privateKey,
       );
       final symmetricKey = base64Decode(symmetricKeyBase64);
 
-      final recipientPublicKey = RSAManager.transformMapToRSAPublicKey(recipientPublicKeyMap);
-      await keyStorageRepository.saveRecipientPublicKey(chatId, recipientPublicKey);
-
       await keyStorageRepository.saveSymmetricKey(chatId, symmetricKey);
+      await keyStorageRepository.saveOtherPartyPublicKey(chatId, otherPartyPublicKey);
 
       final chatData = await chatGeneralDataListRepository.getChatById(chatId);
       if (chatData != null) {
@@ -56,7 +58,12 @@ class HandshakeCubit extends Cubit<HandshakeState> {
         await chatGeneralDataListRepository.updateChat(updatedChatData);
       }
 
-      emit(state.copyWith(status: StateStatus.success, chatId: chatId));
+      emit(
+        state.copyWith(
+          status: StateStatus.success,
+          chatId: chatId,
+        ),
+      );
     } catch (ex) {
       emit(
         state.copyWith(
