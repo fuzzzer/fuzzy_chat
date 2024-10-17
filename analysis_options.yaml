@@ -20,3 +20,4 @@ linter:
     avoid_equals_and_hash_code_on_mutable_classes: false
     unnecessary_await_in_return: false
     cascade_invocations: false
+    eol_at_end_of_file: false
