@@ -1,5 +1,6 @@
 export 'aes_manager/aes_manager.dart';
 export 'file_reader.dart';
+export 'id_generator.dart';
 export 'keys_repository/keys_repository.dart';
 export 'map_casting.dart';
 export 'password_based_encryption_manager/password_based_encryption_manager.dart';

@@ -4,12 +4,14 @@ class ChatCreationState {
   final StateStatus status;
   final String? chatName;
   final String? chatId;
+  final ToBeSentInvitation? generatedChatInvitation;
   final DefaultFailure? failure;
 
   const ChatCreationState({
     required this.status,
     this.chatName,
     this.chatId,
+    this.generatedChatInvitation,
     this.failure,
   });
 
@@ -17,12 +19,14 @@ class ChatCreationState {
     StateStatus? status,
     String? chatName,
     String? chatId,
+    ToBeSentInvitation? generatedChatInvitation,
     DefaultFailure? failure,
   }) {
     return ChatCreationState(
       status: status ?? this.status,
       chatName: chatName ?? this.chatName,
       chatId: chatId ?? this.chatId,
+      generatedChatInvitation: generatedChatInvitation ?? this.generatedChatInvitation,
       failure: failure ?? this.failure,
     );
   }
