@@ -1,5 +1,3 @@
-// key_storage_service.dart
-
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -7,6 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fuzzy_chat/src/core/core.dart';
 import 'package:pointycastle/export.dart';
 
+//TODO while getting symmetric keys, require password or pin authentication for additionaly secured chats
 class KeyStorageRepository {
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 

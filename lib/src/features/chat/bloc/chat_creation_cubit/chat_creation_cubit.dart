@@ -1,5 +1,3 @@
-// chat_creation_cubit.dart
-
 import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
