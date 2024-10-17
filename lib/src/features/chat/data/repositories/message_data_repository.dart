@@ -1,5 +1,4 @@
 import 'package:fuzzy_chat/src/features/chat/chat.dart';
-import 'package:fuzzy_chat/src/features/chat/storage/storage.dart';
 
 class MessageDataRepository {
   final MessageDataLocalDataSource localDataSource;

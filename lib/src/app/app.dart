@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:fuzzy_chat/src/app/initializer.dart';
 import 'package:fuzzy_chat/src/core/core.dart';
 import 'package:fuzzy_chat/src/features/chat/ui/pages/chat_list_page/chat_list_page.dart';
-
 import '../ui_kit/ui_kit.dart';
 
 export 'components/components.dart';
+export 'initializer.dart';
+export 'run_app.dart';
 
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 

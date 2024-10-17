@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-
 import '../../../chat.dart';
-import 'components/components.dart';
-import 'widgets/widgets.dart';
 
 export 'components/components.dart';
 export 'widgets/widgets.dart';

@@ -1,5 +1,4 @@
 import '../../chat.dart';
-import '../../storage/storage.dart';
 
 class ChatGeneralDataListRepository {
   final ChatGeneralDataLocalDataSource localDataSource;

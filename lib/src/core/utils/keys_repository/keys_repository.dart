@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:path_provider/path_provider.dart';
 import 'package:pointycastle/export.dart';
-
 import '../map_casting.dart';
 import '../rsa_manager/rsa_manager.dart';
+
+export 'key_storage_repository.dart';
 
 class KeysRepository {
   static Future<void> saveKeyToFile(String key, String fileName) async {

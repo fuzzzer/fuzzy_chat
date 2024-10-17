@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fuzzy_chat/src/ui_kit/ui_kit.dart';
-
 import 'components/components.dart';
 
 export 'components/components.dart';
