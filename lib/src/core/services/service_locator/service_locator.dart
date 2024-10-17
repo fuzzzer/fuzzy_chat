@@ -1,7 +1,7 @@
 import 'dart:async';
-
 import 'package:get_it/get_it.dart';
 
+export 'impl/impl.dart';
 export 'impl/service_locator_getit.dart';
 
 abstract class ServiceLocator {

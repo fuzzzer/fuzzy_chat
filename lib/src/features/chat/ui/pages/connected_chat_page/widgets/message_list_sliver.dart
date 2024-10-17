@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../../chat.dart';
-import 'message_area.dart';
 
 class MessageListSliver extends StatelessWidget {
   final List<MessageData> messages;

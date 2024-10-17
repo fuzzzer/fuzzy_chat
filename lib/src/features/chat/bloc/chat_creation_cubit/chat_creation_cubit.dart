@@ -1,9 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/src/core/core.dart';
-import 'package:fuzzy_chat/src/core/utils/keys_repository/key_storage_repository.dart';
 import 'package:fuzzy_chat/src/features/chat/chat.dart';
-import '../../core/utils/handshake_manager/handshake_manager.dart';
-import '../../data/repositories/chat_general_data_list_repository.dart';
 
 part 'chat_creation_state.dart';
 

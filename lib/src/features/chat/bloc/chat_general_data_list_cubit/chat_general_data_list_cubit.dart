@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:fuzzy_chat/src/features/chat/chat.dart';
 
 import '../../../../core/core.dart';
-import '../../data/repositories/chat_general_data_list_repository.dart';
 
 part 'chat_general_data_list_state.dart';
 

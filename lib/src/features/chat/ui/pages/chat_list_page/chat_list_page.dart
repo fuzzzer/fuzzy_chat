@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fuzzy_chat/src/features/chat/ui/pages/connected_chat_page/connected_chat_page.dart';
 import 'package:fuzzy_chat/src/features/chat/ui/ui.dart';
 import 'package:fuzzy_chat/src/ui_kit/ui_kit.dart';
-
 import '../../../data/data.dart';
 
 export 'widgets/widgets.dart';
