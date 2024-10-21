@@ -49,7 +49,7 @@ class _ProvidedChatCreationPageState extends State<ProvidedChatCreationPage> {
   void _createChat() {
     final chatName = _chatNameController.text.trim();
     if (chatName.isNotEmpty) {
-      context.read<ChatCreationCubit>().createChat(chatName);
+      context.read<ChatCreationCubit>().createChat(chatName: chatName);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please enter a chat name.')),

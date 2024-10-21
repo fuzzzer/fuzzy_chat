@@ -54,7 +54,9 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
     }
   }
 
-  Future<void> sendMessage(String plaintext) async {
+  Future<void> sendMessage({
+    required String text,
+  }) async {
     emit(
       state.copyWith(
         actionStatus: StateStatus.loading,
@@ -68,13 +70,13 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
         throw Exception('Symmetric key not found');
       }
 
-      final encryptedMessage = await AESManager.encrypt(plaintext, symmetricKey);
+      final encryptedMessage = await AESManager.encrypt(text, symmetricKey);
 
       final message = MessageData(
         id: 0,
         chatId: chatId,
         encryptedMessage: encryptedMessage,
-        decryptedMessage: plaintext,
+        decryptedMessage: text,
         sentAt: DateTime.now(),
         isSent: true,
       );
@@ -108,7 +110,9 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
     }
   }
 
-  Future<void> receiveMessage(String encryptedMessage) async {
+  Future<void> receiveMessage({
+    required String encryptedText,
+  }) async {
     emit(
       state.copyWith(
         actionStatus: StateStatus.loading,
@@ -122,12 +126,12 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
         throw Exception('Symmetric key not found');
       }
 
-      final decryptedMessage = await AESManager.decrypt(encryptedMessage, symmetricKey);
+      final decryptedMessage = await AESManager.decrypt(encryptedText, symmetricKey);
 
       final message = MessageData(
         id: 0,
         chatId: chatId,
-        encryptedMessage: encryptedMessage,
+        encryptedMessage: encryptedText,
         decryptedMessage: decryptedMessage,
         sentAt: DateTime.now(),
         isSent: false,
@@ -162,7 +166,9 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
     }
   }
 
-  Future<void> deleteMessage(int messageId) async {
+  Future<void> deleteMessage({
+    required int messageId,
+  }) async {
     emit(
       state.copyWith(
         actionStatus: StateStatus.loading,

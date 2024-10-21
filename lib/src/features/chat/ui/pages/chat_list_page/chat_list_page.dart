@@ -38,7 +38,7 @@ class _ProvidedChatListPageState extends State<ProvidedChatListPage> {
             status: state.status,
             onInitial: () => const Center(child: CircularProgressIndicator()),
             onLoading: () => const Center(child: CircularProgressIndicator()),
-            onSuccess: () => _buildChatList(state.chats!),
+            onSuccess: () => _buildChatList(chatGeneralDataList: state.chatList!),
             onFailure: () => _buildErrorContent(state.failure?.message),
           );
         },
@@ -62,7 +62,9 @@ class _ProvidedChatListPageState extends State<ProvidedChatListPage> {
     );
   }
 
-  Widget _buildChatList(List<ChatGeneralData> chats) {
+  Widget _buildChatList({
+    required List<ChatGeneralData> chatGeneralDataList,
+  }) {
     return CustomScrollView(
       slivers: [
         const SliverToBoxAdapter(
@@ -81,18 +83,18 @@ class _ProvidedChatListPageState extends State<ProvidedChatListPage> {
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) {
-              final chat = chats[index];
-              switch (chat.setupStatus) {
+              final chatGeneralData = chatGeneralDataList[index];
+              switch (chatGeneralData.setupStatus) {
                 case ChatSetupStatus.invited:
                   return InvitedChatTile(
-                    name: chat.chatName,
+                    name: chatGeneralData.chatName,
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) => ChatInvitationPage(
                             payload: ChatInvitationPagePayload(
-                              chatName: chat.chatName,
-                              chatId: chat.chatId,
+                              chatName: chatGeneralData.chatName,
+                              chatId: chatGeneralData.chatId,
                             ),
                           ),
                         ),
@@ -101,14 +103,13 @@ class _ProvidedChatListPageState extends State<ProvidedChatListPage> {
                   );
                 case ChatSetupStatus.connected:
                   return ConnectedChatTile(
-                    name: chat.chatName,
+                    name: chatGeneralData.chatName,
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) => ConnectedChatPage(
                             payload: ConnectedChatPagePayload(
-                              chatName: chat.chatName,
-                              chatId: chat.chatId,
+                              chatGeneralData: chatGeneralData,
                             ),
                           ),
                         ),
@@ -117,7 +118,7 @@ class _ProvidedChatListPageState extends State<ProvidedChatListPage> {
                   );
               }
             },
-            childCount: chats.length,
+            childCount: chatGeneralDataList.length,
           ),
         ),
       ],

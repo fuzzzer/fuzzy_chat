@@ -23,7 +23,9 @@ class ChatInvitationPage extends StatelessWidget {
           create: (context) => InvitationReaderCubit(
             handshakeManager: sl.get<HandshakeManager>(),
             keyStorageRepository: sl.get<KeyStorageRepository>(),
-          )..generateInvitation(payload.chatId),
+          )..generateInvitation(
+              chatId: payload.chatId,
+            ),
         ),
         BlocProvider<HandshakeCubit>(
           create: (context) => HandshakeCubit(
@@ -58,7 +60,9 @@ class _ProvidedChatInvitationPageState extends State<ProvidedChatInvitationPage>
   @override
   void initState() {
     super.initState();
-    context.read<InvitationReaderCubit>().generateInvitation(widget.payload.chatId);
+    context.read<InvitationReaderCubit>().generateInvitation(
+          chatId: widget.payload.chatId,
+        );
   }
 
   void _importAcceptanceFromText() {
@@ -86,8 +90,7 @@ class _ProvidedChatInvitationPageState extends State<ProvidedChatInvitationPage>
                 MaterialPageRoute(
                   builder: (_) => ConnectedChatPage(
                     payload: ConnectedChatPagePayload(
-                      chatName: widget.payload.chatName,
-                      chatId: widget.payload.chatId,
+                      chatGeneralData: state.chatData!,
                     ),
                   ),
                 ),

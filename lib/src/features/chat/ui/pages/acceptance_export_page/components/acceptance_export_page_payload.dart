@@ -1,9 +1,11 @@
 import 'package:fuzzy_chat/src/features/chat/chat.dart';
 
-class ConnectedChatPagePayload {
+class AcceptanceExportPagePayload {
   final ChatGeneralData chatGeneralData;
+  final bool hasBackButton;
 
-  ConnectedChatPagePayload({
+  AcceptanceExportPagePayload({
     required this.chatGeneralData,
+    required this.hasBackButton,
   });
 }

@@ -63,8 +63,8 @@ class _ProvidedInvitationAcceptancePageState extends State<ProvidedInvitationAcc
             MaterialPageRoute(
               builder: (context) => AcceptanceExportPage(
                 payload: AcceptanceExportPagePayload(
-                  chatName: state.chatName!,
-                  chatId: state.chatId!,
+                  chatGeneralData: state.chatData!,
+                  hasBackButton: false,
                 ),
               ),
             ),

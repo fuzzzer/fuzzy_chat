@@ -53,6 +53,7 @@ class InvitationAcceptanceCubit extends Cubit<InvitationAcceptanceState> {
         chatId: chatId,
         chatName: chatName,
         setupStatus: ChatSetupStatus.connected,
+        didAcceptInvitation: true,
       );
 
       await chatGeneralDataListRepository.addChat(chatData);
@@ -60,8 +61,7 @@ class InvitationAcceptanceCubit extends Cubit<InvitationAcceptanceState> {
       emit(
         state.copyWith(
           status: StateStatus.success,
-          chatName: chatName,
-          chatId: chatId,
+          chatData: chatData,
           generatedAcceptance: acceptance,
         ),
       );

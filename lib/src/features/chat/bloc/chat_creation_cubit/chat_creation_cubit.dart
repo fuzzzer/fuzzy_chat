@@ -15,7 +15,9 @@ class ChatCreationCubit extends Cubit<ChatCreationState> {
   final KeyStorageRepository keyStorageRepository;
   final ChatGeneralDataListRepository chatGeneralDataListRepository;
 
-  Future<void> createChat(String chatName) async {
+  Future<void> createChat({
+    required String chatName,
+  }) async {
     emit(state.copyWith(status: StateStatus.loading, chatName: chatName));
 
     try {
@@ -26,6 +28,7 @@ class ChatCreationCubit extends Cubit<ChatCreationState> {
         chatId: chatId,
         chatName: chatName,
         setupStatus: ChatSetupStatus.invited,
+        didAcceptInvitation: false,
       );
       await chatGeneralDataListRepository.addChat(chatData);
 

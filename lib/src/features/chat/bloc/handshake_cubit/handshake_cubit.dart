@@ -56,7 +56,7 @@ class HandshakeCubit extends Cubit<HandshakeState> {
       emit(
         state.copyWith(
           status: StateStatus.success,
-          chatId: chatId,
+          chatData: chatData,
         ),
       );
     } catch (ex) {
