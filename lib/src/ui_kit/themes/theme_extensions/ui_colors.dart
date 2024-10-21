@@ -21,31 +21,22 @@ class UiColors extends ThemeExtension<UiColors> {
     this.secondaryTextColor = UiKitColors.secondaryTextColor,
   });
 
-  const UiColors.light({
-    this.primaryColor = UiKitColors.primaryColor,
-    this.focusColor = UiKitColors.focusColor,
-    this.secondaryColor = UiKitColors.secondaryColor,
-    this.errorColor = UiKitColors.errorColor,
-    this.backgroundPrimaryColor = UiKitColors.backgroundPrimaryColor,
-    this.primaryTextColor = UiKitColors.primaryTextColor,
-    this.secondaryTextColor = UiKitColors.secondaryTextColor,
-  });
+  const UiColors.light() : this();
 
-  const UiColors.dark({
-    this.primaryColor = UiKitColors.primaryColor,
-    this.focusColor = UiKitColors.focusColor,
-    this.secondaryColor = UiKitColors.secondaryColor,
-    this.errorColor = UiKitColors.errorColor,
-    this.backgroundPrimaryColor = UiKitColors.backgroundPrimaryColor,
-    this.primaryTextColor = UiKitColors.primaryTextColor,
-    this.secondaryTextColor = UiKitColors.secondaryTextColor,
-  });
+  const UiColors.dark()
+      : this(
+          primaryColor: UiKitColors.primaryColorDark,
+          focusColor: UiKitColors.focusColorDark,
+          secondaryColor: UiKitColors.secondaryColorDark,
+          errorColor: UiKitColors.errorColorDark,
+          backgroundPrimaryColor: UiKitColors.backgroundPrimaryColorDark,
+          primaryTextColor: UiKitColors.primaryTextColorDark,
+          secondaryTextColor: UiKitColors.secondaryTextColorDark,
+        );
 
   @override
   ThemeExtension<UiColors> lerp(ThemeExtension<UiColors>? other, double t) {
-    if (other is! UiColors) {
-      return this;
-    }
+    if (other is! UiColors) return this;
 
     return UiColors(
       primaryColor: Color.lerp(primaryColor, other.primaryColor, t)!,

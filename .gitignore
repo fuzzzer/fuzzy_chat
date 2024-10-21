@@ -112,3 +112,6 @@ app.*.map.json
 !.idea/runConfigurations/
 
 keystore.properties
+
+
+scripts/outputs

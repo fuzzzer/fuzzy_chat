@@ -1,9 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fuzzy_chat/src/app/app.dart';
 import 'package:pointycastle/pointycastle.dart' as pointy;
-import 'package:secure_chat/src/app/app.dart';
 
-import '../../../core/utils/security_logic.dart';
+import '../../../core/utils/rsa_manager/rsa_manager.dart';
 
 class ReceivePage extends StatefulWidget {
   const ReceivePage({
@@ -21,11 +23,11 @@ class _ReceivePageState extends State<ReceivePage> {
   final TextEditingController _encryptedTextController = TextEditingController();
   String _decryptedText = '';
 
-  void _decrypt() {
-    final toBeEncryptedText = _encryptedTextController.text;
-    final newDecryptedText = RSAManager.decrypt(toBeEncryptedText, widget.privateKey);
+  Future<void> _decrypt() async {
+    final toBeDecryptedText = _encryptedTextController.text;
+    final newDecryptedText = await RSAManager.decrypt(base64Decode(toBeDecryptedText), widget.privateKey);
     setState(() {
-      _decryptedText = newDecryptedText;
+      _decryptedText = base64Encode(newDecryptedText);
     });
   }
 

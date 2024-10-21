@@ -8,21 +8,25 @@ class UiKitTheme {
 
   static const UiTextStyles uiTextStyles = UiTextStyles();
 
-  static ColorScheme lightColorScheme() => ColorScheme.fromSeed(
-        seedColor: lightUiColors.primaryColor,
+  static ColorScheme lightColorScheme() => ColorScheme.fromSwatch(
+        backgroundColor: lightUiColors.backgroundPrimaryColor,
+      ).copyWith(
         primary: lightUiColors.primaryColor,
         secondary: lightUiColors.secondaryColor,
         error: lightUiColors.errorColor,
-        background: lightUiColors.backgroundPrimaryColor,
+        onPrimary: lightUiColors.primaryTextColor,
+        onSecondary: lightUiColors.secondaryTextColor,
       );
 
-  static ColorScheme darkColorScheme() => ColorScheme.fromSeed(
+  static ColorScheme darkColorScheme() => ColorScheme.fromSwatch(
         brightness: Brightness.dark,
-        seedColor: darkUiColors.primaryColor,
+        backgroundColor: darkUiColors.backgroundPrimaryColor,
+      ).copyWith(
         primary: darkUiColors.primaryColor,
         secondary: darkUiColors.secondaryColor,
         error: darkUiColors.errorColor,
-        background: darkUiColors.backgroundPrimaryColor,
+        onPrimary: darkUiColors.primaryTextColor,
+        onSecondary: darkUiColors.secondaryTextColor,
       );
 
   static ThemeData light({
