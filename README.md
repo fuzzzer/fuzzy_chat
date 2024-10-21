@@ -1,7 +1,5 @@
 # Fuzzy Chat
 
-[![License: MIT][license_badge]][license_link]
-
 Manual End to End encription tool. Makes it possible to talk through any chat securely
 
 ---
