@@ -1,6 +1,6 @@
 arb-dir: lib/src/core/l10n
 template-arb-file: app_en.arb
-output-localization-file: secure_chat_localizations.dart
-output-class: SecureChatLocalizations
+output-localization-file: fuzzy_chat_localizations.dart
+output-class: FuzzyChatLocalizations
 output-dir: lib/src/core/l10n/generated_localizations
 synthetic-package: false

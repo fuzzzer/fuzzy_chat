@@ -32,7 +32,7 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    namespace "com.fuzzzytechnologies.secure_chat"
+    namespace "com.fuzzzytechnologies.fuzzy_chat"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
@@ -50,7 +50,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.fuzzzytechnologies.secure_chat"
+        applicationId "com.fuzzzytechnologies.fuzzy_chat"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion flutter.minSdkVersion

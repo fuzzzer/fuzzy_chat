@@ -89,12 +89,12 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.fuzzzytechnologies.secure_chat" "\0"
-            VALUE "FileDescription", "secure_chat" "\0"
+            VALUE "CompanyName", "com.fuzzzytechnologies.fuzzy_chat" "\0"
+            VALUE "FileDescription", "fuzzy_chat" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "secure_chat" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2022 com.fuzzzytechnologies.secure_chat. All rights reserved." "\0"
-            VALUE "OriginalFilename", "secure_chat.exe" "\0"
+            VALUE "InternalName", "fuzzy_chat" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2022 com.fuzzzytechnologies.fuzzy_chat. All rights reserved." "\0"
+            VALUE "OriginalFilename", "fuzzy_chat.exe" "\0"
             VALUE "ProductName", "Secure Chat" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END

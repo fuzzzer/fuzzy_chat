@@ -1,0 +1,4 @@
+enum ChatSetupStatus {
+  connected,
+  invited,
+}
