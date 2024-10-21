@@ -4,7 +4,7 @@ import '../storage_models/storage_models.dart';
 class ChatGeneralDataLocalDataSource {
   final Isar isar;
 
-  ChatGeneralDataLocalDataSource(this.isar);
+  ChatGeneralDataLocalDataSource({required this.isar});
 
   Future<List<StoredChatGeneralData>> getAllChats() async {
     return await isar.storedChatGeneralDatas.where().findAll();

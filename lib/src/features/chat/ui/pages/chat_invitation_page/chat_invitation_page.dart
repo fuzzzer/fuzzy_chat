@@ -1,120 +1,182 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fuzzy_chat/src/core/core.dart';
+import 'package:fuzzy_chat/src/features/chat/chat.dart';
 import 'package:fuzzy_chat/src/ui_kit/ui_kit.dart';
-import 'components/components.dart';
 
 export 'components/components.dart';
 
-class ChatInvitationPage extends StatefulWidget {
+class ChatInvitationPage extends StatelessWidget {
   final ChatInvitationPagePayload payload;
 
   const ChatInvitationPage({
+    super.key,
+    required this.payload,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<InvitationReaderCubit>(
+          create: (context) => InvitationReaderCubit(
+            handshakeManager: sl.get<HandshakeManager>(),
+            keyStorageRepository: sl.get<KeyStorageRepository>(),
+          )..generateInvitation(payload.chatId),
+        ),
+        BlocProvider<HandshakeCubit>(
+          create: (context) => HandshakeCubit(
+            handshakeManager: sl.get<HandshakeManager>(),
+            keyStorageRepository: sl.get<KeyStorageRepository>(),
+            chatGeneralDataListRepository: sl.get<ChatGeneralDataListRepository>(),
+          ),
+        ),
+      ],
+      child: ProvidedChatInvitationPage(
+        payload: payload,
+      ),
+    );
+  }
+}
+
+class ProvidedChatInvitationPage extends StatefulWidget {
+  final ChatInvitationPagePayload payload;
+
+  const ProvidedChatInvitationPage({
     required this.payload,
     super.key,
   });
 
   @override
-  State<ChatInvitationPage> createState() => _ChatInvitationPageState();
+  State<ProvidedChatInvitationPage> createState() => _ProvidedChatInvitationPageState();
 }
 
-class _ChatInvitationPageState extends State<ChatInvitationPage> {
-  final acceptanceTextController = TextEditingController();
-
-  void _downloadInvitation() {}
-
-  void _shareInvitation() {}
-
-  //TODO navigator to connected chat page when acceptance is provided
-  void _importAcceptanceFromText() {}
-
-  void _importAcceptanceFromFile() {}
-
-  // TODO: Use bloc instead
-  final bool isGeneratingKeys = false;
+class _ProvidedChatInvitationPageState extends State<ProvidedChatInvitationPage> {
+  final TextEditingController acceptanceTextController = TextEditingController();
 
   @override
-  void dispose() {
-    acceptanceTextController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    context.read<InvitationReaderCubit>().generateInvitation(widget.payload.chatId);
+  }
+
+  void _importAcceptanceFromText() {
+    final acceptanceContent = acceptanceTextController.text.trim();
+    if (acceptanceContent.isNotEmpty) {
+      context.read<HandshakeCubit>().completeHandshake(
+            acceptanceContent: acceptanceContent,
+            chatId: widget.payload.chatId,
+          );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please paste the acceptance content.')),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final uiTextStyles = theme.extension<UiTextStyles>()!;
-
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Top part with the header
-              FuzzyHeader(
-                title: widget.payload.chatName,
-              ),
-              const SizedBox(height: 16),
-              if (isGeneratingKeys)
-                const Column(
-                  children: [
-                    CircularProgressIndicator(),
-                    SizedBox(height: 20),
-                    Text(
-                      'Generating Keys...',
-                      textAlign: TextAlign.center,
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<HandshakeCubit, HandshakeState>(
+          listener: (context, state) {
+            if (state.status.isSuccess) {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (_) => ConnectedChatPage(
+                    payload: ConnectedChatPagePayload(
+                      chatName: widget.payload.chatName,
+                      chatId: widget.payload.chatId,
                     ),
-                  ],
-                )
-              else
-                Column(
-                  children: [
-                    Text(
-                      'Send Invitation',
-                      textAlign: TextAlign.center,
-                      style: uiTextStyles.bodyBold16,
-                    ),
-                    const SizedBox(height: 20),
-                    FuzzyButton(
-                      text: 'Download Invitation',
-                      onPressed: _downloadInvitation,
-                      icon: Icons.download,
-                    ),
-                    const SizedBox(height: 16),
-                    FuzzyButton(
-                      text: 'Share Invitation',
-                      onPressed: _shareInvitation,
-                      icon: Icons.share,
-                    ),
-                  ],
+                  ),
                 ),
-              const SizedBox(height: 150),
-              const Divider(),
-              const SizedBox(height: 16),
-              Text(
-                'Provide Acceptance',
-                textAlign: TextAlign.center,
-                style: uiTextStyles.bodyBold16,
-              ),
-              const SizedBox(height: 100),
-              FuzzyTextField(
-                labelText: 'Paste Base64 Acceptance',
-                controller: acceptanceTextController,
-                scrollPadding: const EdgeInsets.only(bottom: 120),
-              ),
-              const SizedBox(height: 16),
-              FuzzyButton(
-                text: 'Accept',
-                onPressed: _importAcceptanceFromText,
-              ),
-              const SizedBox(height: 56),
-              FuzzyButton(
-                text: 'Import Acceptance',
-                onPressed: _importAcceptanceFromFile,
-              ),
-              const SizedBox(height: 100),
-            ],
-          ),
+              );
+            } else if (state.status.isFailed) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.failure?.message ?? 'Failed to complete handshake')),
+              );
+            }
+          },
         ),
+      ],
+      child: Scaffold(
+        body: BlocBuilder<InvitationReaderCubit, InvitationReaderState>(
+          builder: (context, invitationState) {
+            return Padding(
+              padding: const EdgeInsets.all(16),
+              child: StatusBuilder.buildByStatus(
+                status: invitationState.status,
+                onInitial: _buildLoadingContent,
+                onLoading: _buildLoadingContent,
+                onSuccess: () => _buildInvitationContent(invitationState),
+                onFailure: () => _buildErrorContent(invitationState.failure?.message),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoadingContent() {
+    return const Center(child: CircularProgressIndicator());
+  }
+
+  Widget _buildInvitationContent(InvitationReaderState invitationState) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          FuzzyHeader(
+            title: widget.payload.chatName,
+          ),
+          const SizedBox(height: 16),
+          const Text(
+            'Send Invitation',
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 20),
+          FuzzyButton(
+            text: 'Copy Invitation',
+            onPressed: () {
+              Clipboard.setData(
+                ClipboardData(text: invitationState.invitation!.invitationContent),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Invitation copied to clipboard')),
+              );
+            },
+            icon: Icons.copy,
+          ),
+          const SizedBox(height: 16),
+          const Divider(),
+          const SizedBox(height: 16),
+          const Text(
+            'Provide Acceptance',
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          FuzzyTextField(
+            labelText: 'Paste Acceptance Text',
+            controller: acceptanceTextController,
+            maxLines: 3,
+          ),
+          const SizedBox(height: 16),
+          FuzzyButton(
+            text: 'Accept',
+            onPressed: _importAcceptanceFromText,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildErrorContent(String? message) {
+    return Center(
+      child: Text(
+        message ?? 'Failed to generate invitation.',
+        style: const TextStyle(color: Colors.red),
       ),
     );
   }

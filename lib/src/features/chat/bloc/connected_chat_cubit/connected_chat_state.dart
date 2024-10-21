@@ -35,6 +35,11 @@ class ConnectedChatState {
       actionFailure: actionFailure ?? this.actionFailure,
     );
   }
+
+  @override
+  String toString() {
+    return 'ConnectedChatState(status: $status, messages: $messages, failure: $failure, actionStatus: $actionStatus, actionType: $actionType, actionFailure: $actionFailure)';
+  }
 }
 
 enum ChatActionType {

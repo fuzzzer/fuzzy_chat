@@ -35,4 +35,9 @@ class ChatGeneralDataListState {
       actionFailure: actionFailure ?? this.actionFailure,
     );
   }
+
+  @override
+  String toString() {
+    return 'ChatGeneralDataListState(status: $status, chats: $chats, failure: $failure, actionStatus: $actionStatus, actionType: $actionType, actionFailure: $actionFailure)';
+  }
 }

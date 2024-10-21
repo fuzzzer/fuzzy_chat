@@ -25,15 +25,6 @@ class ChatSecurityData {
     );
   }
 
-  StoredChatSecurityData toStored() {
-    return StoredChatSecurityData()
-      ..chatId = chatId
-      ..invitationFilePath = invitationFilePath
-      ..acceptanceFilePath = acceptanceFilePath
-      ..encryptedSymmetricKey = encryptedSymmetricKey
-      ..createdAt = createdAt;
-  }
-
   ChatSecurityData copyWith({
     String? chatId,
     DateTime? createdAt,
@@ -48,5 +39,10 @@ class ChatSecurityData {
       acceptanceFilePath: acceptanceFilePath ?? this.acceptanceFilePath,
       encryptedSymmetricKey: encryptedSymmetricKey ?? this.encryptedSymmetricKey,
     );
+  }
+
+  @override
+  String toString() {
+    return 'ChatSecurityData(chatId: $chatId, createdAt: $createdAt, invitationFilePath: $invitationFilePath, acceptanceFilePath: $acceptanceFilePath, encryptedSymmetricKey: $encryptedSymmetricKey)';
   }
 }

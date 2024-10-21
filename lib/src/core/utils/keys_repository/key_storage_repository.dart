@@ -21,9 +21,10 @@ class KeyStorageRepository {
 
   Future<RSAPrivateKey?> getPrivateKey(String chatId) async {
     final privateKeyJson = await _secureStorage.read(key: 'privateKey_$chatId');
+
     if (privateKeyJson != null) {
       return RSAManager.transformMapToRSAPrivateKey(
-        jsonDecode(privateKeyJson) as Map<String, String>,
+        (jsonDecode(privateKeyJson) as Map<String, dynamic>).cast(),
       );
     }
     return null;
@@ -31,9 +32,10 @@ class KeyStorageRepository {
 
   Future<RSAPublicKey?> getPublicKey(String chatId) async {
     final publicKeyJson = await _secureStorage.read(key: 'publicKey_$chatId');
+
     if (publicKeyJson != null) {
       return RSAManager.transformMapToRSAPublicKey(
-        jsonDecode(publicKeyJson) as Map<String, String>,
+        (jsonDecode(publicKeyJson) as Map<String, dynamic>).cast(),
       );
     }
     return null;
@@ -58,10 +60,10 @@ class KeyStorageRepository {
   }
 
   Future<RSAPublicKey?> getOtherPartyPublicKey(String chatId) async {
-    final publicKeyMap = await _secureStorage.read(key: 'otherPartyPublicKey_$chatId');
-    if (publicKeyMap != null) {
+    final publicKeyJson = await _secureStorage.read(key: 'otherPartyPublicKey_$chatId');
+    if (publicKeyJson != null) {
       return RSAManager.transformMapToRSAPublicKey(
-        jsonDecode(publicKeyMap) as Map<String, String>,
+        (jsonDecode(publicKeyJson) as Map<String, dynamic>).cast(),
       );
     }
     return null;

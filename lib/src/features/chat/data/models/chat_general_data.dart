@@ -20,14 +20,6 @@ class ChatGeneralData {
     );
   }
 
-  StoredChatGeneralData toStored() {
-    return StoredChatGeneralData()
-      ..chatId = chatId
-      ..chatName = chatName
-      ..setupStatus = setupStatus
-      ..createdAt = DateTime.now();
-  }
-
   ChatGeneralData copyWith({
     String? chatId,
     String? chatName,
@@ -39,4 +31,7 @@ class ChatGeneralData {
       setupStatus: setupStatus ?? this.setupStatus,
     );
   }
+
+  @override
+  String toString() => 'ChatGeneralData(chatId: $chatId, chatName: $chatName, setupStatus: $setupStatus)';
 }

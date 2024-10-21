@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/src/core/core.dart';
 import 'package:fuzzy_chat/src/features/chat/chat.dart';
 
-
 part 'connected_chat_state.dart';
 
 class ConnectedChatCubit extends Cubit<ConnectedChatState> {
@@ -97,6 +96,8 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
         ),
       );
     } catch (ex) {
+      logger.e('ERROR: $ex');
+
       emit(
         state.copyWith(
           actionStatus: StateStatus.failed,
@@ -149,6 +150,8 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
         ),
       );
     } catch (ex) {
+      logger.e('ERROR: $ex');
+
       emit(
         state.copyWith(
           actionStatus: StateStatus.failed,
@@ -179,6 +182,8 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
         ),
       );
     } catch (ex) {
+      logger.e('ERROR: $ex');
+
       emit(
         state.copyWith(
           actionStatus: StateStatus.failed,
@@ -208,6 +213,8 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
         ),
       );
     } catch (ex) {
+      logger.e('ERROR: $ex');
+
       emit(
         state.copyWith(
           actionStatus: StateStatus.failed,

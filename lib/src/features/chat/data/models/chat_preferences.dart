@@ -37,4 +37,7 @@ class ChatPreferences {
       lastUpdated: lastUpdated ?? this.lastUpdated,
     );
   }
+
+  @override
+  String toString() => 'ChatPreferences(theme: $theme, showTimestamps: $showTimestamps, lastUpdated: $lastUpdated)';
 }

@@ -30,4 +30,9 @@ class InvitationAcceptanceState {
       failure: failure ?? this.failure,
     );
   }
+
+  @override
+  String toString() {
+    return 'InvitationAcceptanceState(status: $status, chatName: $chatName, chatId: $chatId, generatedAcceptance: $generatedAcceptance, failure: $failure)';
+  }
 }

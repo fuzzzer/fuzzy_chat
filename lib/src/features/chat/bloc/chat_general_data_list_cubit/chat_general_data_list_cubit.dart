@@ -53,6 +53,8 @@ class ChatGeneralDataListCubit extends Cubit<ChatGeneralDataListState> {
         ),
       );
     } catch (ex) {
+      logger.e('ERROR: $ex');
+
       emit(
         state.copyWith(
           actionStatus: StateStatus.failed,
@@ -86,6 +88,8 @@ class ChatGeneralDataListCubit extends Cubit<ChatGeneralDataListState> {
         ),
       );
     } catch (ex) {
+      logger.e('ERROR: $ex');
+
       emit(
         state.copyWith(
           actionStatus: StateStatus.failed,

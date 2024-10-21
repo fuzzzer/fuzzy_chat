@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fuzzy_chat/src/app/app.dart';
@@ -22,10 +24,10 @@ class _ReceivePageState extends State<ReceivePage> {
   String _decryptedText = '';
 
   Future<void> _decrypt() async {
-    final toBeEncryptedText = _encryptedTextController.text;
-    final newDecryptedText = await RSAManager.decrypt(toBeEncryptedText, widget.privateKey);
+    final toBeDecryptedText = _encryptedTextController.text;
+    final newDecryptedText = await RSAManager.decrypt(base64Decode(toBeDecryptedText), widget.privateKey);
     setState(() {
-      _decryptedText = newDecryptedText;
+      _decryptedText = base64Encode(newDecryptedText);
     });
   }
 

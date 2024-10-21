@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/src/core/core.dart';
 import 'package:fuzzy_chat/src/features/chat/core/core.dart';
@@ -33,7 +31,7 @@ class AcceptanceReaderCubit extends Cubit<AcceptanceReaderState> {
       }
 
       final encryptedSymmetricKey = await RSAManager.encrypt(
-        base64Encode(symmetricKey),
+        symmetricKey,
         otherPartyPublicKey,
       );
 
@@ -49,7 +47,9 @@ class AcceptanceReaderCubit extends Cubit<AcceptanceReaderState> {
           acceptance: acceptance,
         ),
       );
-    } catch (e) {
+    } catch (ex) {
+      logger.e('ERROR: $ex');
+
       emit(
         state.copyWith(
           status: StateStatus.failed,

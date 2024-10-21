@@ -28,15 +28,6 @@ class MessageData {
     );
   }
 
-  StoredMessageData toStored() {
-    return StoredMessageData()
-      ..id = id
-      ..chatId = chatId
-      ..encryptedMessage = encryptedMessage
-      ..sentAt = sentAt
-      ..isSent = isSent;
-  }
-
   MessageData copyWith({
     int? id,
     String? chatId,
@@ -53,5 +44,10 @@ class MessageData {
       sentAt: sentAt ?? this.sentAt,
       isSent: isSent ?? this.isSent,
     );
+  }
+
+  @override
+  String toString() {
+    return 'MessageData(id: $id, chatId: $chatId, encryptedMessage: $encryptedMessage, decryptedMessage: $decryptedMessage, sentAt: $sentAt, isSent: $isSent)';
   }
 }

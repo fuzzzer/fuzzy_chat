@@ -6,7 +6,12 @@ class MessageDataRepository {
   MessageDataRepository({required this.localDataSource});
 
   Future<int> addMessage(MessageData message) async {
-    return await localDataSource.addMessage(message.toStored());
+    final storedMessage = StoredMessageData()
+      ..chatId = message.chatId
+      ..isSent = message.isSent
+      ..encryptedMessage = message.encryptedMessage;
+
+    return await localDataSource.addMessage(storedMessage);
   }
 
   Future<List<MessageData>> getMessagesForChat(String chatId) async {

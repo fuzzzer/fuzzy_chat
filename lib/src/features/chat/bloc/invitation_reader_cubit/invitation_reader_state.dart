@@ -22,4 +22,7 @@ class InvitationReaderState {
       failure: failure ?? this.failure,
     );
   }
+
+  @override
+  String toString() => 'InvitationReaderState(status: $status, invitation: $invitation, failure: $failure)';
 }

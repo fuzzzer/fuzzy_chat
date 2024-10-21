@@ -45,9 +45,9 @@ class _SendPageState extends State<SendPage> {
       return;
     }
     final plainText = _plainTextController.text;
-    final encryptedText = await RSAManager.encrypt(plainText, publicKey!);
+    final encryptedText = await RSAManager.encrypt(base64Decode(plainText), publicKey!);
     setState(() {
-      _encryptedText = encryptedText;
+      _encryptedText = base64Encode(encryptedText);
     });
   }
 
