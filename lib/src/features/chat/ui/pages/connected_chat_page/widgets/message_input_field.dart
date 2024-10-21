@@ -37,33 +37,33 @@ class MessageInputField extends StatelessWidget {
             width: fullWidth,
             color: Colors.black,
           ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(aroundTextFieldPadding),
-                  child: TextField(
-                    controller: controller,
-                    focusNode: focusNode,
-                    maxLines: 7,
-                    decoration: const InputDecoration.collapsed(
-                      hintText: 'Text Goes here...',
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(aroundTextFieldPadding),
+                    child: TextField(
+                      controller: controller,
+                      focusNode: focusNode,
+                      maxLines: 7,
+                      decoration: const InputDecoration.collapsed(
+                        hintText: 'Text Goes here...',
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(width: 8),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(
-                    width: 60,
-                    height: height / 2 - gapBetweenButtons / 2,
-                    child: InkWell(
-                      onTap: onDecryptTap,
-                      child: const Expanded(
-                        child: DecoratedBox(
+                const SizedBox(width: 8),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(
+                      width: 60,
+                      height: height / 2 - gapBetweenButtons / 2,
+                      child: InkWell(
+                        onTap: onDecryptTap,
+                        child: const DecoratedBox(
                           decoration: BoxDecoration(
                             color: Colors.grey,
                           ),
@@ -74,15 +74,13 @@ class MessageInputField extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: gapBetweenButtons),
-                  SizedBox(
-                    width: 60,
-                    height: height / 2 - gapBetweenButtons / 2,
-                    child: InkWell(
-                      onTap: onEncryptTap,
-                      child: const Expanded(
-                        child: DecoratedBox(
+                    const SizedBox(height: gapBetweenButtons),
+                    SizedBox(
+                      width: 60,
+                      height: height / 2 - gapBetweenButtons / 2,
+                      child: InkWell(
+                        onTap: onEncryptTap,
+                        child: const DecoratedBox(
                           decoration: BoxDecoration(
                             color: Colors.grey,
                           ),
@@ -93,10 +91,10 @@ class MessageInputField extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),
