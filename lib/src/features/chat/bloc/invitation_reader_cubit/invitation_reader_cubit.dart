@@ -36,7 +36,9 @@ class InvitationReaderCubit extends Cubit<InvitationReaderState> {
           invitation: invitation,
         ),
       );
-    } catch (e) {
+    } catch (ex) {
+      logger.e('ERROR: $ex');
+
       emit(
         state.copyWith(
           status: StateStatus.failed,

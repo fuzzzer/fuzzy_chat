@@ -14,8 +14,13 @@ class ChatGeneralDataListRepository {
   }
 
   Future<void> addChat(ChatGeneralData chat) async {
+    final storedChatGeneralData = StoredChatGeneralData()
+      ..chatId = chat.chatId
+      ..chatName = chat.chatName
+      ..setupStatus = chat.setupStatus;
+
     await localDataSource.addChat(
-      chat.toStored(),
+      storedChatGeneralData,
     );
   }
 
@@ -28,7 +33,15 @@ class ChatGeneralDataListRepository {
   }
 
   Future<void> updateChat(ChatGeneralData chat) async {
-    await localDataSource.updateChat(chat.toStored());
+    final storedGeneralChatData = await localDataSource.getChatById(chat.chatId);
+
+    if (storedGeneralChatData != null) {
+      storedGeneralChatData
+        ..chatName = chat.chatName
+        ..setupStatus = chat.setupStatus;
+
+      await localDataSource.updateChat(storedGeneralChatData);
+    }
   }
 
   Future<void> deleteChat(String chatId) async {

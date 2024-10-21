@@ -1,9 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:pointycastle/asymmetric/api.dart';
 
 class ReceivedAcceptance {
   final String chatId;
   final RSAPublicKey publicKey;
-  final String encryptedSymmetricKey;
+  final Uint8List encryptedSymmetricKey;
 
   ReceivedAcceptance({
     required this.chatId,

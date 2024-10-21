@@ -1,69 +1,114 @@
 import 'package:flutter/material.dart';
-import 'package:fuzzy_chat/src/features/chat/ui/pages/connected_chat_page/connected_chat_page.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fuzzy_chat/src/core/core.dart';
+import 'package:fuzzy_chat/src/features/chat/chat.dart';
 import 'package:fuzzy_chat/src/ui_kit/ui_kit.dart';
 
+class AcceptanceExportPagePayload {
+  final String chatName;
+  final String chatId;
+
+  AcceptanceExportPagePayload({
+    required this.chatName,
+    required this.chatId,
+  });
+}
+
 class AcceptanceExportPage extends StatelessWidget {
-  const AcceptanceExportPage({super.key});
+  final AcceptanceExportPagePayload payload;
 
-  void _downloadAcceptance() {}
-
-  void _shareAcceptance() {}
+  const AcceptanceExportPage({super.key, required this.payload});
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    // final uiColors = theme.extension<UiColors>()!;
-    final uiTextStyles = theme.extension<UiTextStyles>()!;
+    return BlocProvider<AcceptanceReaderCubit>(
+      create: (context) => AcceptanceReaderCubit(
+        handshakeManager: sl.get<HandshakeManager>(),
+        keyStorageRepository: sl.get<KeyStorageRepository>(),
+      )..generateAcceptance(payload.chatId),
+      child: ProvidedAcceptanceExportPage(payload: payload),
+    );
+  }
+}
 
+class ProvidedAcceptanceExportPage extends StatelessWidget {
+  final AcceptanceExportPagePayload payload;
+
+  const ProvidedAcceptanceExportPage({super.key, required this.payload});
+
+  void _copyAcceptance(String acceptanceContent, BuildContext context) {
+    Clipboard.setData(ClipboardData(text: acceptanceContent));
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Acceptance copied to clipboard')),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      body: SizedBox(
+      body: BlocBuilder<AcceptanceReaderCubit, AcceptanceReaderState>(
+        builder: (context, state) {
+          return StatusBuilder.buildByStatus(
+            status: state.status,
+            onInitial: () => const Center(child: CircularProgressIndicator()),
+            onLoading: () => const Center(child: CircularProgressIndicator()),
+            onSuccess: () => _buildAcceptanceContent(context, state.acceptance!.acceptanceContent),
+            onFailure: () => _buildErrorContent(state.failure?.message),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildAcceptanceContent(BuildContext context, String acceptanceContent) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: SizedBox(
         width: MediaQuery.of(context).size.width,
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              const SizedBox(height: 16),
-              Text(
-                'Acceptance Ready',
-                style: uiTextStyles.bodyLargeBold20,
-                textAlign: TextAlign.center,
-              ),
-              const Spacer(),
-              Text(
-                'Your acceptance has been generated successfully.',
-                textAlign: TextAlign.center,
-                style: uiTextStyles.bodyBold16,
-              ),
-              const SizedBox(height: 16),
-              FuzzyButton(
-                text: 'Download Acceptance',
-                icon: Icons.download,
-                onPressed: _downloadAcceptance,
-              ),
-              const SizedBox(height: 16),
-              FuzzyButton(
-                text: 'Share Acceptance',
-                icon: Icons.share,
-                onPressed: _shareAcceptance,
-              ),
-              const Spacer(),
-              FuzzyButton(
-                text: 'Go to chat',
-                //TODO before navigating store everything necessary fot the chat
-                onPressed: () => Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (_) => ConnectedChatPage(
-                      payload: ConnectedChatPagePayload(
-                        chatName: 'think of when to name the chat',
-                        chatId: 'chatId',
-                      ),
+        child: Column(
+          children: [
+            const SizedBox(height: 16),
+            const Text(
+              'Acceptance Ready',
+              textAlign: TextAlign.center,
+            ),
+            const Spacer(),
+            const Text(
+              'Your acceptance has been generated successfully.',
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            FuzzyButton(
+              text: 'Copy Acceptance',
+              icon: Icons.copy,
+              onPressed: () => _copyAcceptance(acceptanceContent, context),
+            ),
+            const Spacer(),
+            FuzzyButton(
+              text: 'Go to chat',
+              onPressed: () => Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (_) => ConnectedChatPage(
+                    payload: ConnectedChatPagePayload(
+                      chatName: payload.chatName,
+                      chatId: payload.chatId,
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildErrorContent(String? message) {
+    return Center(
+      child: Text(
+        message ?? 'Failed to generate acceptance.',
+        style: const TextStyle(color: Colors.red),
       ),
     );
   }

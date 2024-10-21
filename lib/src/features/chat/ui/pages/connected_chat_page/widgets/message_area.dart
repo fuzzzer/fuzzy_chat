@@ -36,8 +36,8 @@ class MessageArea extends StatelessWidget {
               bottomRight: message.isSent ? Radius.zero : const Radius.circular(12),
             ),
           ),
-          child: Text(
-            message.encryptedMessage,
+          child: SelectableText(
+            message.isSent ? message.encryptedMessage : message.decryptedMessage,
             style: uiTextStyles.body16.copyWith(
               color: message.isSent ? Colors.white : Colors.black,
             ),

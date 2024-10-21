@@ -4,7 +4,7 @@ import '../storage_models/storage_models.dart';
 class MessageDataLocalDataSource {
   final Isar isar;
 
-  MessageDataLocalDataSource(this.isar);
+  MessageDataLocalDataSource({required this.isar});
 
   Future<int> addMessage(StoredMessageData messageData) async {
     return await isar.writeTxn<int>(() async {

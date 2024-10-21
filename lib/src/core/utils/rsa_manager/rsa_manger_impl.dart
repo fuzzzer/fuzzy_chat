@@ -34,28 +34,28 @@ class _RSAManagerImpl {
     return secureRandom;
   }
 
-  static String syncEncrypt(String value, RSAPublicKey publicKey) {
+  static Uint8List syncEncrypt(Uint8List data, RSAPublicKey publicKey) {
     final encryptor = OAEPEncoding(RSAEngine())
       ..init(
         true,
         PublicKeyParameter<RSAPublicKey>(publicKey),
       );
 
-    final encrypted = encryptor.process(Uint8List.fromList(value.codeUnits));
+    final encrypted = encryptor.process(data);
 
-    return base64.encode(encrypted);
+    return encrypted;
   }
 
-  static String syncDecrypt(String encryptedValue, RSAPrivateKey privateKey) {
+  static Uint8List syncDecrypt(Uint8List data, RSAPrivateKey privateKey) {
     final decryptor = OAEPEncoding(RSAEngine())
       ..init(
         false,
         PrivateKeyParameter<RSAPrivateKey>(privateKey),
       );
 
-    final decrypted = decryptor.process(base64.decode(encryptedValue));
+    final decrypted = decryptor.process(data);
 
-    return String.fromCharCodes(decrypted);
+    return decrypted;
   }
 
   static Uint8List syncSign(Uint8List value, RSAPrivateKey privateKey) {
@@ -98,7 +98,7 @@ class _RSAManagerImpl {
     );
   }
 
-  static Map<String, dynamic> transformRSAPublicKeyToMap(RSAPublicKey publicKey) {
+  static Map<String, String> transformRSAPublicKeyToMap(RSAPublicKey publicKey) {
     return {
       'modulus': publicKey.n.toString(),
       'publicExponent': publicKey.publicExponent.toString(),

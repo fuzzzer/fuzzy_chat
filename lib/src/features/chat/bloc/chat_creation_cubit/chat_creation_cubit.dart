@@ -41,7 +41,9 @@ class ChatCreationCubit extends Cubit<ChatCreationState> {
           generatedChatInvitation: invitation,
         ),
       );
-    } catch (e) {
+    } catch (ex) {
+      logger.e('ERROR: $ex');
+
       emit(
         state.copyWith(
           status: StateStatus.failed,

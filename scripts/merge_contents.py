@@ -41,8 +41,8 @@ if __name__ == "__main__":
     script_dir = os.path.dirname(os.path.abspath(__file__))
     
     # Use relative path from script's directory
-    lib_folder = os.path.join(script_dir, '../lib/src/features/chat')
-    output_txt_file = os.path.join(script_dir, 'outputs/chat.txt')
+    lib_folder = os.path.join(script_dir, '../lib/src/core')
+    output_txt_file = os.path.join(script_dir, 'outputs/core.txt')
 
     # Collect all .dart file contents and write them to the output file
     collect_dart_files_content(lib_folder, output_txt_file)

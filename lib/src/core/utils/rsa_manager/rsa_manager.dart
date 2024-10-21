@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:isolate';
 import 'dart:math';
 import 'dart:typed_data';
@@ -12,12 +11,12 @@ class RSAManager {
     return Isolate.run(_RSAManagerImpl.generateRSAKeyPairSync);
   }
 
-  static Future<String> encrypt(String value, RSAPublicKey publicKey) {
-    return Isolate.run(() => _RSAManagerImpl.syncEncrypt(value, publicKey));
+  static Future<Uint8List> encrypt(Uint8List data, RSAPublicKey publicKey) {
+    return Isolate.run(() => _RSAManagerImpl.syncEncrypt(data, publicKey));
   }
 
-  static Future<String> decrypt(String encryptedValue, RSAPrivateKey privateKey) {
-    return Isolate.run(() => _RSAManagerImpl.syncDecrypt(encryptedValue, privateKey));
+  static Future<Uint8List> decrypt(Uint8List data, RSAPrivateKey privateKey) {
+    return Isolate.run(() => _RSAManagerImpl.syncDecrypt(data, privateKey));
   }
 
   static Future<Uint8List> sign(Uint8List value, RSAPrivateKey privateKey) {
@@ -36,7 +35,7 @@ class RSAManager {
     return _RSAManagerImpl.transformMapToRSAPrivateKey(map);
   }
 
-  static Map<String, dynamic> transformRSAPublicKeyToMap(RSAPublicKey publicKey) {
+  static Map<String, String> transformRSAPublicKeyToMap(RSAPublicKey publicKey) {
     return _RSAManagerImpl.transformRSAPublicKeyToMap(publicKey);
   }
 

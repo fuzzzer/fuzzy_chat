@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/src/core/core.dart';
 import 'package:fuzzy_chat/src/features/chat/chat.dart';
-
 
 part 'handshake_state.dart';
 
@@ -18,12 +15,14 @@ class HandshakeCubit extends Cubit<HandshakeState> {
   final KeyStorageRepository keyStorageRepository;
   final ChatGeneralDataListRepository chatGeneralDataListRepository;
 
-  Future<void> completeHandshake(String acceptanceContent) async {
+  Future<void> completeHandshake({
+    required String acceptanceContent,
+    required String chatId,
+  }) async {
     emit(state.copyWith(status: StateStatus.loading));
 
     try {
       final receivedAcceptance = await handshakeManager.parseAcceptance(acceptanceContent);
-      final chatId = receivedAcceptance.chatId;
       final otherPartyPublicKey = receivedAcceptance.publicKey;
       final encryptedSymmetricKey = receivedAcceptance.encryptedSymmetricKey;
 
@@ -40,11 +39,10 @@ class HandshakeCubit extends Cubit<HandshakeState> {
         return;
       }
 
-      final symmetricKeyBase64 = await RSAManager.decrypt(
+      final symmetricKey = await RSAManager.decrypt(
         encryptedSymmetricKey,
         privateKey,
       );
-      final symmetricKey = base64Decode(symmetricKeyBase64);
 
       await keyStorageRepository.saveSymmetricKey(chatId, symmetricKey);
       await keyStorageRepository.saveOtherPartyPublicKey(chatId, otherPartyPublicKey);
@@ -62,6 +60,8 @@ class HandshakeCubit extends Cubit<HandshakeState> {
         ),
       );
     } catch (ex) {
+      logger.e('ERROR: $ex');
+
       emit(
         state.copyWith(
           status: StateStatus.failed,

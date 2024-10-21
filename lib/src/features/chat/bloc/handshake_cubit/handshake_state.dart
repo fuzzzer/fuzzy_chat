@@ -22,4 +22,7 @@ class HandshakeState {
       failure: failure ?? this.failure,
     );
   }
+
+  @override
+  String toString() => 'HandshakeState(status: $status, chatId: $chatId, failure: $failure)';
 }
