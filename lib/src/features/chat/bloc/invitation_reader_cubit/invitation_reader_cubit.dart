@@ -13,7 +13,9 @@ class InvitationReaderCubit extends Cubit<InvitationReaderState> {
   final HandshakeManager handshakeManager;
   final KeyStorageRepository keyStorageRepository;
 
-  Future<void> generateInvitation(String chatId) async {
+  Future<void> generateInvitation({
+    required String chatId,
+  }) async {
     emit(state.copyWith(status: StateStatus.loading));
 
     try {

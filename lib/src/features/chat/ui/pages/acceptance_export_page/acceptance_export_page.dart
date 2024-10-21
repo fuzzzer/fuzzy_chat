@@ -5,15 +5,7 @@ import 'package:fuzzy_chat/src/core/core.dart';
 import 'package:fuzzy_chat/src/features/chat/chat.dart';
 import 'package:fuzzy_chat/src/ui_kit/ui_kit.dart';
 
-class AcceptanceExportPagePayload {
-  final String chatName;
-  final String chatId;
-
-  AcceptanceExportPagePayload({
-    required this.chatName,
-    required this.chatId,
-  });
-}
+export 'components/components.dart';
 
 class AcceptanceExportPage extends StatelessWidget {
   final AcceptanceExportPagePayload payload;
@@ -26,7 +18,7 @@ class AcceptanceExportPage extends StatelessWidget {
       create: (context) => AcceptanceReaderCubit(
         handshakeManager: sl.get<HandshakeManager>(),
         keyStorageRepository: sl.get<KeyStorageRepository>(),
-      )..generateAcceptance(payload.chatId),
+      )..generateAcceptance(chatId: payload.chatGeneralData.chatId),
       child: ProvidedAcceptanceExportPage(payload: payload),
     );
   }
@@ -61,7 +53,10 @@ class ProvidedAcceptanceExportPage extends StatelessWidget {
     );
   }
 
-  Widget _buildAcceptanceContent(BuildContext context, String acceptanceContent) {
+  Widget _buildAcceptanceContent(
+    BuildContext context,
+    String acceptanceContent,
+  ) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: SizedBox(
@@ -85,19 +80,28 @@ class ProvidedAcceptanceExportPage extends StatelessWidget {
               onPressed: () => _copyAcceptance(acceptanceContent, context),
             ),
             const Spacer(),
-            FuzzyButton(
-              text: 'Go to chat',
-              onPressed: () => Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (_) => ConnectedChatPage(
-                    payload: ConnectedChatPagePayload(
-                      chatName: payload.chatName,
-                      chatId: payload.chatId,
+            if (payload.hasBackButton)
+              FuzzyButton(
+                text: 'Back',
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            else
+              FuzzyButton(
+                text: 'Go to chat',
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (_) => ConnectedChatPage(
+                        payload: ConnectedChatPagePayload(
+                          chatGeneralData: payload.chatGeneralData,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
-            ),
           ],
         ),
       ),

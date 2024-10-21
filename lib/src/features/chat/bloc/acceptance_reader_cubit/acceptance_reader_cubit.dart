@@ -13,7 +13,9 @@ class AcceptanceReaderCubit extends Cubit<AcceptanceReaderState> {
   final HandshakeManager handshakeManager;
   final KeyStorageRepository keyStorageRepository;
 
-  Future<void> generateAcceptance(String chatId) async {
+  Future<void> generateAcceptance({
+    required String chatId,
+  }) async {
     emit(state.copyWith(status: StateStatus.loading));
 
     try {

@@ -21,7 +21,12 @@ class ChatGeneralDataListCubit extends Cubit<ChatGeneralDataListState> {
     try {
       final chats = await chatRepository.getAllChats();
 
-      emit(state.copyWith(status: StateStatus.success, chats: chats));
+      emit(
+        state.copyWith(
+          status: StateStatus.success,
+          chatList: chats,
+        ),
+      );
     } catch (ex) {
       emit(
         state.copyWith(
@@ -32,7 +37,9 @@ class ChatGeneralDataListCubit extends Cubit<ChatGeneralDataListState> {
     }
   }
 
-  Future<void> deleteChat(String chatId) async {
+  Future<void> deleteChat({
+    required String chatId,
+  }) async {
     emit(
       state.copyWith(
         actionStatus: StateStatus.loading,
@@ -43,11 +50,11 @@ class ChatGeneralDataListCubit extends Cubit<ChatGeneralDataListState> {
     try {
       await chatRepository.deleteChat(chatId);
 
-      final updatedChats = state.chats?.where((chat) => chat.chatId != chatId).toList();
+      final updatedChats = state.chatList?.where((chat) => chat.chatId != chatId).toList();
 
       emit(
         state.copyWith(
-          chats: updatedChats,
+          chatList: updatedChats,
           actionStatus: StateStatus.success,
           actionType: ActionType.delete,
         ),
@@ -65,7 +72,9 @@ class ChatGeneralDataListCubit extends Cubit<ChatGeneralDataListState> {
     }
   }
 
-  Future<void> updateChat(ChatGeneralData chat) async {
+  Future<void> updateChat({
+    required ChatGeneralData chat,
+  }) async {
     emit(
       state.copyWith(
         actionStatus: StateStatus.loading,
@@ -76,13 +85,13 @@ class ChatGeneralDataListCubit extends Cubit<ChatGeneralDataListState> {
     try {
       await chatRepository.updateChat(chat);
 
-      final updatedChats = state.chats?.map((existingChat) {
+      final updatedChats = state.chatList?.map((existingChat) {
         return existingChat.chatId == chat.chatId ? chat : existingChat;
       }).toList();
 
       emit(
         state.copyWith(
-          chats: updatedChats,
+          chatList: updatedChats,
           actionStatus: StateStatus.success,
           actionType: ActionType.update,
         ),

@@ -16,4 +16,6 @@ class StoredChatGeneralData {
   ChatSetupStatus setupStatus = ChatSetupStatus.invited;
 
   DateTime createdAt = DateTime.now();
+
+  late bool didAcceptInvitation;
 }

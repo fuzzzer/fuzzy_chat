@@ -2,7 +2,7 @@ part of 'chat_general_data_list_cubit.dart';
 
 class ChatGeneralDataListState {
   final StateStatus status;
-  final List<ChatGeneralData>? chats;
+  final List<ChatGeneralData>? chatList;
   final DefaultFailure? failure;
 
   final StateStatus actionStatus;
@@ -11,7 +11,7 @@ class ChatGeneralDataListState {
 
   const ChatGeneralDataListState({
     required this.status,
-    this.chats,
+    this.chatList,
     this.failure,
     this.actionStatus = StateStatus.initial,
     this.actionType = ActionType.none,
@@ -20,7 +20,7 @@ class ChatGeneralDataListState {
 
   ChatGeneralDataListState copyWith({
     StateStatus? status,
-    List<ChatGeneralData>? chats,
+    List<ChatGeneralData>? chatList,
     DefaultFailure? failure,
     StateStatus? actionStatus,
     ActionType? actionType,
@@ -28,7 +28,7 @@ class ChatGeneralDataListState {
   }) {
     return ChatGeneralDataListState(
       status: status ?? this.status,
-      chats: chats ?? this.chats,
+      chatList: chatList ?? this.chatList,
       failure: failure ?? this.failure,
       actionStatus: actionStatus ?? this.actionStatus,
       actionType: actionType ?? this.actionType,
@@ -38,6 +38,6 @@ class ChatGeneralDataListState {
 
   @override
   String toString() {
-    return 'ChatGeneralDataListState(status: $status, chats: $chats, failure: $failure, actionStatus: $actionStatus, actionType: $actionType, actionFailure: $actionFailure)';
+    return 'ChatGeneralDataListState(status: $status, chatList: $chatList, failure: $failure, actionStatus: $actionStatus, actionType: $actionType, actionFailure: $actionFailure)';
   }
 }

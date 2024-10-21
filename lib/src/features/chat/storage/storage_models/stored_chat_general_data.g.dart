@@ -33,8 +33,13 @@ const StoredChatGeneralDataSchema = CollectionSchema(
       name: r'createdAt',
       type: IsarType.dateTime,
     ),
-    r'setupStatus': PropertySchema(
+    r'didAcceptInvitation': PropertySchema(
       id: 3,
+      name: r'didAcceptInvitation',
+      type: IsarType.bool,
+    ),
+    r'setupStatus': PropertySchema(
+      id: 4,
       name: r'setupStatus',
       type: IsarType.byte,
       enumMap: _StoredChatGeneralDatasetupStatusEnumValueMap,
@@ -88,7 +93,8 @@ void _storedChatGeneralDataSerialize(
   writer.writeString(offsets[0], object.chatId);
   writer.writeString(offsets[1], object.chatName);
   writer.writeDateTime(offsets[2], object.createdAt);
-  writer.writeByte(offsets[3], object.setupStatus.index);
+  writer.writeBool(offsets[3], object.didAcceptInvitation);
+  writer.writeByte(offsets[4], object.setupStatus.index);
 }
 
 StoredChatGeneralData _storedChatGeneralDataDeserialize(
@@ -101,9 +107,10 @@ StoredChatGeneralData _storedChatGeneralDataDeserialize(
   object.chatId = reader.readString(offsets[0]);
   object.chatName = reader.readString(offsets[1]);
   object.createdAt = reader.readDateTime(offsets[2]);
+  object.didAcceptInvitation = reader.readBool(offsets[3]);
   object.id = id;
   object.setupStatus = _StoredChatGeneralDatasetupStatusValueEnumMap[
-          reader.readByteOrNull(offsets[3])] ??
+          reader.readByteOrNull(offsets[4])] ??
       ChatSetupStatus.connected;
   return object;
 }
@@ -122,6 +129,8 @@ P _storedChatGeneralDataDeserializeProp<P>(
     case 2:
       return (reader.readDateTime(offset)) as P;
     case 3:
+      return (reader.readBool(offset)) as P;
+    case 4:
       return (_StoredChatGeneralDatasetupStatusValueEnumMap[
               reader.readByteOrNull(offset)] ??
           ChatSetupStatus.connected) as P;
@@ -671,6 +680,16 @@ extension StoredChatGeneralDataQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<StoredChatGeneralData, StoredChatGeneralData,
+      QAfterFilterCondition> didAcceptInvitationEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'didAcceptInvitation',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<StoredChatGeneralData, StoredChatGeneralData,
       QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -834,6 +853,20 @@ extension StoredChatGeneralDataQuerySortBy
   }
 
   QueryBuilder<StoredChatGeneralData, StoredChatGeneralData, QAfterSortBy>
+      sortByDidAcceptInvitation() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'didAcceptInvitation', Sort.asc);
+    });
+  }
+
+  QueryBuilder<StoredChatGeneralData, StoredChatGeneralData, QAfterSortBy>
+      sortByDidAcceptInvitationDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'didAcceptInvitation', Sort.desc);
+    });
+  }
+
+  QueryBuilder<StoredChatGeneralData, StoredChatGeneralData, QAfterSortBy>
       sortBySetupStatus() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'setupStatus', Sort.asc);
@@ -893,6 +926,20 @@ extension StoredChatGeneralDataQuerySortThenBy
   }
 
   QueryBuilder<StoredChatGeneralData, StoredChatGeneralData, QAfterSortBy>
+      thenByDidAcceptInvitation() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'didAcceptInvitation', Sort.asc);
+    });
+  }
+
+  QueryBuilder<StoredChatGeneralData, StoredChatGeneralData, QAfterSortBy>
+      thenByDidAcceptInvitationDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'didAcceptInvitation', Sort.desc);
+    });
+  }
+
+  QueryBuilder<StoredChatGeneralData, StoredChatGeneralData, QAfterSortBy>
       thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -945,6 +992,13 @@ extension StoredChatGeneralDataQueryWhereDistinct
   }
 
   QueryBuilder<StoredChatGeneralData, StoredChatGeneralData, QDistinct>
+      distinctByDidAcceptInvitation() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'didAcceptInvitation');
+    });
+  }
+
+  QueryBuilder<StoredChatGeneralData, StoredChatGeneralData, QDistinct>
       distinctBySetupStatus() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'setupStatus');
@@ -978,6 +1032,13 @@ extension StoredChatGeneralDataQueryProperty on QueryBuilder<
       createdAtProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'createdAt');
+    });
+  }
+
+  QueryBuilder<StoredChatGeneralData, bool, QQueryOperations>
+      didAcceptInvitationProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'didAcceptInvitation');
     });
   }
 

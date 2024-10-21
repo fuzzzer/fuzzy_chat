@@ -18,7 +18,7 @@ class ConnectedChatPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<ConnectedChatCubit>(
       create: (context) => ConnectedChatCubit(
-        chatId: payload.chatId,
+        chatId: payload.chatGeneralData.chatId,
         messageDataRepository: sl.get<MessageDataRepository>(),
         keyStorageRepository: sl.get<KeyStorageRepository>(),
       )..loadMessages(),
@@ -44,6 +44,8 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
   final FocusNode _messageFocusNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
 
+  bool _isSettingsOpen = false;
+
   @override
   void dispose() {
     _messageController.dispose();
@@ -55,7 +57,7 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
   void _sendMessage() {
     final text = _messageController.text.trim();
     if (text.isNotEmpty) {
-      context.read<ConnectedChatCubit>().sendMessage(text);
+      context.read<ConnectedChatCubit>().sendMessage(text: text);
       _messageController.clear();
       _scrollToBottom();
     }
@@ -64,7 +66,7 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
   void _receiveMessage() {
     final text = _messageController.text.trim();
     if (text.isNotEmpty) {
-      context.read<ConnectedChatCubit>().receiveMessage(text);
+      context.read<ConnectedChatCubit>().receiveMessage(encryptedText: text);
       _messageController.clear();
       _scrollToBottom();
     }
@@ -80,7 +82,11 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
     }
   }
 
-  void openSettingsToolbox() {}
+  void openSettingsToolbox() {
+    setState(() {
+      _isSettingsOpen = !_isSettingsOpen;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,11 +113,23 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
               Align(
                 alignment: Alignment.topCenter,
                 child: ChatHeader(
-                  chatName: widget.payload.chatName,
+                  chatName: widget.payload.chatGeneralData.chatName,
                   onBackPressed: () => Navigator.pop(context),
                   onSettingsPressed: openSettingsToolbox,
                 ),
               ),
+              if (_isSettingsOpen)
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      top: 80,
+                    ),
+                    child: SettingsToolbox(
+                      chatGeneralData: widget.payload.chatGeneralData,
+                    ),
+                  ),
+                ),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: MessageInputField(

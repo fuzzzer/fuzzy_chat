@@ -2,27 +2,27 @@ part of 'handshake_cubit.dart';
 
 class HandshakeState {
   final StateStatus status;
-  final String? chatId;
+  final ChatGeneralData? chatData;
   final DefaultFailure? failure;
 
   const HandshakeState({
     required this.status,
-    this.chatId,
+    this.chatData,
     this.failure,
   });
 
   HandshakeState copyWith({
     StateStatus? status,
-    String? chatId,
+    ChatGeneralData? chatData,
     DefaultFailure? failure,
   }) {
     return HandshakeState(
       status: status ?? this.status,
-      chatId: chatId ?? this.chatId,
+      chatData: chatData ?? this.chatData,
       failure: failure ?? this.failure,
     );
   }
 
   @override
-  String toString() => 'HandshakeState(status: $status, chatId: $chatId, failure: $failure)';
+  String toString() => 'HandshakeState(status: $status, chatData: $chatData, failure: $failure)';
 }

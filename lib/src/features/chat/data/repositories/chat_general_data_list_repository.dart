@@ -17,7 +17,8 @@ class ChatGeneralDataListRepository {
     final storedChatGeneralData = StoredChatGeneralData()
       ..chatId = chat.chatId
       ..chatName = chat.chatName
-      ..setupStatus = chat.setupStatus;
+      ..setupStatus = chat.setupStatus
+      ..didAcceptInvitation = chat.didAcceptInvitation;
 
     await localDataSource.addChat(
       storedChatGeneralData,
@@ -38,7 +39,8 @@ class ChatGeneralDataListRepository {
     if (storedGeneralChatData != null) {
       storedGeneralChatData
         ..chatName = chat.chatName
-        ..setupStatus = chat.setupStatus;
+        ..setupStatus = chat.setupStatus
+        ..didAcceptInvitation = chat.didAcceptInvitation;
 
       await localDataSource.updateChat(storedGeneralChatData);
     }
