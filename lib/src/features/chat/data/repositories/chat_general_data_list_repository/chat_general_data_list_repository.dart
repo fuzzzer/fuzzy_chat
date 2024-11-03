@@ -1,7 +1,11 @@
-import '../../chat.dart';
+import 'package:fuzzy_chat/lib.dart';
+
+export 'events/events.dart';
 
 class ChatGeneralDataListRepository {
   final ChatGeneralDataLocalDataSource localDataSource;
+
+  Stream<ChatGeneralDataListUpdated> get chatListUpdates => fuzzyHub.on<ChatGeneralDataListUpdated>();
 
   ChatGeneralDataListRepository({required this.localDataSource});
 
@@ -23,6 +27,8 @@ class ChatGeneralDataListRepository {
     await localDataSource.addChat(
       storedChatGeneralData,
     );
+
+    fuzzyHub.sendSignal(ChatGeneralDataListUpdated());
   }
 
   Future<ChatGeneralData?> getChatById(String chatId) async {
@@ -44,9 +50,13 @@ class ChatGeneralDataListRepository {
 
       await localDataSource.updateChat(storedGeneralChatData);
     }
+
+    fuzzyHub.sendSignal(ChatGeneralDataListUpdated());
   }
 
   Future<void> deleteChat(String chatId) async {
     await localDataSource.deleteChat(chatId);
+
+    fuzzyHub.sendSignal(ChatGeneralDataListUpdated());
   }
 }
