@@ -12,7 +12,7 @@ class UiKitColors {
   static const secondaryTextColor = Color(0xFF3B3355);
 
   static const primaryColorDark = Color(0xFFFEFCFD);
-  static const focusColorDark = Color(0xFFBFCDE0);
+  static const focusColorDark = Color(0xFF3B3355);
   static const secondaryColorDark = Color(0xFFBFCDE0);
   static const errorColorDark = Color(0xFFFF453A);
   static const backgroundPrimaryColorDark = Color(0xFF000505);

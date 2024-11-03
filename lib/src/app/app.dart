@@ -5,6 +5,7 @@ import 'package:fuzzy_chat/src/features/chat/ui/pages/chat_list_page/chat_list_p
 import '../ui_kit/ui_kit.dart';
 
 export 'components/components.dart';
+export 'globals/globals.dart';
 export 'initializer.dart';
 export 'run_app.dart';
 
