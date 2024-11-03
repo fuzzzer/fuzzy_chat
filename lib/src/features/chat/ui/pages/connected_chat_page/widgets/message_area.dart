@@ -28,7 +28,7 @@ class MessageArea extends StatelessWidget {
           ),
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: message.isSent ? Colors.blue : Colors.grey.shade300,
+            color: message.isSent ? UiKitColors.focusColor : Colors.grey.shade300,
             borderRadius: BorderRadius.only(
               topLeft: const Radius.circular(12),
               topRight: const Radius.circular(12),
