@@ -63,7 +63,7 @@ const StoredMessageDataSchema = CollectionSchema(
   getId: _storedMessageDataGetId,
   getLinks: _storedMessageDataGetLinks,
   attach: _storedMessageDataAttach,
-  version: '3.1.0',
+  version: '3.1.8',
 );
 
 int _storedMessageDataEstimateSize(

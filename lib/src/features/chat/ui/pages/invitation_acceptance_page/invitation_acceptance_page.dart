@@ -4,6 +4,8 @@ import 'package:fuzzy_chat/src/core/core.dart';
 import 'package:fuzzy_chat/src/features/chat/chat.dart';
 import 'package:fuzzy_chat/src/ui_kit/ui_kit.dart';
 
+export 'widgets/widgets.dart';
+
 class InvitationAcceptancePage extends StatelessWidget {
   const InvitationAcceptancePage({super.key});
 
@@ -32,6 +34,19 @@ class _ProvidedInvitationAcceptancePageState extends State<ProvidedInvitationAcc
   final TextEditingController _chatNameController = TextEditingController();
 
   @override
+  void initState() {
+    _invitationTextController.addListener(() {
+      setState(() {});
+    });
+
+    _chatNameController.addListener(() {
+      setState(() {});
+    });
+
+    super.initState();
+  }
+
+  @override
   void dispose() {
     _invitationTextController.dispose();
     _chatNameController.dispose();
@@ -48,7 +63,11 @@ class _ProvidedInvitationAcceptancePageState extends State<ProvidedInvitationAcc
           );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please provide invitation text and chat name.')),
+        SnackBar(
+          content: Text(
+            FuzzyChatLocalizations.of(context)?.pleaseProvideInvitationTextAndChatName ?? '',
+          ),
+        ),
       );
     }
   }
@@ -71,70 +90,25 @@ class _ProvidedInvitationAcceptancePageState extends State<ProvidedInvitationAcc
           );
         } else if (state.status.isFailed) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.failure?.message ?? 'Failed to accept invitation')),
+            SnackBar(
+              content: Text(
+                state.failure?.message ?? FuzzyChatLocalizations.of(context)?.failedToAcceptInvitation ?? '',
+              ),
+            ),
           );
         }
       },
       builder: (context, state) {
-        return Scaffold(
-          body: Padding(
-            padding: const EdgeInsets.all(16),
-            child: StatusBuilder.buildByStatus(
-              status: state.status,
-              onInitial: _buildAcceptanceForm,
-              onLoading: () => const Center(child: CircularProgressIndicator()),
-              onSuccess: _buildAcceptanceForm,
-              onFailure: () => _buildErrorContent(state.failure?.message),
-            ),
-          ),
+        if (state.status.isLoading) {
+          return const FuzzyLoadingPagebuilder();
+        }
+
+        return InvitationAcceptanceForm(
+          chatNameController: _chatNameController,
+          invitationTextController: _invitationTextController,
+          onAccept: _acceptInvitation,
         );
       },
-    );
-  }
-
-  Widget _buildAcceptanceForm() {
-    return Column(
-      children: [
-        const SizedBox(height: 10),
-        const Text(
-          'Accept Chat Invitation',
-          textAlign: TextAlign.center,
-        ),
-        const Spacer(),
-        FuzzyTextField(
-          controller: _chatNameController,
-          labelText: 'Enter Chat Name',
-        ),
-        const SizedBox(height: 16),
-        FuzzyTextField(
-          controller: _invitationTextController,
-          labelText: 'Paste Invitation Text',
-          maxLines: 3,
-        ),
-        const SizedBox(height: 16),
-        FuzzyButton(
-          text: 'Accept Invitation',
-          onPressed: _acceptInvitation,
-        ),
-        const Spacer(),
-        FuzzyButton(
-          text: 'Back',
-          onPressed: () => Navigator.pop(context),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildErrorContent(String? message) {
-    return Column(
-      children: [
-        Text(
-          message ?? 'Failed to accept invitation',
-          style: const TextStyle(color: Colors.red),
-        ),
-        const SizedBox(height: 16),
-        _buildAcceptanceForm(),
-      ],
     );
   }
 }

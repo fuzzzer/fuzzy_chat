@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fuzzy_chat/src/ui_kit/ui_kit.dart';
+import 'package:fuzzy_chat/lib.dart';
 
 class MessageInputField extends StatelessWidget {
   final TextEditingController controller;
@@ -19,6 +19,8 @@ class MessageInputField extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final uiColors = theme.extension<UiColors>()!;
+
+    final localizations = FuzzyChatLocalizations.of(context)!;
 
     const height = 200.0;
     const aroundTextFieldPadding = 8.0;
@@ -48,8 +50,8 @@ class MessageInputField extends StatelessWidget {
                       controller: controller,
                       focusNode: focusNode,
                       maxLines: 7,
-                      decoration: const InputDecoration.collapsed(
-                        hintText: 'Text Goes here...',
+                      decoration: InputDecoration.collapsed(
+                        hintText: '${localizations.textGoesHere}...',
                       ),
                     ),
                   ),

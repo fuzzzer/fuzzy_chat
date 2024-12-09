@@ -69,7 +69,7 @@ const StoredChatSecurityDataSchema = CollectionSchema(
   getId: _storedChatSecurityDataGetId,
   getLinks: _storedChatSecurityDataGetLinks,
   attach: _storedChatSecurityDataAttach,
-  version: '3.1.0',
+  version: '3.1.8',
 );
 
 int _storedChatSecurityDataEstimateSize(

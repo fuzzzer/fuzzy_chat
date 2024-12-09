@@ -15,7 +15,8 @@ class MessageListSliver extends StatelessWidget {
       delegate: SliverChildBuilderDelegate(
         (context, index) {
           final message = messages[messages.length - 1 - index];
-          return MessageArea(message: message);
+
+          return message.isSent ? SentMessageArea(message: message) : ReceivedMessageArea(message: message);
         },
         childCount: messages.length,
       ),
