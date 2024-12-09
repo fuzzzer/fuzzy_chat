@@ -7,14 +7,9 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
-import 'package:fuzzy_chat/src/app/app.dart';
+import 'package:fuzzy_chat/lib.dart';
 import 'package:pointycastle/asymmetric/api.dart';
 import 'package:pointycastle/pointycastle.dart' as pointy;
-
-import '../../../core/utils/keys_repository/keys_repository.dart';
-import '../../../core/utils/map_casting.dart';
-import '../../../core/utils/rsa_manager/rsa_manager.dart';
-import 'recieve_page.dart';
 
 class ReceiveSetupPage extends StatefulWidget {
   const ReceiveSetupPage({super.key});
@@ -88,7 +83,7 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
     });
   }
 
-  Future<void> _importKeyFromFile(dynamic event) async {
+  Future<void> _importKeyFromFile(DropzoneFileInterface event) async {
     final messenger = scaffoldMessengerKey.currentState;
 
     try {
@@ -314,7 +309,7 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return FuzzyScaffold(
       appBar: AppBar(title: const Text('Receive Setup')),
       body: Stack(
         children: [
@@ -374,7 +369,7 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
           if (kIsWeb)
             DropzoneView(
               onCreated: (controller) => _controller = controller,
-              onDrop: (event) async {
+              onDropFile: (event) async {
                 setState(() {
                   _highlighted = false;
                 });

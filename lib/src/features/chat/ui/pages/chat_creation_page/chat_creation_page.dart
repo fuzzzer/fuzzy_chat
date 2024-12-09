@@ -4,6 +4,8 @@ import 'package:fuzzy_chat/src/core/core.dart';
 import 'package:fuzzy_chat/src/features/chat/chat.dart';
 import 'package:fuzzy_chat/src/ui_kit/ui_kit.dart';
 
+export 'widgets/widgets.dart';
+
 class ChatCreationPage extends StatelessWidget {
   const ChatCreationPage({super.key});
 
@@ -37,6 +39,10 @@ class _ProvidedChatCreationPageState extends State<ProvidedChatCreationPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       _focusNode.requestFocus();
     });
+
+    _chatNameController.addListener(() {
+      setState(() {});
+    });
   }
 
   @override
@@ -52,17 +58,23 @@ class _ProvidedChatCreationPageState extends State<ProvidedChatCreationPage> {
       context.read<ChatCreationCubit>().createChat(chatName: chatName);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a chat name.')),
+        SnackBar(
+          content: Text(
+            FuzzyChatLocalizations.of(context)?.pleaseEnterAChatName ?? '',
+          ),
+        ),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final localizations = FuzzyChatLocalizations.of(context)!;
+
     return BlocConsumer<ChatCreationCubit, ChatCreationState>(
       listener: (context, state) {
         if (state.status.isSuccess && state.generatedChatInvitation != null) {
-          Navigator.of(context).push(
+          Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => ChatInvitationPage(
                 payload: ChatInvitationPagePayload(
@@ -74,69 +86,33 @@ class _ProvidedChatCreationPageState extends State<ProvidedChatCreationPage> {
           );
         } else if (state.status.isFailed) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.failure?.message ?? 'Failed to create chat')),
+            SnackBar(
+              content: Text(
+                state.failure?.message ?? localizations.failedToCreateChat,
+              ),
+            ),
           );
         }
       },
       builder: (context, state) {
-        return Scaffold(
-          body: Padding(
-            padding: const EdgeInsets.all(16),
-            child: StatusBuilder.buildByStatus(
-              status: state.status,
-              onInitial: _buildInitialContent,
-              onLoading: () => const Center(child: CircularProgressIndicator()),
-              onSuccess: _buildInitialContent,
-              onFailure: () => _buildErrorContent(state.failure?.message),
-            ),
+        return StatusBuilder.buildByStatus(
+          status: state.status,
+          onInitial: () => ChatCreationInitialContent(
+            chatNameController: _chatNameController,
+            focusNode: _focusNode,
+            onCreate: _createChat,
+          ),
+          onLoading: () => const FuzzyLoadingPagebuilder(),
+          onSuccess: () => ChatCreationInitialContent(
+            chatNameController: _chatNameController,
+            focusNode: _focusNode,
+            onCreate: _createChat,
+          ),
+          onFailure: () => FuzzyErrorPageBuilder(
+            message: state.failure?.message ?? localizations.failedToCreateChat,
           ),
         );
       },
-    );
-  }
-
-  Widget _buildInitialContent() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        const FuzzyHeader(title: 'Create a New Chat'),
-        FuzzyTextField(
-          controller: _chatNameController,
-          focusNode: _focusNode,
-          labelText: 'Enter Chat Name',
-          hintText: 'e.g. Chat with Alice',
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            FuzzyButton(
-              text: 'Back',
-              onPressed: () => Navigator.pop(context),
-            ),
-            FuzzyButton(
-              text: 'Create',
-              onPressed: _createChat,
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildErrorContent(String? message) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          message ?? 'Failed to create chat',
-          style: const TextStyle(color: Colors.red),
-        ),
-        const SizedBox(height: 16),
-        FuzzyButton(
-          text: 'Back',
-          onPressed: () => Navigator.pop(context),
-        ),
-      ],
     );
   }
 }

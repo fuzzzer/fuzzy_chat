@@ -1,5 +1,4 @@
 import 'package:fuzzy_chat/lib.dart';
-import 'package:fuzzy_chat/src/features/chat/core/chat_dependency_injection.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 

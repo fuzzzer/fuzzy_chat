@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fuzzy_chat/src/core/core.dart';
-import 'package:fuzzy_chat/src/features/chat/chat.dart';
+import 'package:fuzzy_chat/lib.dart';
 
 export 'components/components.dart';
 export 'widgets/widgets.dart';
@@ -44,8 +43,6 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
   final FocusNode _messageFocusNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
 
-  bool _isSettingsOpen = false;
-
   @override
   void dispose() {
     _messageController.dispose();
@@ -82,15 +79,10 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
     }
   }
 
-  void openSettingsToolbox() {
-    setState(() {
-      _isSettingsOpen = !_isSettingsOpen;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return FuzzyScaffold(
+      hasAutomaticBackButton: false,
       body: BlocBuilder<ConnectedChatCubit, ConnectedChatState>(
         builder: (context, state) {
           return Stack(
@@ -113,23 +105,10 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
               Align(
                 alignment: Alignment.topCenter,
                 child: ChatHeader(
-                  chatName: widget.payload.chatGeneralData.chatName,
+                  chatGeneralData: widget.payload.chatGeneralData,
                   onBackPressed: () => Navigator.pop(context),
-                  onSettingsPressed: openSettingsToolbox,
                 ),
               ),
-              if (_isSettingsOpen)
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      top: 80,
-                    ),
-                    child: SettingsToolbox(
-                      chatGeneralData: widget.payload.chatGeneralData,
-                    ),
-                  ),
-                ),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: MessageInputField(

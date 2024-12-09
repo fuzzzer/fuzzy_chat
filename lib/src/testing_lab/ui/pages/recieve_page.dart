@@ -2,10 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fuzzy_chat/src/app/app.dart';
+import 'package:fuzzy_chat/lib.dart';
 import 'package:pointycastle/pointycastle.dart' as pointy;
 
-import '../../../core/utils/rsa_manager/rsa_manager.dart';
 
 class ReceivePage extends StatefulWidget {
   const ReceivePage({
@@ -33,7 +32,7 @@ class _ReceivePageState extends State<ReceivePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return FuzzyScaffold(
       appBar: AppBar(title: const Text('Receive Message')),
       body: Padding(
         padding: const EdgeInsets.all(16),
