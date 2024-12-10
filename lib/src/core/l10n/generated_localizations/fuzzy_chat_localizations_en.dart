@@ -149,4 +149,9 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
 
   @override
   String get share => 'Share';
+
+  @override
+  String areYouSureYouWantToDeleteChatWith(Object personName) {
+    return 'Are you sure you want to delete chat with $personName';
+  }
 }

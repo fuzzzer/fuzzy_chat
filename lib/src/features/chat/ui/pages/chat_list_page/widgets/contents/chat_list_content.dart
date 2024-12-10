@@ -34,6 +34,13 @@ class ChatListContent extends StatelessWidget {
               return chatGeneralData.setupStatus == ChatSetupStatus.invited
                   ? InvitedChatTile(
                       name: chatGeneralData.chatName,
+                      onLongPress: () {
+                        showChatDeletionDialog(
+                          context,
+                          chatId: chatGeneralData.chatId,
+                          chatName: chatGeneralData.chatName,
+                        );
+                      },
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
@@ -49,6 +56,13 @@ class ChatListContent extends StatelessWidget {
                     )
                   : ConnectedChatTile(
                       name: chatGeneralData.chatName,
+                      onLongPress: () {
+                        showChatDeletionDialog(
+                          context,
+                          chatId: chatGeneralData.chatId,
+                          chatName: chatGeneralData.chatName,
+                        );
+                      },
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(

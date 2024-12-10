@@ -68,4 +68,12 @@ class KeyStorageRepository {
     }
     return null;
   }
+
+  /// Clears all keys related to the given [chatId].
+  Future<void> clearAllKeysForChat(String chatId) async {
+    await _secureStorage.delete(key: 'privateKey_$chatId');
+    await _secureStorage.delete(key: 'publicKey_$chatId');
+    await _secureStorage.delete(key: 'symmetricKey_$chatId');
+    await _secureStorage.delete(key: 'otherPartyPublicKey_$chatId');
+  }
 }

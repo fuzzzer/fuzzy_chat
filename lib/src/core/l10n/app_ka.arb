@@ -95,5 +95,11 @@
   "copy": "Copy",
   "@copy": {},
   "share": "Share",
-  "@share": {}
+  "@share": {},
+  "areYouSureYouWantToDeleteChatWith": "Are you sure you want to delete chat with {personName}",
+  "@areYouSureYouWantToDeleteChatWith": {
+    "placeholders": {
+      "personName": {}
+    }
+  }
 }

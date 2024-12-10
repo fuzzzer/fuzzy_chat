@@ -8,8 +8,10 @@ import '../../../../core/core.dart';
 part 'chat_general_data_list_state.dart';
 
 class ChatGeneralDataListCubit extends Cubit<ChatGeneralDataListState> {
-  ChatGeneralDataListCubit({required this.chatRepository})
-      : super(
+  ChatGeneralDataListCubit({
+    required this.keyStorageRepository,
+    required this.chatRepository,
+  }) : super(
           const ChatGeneralDataListState(
             status: StateStatus.initial,
           ),
@@ -18,6 +20,8 @@ class ChatGeneralDataListCubit extends Cubit<ChatGeneralDataListState> {
       _fetchChatsInBackground();
     });
   }
+
+  final KeyStorageRepository keyStorageRepository;
 
   final ChatGeneralDataListRepository chatRepository;
   late final StreamSubscription<ChatGeneralDataListUpdated> _chatListUpdatesSubscription;
@@ -81,6 +85,7 @@ class ChatGeneralDataListCubit extends Cubit<ChatGeneralDataListState> {
 
     try {
       await chatRepository.deleteChat(chatId);
+      await keyStorageRepository.clearAllKeysForChat(chatId);
 
       final updatedChats = state.chatList?.where((chat) => chat.chatId != chatId).toList();
 

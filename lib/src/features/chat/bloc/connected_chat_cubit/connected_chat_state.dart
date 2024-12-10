@@ -48,4 +48,5 @@ enum ChatActionType {
   receiveMessage,
   deleteMessage,
   deleteAllMessages,
+  deleteChat,
 }
