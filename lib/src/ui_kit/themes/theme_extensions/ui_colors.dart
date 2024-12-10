@@ -11,6 +11,7 @@ class UiColors extends ThemeExtension<UiColors> {
   final Color backgroundSecondaryColor;
   final Color primaryTextColor;
   final Color secondaryTextColor;
+  final Color diffColor;
 
   const UiColors({
     this.primaryColor = UiKitColors.primaryColor,
@@ -21,6 +22,7 @@ class UiColors extends ThemeExtension<UiColors> {
     this.backgroundSecondaryColor = UiKitColors.backgroundSecondaryColor,
     this.primaryTextColor = UiKitColors.primaryTextColor,
     this.secondaryTextColor = UiKitColors.secondaryTextColor,
+    this.diffColor = UiKitColors.diffColor,
   });
 
   const UiColors.light() : this();
@@ -35,6 +37,7 @@ class UiColors extends ThemeExtension<UiColors> {
           backgroundSecondaryColor: UiKitColors.backgroundSecondaryColorDark,
           primaryTextColor: UiKitColors.primaryTextColorDark,
           secondaryTextColor: UiKitColors.secondaryTextColorDark,
+          diffColor: UiKitColors.diffColorDark,
         );
 
   @override
@@ -50,6 +53,7 @@ class UiColors extends ThemeExtension<UiColors> {
       backgroundSecondaryColor: Color.lerp(backgroundSecondaryColor, other.backgroundSecondaryColor, t)!,
       primaryTextColor: Color.lerp(primaryTextColor, other.primaryTextColor, t)!,
       secondaryTextColor: Color.lerp(secondaryTextColor, other.secondaryTextColor, t)!,
+      diffColor: Color.lerp(diffColor, other.diffColor, t)!,
     );
   }
 
@@ -63,6 +67,7 @@ class UiColors extends ThemeExtension<UiColors> {
     Color? backgroundSecondaryColor,
     Color? primaryTextColor,
     Color? secondaryTextColor,
+    Color? diffColor,
   }) {
     return UiColors(
       primaryColor: primaryColor ?? this.primaryColor,
@@ -73,6 +78,7 @@ class UiColors extends ThemeExtension<UiColors> {
       backgroundSecondaryColor: backgroundSecondaryColor ?? this.backgroundSecondaryColor,
       primaryTextColor: primaryTextColor ?? this.primaryTextColor,
       secondaryTextColor: secondaryTextColor ?? this.secondaryTextColor,
+      diffColor: diffColor ?? this.diffColor,
     );
   }
 }

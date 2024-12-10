@@ -45,7 +45,7 @@ const StoredChatPreferencesSchema = CollectionSchema(
   getId: _storedChatPreferencesGetId,
   getLinks: _storedChatPreferencesGetLinks,
   attach: _storedChatPreferencesAttach,
-  version: '3.1.8',
+  version: '3.1.0+1',
 );
 
 int _storedChatPreferencesEstimateSize(

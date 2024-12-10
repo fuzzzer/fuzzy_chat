@@ -143,4 +143,10 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
 
   @override
   String get copiedToTheClipboard => 'Copied to the clipboard.';
+
+  @override
+  String get copy => 'Copy';
+
+  @override
+  String get share => 'Share';
 }
