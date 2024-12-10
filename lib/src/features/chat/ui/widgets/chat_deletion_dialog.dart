@@ -6,7 +6,7 @@ Future<void> showChatDeletionDialog(
   BuildContext context, {
   required String chatName,
   required String chatId,
-  void Function()? onClosed,
+  void Function()? onChatDeleted,
 }) async {
   await showDialog<bool>(
     context: context,
@@ -31,6 +31,10 @@ Future<void> showChatDeletionDialog(
                     chatId: chatId,
                   );
               Navigator.pop(context);
+
+              if (onChatDeleted != null) {
+                onChatDeleted();
+              }
             },
             child: Text(
               localizations.delete,
