@@ -41,10 +41,13 @@ class ChatHeader extends StatelessWidget {
               child: FuzzyOverlaySpawner(
                 //TODO find better fix, so that offest is dynamically deduced
                 offset: const Offset(-200, 0),
-                spawnedChildBuilder: (context, closeOverlay) => SettingsToolbox(
+                spawnedChildBuilder: (_, closeOverlay) => SettingsToolbox(
                   chatGeneralData: chatGeneralData,
                   onActionPressed: () {
                     closeOverlay();
+                  },
+                  onChatDeleted: () {
+                    Navigator.of(context).pop();
                   },
                 ),
                 child: const Icon(

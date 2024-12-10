@@ -5,11 +5,13 @@ import 'package:fuzzy_chat/lib.dart';
 class SettingsToolbox extends StatefulWidget {
   final ChatGeneralData chatGeneralData;
   final void Function() onActionPressed;
+  final void Function() onChatDeleted;
 
   const SettingsToolbox({
     super.key,
     required this.chatGeneralData,
     required this.onActionPressed,
+    required this.onChatDeleted,
   });
 
   @override
@@ -49,7 +51,7 @@ class _SettingsToolboxState extends State<SettingsToolbox> {
                 context,
                 chatId: widget.chatGeneralData.chatId,
                 chatName: widget.chatGeneralData.chatName,
-                onClosed: () {},
+                onChatDeleted: widget.onChatDeleted,
               );
             },
           ),
