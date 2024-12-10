@@ -91,5 +91,9 @@
   "decrypting": "Decrypting",
   "@decrypting": {},
   "copiedToTheClipboard": "Copied to the clipboard.",
-  "@copiedToTheClipboard": {}
+  "@copiedToTheClipboard": {},
+  "copy": "Copy",
+  "@copy": {},
+  "share": "Share",
+  "@share": {}
 }

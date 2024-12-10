@@ -36,6 +36,10 @@ class UiKitTheme {
       brightness: Brightness.light,
       useMaterial3: true,
       colorScheme: lightColorScheme(),
+      textSelectionTheme: TextSelectionThemeData(
+        selectionColor: darkUiColors.diffColor,
+        selectionHandleColor: const Color.fromARGB(255, 138, 138, 138),
+      ),
       primaryColor: lightUiColors.primaryColor,
       focusColor: lightUiColors.focusColor,
       textTheme: const TextTheme()
@@ -59,6 +63,10 @@ class UiKitTheme {
     return ThemeData(
       brightness: Brightness.dark,
       useMaterial3: true,
+      textSelectionTheme: TextSelectionThemeData(
+        selectionColor: darkUiColors.diffColor,
+        selectionHandleColor: const Color.fromARGB(255, 138, 138, 138),
+      ),
       colorScheme: darkColorScheme(),
       primaryColor: darkUiColors.primaryColor,
       focusColor: darkUiColors.focusColor,

@@ -53,6 +53,7 @@ class _FuzzyOverlaySpawnerState<T> extends State<FuzzyOverlaySpawner<T>> {
         borderRadius: BorderRadius.circular(24),
       ),
       color: Colors.transparent,
+      shadowColor: Colors.transparent,
     );
 
     focusNode.requestFocus();

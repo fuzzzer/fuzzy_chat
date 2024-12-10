@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:share_plus/share_plus.dart';
 
 class SentMessageArea extends StatefulWidget {
   final MessageData message;
@@ -15,23 +16,25 @@ class SentMessageArea extends StatefulWidget {
 }
 
 class _SentMessageAreaState extends State<SentMessageArea> {
-  bool hasJustCopeied = false;
+  bool hasJustCopied = false;
+
+  String _prepareEncrypredMessage(String encryptedMessage) => '$fuzzIdentificator$encryptedMessage';
 
   void _copyMessage({
     required String encryptedMessage,
     required FuzzyChatLocalizations localizations,
   }) {
-    if (hasJustCopeied) return;
+    if (hasJustCopied) return;
 
     setState(() {
-      hasJustCopeied = true;
+      hasJustCopied = true;
     });
 
     Clipboard.setData(
       ClipboardData(
-        text: '$fuzzIdentificator$encryptedMessage',
+        text: _prepareEncrypredMessage(encryptedMessage),
       ),
-    ).then((value) {
+    ).then((_) {
       scaffoldMessengerKey.currentState?.showSnackBar(
         SnackBar(
           content: Text(
@@ -41,10 +44,10 @@ class _SentMessageAreaState extends State<SentMessageArea> {
       );
     });
 
-    Future.delayed(const Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 3), () {
       if (mounted) {
         setState(() {
-          hasJustCopeied = false;
+          hasJustCopied = false;
         });
       }
     });
@@ -55,7 +58,6 @@ class _SentMessageAreaState extends State<SentMessageArea> {
     final theme = Theme.of(context);
     final uiColors = theme.extension<UiColors>()!;
     final uiTextStyles = theme.extension<UiTextStyles>()!;
-
     final localizations = FuzzyChatLocalizations.of(context)!;
 
     const borderRadius = BorderRadius.only(
@@ -64,36 +66,57 @@ class _SentMessageAreaState extends State<SentMessageArea> {
       bottomLeft: Radius.circular(12),
     );
 
-    return Container(
-      width: double.maxFinite,
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      child: Align(
-        alignment: Alignment.centerRight,
-        child: Material(
-          color: Colors.transparent,
-          child: Ink(
-            decoration: BoxDecoration(
-              borderRadius: borderRadius,
-              color: uiColors.secondaryColor,
-            ),
-            child: InkWell(
-              borderRadius: borderRadius,
-              splashColor: uiColors.backgroundPrimaryColor,
-              onLongPress: () {
-                _copyMessage(
-                  encryptedMessage: widget.message.encryptedMessage,
-                  localizations: localizations,
-                );
-              },
-              child: Container(
-                constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width * 0.75,
+    final encryptedMessage = widget.message.encryptedMessage;
+
+    return InkWell(
+      splashColor: uiColors.backgroundPrimaryColor,
+      child: Container(
+        width: double.maxFinite,
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: Material(
+            color: Colors.transparent,
+            child: Ink(
+              decoration: BoxDecoration(
+                borderRadius: borderRadius,
+                color: uiColors.secondaryColor,
+              ),
+              child: FuzzyOverlaySpawner(
+                splashRadius: borderRadius,
+                spawnedChild: Row(
+                  children: [
+                    TextAction(
+                      hasLeftBorder: true,
+                      label: localizations.copy,
+                      onTap: () {
+                        _copyMessage(
+                          encryptedMessage: encryptedMessage,
+                          localizations: localizations,
+                        );
+                      },
+                    ),
+                    TextAction(
+                      hasRightBorder: true,
+                      label: localizations.share,
+                      onTap: () {
+                        final preparedEncryptedMessage = _prepareEncrypredMessage(encryptedMessage);
+
+                        Share.share(preparedEncryptedMessage);
+                      },
+                    ),
+                  ],
                 ),
-                padding: const EdgeInsets.all(12),
-                child: Text(
-                  widget.message.encryptedMessage,
-                  style: uiTextStyles.body16.copyWith(
-                    color: uiColors.backgroundPrimaryColor,
+                child: Container(
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width * 0.75,
+                  ),
+                  padding: const EdgeInsets.all(12),
+                  child: Text(
+                    encryptedMessage,
+                    style: uiTextStyles.body16.copyWith(
+                      color: uiColors.backgroundPrimaryColor,
+                    ),
                   ),
                 ),
               ),

@@ -370,6 +370,18 @@ abstract class FuzzyChatLocalizations {
   /// In en, this message translates to:
   /// **'Copied to the clipboard.'**
   String get copiedToTheClipboard;
+
+  /// No description provided for @copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get copy;
+
+  /// No description provided for @share.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get share;
 }
 
 class _FuzzyChatLocalizationsDelegate extends LocalizationsDelegate<FuzzyChatLocalizations> {
