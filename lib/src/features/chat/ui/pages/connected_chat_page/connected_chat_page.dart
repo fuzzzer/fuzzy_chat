@@ -43,6 +43,20 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
   final FocusNode _messageFocusNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
 
+  bool isEncrypting = true;
+
+  @override
+  void initState() {
+    _messageController.addListener(_onMessageUpdated);
+    super.initState();
+  }
+
+  void _onMessageUpdated() {
+    setState(() {
+      isEncrypting = !_messageController.text.startsWith(fuzzIdentificator);
+    });
+  }
+
   @override
   void dispose() {
     _messageController.dispose();
@@ -51,22 +65,29 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
     super.dispose();
   }
 
-  void _sendMessage() {
+  void _onSend() {
     final text = _messageController.text.trim();
-    if (text.isNotEmpty) {
-      context.read<ConnectedChatCubit>().sendMessage(text: text);
-      _messageController.clear();
-      _scrollToBottom();
+    if (text.isEmpty) return;
+
+    final isFuzzed = text.startsWith(fuzzIdentificator);
+
+    if (isFuzzed) {
+      _receiveMessage(text.substring(5));
+    } else {
+      _sendMessage(text);
     }
   }
 
-  void _receiveMessage() {
-    final text = _messageController.text.trim();
-    if (text.isNotEmpty) {
-      context.read<ConnectedChatCubit>().receiveMessage(encryptedText: text);
-      _messageController.clear();
-      _scrollToBottom();
-    }
+  void _sendMessage(String text) {
+    context.read<ConnectedChatCubit>().sendMessage(text: text);
+    _messageController.clear();
+    _scrollToBottom();
+  }
+
+  void _receiveMessage(String text) {
+    context.read<ConnectedChatCubit>().receiveMessage(encryptedText: text);
+    _messageController.clear();
+    _scrollToBottom();
   }
 
   void _scrollToBottom() {
@@ -114,8 +135,8 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
                 child: MessageInputField(
                   controller: _messageController,
                   focusNode: _messageFocusNode,
-                  onEncryptTap: _sendMessage,
-                  onDecryptTap: _receiveMessage,
+                  onSend: _onSend,
+                  isEncrypting: isEncrypting,
                 ),
               ),
             ],

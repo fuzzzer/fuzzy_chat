@@ -352,6 +352,24 @@ abstract class FuzzyChatLocalizations {
   /// In en, this message translates to:
   /// **'Text Goes here'**
   String get textGoesHere;
+
+  /// No description provided for @enrypting.
+  ///
+  /// In en, this message translates to:
+  /// **'enrypting'**
+  String get enrypting;
+
+  /// No description provided for @decrypting.
+  ///
+  /// In en, this message translates to:
+  /// **'decrypting'**
+  String get decrypting;
+
+  /// No description provided for @copiedToTheClipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied to the clipboard'**
+  String get copiedToTheClipboard;
 }
 
 class _FuzzyChatLocalizationsDelegate extends LocalizationsDelegate<FuzzyChatLocalizations> {

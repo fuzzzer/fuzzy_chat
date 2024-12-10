@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fuzzy_chat/src/ui_kit/ui_kit.dart';
+import 'package:flutter/services.dart';
+import 'package:fuzzy_chat/lib.dart';
 
-import '../../../../data/data.dart';
+final _copyDebouncer = Debouncer(milliseconds: 500);
 
 class SentMessageArea extends StatelessWidget {
   final MessageData message;
@@ -11,34 +12,68 @@ class SentMessageArea extends StatelessWidget {
     super.key,
   });
 
+  static void _copyMessage({
+    required String encryptedMessage,
+    required FuzzyChatLocalizations localizations,
+  }) {
+    _copyDebouncer.run(() {
+      Clipboard.setData(
+        ClipboardData(
+          text: encryptedMessage,
+        ),
+      ).then((value) {
+        scaffoldMessengerKey.currentState?.showSnackBar(
+          SnackBar(
+            content: Text(
+              localizations.copiedToTheClipboard,
+            ),
+          ),
+        );
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final uiColors = theme.extension<UiColors>()!;
     final uiTextStyles = theme.extension<UiTextStyles>()!;
 
-    return Container(
-      width: double.maxFinite,
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      child: Align(
-        alignment: Alignment.centerRight,
-        child: Container(
-          constraints: BoxConstraints(
-            maxWidth: MediaQuery.of(context).size.width * 0.75,
-          ),
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: uiColors.focusColor,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(12),
-              topRight: Radius.circular(12),
-              bottomLeft: Radius.circular(12),
+    final localizations = FuzzyChatLocalizations.of(context)!;
+
+    const borderRadius = BorderRadius.only(
+      topLeft: Radius.circular(12),
+      topRight: Radius.circular(12),
+      bottomLeft: Radius.circular(12),
+    );
+
+    return InkWell(
+      borderRadius: borderRadius,
+      onTap: () {
+        _copyMessage(
+          encryptedMessage: message.encryptedMessage,
+          localizations: localizations,
+        );
+      },
+      child: Container(
+        width: double.maxFinite,
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: Container(
+            constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width * 0.75,
             ),
-          ),
-          child: SelectableText(
-            message.encryptedMessage,
-            style: uiTextStyles.body16.copyWith(
-              color: Colors.white,
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: uiColors.secondaryColor,
+              borderRadius: borderRadius,
+            ),
+            child: Text(
+              message.encryptedMessage,
+              style: uiTextStyles.body16.copyWith(
+                color: Colors.white,
+              ),
             ),
           ),
         ),
