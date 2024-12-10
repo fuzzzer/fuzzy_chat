@@ -4,10 +4,12 @@ import 'package:fuzzy_chat/lib.dart';
 class InvitedChatTile extends StatelessWidget {
   final String name;
   final void Function() onTap;
+  final void Function() onLongPress;
 
   const InvitedChatTile({
     required this.name,
     required this.onTap,
+    required this.onLongPress,
     super.key,
   });
 
@@ -30,6 +32,8 @@ class InvitedChatTile extends StatelessWidget {
         vertical: 8,
       ),
       child: ListTile(
+        onTap: onTap,
+        onLongPress: onLongPress,
         leading: const Icon(
           Icons.hourglass_empty,
           size: 32,
@@ -48,7 +52,6 @@ class InvitedChatTile extends StatelessWidget {
           size: 32,
           color: uiColors.secondaryColor,
         ),
-        onTap: onTap,
       ),
     );
   }

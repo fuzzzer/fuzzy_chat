@@ -9,12 +9,7 @@ class ChatListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ChatGeneralDataListCubit>(
-      create: (context) => ChatGeneralDataListCubit(
-        chatRepository: sl.get<ChatGeneralDataListRepository>(),
-      )..fetchChats(),
-      child: const ProvidedChatListPage(),
-    );
+    return const ProvidedChatListPage();
   }
 }
 
@@ -34,6 +29,7 @@ class _ProvidedChatListPageState extends State<ProvidedChatListPage> {
       hasAutomaticBackButton: false,
       body: BlocBuilder<ChatGeneralDataListCubit, ChatGeneralDataListState>(
         builder: (context, state) {
+          print('print $state');
           return StatusBuilder.buildByStatus(
             status: state.status,
             onInitial: () => const FuzzyLoadingPagebuilder(),

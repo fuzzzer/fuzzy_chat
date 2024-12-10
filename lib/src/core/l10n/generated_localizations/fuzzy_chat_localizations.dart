@@ -382,6 +382,12 @@ abstract class FuzzyChatLocalizations {
   /// In en, this message translates to:
   /// **'Share'**
   String get share;
+
+  /// No description provided for @areYouSureYouWantToDeleteChatWith.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete chat with {personName}'**
+  String areYouSureYouWantToDeleteChatWith(Object personName);
 }
 
 class _FuzzyChatLocalizationsDelegate extends LocalizationsDelegate<FuzzyChatLocalizations> {
