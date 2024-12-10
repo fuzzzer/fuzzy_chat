@@ -19,7 +19,7 @@ class AcceptanceContent extends StatelessWidget {
 
     Clipboard.setData(ClipboardData(text: acceptanceContent));
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      FuzzySnackBar(
         content: Text(
           localizations.acceptanceCopiedToClipboard,
         ),

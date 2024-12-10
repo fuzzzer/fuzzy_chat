@@ -7,4 +7,5 @@ export 'fuzzy_textfield.dart';
 export 'fuzzy_toolbox.dart';
 export 'overlays/overlays.dart';
 export 'overlays/popups.dart';
+export 'snackbar/snackbar.dart';
 export 'status_widgets/status_widgets.dart';

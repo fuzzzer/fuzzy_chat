@@ -84,7 +84,7 @@ class _ProvidedChatInvitationPageState extends State<ProvidedChatInvitationPage>
           );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        FuzzySnackBar(
           content: Text(
             FuzzyChatLocalizations.of(context)?.pleasePasteTheAcceptanceContent ?? '',
           ),
@@ -113,7 +113,7 @@ class _ProvidedChatInvitationPageState extends State<ProvidedChatInvitationPage>
               );
             } else if (state.status.isFailed) {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
+                FuzzySnackBar(
                   content: Text(
                     state.failure?.message ?? localizations.failedToCompleteHandshake,
                   ),

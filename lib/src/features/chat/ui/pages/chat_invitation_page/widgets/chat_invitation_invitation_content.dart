@@ -64,7 +64,7 @@ class _ChatInvitationInvitationContentState extends State<ChatInvitationInvitati
                       ClipboardData(text: widget.invitationContent),
                     ).then((_) {
                       scaffoldMessengerKey.currentState?.showSnackBar(
-                        SnackBar(
+                        FuzzySnackBar(
                           content: Text(
                             localizations.invitationCopiedToClipboard,
                           ),

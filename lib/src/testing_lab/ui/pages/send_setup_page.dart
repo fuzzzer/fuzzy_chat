@@ -35,12 +35,12 @@ class _SendSetupPageState extends State<SendSetupPage> {
       });
       await KeysRepository.savePublicKeyToFile(importedPublicKey, 'public_key.json');
       messenger?.showSnackBar(
-        const SnackBar(content: Text('Public key imported successfully')),
+        const FuzzySnackBar(content: Text('Public key imported successfully')),
       );
       _showPublicKeyDialog(importedPublicKey);
     } catch (e) {
       messenger?.showSnackBar(
-        const SnackBar(content: Text('Failed to import public key')),
+        const FuzzySnackBar(content: Text('Failed to import public key')),
       );
     }
   }
@@ -62,12 +62,12 @@ class _SendSetupPageState extends State<SendSetupPage> {
         });
         await KeysRepository.savePublicKeyToFile(importedPublicKey, 'public_key.json');
         messenger?.showSnackBar(
-          const SnackBar(content: Text('Public key imported successfully')),
+          const FuzzySnackBar(content: Text('Public key imported successfully')),
         );
       }
     } catch (e) {
       messenger?.showSnackBar(
-        SnackBar(content: Text('Failed to import public key: $e')),
+        FuzzySnackBar(content: Text('Failed to import public key: $e')),
       );
     }
   }
@@ -86,12 +86,12 @@ class _SendSetupPageState extends State<SendSetupPage> {
       });
       await KeysRepository.savePublicKeyToFile(importedPublicKey, 'public_key.json');
       messenger?.showSnackBar(
-        const SnackBar(content: Text('Public key imported successfully')),
+        const FuzzySnackBar(content: Text('Public key imported successfully')),
       );
       _showPublicKeyDialog(importedPublicKey);
     } catch (e) {
       messenger?.showSnackBar(
-        const SnackBar(content: Text('Invalid public key string')),
+        const FuzzySnackBar(content: Text('Invalid public key string')),
       );
     }
   }
@@ -203,7 +203,7 @@ class _SendSetupPageState extends State<SendSetupPage> {
                         );
                       } else {
                         scaffoldMessengerKey.currentState?.showSnackBar(
-                          const SnackBar(content: Text('No public key loaded')),
+                          const FuzzySnackBar(content: Text('No public key loaded')),
                         );
                       }
                     },
