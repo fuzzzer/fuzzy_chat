@@ -441,26 +441,26 @@ packages:
     dependency: "direct main"
     description:
       name: isar
-      sha256: e17a9555bc7f22ff26568b8c64d019b4ffa2dc6bd4cb1c8d9b269aefd32e53ad
-      url: "https://pub.isar-community.dev"
+      sha256: "99165dadb2cf2329d3140198363a7e7bff9bbd441871898a87e26914d25cf1ea"
+      url: "https://pub.dev"
     source: hosted
-    version: "3.1.8"
+    version: "3.1.0+1"
   isar_flutter_libs:
     dependency: "direct main"
     description:
       name: isar_flutter_libs
-      sha256: "78710781e658ce4bff59b3f38c5b2735e899e627f4e926e1221934e77b95231a"
-      url: "https://pub.isar-community.dev"
+      sha256: bc6768cc4b9c61aabff77152e7f33b4b17d2fc93134f7af1c3dd51500fe8d5e8
+      url: "https://pub.dev"
     source: hosted
-    version: "3.1.8"
+    version: "3.1.0+1"
   isar_generator:
     dependency: "direct dev"
     description:
       name: isar_generator
-      sha256: "484e73d3b7e81dbd816852fe0b9497333118a9aeb646fd2d349a62cc8980ffe1"
-      url: "https://pub.isar-community.dev"
+      sha256: "76c121e1295a30423604f2f819bc255bc79f852f3bc8743a24017df6068ad133"
+      url: "https://pub.dev"
     source: hosted
-    version: "3.1.8"
+    version: "3.1.0+1"
   js:
     dependency: transitive
     description:
@@ -733,6 +733,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.0"
+  share_plus:
+    dependency: "direct main"
+    description:
+      name: share_plus
+      sha256: "9c9bafd4060728d7cdb2464c341743adbd79d327cb067ec7afb64583540b47c8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "10.1.2"
+  share_plus_platform_interface:
+    dependency: transitive
+    description:
+      name: share_plus_platform_interface
+      sha256: c57c0bbfec7142e3a0f55633be504b796af72e60e3c791b44d5a017b985f7a48
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.1"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -954,6 +970,38 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.0"
+  url_launcher_linux:
+    dependency: transitive
+    description:
+      name: url_launcher_linux
+      sha256: "4e9ba368772369e3e08f231d2301b4ef72b9ff87c31192ef471b380ef29a4935"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.1"
+  url_launcher_platform_interface:
+    dependency: transitive
+    description:
+      name: url_launcher_platform_interface
+      sha256: "552f8a1e663569be95a8190206a38187b531910283c3e982193e4f2733f01029"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.2"
+  url_launcher_web:
+    dependency: transitive
+    description:
+      name: url_launcher_web
+      sha256: "772638d3b34c779ede05ba3d38af34657a05ac55b06279ea6edd409e323dca8e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.3"
+  url_launcher_windows:
+    dependency: transitive
+    description:
+      name: url_launcher_windows
+      sha256: "44cf3aabcedde30f2dba119a9dea3b0f2672fbe6fa96e85536251d678216b3c4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.3"
   uuid:
     dependency: "direct main"
     description:
