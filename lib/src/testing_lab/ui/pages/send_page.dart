@@ -37,7 +37,7 @@ class _SendPageState extends State<SendPage> {
   Future<void> _encrypt() async {
     if (publicKey == null) {
       scaffoldMessengerKey.currentState?.showSnackBar(
-        const FuzzySnackBar(content: Text('Public key not loaded')),
+        const FuzzySnackBar(label: 'Public key not loaded'),
       );
       return;
     }
@@ -60,11 +60,11 @@ class _SendPageState extends State<SendPage> {
         publicKey = importedPublicKey;
       });
       messenger?.showSnackBar(
-        const FuzzySnackBar(content: Text('Public key imported successfully')),
+        const FuzzySnackBar(label: 'Public key imported successfully'),
       );
     } catch (e) {
       messenger?.showSnackBar(
-        const FuzzySnackBar(content: Text('Failed to import public key')),
+        const FuzzySnackBar(label: 'Failed to import public key'),
       );
     }
   }
@@ -101,7 +101,7 @@ class _SendPageState extends State<SendPage> {
                     onPressed: () {
                       Clipboard.setData(ClipboardData(text: _encryptedText));
                       scaffoldMessengerKey.currentState?.showSnackBar(
-                        const FuzzySnackBar(content: Text('Decoded Text Copied')),
+                        const FuzzySnackBar(label: 'Decoded Text Copied'),
                       );
                     },
                     child: const Text('Copy Encrypted Text'),

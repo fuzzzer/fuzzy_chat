@@ -32,9 +32,7 @@ class _SettingsToolboxState extends State<SettingsToolbox> {
       if (acceptanceReaderCubit.state.status.isSuccess) {
         scaffoldMessengerKey.currentState?.showSnackBar(
           FuzzySnackBar(
-            content: Text(
-              localizations.acceptanceCopiedToClipboard,
-            ),
+            label: localizations.acceptanceCopiedToClipboard,
           ),
         );
       } else {
@@ -53,9 +51,7 @@ class _SettingsToolboxState extends State<SettingsToolbox> {
     Clipboard.setData(ClipboardData(text: acceptanceContent));
     scaffoldMessengerKey.currentState?.showSnackBar(
       FuzzySnackBar(
-        content: Text(
-          FuzzyChatLocalizations.of(context)?.acceptanceCopiedToClipboard ?? '',
-        ),
+        label: FuzzyChatLocalizations.of(context)?.acceptanceCopiedToClipboard ?? '',
       ),
     );
   }
