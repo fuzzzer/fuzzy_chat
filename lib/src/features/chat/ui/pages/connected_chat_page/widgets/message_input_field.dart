@@ -39,7 +39,7 @@ class MessageInputField extends StatelessWidget {
           ),
           Center(
             child: Text(
-              isEncrypting ? localizations.enrypting : localizations.decrypting,
+              isEncrypting ? localizations.encrypting : localizations.decrypting,
             ),
           ),
           Container(

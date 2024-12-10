@@ -46,7 +46,6 @@ class AcceptanceContent extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           child: Column(
             children: [
-              const SizedBox(height: 16),
               FuzzyHeader(
                 title: localizations.exportAcceptance,
               ),

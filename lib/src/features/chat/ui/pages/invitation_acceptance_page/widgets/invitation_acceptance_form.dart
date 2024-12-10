@@ -22,7 +22,6 @@ class InvitationAcceptanceForm extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [
-            const SizedBox(height: 10),
             FuzzyHeader(
               title: localizations.acceptChatInvitation,
             ),
