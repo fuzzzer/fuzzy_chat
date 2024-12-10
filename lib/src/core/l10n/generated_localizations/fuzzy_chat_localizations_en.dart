@@ -134,4 +134,13 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
 
   @override
   String get textGoesHere => 'Text Goes here';
+
+  @override
+  String get enrypting => 'enrypting';
+
+  @override
+  String get decrypting => 'decrypting';
+
+  @override
+  String get copiedToTheClipboard => 'Copied to the clipboard';
 }

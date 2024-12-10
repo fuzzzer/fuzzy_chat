@@ -84,5 +84,11 @@
   "delete": "Delete",
   "@delete": {},
   "textGoesHere": "Text Goes here",
-  "@textGoesHere": {}
+  "@textGoesHere": {},
+  "enrypting": "enrypting",
+  "@enrypting": {},
+  "decrypting": "decrypting",
+  "@decrypting": {},
+  "copiedToTheClipboard": "Copied to the clipboard",
+  "@copiedToTheClipboard": {}
 }
