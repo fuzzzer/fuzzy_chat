@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:fuzzy_chat/lib.dart';
 import 'package:pointycastle/pointycastle.dart' as pointy;
 
-
 class ReceivePage extends StatefulWidget {
   const ReceivePage({
     required this.privateKey,
@@ -60,7 +59,7 @@ class _ReceivePageState extends State<ReceivePage> {
                 onPressed: () {
                   Clipboard.setData(ClipboardData(text: _decryptedText));
                   scaffoldMessengerKey.currentState?.showSnackBar(
-                    const SnackBar(content: Text('Decoded Text Copied')),
+                    const FuzzySnackBar(content: Text('Decoded Text Copied')),
                   );
                 },
                 child: const Text('Copy Decrypted Text'),

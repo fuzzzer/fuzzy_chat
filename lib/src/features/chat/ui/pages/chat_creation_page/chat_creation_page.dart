@@ -58,7 +58,7 @@ class _ProvidedChatCreationPageState extends State<ProvidedChatCreationPage> {
       context.read<ChatCreationCubit>().createChat(chatName: chatName);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        FuzzySnackBar(
           content: Text(
             FuzzyChatLocalizations.of(context)?.pleaseEnterAChatName ?? '',
           ),
@@ -86,7 +86,7 @@ class _ProvidedChatCreationPageState extends State<ProvidedChatCreationPage> {
           );
         } else if (state.status.isFailed) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            FuzzySnackBar(
               content: Text(
                 state.failure?.message ?? localizations.failedToCreateChat,
               ),

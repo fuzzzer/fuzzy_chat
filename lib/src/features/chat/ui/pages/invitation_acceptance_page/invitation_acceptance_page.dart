@@ -63,7 +63,7 @@ class _ProvidedInvitationAcceptancePageState extends State<ProvidedInvitationAcc
           );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        FuzzySnackBar(
           content: Text(
             FuzzyChatLocalizations.of(context)?.pleaseProvideInvitationTextAndChatName ?? '',
           ),
@@ -90,7 +90,7 @@ class _ProvidedInvitationAcceptancePageState extends State<ProvidedInvitationAcc
           );
         } else if (state.status.isFailed) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            FuzzySnackBar(
               content: Text(
                 state.failure?.message ?? FuzzyChatLocalizations.of(context)?.failedToAcceptInvitation ?? '',
               ),

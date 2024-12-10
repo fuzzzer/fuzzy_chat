@@ -29,7 +29,6 @@ class _ProvidedChatListPageState extends State<ProvidedChatListPage> {
       hasAutomaticBackButton: false,
       body: BlocBuilder<ChatGeneralDataListCubit, ChatGeneralDataListState>(
         builder: (context, state) {
-          print('print $state');
           return StatusBuilder.buildByStatus(
             status: state.status,
             onInitial: () => const FuzzyLoadingPagebuilder(),
@@ -44,21 +43,24 @@ class _ProvidedChatListPageState extends State<ProvidedChatListPage> {
           );
         },
       ),
-      floatingActionButton: FloatingToolbox(
-        onNewChatPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) => const ChatCreationPage(),
-            ),
-          );
-        },
-        onAcceptInvitationPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) => const InvitationAcceptancePage(),
-            ),
-          );
-        },
+      actionsRow: Align(
+        alignment: Alignment.bottomRight,
+        child: FloatingToolbox(
+          onNewChatPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => const ChatCreationPage(),
+              ),
+            );
+          },
+          onAcceptInvitationPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => const InvitationAcceptancePage(),
+              ),
+            );
+          },
+        ),
       ),
     );
   }

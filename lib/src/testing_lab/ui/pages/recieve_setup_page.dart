@@ -45,7 +45,7 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
       });
 
       messenger?.showSnackBar(
-        const SnackBar(content: Text('Loaded Existing Keys')),
+        const FuzzySnackBar(content: Text('Loaded Existing Keys')),
       );
     } catch (e) {
       await _generateNewKeys();
@@ -64,7 +64,7 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
     final messenger = scaffoldMessengerKey.currentState;
 
     messenger?.showSnackBar(
-      const SnackBar(content: Text('Generating New Keys')),
+      const FuzzySnackBar(content: Text('Generating New Keys')),
     );
 
     final newKeyPair = await Isolate.run(RSAManager.generateRSAKeyPair);
@@ -76,7 +76,7 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
     });
 
     messenger?.showSnackBar(
-      const SnackBar(content: Text('Generated New Keys')),
+      const FuzzySnackBar(content: Text('Generated New Keys')),
     );
     setState(() {
       isLoadingKeys = false;
@@ -93,7 +93,7 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
       _parseAndImportKeys(keyMap);
     } catch (e) {
       messenger?.showSnackBar(
-        const SnackBar(content: Text('Failed to import keys')),
+        const FuzzySnackBar(content: Text('Failed to import keys')),
       );
     }
   }
@@ -112,7 +112,7 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
       }
     } catch (e) {
       messenger?.showSnackBar(
-        const SnackBar(content: Text('Failed to import keys')),
+        const FuzzySnackBar(content: Text('Failed to import keys')),
       );
     }
   }
@@ -148,13 +148,13 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
       KeysRepository.savePrivateKeyToFile(importedPrivateKey, 'private_key.json');
     } catch (e) {
       scaffoldMessengerKey.currentState?.showSnackBar(
-        const SnackBar(content: Text('Could Not Import Private Key')),
+        const FuzzySnackBar(content: Text('Could Not Import Private Key')),
       );
     }
 
     if (isPrivateKeyLoaded) {
       scaffoldMessengerKey.currentState?.showSnackBar(
-        const SnackBar(content: Text('Keys imported successfully')),
+        const FuzzySnackBar(content: Text('Keys imported successfully')),
       );
     }
   }
@@ -204,7 +204,7 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: base64Public));
                     scaffoldMessengerKey.currentState?.showSnackBar(
-                      const SnackBar(content: Text('Public key copied to clipboard')),
+                      const FuzzySnackBar(content: Text('Public key copied to clipboard')),
                     );
                   },
                   child: const Text('Copy Public Key'),
@@ -216,7 +216,7 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: base64Private));
                     scaffoldMessengerKey.currentState?.showSnackBar(
-                      const SnackBar(content: Text('Private key copied to clipboard')),
+                      const FuzzySnackBar(content: Text('Private key copied to clipboard')),
                     );
                   },
                   child: const Text('Copy Private Key'),
@@ -270,12 +270,12 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
         await privateKeyFile.writeAsString(base64Encode(utf8.encode(json.encode(privateKeyMap))));
 
         messenger?.showSnackBar(
-          const SnackBar(content: Text('Private key exported successfully')),
+          const FuzzySnackBar(content: Text('Private key exported successfully')),
         );
       }
     } catch (e) {
       messenger?.showSnackBar(
-        const SnackBar(content: Text('Failed to export private key')),
+        const FuzzySnackBar(content: Text('Failed to export private key')),
       );
       debugPrint('Failed to export private key: $e');
     }
@@ -296,12 +296,12 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
         await publicKeyFile.writeAsString(base64Encode(utf8.encode(json.encode(publicKeyMap))));
 
         messenger?.showSnackBar(
-          const SnackBar(content: Text('Public key exported successfully')),
+          const FuzzySnackBar(content: Text('Public key exported successfully')),
         );
       }
     } catch (e) {
       messenger?.showSnackBar(
-        const SnackBar(content: Text('Failed to export public key')),
+        const FuzzySnackBar(content: Text('Failed to export public key')),
       );
       debugPrint('Failed to export public key: $e');
     }
