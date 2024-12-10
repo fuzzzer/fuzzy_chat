@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:fuzzy_chat/lib.dart';
 
@@ -19,14 +20,41 @@ class SettingsToolbox extends StatefulWidget {
 }
 
 class _SettingsToolboxState extends State<SettingsToolbox> {
-  void _exportAcceptance() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => AcceptanceExportPage(
-          payload: AcceptanceExportPagePayload(
-            chatGeneralData: widget.chatGeneralData,
-            hasBackButton: true,
+  void _exportAcceptance({
+    required FuzzyChatLocalizations localizations,
+  }) {
+    final acceptanceReaderCubit = AcceptanceReaderCubit(
+      handshakeManager: sl.get<HandshakeManager>(),
+      keyStorageRepository: sl.get<KeyStorageRepository>(),
+    );
+
+    acceptanceReaderCubit.generateAcceptance(chatId: widget.chatGeneralData.chatId).then((_) {
+      if (acceptanceReaderCubit.state.status.isSuccess) {
+        scaffoldMessengerKey.currentState?.showSnackBar(
+          FuzzySnackBar(
+            content: Text(
+              localizations.acceptanceCopiedToClipboard,
+            ),
           ),
+        );
+      } else {
+        _copyAcceptance(
+          acceptanceContent: acceptanceReaderCubit.state.acceptance?.acceptanceContent ?? '',
+          localizations: localizations,
+        );
+      }
+    });
+  }
+
+  void _copyAcceptance({
+    required String acceptanceContent,
+    required FuzzyChatLocalizations localizations,
+  }) {
+    Clipboard.setData(ClipboardData(text: acceptanceContent));
+    scaffoldMessengerKey.currentState?.showSnackBar(
+      FuzzySnackBar(
+        content: Text(
+          FuzzyChatLocalizations.of(context)?.acceptanceCopiedToClipboard ?? '',
         ),
       ),
     );
@@ -65,7 +93,7 @@ class _SettingsToolboxState extends State<SettingsToolbox> {
               onTap: () {
                 widget.onActionPressed();
 
-                _exportAcceptance();
+                _exportAcceptance(localizations: localizations);
               },
             ),
         ],
