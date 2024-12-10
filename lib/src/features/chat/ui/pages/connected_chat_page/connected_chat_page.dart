@@ -135,7 +135,10 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
                 child: MessageInputField(
                   controller: _messageController,
                   focusNode: _messageFocusNode,
-                  onSend: _onSend,
+                  onSend: () {
+                    _messageFocusNode.unfocus();
+                    _onSend();
+                  },
                   isEncrypting: isEncrypting,
                 ),
               ),
