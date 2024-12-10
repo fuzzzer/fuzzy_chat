@@ -3,68 +3,100 @@ import 'package:flutter/material.dart';
 class FuzzyOverlaySpawner<T> extends StatefulWidget {
   const FuzzyOverlaySpawner({
     super.key,
-    required this.spawnedChild,
+    required this.spawnedChildBuilder,
     required this.child,
     this.splashRadius,
+    this.offset,
   });
 
-  final Widget spawnedChild;
+  final Widget Function(BuildContext context, VoidCallback closeOverlay) spawnedChildBuilder;
   final Widget child;
   final BorderRadius? splashRadius;
+  final Offset? offset;
 
   @override
   State<FuzzyOverlaySpawner<T>> createState() => _FuzzyOverlaySpawnerState<T>();
 }
 
 class _FuzzyOverlaySpawnerState<T> extends State<FuzzyOverlaySpawner<T>> {
-  final FocusNode focusNode = FocusNode();
+  OverlayEntry? _overlayEntry;
+  final LayerLink _layerLink = LayerLink();
+  bool _isOverlayVisible = false;
 
   @override
   void dispose() {
-    focusNode.dispose();
+    _hideOverlay();
     super.dispose();
   }
 
-  Future<void> _showMenu() async {
-    focusNode.requestFocus();
+  void _toggleOverlay() {
+    if (_isOverlayVisible) {
+      _hideOverlay();
+    } else {
+      _showOverlay();
+    }
+  }
 
-    final button = context.findRenderObject()! as RenderBox;
-    final overlay = Overlay.of(context).context.findRenderObject()! as RenderBox;
+  void _showOverlay() {
+    _overlayEntry = _createOverlayEntry();
+    Overlay.of(context).insert(_overlayEntry!);
+    setState(() {
+      _isOverlayVisible = true;
+    });
+  }
 
-    final position = RelativeRect.fromRect(
-      Rect.fromPoints(
-        button.localToGlobal(Offset.zero),
-        button.localToGlobal(Offset.zero),
-      ),
-      Offset.zero & overlay.size,
+  void _hideOverlay() {
+    if (_overlayEntry != null) {
+      _overlayEntry!.remove();
+      _overlayEntry = null;
+      setState(() {
+        _isOverlayVisible = false;
+      });
+    }
+  }
+
+  OverlayEntry _createOverlayEntry() {
+    final renderBox = context.findRenderObject()! as RenderBox;
+    final size = renderBox.size;
+    final offset = renderBox.localToGlobal(Offset.zero);
+
+    return OverlayEntry(
+      builder: (context) {
+        return Stack(
+          children: [
+            GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: _hideOverlay,
+              onPanStart: (_) => _hideOverlay(),
+              child: Container(
+                color: Colors.transparent,
+              ),
+            ),
+            Positioned(
+              left: offset.dx,
+              top: offset.dy + size.height,
+              child: CompositedTransformFollower(
+                link: _layerLink,
+                showWhenUnlinked: false,
+                offset: widget.offset ?? const Offset(0, 8),
+                child: Material(
+                  color: Colors.transparent,
+                  child: widget.spawnedChildBuilder(context, _hideOverlay),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
-
-    final singlePopupItem = PopupMenuItem<T>(
-      enabled: false,
-      padding: EdgeInsets.zero,
-      child: widget.spawnedChild,
-    );
-
-    await showMenu<T>(
-      context: context,
-      position: position,
-      items: [singlePopupItem],
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(24),
-      ),
-      color: Colors.transparent,
-      shadowColor: Colors.transparent,
-    );
-
-    focusNode.requestFocus();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Focus(
-      focusNode: focusNode,
+    return CompositedTransformTarget(
+      link: _layerLink,
       child: InkWell(
-        onTap: _showMenu,
+        onTap: _toggleOverlay,
         borderRadius: widget.splashRadius ?? BorderRadius.circular(100),
         child: widget.child,
       ),

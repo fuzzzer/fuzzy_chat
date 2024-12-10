@@ -70,6 +70,12 @@ class _SentMessageAreaState extends State<SentMessageArea> {
 
     return InkWell(
       splashColor: uiColors.backgroundPrimaryColor,
+      onLongPress: () {
+        _copyMessage(
+          encryptedMessage: encryptedMessage,
+          localizations: localizations,
+        );
+      },
       child: Container(
         width: double.maxFinite,
         margin: const EdgeInsets.symmetric(vertical: 4),
@@ -84,29 +90,42 @@ class _SentMessageAreaState extends State<SentMessageArea> {
               ),
               child: FuzzyOverlaySpawner(
                 splashRadius: borderRadius,
-                spawnedChild: Row(
-                  children: [
-                    TextAction(
-                      hasLeftBorder: true,
-                      label: localizations.copy,
-                      onTap: () {
-                        _copyMessage(
-                          encryptedMessage: encryptedMessage,
-                          localizations: localizations,
-                        );
-                      },
+                spawnedChildBuilder: (context, closeOverlay) {
+                  return DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: uiColors.focusColor,
+                      borderRadius: BorderRadius.circular(100),
                     ),
-                    TextAction(
-                      hasRightBorder: true,
-                      label: localizations.share,
-                      onTap: () {
-                        final preparedEncryptedMessage = _prepareEncrypredMessage(encryptedMessage);
+                    child: Row(
+                      children: [
+                        TextAction(
+                          hasLeftBorder: true,
+                          label: localizations.copy,
+                          onTap: () {
+                            _copyMessage(
+                              encryptedMessage: encryptedMessage,
+                              localizations: localizations,
+                            );
 
-                        Share.share(preparedEncryptedMessage);
-                      },
+                            closeOverlay();
+                          },
+                        ),
+                        const SizedBox(width: 1),
+                        TextAction(
+                          hasRightBorder: true,
+                          label: localizations.share,
+                          onTap: () {
+                            final preparedEncryptedMessage = _prepareEncrypredMessage(encryptedMessage);
+
+                            Share.share(preparedEncryptedMessage);
+
+                            closeOverlay();
+                          },
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  );
+                },
                 child: Container(
                   constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width * 0.75,
