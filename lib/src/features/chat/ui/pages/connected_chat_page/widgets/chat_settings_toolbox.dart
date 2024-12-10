@@ -67,26 +67,28 @@ class _SettingsToolboxState extends State<SettingsToolbox> {
   Widget build(BuildContext context) {
     final localizations = FuzzyChatLocalizations.of(context)!;
 
-    return FuzzyToolbox(
-      children: [
-        ListTile(
-          leading: const Icon(Icons.delete),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-          title: Text(
-            localizations.deleteChat,
-          ),
-          onTap: _deleteChat,
-        ),
-        if (widget.chatGeneralData.didAcceptInvitation)
+    return IntrinsicWidth(
+      child: FuzzyToolbox(
+        children: [
           ListTile(
-            leading: const Icon(Icons.file_upload),
+            leading: const Icon(Icons.delete),
             contentPadding: const EdgeInsets.symmetric(horizontal: 8),
             title: Text(
-              localizations.exportAcceptance,
+              localizations.deleteChat,
             ),
-            onTap: _exportAcceptance,
+            onTap: _deleteChat,
           ),
-      ],
+          if (widget.chatGeneralData.didAcceptInvitation)
+            ListTile(
+              leading: const Icon(Icons.file_upload),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+              title: Text(
+                localizations.exportAcceptance,
+              ),
+              onTap: _exportAcceptance,
+            ),
+        ],
+      ),
     );
   }
 }

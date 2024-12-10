@@ -119,7 +119,7 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
                     messages: state.messages,
                   ),
                   const SliverToBoxAdapter(
-                    child: SizedBox(height: 120),
+                    child: SizedBox(height: 80),
                   ),
                 ],
               ),
