@@ -1,12 +1,12 @@
 buildscript {
-    ext.kotlin_version = '2.1.0'
+    ext.kotlin_version = '1.9.0'
     repositories {
         google()
         mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.1.1'
+        classpath 'com.android.tools.build:gradle:7.3.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -24,16 +24,6 @@ subprojects {
 }
 subprojects {
     project.evaluationDependsOn(':app')
-}
-
-subprojects { subproject ->
-    if (subproject.plugins.hasPlugin('com.android.library')) {
-        subproject.extensions.configure(com.android.build.gradle.LibraryExtension) { libraryExtension ->
-            if (libraryExtension.namespace == null) {
-                libraryExtension.namespace = "${subproject.group}.${subproject.name}".replace("-", "_")
-            }
-        }
-    }
 }
 
 tasks.register("clean", Delete) {
