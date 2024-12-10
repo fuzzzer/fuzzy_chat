@@ -98,7 +98,7 @@ abstract class FuzzyChatLocalizations {
   /// No description provided for @chat.
   ///
   /// In en, this message translates to:
-  /// **'chat'**
+  /// **'Chat'**
   String get chat;
 
   /// No description provided for @fuzzyChat.
@@ -164,7 +164,7 @@ abstract class FuzzyChatLocalizations {
   /// No description provided for @failedToCreateChat.
   ///
   /// In en, this message translates to:
-  /// **'Failed to create chat'**
+  /// **'Failed to create chat.'**
   String get failedToCreateChat;
 
   /// No description provided for @pleaseEnterAChatName.
@@ -182,7 +182,7 @@ abstract class FuzzyChatLocalizations {
   /// No description provided for @failedToCompleteHandshake.
   ///
   /// In en, this message translates to:
-  /// **'Failed to complete handshake'**
+  /// **'Failed to complete handshake.'**
   String get failedToCompleteHandshake;
 
   /// No description provided for @sendInvitation.
@@ -200,7 +200,7 @@ abstract class FuzzyChatLocalizations {
   /// No description provided for @invitationCopiedToClipboard.
   ///
   /// In en, this message translates to:
-  /// **'Invitation copied to clipboard'**
+  /// **'Invitation copied to clipboard.'**
   String get invitationCopiedToClipboard;
 
   /// No description provided for @provideAcceptance.
@@ -224,31 +224,31 @@ abstract class FuzzyChatLocalizations {
   /// No description provided for @unexpectedFailureOccuredPleaseContactUs.
   ///
   /// In en, this message translates to:
-  /// **'Unexpected failure occured, please contact us'**
+  /// **'Unexpected failure occurred, please contact us.'**
   String get unexpectedFailureOccuredPleaseContactUs;
 
   /// No description provided for @failedToGenerateInvitation.
   ///
   /// In en, this message translates to:
-  /// **'\'Failed to generate invitation.\''**
+  /// **'Failed to generate invitation.'**
   String get failedToGenerateInvitation;
 
   /// No description provided for @inOrderToStartFuzzyChatWithSomeoneFirstTheyNeedToImportTheInvitationAndProvideAcceptanceFileOrTextGeneratedOnTheirChatSoTheyCanAlsoSendAndUnlockMessages.
   ///
   /// In en, this message translates to:
-  /// **'In order to start fuzzy chat with someone, first they need to import the invitation and provide acceptance file or text generated on their chat, so they can also send and unlock messages'**
+  /// **'To start a Fuzzy Chat with someone, they must first import the invitation and provide the acceptance text generated in their chat. This will allow them to send and unlock messages.'**
   String get inOrderToStartFuzzyChatWithSomeoneFirstTheyNeedToImportTheInvitationAndProvideAcceptanceFileOrTextGeneratedOnTheirChatSoTheyCanAlsoSendAndUnlockMessages;
 
   /// No description provided for @theAcceptanceThatYouGetFromInvitedPersonShouldBePastedHere.
   ///
   /// In en, this message translates to:
-  /// **'The acceptance that you get from invited person should be pasted here:'**
+  /// **'The acceptance that you get from the invited person should be pasted here:'**
   String get theAcceptanceThatYouGetFromInvitedPersonShouldBePastedHere;
 
   /// No description provided for @failedToAcceptInvitation.
   ///
   /// In en, this message translates to:
-  /// **'Failed to accept invitation'**
+  /// **'Failed to accept invitation.'**
   String get failedToAcceptInvitation;
 
   /// No description provided for @pleaseProvideInvitationTextAndChatName.
@@ -260,7 +260,7 @@ abstract class FuzzyChatLocalizations {
   /// No description provided for @acceptChatInvitation.
   ///
   /// In en, this message translates to:
-  /// **'Accept Chat invitation'**
+  /// **'Accept Chat Invitation'**
   String get acceptChatInvitation;
 
   /// No description provided for @pasteInvitationText.
@@ -278,13 +278,13 @@ abstract class FuzzyChatLocalizations {
   /// No description provided for @failedToReadAcceptance.
   ///
   /// In en, this message translates to:
-  /// **'Failed to read acceptance'**
+  /// **'Failed to read acceptance.'**
   String get failedToReadAcceptance;
 
   /// No description provided for @goToChat.
   ///
   /// In en, this message translates to:
-  /// **'Go to chat'**
+  /// **'Go to Chat'**
   String get goToChat;
 
   /// No description provided for @copyAcceptance.
@@ -308,19 +308,19 @@ abstract class FuzzyChatLocalizations {
   /// No description provided for @acceptanceCopiedToClipboard.
   ///
   /// In en, this message translates to:
-  /// **'Acceptance copied to clipboard'**
+  /// **'Acceptance copied to clipboard.'**
   String get acceptanceCopiedToClipboard;
 
   /// No description provided for @tapToViewChat.
   ///
   /// In en, this message translates to:
-  /// **'Tap to view chat'**
+  /// **'Tap to view chat.'**
   String get tapToViewChat;
 
   /// No description provided for @waitingForAcceptance.
   ///
   /// In en, this message translates to:
-  /// **'Waiting for acceptance'**
+  /// **'Waiting for acceptance.'**
   String get waitingForAcceptance;
 
   /// No description provided for @deleteChat.
@@ -350,25 +350,25 @@ abstract class FuzzyChatLocalizations {
   /// No description provided for @textGoesHere.
   ///
   /// In en, this message translates to:
-  /// **'Text Goes here'**
+  /// **'Text goes here.'**
   String get textGoesHere;
 
-  /// No description provided for @enrypting.
+  /// No description provided for @encrypting.
   ///
   /// In en, this message translates to:
-  /// **'enrypting'**
-  String get enrypting;
+  /// **'Encrypting'**
+  String get encrypting;
 
   /// No description provided for @decrypting.
   ///
   /// In en, this message translates to:
-  /// **'decrypting'**
+  /// **'Decrypting'**
   String get decrypting;
 
   /// No description provided for @copiedToTheClipboard.
   ///
   /// In en, this message translates to:
-  /// **'Copied to the clipboard'**
+  /// **'Copied to the clipboard.'**
   String get copiedToTheClipboard;
 }
 

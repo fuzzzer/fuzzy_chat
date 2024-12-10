@@ -7,7 +7,7 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   FuzzyChatLocalizationsKa([String locale = 'ka']) : super(locale);
 
   @override
-  String get chat => 'chat';
+  String get chat => 'Chat';
 
   @override
   String get fuzzyChat => 'Fuzzy Chat';
@@ -40,7 +40,7 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get chatWithAlice => 'Chat with Alice';
 
   @override
-  String get failedToCreateChat => 'Failed to create chat';
+  String get failedToCreateChat => 'Failed to create chat.';
 
   @override
   String get pleaseEnterAChatName => 'Please enter a chat name.';
@@ -49,7 +49,7 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get pleasePasteTheAcceptanceContent => 'Please paste the acceptance content.';
 
   @override
-  String get failedToCompleteHandshake => 'Failed to complete handshake';
+  String get failedToCompleteHandshake => 'Failed to complete handshake.';
 
   @override
   String get sendInvitation => 'Send Invitation';
@@ -58,7 +58,7 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get copyInvitation => 'Copy Invitation';
 
   @override
-  String get invitationCopiedToClipboard => 'Invitation copied to clipboard';
+  String get invitationCopiedToClipboard => 'Invitation copied to clipboard.';
 
   @override
   String get provideAcceptance => 'Provide Acceptance';
@@ -70,25 +70,25 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get accept => 'Accept';
 
   @override
-  String get unexpectedFailureOccuredPleaseContactUs => 'Unexpected failure occured, please contact us';
+  String get unexpectedFailureOccuredPleaseContactUs => 'Unexpected failure occurred, please contact us.';
 
   @override
-  String get failedToGenerateInvitation => '\'Failed to generate invitation.\'';
+  String get failedToGenerateInvitation => 'Failed to generate invitation.';
 
   @override
-  String get inOrderToStartFuzzyChatWithSomeoneFirstTheyNeedToImportTheInvitationAndProvideAcceptanceFileOrTextGeneratedOnTheirChatSoTheyCanAlsoSendAndUnlockMessages => 'In order to start fuzzy chat with someone, first they need to import the invitation and provide acceptance file or text generated on their chat, so they can also send and unlock messages';
+  String get inOrderToStartFuzzyChatWithSomeoneFirstTheyNeedToImportTheInvitationAndProvideAcceptanceFileOrTextGeneratedOnTheirChatSoTheyCanAlsoSendAndUnlockMessages => 'To start a Fuzzy Chat with someone, they must first import the invitation and provide the acceptance text generated in their chat. This will allow them to send and unlock messages.';
 
   @override
-  String get theAcceptanceThatYouGetFromInvitedPersonShouldBePastedHere => 'The acceptance that you get from invited person should be pasted here:';
+  String get theAcceptanceThatYouGetFromInvitedPersonShouldBePastedHere => 'The acceptance that you get from the invited person should be pasted here:';
 
   @override
-  String get failedToAcceptInvitation => 'Failed to accept invitation';
+  String get failedToAcceptInvitation => 'Failed to accept invitation.';
 
   @override
   String get pleaseProvideInvitationTextAndChatName => 'Please provide invitation text and chat name.';
 
   @override
-  String get acceptChatInvitation => 'Accept Chat invitation';
+  String get acceptChatInvitation => 'Accept Chat Invitation';
 
   @override
   String get pasteInvitationText => 'Paste Invitation Text';
@@ -97,10 +97,10 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get failedToGenerateAcceptance => 'Failed to generate acceptance.';
 
   @override
-  String get failedToReadAcceptance => 'Failed to read acceptance';
+  String get failedToReadAcceptance => 'Failed to read acceptance.';
 
   @override
-  String get goToChat => 'Go to chat';
+  String get goToChat => 'Go to Chat';
 
   @override
   String get copyAcceptance => 'Copy Acceptance';
@@ -112,13 +112,13 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get exportAcceptance => 'Export Acceptance';
 
   @override
-  String get acceptanceCopiedToClipboard => 'Acceptance copied to clipboard';
+  String get acceptanceCopiedToClipboard => 'Acceptance copied to clipboard.';
 
   @override
-  String get tapToViewChat => 'Tap to view chat';
+  String get tapToViewChat => 'Tap to view chat.';
 
   @override
-  String get waitingForAcceptance => 'Waiting for acceptance';
+  String get waitingForAcceptance => 'Waiting for acceptance.';
 
   @override
   String get deleteChat => 'Delete Chat';
@@ -133,14 +133,14 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get delete => 'Delete';
 
   @override
-  String get textGoesHere => 'Text Goes here';
+  String get textGoesHere => 'Text goes here.';
 
   @override
-  String get enrypting => 'enrypting';
+  String get encrypting => 'Encrypting';
 
   @override
-  String get decrypting => 'decrypting';
+  String get decrypting => 'Decrypting';
 
   @override
-  String get copiedToTheClipboard => 'Copied to the clipboard';
+  String get copiedToTheClipboard => 'Copied to the clipboard.';
 }
