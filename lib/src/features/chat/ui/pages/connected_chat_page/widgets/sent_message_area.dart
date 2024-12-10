@@ -18,9 +18,57 @@ class SentMessageArea extends StatefulWidget {
 class _SentMessageAreaState extends State<SentMessageArea> {
   bool hasJustCopied = false;
   bool isExpanded = false;
+  bool isExpandable = false;
   bool showEncrypted = true;
 
   String _prepareEncrypredMessage(String encryptedMessage) => '$fuzzIdentificator$encryptedMessage';
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    _checkIfIsExpandable(widget.message.encryptedMessage);
+    super.didChangeDependencies();
+  }
+
+  @override
+  void didUpdateWidget(SentMessageArea oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.message.encryptedMessage != widget.message.encryptedMessage) {
+      _checkIfIsExpandable(widget.message.encryptedMessage);
+    }
+  }
+
+  void _checkIfIsExpandable(String message) {
+    final textPainter = TextPainter(
+      text: TextSpan(
+        text: message,
+      ),
+      maxLines: 4,
+      textDirection: TextDirection.ltr,
+    )..layout(
+        maxWidth: MediaQuery.of(context).size.width * 0.75,
+      );
+
+    setState(() {
+      isExpandable = textPainter.didExceedMaxLines;
+    });
+  }
+
+  void _toggleExpand() {
+    setState(() {
+      isExpanded = !isExpanded;
+    });
+  }
+
+  void _toggleHide(bool status) {
+    setState(() {
+      showEncrypted = status;
+    });
+  }
 
   void _copyMessage({
     required String encryptedMessage,
@@ -52,18 +100,6 @@ class _SentMessageAreaState extends State<SentMessageArea> {
           hasJustCopied = false;
         });
       }
-    });
-  }
-
-  void _toggleExpand() {
-    setState(() {
-      isExpanded = !isExpanded;
-    });
-  }
-
-  void _toggleHide(bool status) {
-    setState(() {
-      showEncrypted = status;
     });
   }
 
@@ -154,7 +190,7 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                   child: Stack(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
+                        padding: isExpandable ? const EdgeInsets.only(bottom: 12) : EdgeInsets.zero,
                         child: Container(
                           constraints: BoxConstraints(
                             maxWidth: MediaQuery.of(context).size.width * 0.75,
@@ -176,28 +212,29 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                           ),
                         ),
                       ),
-                      Positioned(
-                        bottom: 8,
-                        right: 8,
-                        child: GestureDetector(
-                          onTap: _toggleExpand,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Container(
-                                width: 60,
-                                height: 24,
-                                color: Colors.white.withOpacity(0),
-                              ),
-                              Icon(
-                                isExpanded ? Icons.expand_less : Icons.expand_more,
-                                size: 24,
-                                color: uiColors.backgroundPrimaryColor,
-                              ),
-                            ],
+                      if (isExpandable)
+                        Positioned(
+                          bottom: 8,
+                          right: 8,
+                          child: GestureDetector(
+                            onTap: _toggleExpand,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  width: 60,
+                                  height: 24,
+                                  color: Colors.white.withOpacity(0),
+                                ),
+                                Icon(
+                                  isExpanded ? Icons.expand_less : Icons.expand_more,
+                                  size: 24,
+                                  color: uiColors.backgroundPrimaryColor,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
                     ],
                   ),
                 ),
