@@ -87,9 +87,7 @@ class _SentMessageAreaState extends State<SentMessageArea> {
     ).then((_) {
       scaffoldMessengerKey.currentState?.showSnackBar(
         FuzzySnackBar(
-          content: Text(
-            localizations.copiedToTheClipboard,
-          ),
+          label: localizations.copiedToTheClipboard,
         ),
       );
     });

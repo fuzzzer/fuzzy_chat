@@ -59,9 +59,7 @@ class _ProvidedChatCreationPageState extends State<ProvidedChatCreationPage> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         FuzzySnackBar(
-          content: Text(
-            FuzzyChatLocalizations.of(context)?.pleaseEnterAChatName ?? '',
-          ),
+          label: FuzzyChatLocalizations.of(context)?.pleaseEnterAChatName ?? '',
         ),
       );
     }
@@ -87,9 +85,7 @@ class _ProvidedChatCreationPageState extends State<ProvidedChatCreationPage> {
         } else if (state.status.isFailed) {
           ScaffoldMessenger.of(context).showSnackBar(
             FuzzySnackBar(
-              content: Text(
-                state.failure?.message ?? localizations.failedToCreateChat,
-              ),
+              label: state.failure?.message ?? localizations.failedToCreateChat,
             ),
           );
         }

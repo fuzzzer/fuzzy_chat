@@ -35,12 +35,12 @@ class _SendSetupPageState extends State<SendSetupPage> {
       });
       await KeysRepository.savePublicKeyToFile(importedPublicKey, 'public_key.json');
       messenger?.showSnackBar(
-        const FuzzySnackBar(content: Text('Public key imported successfully')),
+        const FuzzySnackBar(label: 'Public key imported successfully'),
       );
       _showPublicKeyDialog(importedPublicKey);
     } catch (e) {
       messenger?.showSnackBar(
-        const FuzzySnackBar(content: Text('Failed to import public key')),
+        const FuzzySnackBar(label: 'Failed to import public key'),
       );
     }
   }
@@ -62,12 +62,12 @@ class _SendSetupPageState extends State<SendSetupPage> {
         });
         await KeysRepository.savePublicKeyToFile(importedPublicKey, 'public_key.json');
         messenger?.showSnackBar(
-          const FuzzySnackBar(content: Text('Public key imported successfully')),
+          const FuzzySnackBar(label: 'Public key imported successfully'),
         );
       }
     } catch (e) {
       messenger?.showSnackBar(
-        FuzzySnackBar(content: Text('Failed to import public key: $e')),
+        FuzzySnackBar(label: 'Failed to import public key: $e'),
       );
     }
   }
@@ -86,12 +86,12 @@ class _SendSetupPageState extends State<SendSetupPage> {
       });
       await KeysRepository.savePublicKeyToFile(importedPublicKey, 'public_key.json');
       messenger?.showSnackBar(
-        const FuzzySnackBar(content: Text('Public key imported successfully')),
+        const FuzzySnackBar(label: 'Public key imported successfully'),
       );
       _showPublicKeyDialog(importedPublicKey);
     } catch (e) {
       messenger?.showSnackBar(
-        const FuzzySnackBar(content: Text('Invalid public key string')),
+        const FuzzySnackBar(label: 'Invalid public key string'),
       );
     }
   }
@@ -203,7 +203,7 @@ class _SendSetupPageState extends State<SendSetupPage> {
                         );
                       } else {
                         scaffoldMessengerKey.currentState?.showSnackBar(
-                          const FuzzySnackBar(content: Text('No public key loaded')),
+                          const FuzzySnackBar(label: 'No public key loaded'),
                         );
                       }
                     },

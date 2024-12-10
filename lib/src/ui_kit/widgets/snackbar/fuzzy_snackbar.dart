@@ -232,6 +232,7 @@ class _FuzzySnackBarState extends State<FuzzySnackBar> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final uiColors = theme.extension<UiColors>()!;
+    final uiTextStyles = theme.extension<UiTextStyles>()!;
 
     return SafeArea(
       child: Align(
@@ -249,7 +250,7 @@ class _FuzzySnackBarState extends State<FuzzySnackBar> {
           elevation: widget.elevation,
           content: ClipRRect(
             borderRadius: const BorderRadius.all(
-              Radius.circular(22),
+              Radius.circular(12),
             ),
             child: BackdropFilter(
               filter: ImageFilter.blur(
@@ -266,9 +267,9 @@ class _FuzzySnackBarState extends State<FuzzySnackBar> {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      color: widget.backgroundColor ?? uiColors.secondaryColor,
+                      color: widget.backgroundColor ?? uiColors.secondaryColor.withOpacity(0.7),
                       borderRadius: const BorderRadius.all(
-                        Radius.circular(22),
+                        Radius.circular(12),
                       ),
                     ),
                     padding: widget.contentPadding,
@@ -278,6 +279,13 @@ class _FuzzySnackBarState extends State<FuzzySnackBar> {
                           Padding(
                             padding: const EdgeInsets.only(right: 16),
                             child: widget.leading,
+                          ),
+                        if (widget.label != null)
+                          Text(
+                            widget.label ?? '',
+                            style: uiTextStyles.body16.copyWith(
+                              color: uiColors.backgroundPrimaryColor,
+                            ),
                           ),
                         Expanded(
                           child: Column(

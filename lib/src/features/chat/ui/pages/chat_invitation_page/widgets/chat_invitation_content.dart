@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fuzzy_chat/lib.dart';
 
-class ChatInvitationInvitationContent extends StatefulWidget {
+class ChatInvitationContent extends StatefulWidget {
   final String chatName;
   final String invitationContent;
   final TextEditingController acceptanceTextController;
   final VoidCallback onAccept;
 
-  const ChatInvitationInvitationContent({
+  const ChatInvitationContent({
     super.key,
     required this.chatName,
     required this.invitationContent,
@@ -17,10 +17,10 @@ class ChatInvitationInvitationContent extends StatefulWidget {
   });
 
   @override
-  State<ChatInvitationInvitationContent> createState() => _ChatInvitationInvitationContentState();
+  State<ChatInvitationContent> createState() => _ChatInvitationContentState();
 }
 
-class _ChatInvitationInvitationContentState extends State<ChatInvitationInvitationContent> {
+class _ChatInvitationContentState extends State<ChatInvitationContent> {
   final deboucer = Debouncer(milliseconds: 500);
 
   @override
@@ -65,9 +65,7 @@ class _ChatInvitationInvitationContentState extends State<ChatInvitationInvitati
                     ).then((_) {
                       scaffoldMessengerKey.currentState?.showSnackBar(
                         FuzzySnackBar(
-                          content: Text(
-                            localizations.invitationCopiedToClipboard,
-                          ),
+                          label: localizations.invitationCopiedToClipboard,
                         ),
                       );
                     });

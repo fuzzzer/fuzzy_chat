@@ -85,9 +85,7 @@ class _ProvidedChatInvitationPageState extends State<ProvidedChatInvitationPage>
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         FuzzySnackBar(
-          content: Text(
-            FuzzyChatLocalizations.of(context)?.pleasePasteTheAcceptanceContent ?? '',
-          ),
+          label: FuzzyChatLocalizations.of(context)?.pleasePasteTheAcceptanceContent ?? '',
         ),
       );
     }
@@ -114,9 +112,7 @@ class _ProvidedChatInvitationPageState extends State<ProvidedChatInvitationPage>
             } else if (state.status.isFailed) {
               ScaffoldMessenger.of(context).showSnackBar(
                 FuzzySnackBar(
-                  content: Text(
-                    state.failure?.message ?? localizations.failedToCompleteHandshake,
-                  ),
+                  label: state.failure?.message ?? localizations.failedToCompleteHandshake,
                 ),
               );
             }
@@ -129,7 +125,7 @@ class _ProvidedChatInvitationPageState extends State<ProvidedChatInvitationPage>
             status: invitationState.status,
             onInitial: () => const FuzzyLoadingPagebuilder(),
             onLoading: () => const FuzzyLoadingPagebuilder(),
-            onSuccess: () => ChatInvitationInvitationContent(
+            onSuccess: () => ChatInvitationContent(
               chatName: widget.payload.chatName,
               invitationContent: invitationState.invitation!.invitationContent,
               acceptanceTextController: acceptanceTextController,

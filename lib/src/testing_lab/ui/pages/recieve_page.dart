@@ -59,7 +59,7 @@ class _ReceivePageState extends State<ReceivePage> {
                 onPressed: () {
                   Clipboard.setData(ClipboardData(text: _decryptedText));
                   scaffoldMessengerKey.currentState?.showSnackBar(
-                    const FuzzySnackBar(content: Text('Decoded Text Copied')),
+                    const FuzzySnackBar(label: 'Decoded Text Copied'),
                   );
                 },
                 child: const Text('Copy Decrypted Text'),
