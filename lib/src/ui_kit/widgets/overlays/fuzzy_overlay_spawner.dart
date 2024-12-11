@@ -56,10 +56,6 @@ class _FuzzyOverlaySpawnerState<T> extends State<FuzzyOverlaySpawner<T>> {
   }
 
   OverlayEntry _createOverlayEntry() {
-    final renderBox = context.findRenderObject()! as RenderBox;
-    final size = renderBox.size;
-    final offset = renderBox.localToGlobal(Offset.zero);
-
     return OverlayEntry(
       builder: (context) {
         return Stack(
@@ -72,17 +68,13 @@ class _FuzzyOverlaySpawnerState<T> extends State<FuzzyOverlaySpawner<T>> {
                 color: Colors.transparent,
               ),
             ),
-            Positioned(
-              left: offset.dx,
-              top: offset.dy + size.height,
-              child: CompositedTransformFollower(
-                link: _layerLink,
-                showWhenUnlinked: false,
-                offset: widget.offset ?? const Offset(0, 8),
-                child: Material(
-                  color: Colors.transparent,
-                  child: widget.spawnedChildBuilder(context, _hideOverlay),
-                ),
+            CompositedTransformFollower(
+              link: _layerLink,
+              offset: widget.offset ?? Offset.zero,
+              showWhenUnlinked: false,
+              child: Material(
+                color: Colors.transparent,
+                child: widget.spawnedChildBuilder(context, _hideOverlay),
               ),
             ),
           ],

@@ -149,6 +149,7 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                 ),
                 child: FuzzyOverlaySpawner(
                   splashRadius: borderRadius,
+                  offset: const Offset(16, -24),
                   spawnedChildBuilder: (context, closeOverlay) {
                     return DecoratedBox(
                       decoration: BoxDecoration(
@@ -156,6 +157,7 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                         borderRadius: BorderRadius.circular(100),
                       ),
                       child: Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           TextAction(
                             hasLeftBorder: true,
