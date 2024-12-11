@@ -115,9 +115,14 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
                   const SliverToBoxAdapter(
                     child: SizedBox(height: 300),
                   ),
-                  MessageListSliver(
-                    messages: state.messages,
-                  ),
+                  if (state.status.isLoading)
+                    const SliverToBoxAdapter(
+                      child: DefaultLoadingWidget(),
+                    ),
+                  if (!state.status.isLoading)
+                    MessageListSliver(
+                      messages: state.messages,
+                    ),
                   const SliverToBoxAdapter(
                     child: SizedBox(height: 80),
                   ),

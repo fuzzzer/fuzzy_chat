@@ -208,28 +208,22 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                               localizations: localizations,
                             );
                           },
-                          child: Ink(
-                            decoration: BoxDecoration(
-                              borderRadius: borderRadius,
-                              color: uiColors.secondaryColor,
+                          child: Container(
+                            constraints: BoxConstraints(
+                              maxWidth: MediaQuery.of(context).size.width * 0.75,
                             ),
-                            child: Container(
-                              constraints: BoxConstraints(
-                                maxWidth: MediaQuery.of(context).size.width * 0.75,
+                            padding: const EdgeInsets.all(12),
+                            child: AnimatedSize(
+                              duration: const Duration(
+                                milliseconds: 300,
                               ),
-                              padding: const EdgeInsets.all(12),
-                              child: AnimatedSize(
-                                duration: const Duration(
-                                  milliseconds: 300,
-                                ),
-                                curve: Curves.easeIn,
-                                child: Text(
-                                  showEncrypted ? encryptedMessage : widget.message.decryptedMessage,
-                                  maxLines: isExpanded ? null : 4,
-                                  overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
-                                  style: uiTextStyles.body16.copyWith(
-                                    color: uiColors.backgroundPrimaryColor,
-                                  ),
+                              curve: Curves.easeIn,
+                              child: Text(
+                                showEncrypted ? encryptedMessage : widget.message.decryptedMessage,
+                                maxLines: isExpanded ? null : 4,
+                                overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
+                                style: uiTextStyles.body16.copyWith(
+                                  color: uiColors.backgroundPrimaryColor,
                                 ),
                               ),
                             ),

@@ -8,7 +8,7 @@ class FuzzyLoadingPagebuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return const FuzzyScaffold(
       body: Center(
-        child: CircularProgressIndicator(),
+        child: DefaultLoadingWidget(),
       ),
       hasAutomaticBackButton: false,
     );
