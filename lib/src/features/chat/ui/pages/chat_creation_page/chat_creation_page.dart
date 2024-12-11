@@ -57,10 +57,8 @@ class _ProvidedChatCreationPageState extends State<ProvidedChatCreationPage> {
     if (chatName.isNotEmpty) {
       context.read<ChatCreationCubit>().createChat(chatName: chatName);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        FuzzySnackBar(
-          label: FuzzyChatLocalizations.of(context)?.pleaseEnterAChatName ?? '',
-        ),
+      FuzzySnackbar.show(
+        label: FuzzyChatLocalizations.of(context)?.pleaseEnterAChatName ?? '',
       );
     }
   }
@@ -83,10 +81,8 @@ class _ProvidedChatCreationPageState extends State<ProvidedChatCreationPage> {
             ),
           );
         } else if (state.status.isFailed) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            FuzzySnackBar(
-              label: state.failure?.message ?? localizations.failedToCreateChat,
-            ),
+          FuzzySnackbar.show(
+            label: state.failure?.message ?? localizations.failedToCreateChat,
           );
         }
       },

@@ -83,10 +83,8 @@ class _ProvidedChatInvitationPageState extends State<ProvidedChatInvitationPage>
             chatId: widget.payload.chatId,
           );
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        FuzzySnackBar(
-          label: FuzzyChatLocalizations.of(context)?.pleasePasteTheAcceptanceContent ?? '',
-        ),
+      FuzzySnackbar.show(
+        label: FuzzyChatLocalizations.of(context)?.pleasePasteTheAcceptanceContent ?? '',
       );
     }
   }
@@ -110,10 +108,8 @@ class _ProvidedChatInvitationPageState extends State<ProvidedChatInvitationPage>
                 ),
               );
             } else if (state.status.isFailed) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                FuzzySnackBar(
-                  label: state.failure?.message ?? localizations.failedToCompleteHandshake,
-                ),
+              FuzzySnackbar.show(
+                label: state.failure?.message ?? localizations.failedToCompleteHandshake,
               );
             }
           },
