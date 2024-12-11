@@ -4,14 +4,18 @@ class FuzzyOverlaySpawner<T> extends StatefulWidget {
   const FuzzyOverlaySpawner({
     super.key,
     required this.spawnedChildBuilder,
+    this.onLongPress,
     required this.child,
     this.splashRadius,
+    this.splashColor,
     this.offset,
   });
 
   final Widget Function(BuildContext context, VoidCallback closeOverlay) spawnedChildBuilder;
+  final void Function()? onLongPress;
   final Widget child;
   final BorderRadius? splashRadius;
+  final Color? splashColor;
   final Offset? offset;
 
   @override
@@ -89,7 +93,9 @@ class _FuzzyOverlaySpawnerState<T> extends State<FuzzyOverlaySpawner<T>> {
       link: _layerLink,
       child: InkWell(
         onTap: _toggleOverlay,
+        onLongPress: widget.onLongPress,
         borderRadius: widget.splashRadius ?? BorderRadius.circular(100),
+        splashColor: widget.splashColor,
         child: widget.child,
       ),
     );

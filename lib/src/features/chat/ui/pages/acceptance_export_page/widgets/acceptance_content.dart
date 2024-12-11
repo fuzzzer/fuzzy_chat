@@ -18,10 +18,8 @@ class AcceptanceContent extends StatelessWidget {
     final localizations = FuzzyChatLocalizations.of(context)!;
 
     Clipboard.setData(ClipboardData(text: acceptanceContent));
-    ScaffoldMessenger.of(context).showSnackBar(
-      FuzzySnackBar(
-        label: localizations.acceptanceCopiedToClipboard,
-      ),
+    FuzzySnackbar.show(
+      label: localizations.acceptanceCopiedToClipboard,
     );
   }
 

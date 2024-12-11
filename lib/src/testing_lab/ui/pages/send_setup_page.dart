@@ -22,8 +22,6 @@ class _SendSetupPageState extends State<SendSetupPage> {
   final TextEditingController _publicKeyController = TextEditingController();
 
   Future<void> _importPublicKeyFromFile(DropzoneFileInterface event) async {
-    final messenger = scaffoldMessengerKey.currentState;
-
     try {
       final bytes = await _controller.getFileData(event);
       final originalStringBytes = base64Decode(utf8.decode(bytes));
@@ -34,20 +32,14 @@ class _SendSetupPageState extends State<SendSetupPage> {
         _publicKey = importedPublicKey;
       });
       await KeysRepository.savePublicKeyToFile(importedPublicKey, 'public_key.json');
-      messenger?.showSnackBar(
-        const FuzzySnackBar(label: 'Public key imported successfully'),
-      );
+      FuzzySnackbar.show(label: 'Public key imported successfully');
       _showPublicKeyDialog(importedPublicKey);
     } catch (e) {
-      messenger?.showSnackBar(
-        const FuzzySnackBar(label: 'Failed to import public key'),
-      );
+      FuzzySnackbar.show(label: 'Failed to import public key');
     }
   }
 
   Future<void> _importPublicKeyFromPicker() async {
-    final messenger = scaffoldMessengerKey.currentState;
-
     try {
       final result = await FilePicker.platform.pickFiles();
       if (result != null) {
@@ -61,20 +53,14 @@ class _SendSetupPageState extends State<SendSetupPage> {
           _publicKey = importedPublicKey;
         });
         await KeysRepository.savePublicKeyToFile(importedPublicKey, 'public_key.json');
-        messenger?.showSnackBar(
-          const FuzzySnackBar(label: 'Public key imported successfully'),
-        );
+        FuzzySnackbar.show(label: 'Public key imported successfully');
       }
     } catch (e) {
-      messenger?.showSnackBar(
-        FuzzySnackBar(label: 'Failed to import public key: $e'),
-      );
+      FuzzySnackbar.show(label: 'Failed to import public key: $e');
     }
   }
 
   Future<void> _importPublicKeyFromString(String publicKeyString) async {
-    final messenger = scaffoldMessengerKey.currentState;
-
     try {
       final originalString = base64Decode(publicKeyString);
       final jsonString = utf8.decode(originalString);
@@ -85,14 +71,10 @@ class _SendSetupPageState extends State<SendSetupPage> {
         _publicKey = importedPublicKey;
       });
       await KeysRepository.savePublicKeyToFile(importedPublicKey, 'public_key.json');
-      messenger?.showSnackBar(
-        const FuzzySnackBar(label: 'Public key imported successfully'),
-      );
+      FuzzySnackbar.show(label: 'Public key imported successfully');
       _showPublicKeyDialog(importedPublicKey);
     } catch (e) {
-      messenger?.showSnackBar(
-        const FuzzySnackBar(label: 'Invalid public key string'),
-      );
+      FuzzySnackbar.show(label: 'Invalid public key string');
     }
   }
 
@@ -202,9 +184,7 @@ class _SendSetupPageState extends State<SendSetupPage> {
                           ),
                         );
                       } else {
-                        scaffoldMessengerKey.currentState?.showSnackBar(
-                          const FuzzySnackBar(label: 'No public key loaded'),
-                        );
+                        FuzzySnackbar.show(label: 'No public key loaded');
                       }
                     },
                     child: const Text('Proceed to Send Message'),

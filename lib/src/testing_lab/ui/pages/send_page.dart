@@ -36,9 +36,7 @@ class _SendPageState extends State<SendPage> {
 
   Future<void> _encrypt() async {
     if (publicKey == null) {
-      scaffoldMessengerKey.currentState?.showSnackBar(
-        const FuzzySnackBar(label: 'Public key not loaded'),
-      );
+      FuzzySnackbar.show(label: 'Public key not loaded');
       return;
     }
     final plainText = _plainTextController.text;
@@ -49,8 +47,6 @@ class _SendPageState extends State<SendPage> {
   }
 
   Future<void> _importPublicKeyFromFile(DropzoneFileInterface event) async {
-    final messenger = scaffoldMessengerKey.currentState;
-
     try {
       final bytes = await _controller.getFileData(event);
       final jsonString = utf8.decode(bytes);
@@ -59,13 +55,9 @@ class _SendPageState extends State<SendPage> {
       setState(() {
         publicKey = importedPublicKey;
       });
-      messenger?.showSnackBar(
-        const FuzzySnackBar(label: 'Public key imported successfully'),
-      );
+      FuzzySnackbar.show(label: 'Public key imported successfully');
     } catch (e) {
-      messenger?.showSnackBar(
-        const FuzzySnackBar(label: 'Failed to import public key'),
-      );
+      FuzzySnackbar.show(label: 'Failed to import public key');
     }
   }
 
@@ -100,9 +92,7 @@ class _SendPageState extends State<SendPage> {
                   ElevatedButton(
                     onPressed: () {
                       Clipboard.setData(ClipboardData(text: _encryptedText));
-                      scaffoldMessengerKey.currentState?.showSnackBar(
-                        const FuzzySnackBar(label: 'Decoded Text Copied'),
-                      );
+                      FuzzySnackbar.show(label: 'Decoded Text Copied');
                     },
                     child: const Text('Copy Encrypted Text'),
                   ),

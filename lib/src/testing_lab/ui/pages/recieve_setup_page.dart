@@ -35,8 +35,6 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
       isLoadingKeys = true;
     });
 
-    final messenger = scaffoldMessengerKey.currentState;
-
     try {
       final publicKey = await KeysRepository.loadPublicKeyFromFile('public_key.json');
       final privateKey = await KeysRepository.loadPrivateKeyFromFile('private_key.json');
@@ -44,9 +42,7 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
         _keyPair = pointy.AsymmetricKeyPair(publicKey, privateKey);
       });
 
-      messenger?.showSnackBar(
-        const FuzzySnackBar(label: 'Loaded Existing Keys'),
-      );
+      FuzzySnackbar.show(label: 'Loaded Existing Keys');
     } catch (e) {
       await _generateNewKeys();
     }
@@ -61,11 +57,7 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
       isLoadingKeys = true;
     });
 
-    final messenger = scaffoldMessengerKey.currentState;
-
-    messenger?.showSnackBar(
-      const FuzzySnackBar(label: 'Generating New Keys'),
-    );
+    FuzzySnackbar.show(label: 'Generating New Keys');
 
     final newKeyPair = await Isolate.run(RSAManager.generateRSAKeyPair);
 
@@ -75,31 +67,24 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
       KeysRepository.savePrivateKeyToFile(newKeyPair.privateKey, 'private_key.json');
     });
 
-    messenger?.showSnackBar(
-      const FuzzySnackBar(label: 'Generated New Keys'),
-    );
+    FuzzySnackbar.show(label: 'Generated New Keys');
     setState(() {
       isLoadingKeys = false;
     });
   }
 
   Future<void> _importKeyFromFile(DropzoneFileInterface event) async {
-    final messenger = scaffoldMessengerKey.currentState;
-
     try {
       final bytes = await _controller.getFileData(event);
       final jsonString = utf8.decode(bytes);
       final keyMap = castMapToAllStringMap(json.decode(jsonString) as Map<String, dynamic>);
       _parseAndImportKeys(keyMap);
     } catch (e) {
-      messenger?.showSnackBar(
-        const FuzzySnackBar(label: 'Failed to import keys'),
-      );
+      FuzzySnackbar.show(label: 'Failed to import keys');
     }
   }
 
   Future<void> _importKeyFromPicker() async {
-    final messenger = scaffoldMessengerKey.currentState;
     try {
       final result = await FilePicker.platform.pickFiles();
       if (result != null) {
@@ -111,9 +96,7 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
         _parseAndImportKeys(keyMap);
       }
     } catch (e) {
-      messenger?.showSnackBar(
-        const FuzzySnackBar(label: 'Failed to import keys'),
-      );
+      FuzzySnackbar.show(label: 'Failed to import keys');
     }
   }
 
@@ -147,15 +130,11 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
       KeysRepository.savePublicKeyToFile(importedPublicKey, 'public_key.json');
       KeysRepository.savePrivateKeyToFile(importedPrivateKey, 'private_key.json');
     } catch (e) {
-      scaffoldMessengerKey.currentState?.showSnackBar(
-        const FuzzySnackBar(label: 'Could Not Import Private Key'),
-      );
+      FuzzySnackbar.show(label: 'Could Not Import Private Key');
     }
 
     if (isPrivateKeyLoaded) {
-      scaffoldMessengerKey.currentState?.showSnackBar(
-        const FuzzySnackBar(label: 'Keys imported successfully'),
-      );
+      FuzzySnackbar.show(label: 'Keys imported successfully');
     }
   }
 
@@ -203,9 +182,7 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
                 ElevatedButton(
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: base64Public));
-                    scaffoldMessengerKey.currentState?.showSnackBar(
-                      const FuzzySnackBar(label: 'Public key copied to clipboard'),
-                    );
+                    FuzzySnackbar.show(label: 'Public key copied to clipboard');
                   },
                   child: const Text('Copy Public Key'),
                 ),
@@ -215,9 +192,7 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
                 ElevatedButton(
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: base64Private));
-                    scaffoldMessengerKey.currentState?.showSnackBar(
-                      const FuzzySnackBar(label: 'Private key copied to clipboard'),
-                    );
+                    FuzzySnackbar.show(label: 'Private key copied to clipboard');
                   },
                   child: const Text('Copy Private Key'),
                 ),
@@ -256,8 +231,6 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
   }
 
   Future<void> exportKeys(pointy.AsymmetricKeyPair<pointy.RSAPublicKey, pointy.RSAPrivateKey> keyPair) async {
-    final messenger = scaffoldMessengerKey.currentState;
-
     try {
       final resultPrivate = await FilePicker.platform.saveFile(
         dialogTitle: 'Save Private Key',
@@ -269,21 +242,15 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
         final privateKeyMap = RSAManager.transformRSAPrivateKeyToMap(keyPair.privateKey);
         await privateKeyFile.writeAsString(base64Encode(utf8.encode(json.encode(privateKeyMap))));
 
-        messenger?.showSnackBar(
-          const FuzzySnackBar(label: 'Private key exported successfully'),
-        );
+        FuzzySnackbar.show(label: 'Private key exported successfully');
       }
     } catch (e) {
-      messenger?.showSnackBar(
-        const FuzzySnackBar(label: 'Failed to export private key'),
-      );
+      FuzzySnackbar.show(label: 'Failed to export private key');
       debugPrint('Failed to export private key: $e');
     }
   }
 
   Future<void> exportPublicKey(pointy.RSAPublicKey publicKey) async {
-    final messenger = scaffoldMessengerKey.currentState;
-
     try {
       final result = await FilePicker.platform.saveFile(
         dialogTitle: 'Save Public Key',
@@ -295,14 +262,10 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
         final publicKeyMap = RSAManager.transformRSAPublicKeyToMap(publicKey);
         await publicKeyFile.writeAsString(base64Encode(utf8.encode(json.encode(publicKeyMap))));
 
-        messenger?.showSnackBar(
-          const FuzzySnackBar(label: 'Public key exported successfully'),
-        );
+        FuzzySnackbar.show(label: 'Public key exported successfully');
       }
     } catch (e) {
-      messenger?.showSnackBar(
-        const FuzzySnackBar(label: 'Failed to export public key'),
-      );
+      FuzzySnackbar.show(label: 'Failed to export public key');
       debugPrint('Failed to export public key: $e');
     }
   }
