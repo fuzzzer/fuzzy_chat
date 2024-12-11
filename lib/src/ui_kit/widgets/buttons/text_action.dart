@@ -22,13 +22,13 @@ class TextAction extends StatelessWidget {
 
     final borderRadius = hasLeftBorder
         ? const BorderRadius.only(
-            topLeft: Radius.circular(100),
-            bottomLeft: Radius.circular(100),
+            topLeft: Radius.circular(12),
+            bottomLeft: Radius.circular(12),
           )
         : hasRightBorder
             ? const BorderRadius.only(
-                topRight: Radius.circular(100),
-                bottomRight: Radius.circular(100),
+                topRight: Radius.circular(12),
+                bottomRight: Radius.circular(12),
               )
             : null;
     return InkWell(
@@ -40,7 +40,10 @@ class TextAction extends StatelessWidget {
           color: uiColors.backgroundSecondaryColor,
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 8,
+          ),
           child: Text(
             label,
             style: uiTextStyles.bodyBold16,
