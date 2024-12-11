@@ -388,6 +388,12 @@ abstract class FuzzyChatLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to delete chat with {personName}'**
   String areYouSureYouWantToDeleteChatWith(Object personName);
+
+  /// No description provided for @failedToGetAcceptance.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to get acceptance'**
+  String get failedToGetAcceptance;
 }
 
 class _FuzzyChatLocalizationsDelegate extends LocalizationsDelegate<FuzzyChatLocalizations> {

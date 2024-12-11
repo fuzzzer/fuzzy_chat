@@ -101,5 +101,7 @@
     "placeholders": {
       "personName": {}
     }
-  }
+  },
+  "failedToGetAcceptance": "Failed to get acceptance",
+  "@failedToGetAcceptance": {}
 }
