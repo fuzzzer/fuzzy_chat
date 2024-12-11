@@ -154,4 +154,7 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String areYouSureYouWantToDeleteChatWith(Object personName) {
     return 'Are you sure you want to delete chat with $personName';
   }
+
+  @override
+  String get failedToGetAcceptance => 'Failed to get acceptance';
 }

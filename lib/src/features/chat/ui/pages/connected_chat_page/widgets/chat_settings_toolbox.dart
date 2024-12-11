@@ -30,13 +30,13 @@ class _SettingsToolboxState extends State<SettingsToolbox> {
 
     acceptanceReaderCubit.generateAcceptance(chatId: widget.chatGeneralData.chatId).then((_) {
       if (acceptanceReaderCubit.state.status.isSuccess) {
-        FuzzySnackbar.show(
-          label: localizations.acceptanceCopiedToClipboard,
-        );
-      } else {
         _copyAcceptance(
           acceptanceContent: acceptanceReaderCubit.state.acceptance?.acceptanceContent ?? '',
           localizations: localizations,
+        );
+      } else {
+        FuzzySnackbar.show(
+          label: localizations.failedToGetAcceptance,
         );
       }
     });
@@ -46,10 +46,15 @@ class _SettingsToolboxState extends State<SettingsToolbox> {
     required String acceptanceContent,
     required FuzzyChatLocalizations localizations,
   }) {
-    Clipboard.setData(ClipboardData(text: acceptanceContent));
-    FuzzySnackbar.show(
-      label: FuzzyChatLocalizations.of(context)?.acceptanceCopiedToClipboard ?? '',
-    );
+    Clipboard.setData(
+      ClipboardData(
+        text: acceptanceContent,
+      ),
+    ).then((_) {
+      FuzzySnackbar.show(
+        label: localizations.acceptanceCopiedToClipboard,
+      );
+    });
   }
 
   @override
@@ -83,9 +88,9 @@ class _SettingsToolboxState extends State<SettingsToolbox> {
                 localizations.exportAcceptance,
               ),
               onTap: () {
-                widget.onActionPressed();
-
                 _exportAcceptance(localizations: localizations);
+
+                widget.onActionPressed();
               },
             ),
         ],
