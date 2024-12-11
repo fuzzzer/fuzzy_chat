@@ -37,7 +37,7 @@ class ConnectedChatTile extends StatelessWidget {
         leading: const Icon(
           Icons.lock,
           size: 32,
-          color: Color.fromARGB(210, 111, 216, 115),
+          color: Color.fromARGB(210, 59, 103, 60),
         ),
         title: Text(
           name,
