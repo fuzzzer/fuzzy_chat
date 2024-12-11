@@ -46,13 +46,14 @@ flutter:
   generate: true
 
 flutter_icons:
-  android: true
-  ios: true
-  windows:
-    generate: true
-    image_path: "assets/logo/f.webp"
-    icon_size: 48
-  macos:
-    generate: true
-    image_path: "assets/logo/f.webp"
-  image_path: "assets/logo/f.webp"
+  # android: true
+  # ios: true
+  # remove_alpha_ios: true
+  # windows:
+  #   generate: true
+  #   image_path: "assets/logo/f.webp"
+  #   icon_size: 48
+  # macos:
+  #   generate: true
+  #   image_path: "assets/logo/f.webp"
+  # image_path: "assets/logo/f.webp"
