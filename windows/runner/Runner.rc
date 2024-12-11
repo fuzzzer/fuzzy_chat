@@ -95,7 +95,7 @@ BEGIN
             VALUE "InternalName", "fuzzy_chat" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2022 com.fuzzzytechnologies.fuzzy_chat. All rights reserved." "\0"
             VALUE "OriginalFilename", "fuzzy_chat.exe" "\0"
-            VALUE "ProductName", "Secure Chat" "\0"
+            VALUE "ProductName", "Fuzzy Chat" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

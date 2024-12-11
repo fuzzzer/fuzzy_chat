@@ -82,17 +82,17 @@ android {
         production {
             dimension "default"
             applicationIdSuffix ""
-            manifestPlaceholders = [appName: "Secure Chat"]
+            manifestPlaceholders = [appName: "Fuzzy Chat"]
         }
         staging {
             dimension "default"
             applicationIdSuffix ".stg"
-            manifestPlaceholders = [appName: "[STG] Secure Chat"]
+            manifestPlaceholders = [appName: "[STG] Fuzzy Chat"]
         }
         development {
             dimension "default"
             applicationIdSuffix ".dev"
-            manifestPlaceholders = [appName: "[DEV] Secure Chat"]
+            manifestPlaceholders = [appName: "[DEV] Fuzzy Chat"]
         }
     }
 
