@@ -20,7 +20,7 @@ class ConnectedChatPage extends StatelessWidget {
         chatId: payload.chatGeneralData.chatId,
         messageDataRepository: sl.get<MessageDataRepository>(),
         keyStorageRepository: sl.get<KeyStorageRepository>(),
-      )..loadMessages(),
+      )..loadInitialMessages(),
       child: ProvidedConnectedChatPage(payload: payload),
     );
   }
@@ -48,6 +48,7 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
   @override
   void initState() {
     _messageController.addListener(_onMessageUpdated);
+    initializePagination();
     super.initState();
   }
 
@@ -57,12 +58,32 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
     });
   }
 
+  void initializePagination() {
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 20) {
+        loadOlderMessages();
+      }
+    });
+  }
+
   @override
   void dispose() {
     _messageController.dispose();
     _messageFocusNode.dispose();
     _scrollController.dispose();
     super.dispose();
+  }
+
+  void loadOlderMessages() {
+    final connectedChatCubit = context.read<ConnectedChatCubit>();
+
+    if (connectedChatCubit.state.status.isLoading) return;
+    if (connectedChatCubit.state.status.isFailed) {
+      connectedChatCubit.loadCurrentMessagesPage();
+      return;
+    }
+
+    connectedChatCubit.loadOlderMessages();
   }
 
   void _onSend() {
@@ -111,17 +132,21 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
               CustomScrollView(
                 reverse: true,
                 controller: _scrollController,
+                physics: const AlwaysScrollableScrollPhysics(),
                 slivers: [
                   const SliverToBoxAdapter(
                     child: SizedBox(height: 300),
                   ),
+                  MessageListSliver(
+                    messages: state.messages,
+                  ),
+                  if (state.status.isLoading)
+                    const SliverToBoxAdapter(
+                      child: SizedBox(height: 24),
+                    ),
                   if (state.status.isLoading)
                     const SliverToBoxAdapter(
                       child: DefaultLoadingWidget(),
-                    ),
-                  if (!state.status.isLoading)
-                    MessageListSliver(
-                      messages: state.messages,
                     ),
                   const SliverToBoxAdapter(
                     child: SizedBox(height: 80),
@@ -140,10 +165,7 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
                 child: MessageInputField(
                   controller: _messageController,
                   focusNode: _messageFocusNode,
-                  onSend: () {
-                    _messageFocusNode.unfocus();
-                    _onSend();
-                  },
+                  onSend: _onSend,
                   isEncrypting: isEncrypting,
                 ),
               ),
