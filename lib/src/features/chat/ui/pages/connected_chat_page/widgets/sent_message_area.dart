@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fuzzy_chat/lib.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:vibration/vibration.dart';
 
 class SentMessageArea extends StatefulWidget {
   final MessageData message;
@@ -80,23 +81,28 @@ class _SentMessageAreaState extends State<SentMessageArea> {
       hasJustCopied = true;
     });
 
-    Clipboard.setData(
-      ClipboardData(
-        text: _prepareEncrypredMessage(encryptedMessage),
-      ),
-    ).then((_) {
-      scaffoldMessengerKey.currentState?.showSnackBar(
-        FuzzySnackBar(
-          label: localizations.copiedToTheClipboard,
-        ),
-      );
-    });
-
     Future.delayed(const Duration(seconds: 3), () {
       if (mounted) {
         setState(() {
           hasJustCopied = false;
         });
+      }
+    });
+
+    Clipboard.setData(
+      ClipboardData(
+        text: _prepareEncrypredMessage(encryptedMessage),
+      ),
+    ).then((_) async {
+      scaffoldMessengerKey.currentState?.showSnackBar(
+        FuzzySnackBar(
+          label: localizations.copiedToTheClipboard,
+        ),
+      );
+
+      final hasVibrator = await Vibration.hasVibrator();
+      if (hasVibrator ?? true) {
+        await Vibration.vibrate();
       }
     });
   }
@@ -149,7 +155,9 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                 ),
                 child: FuzzyOverlaySpawner(
                   splashRadius: borderRadius,
-                  offset: const Offset(16, -24),
+                  offset: (!showEncrypted && widget.message.decryptedMessage.length < 10)
+                      ? const Offset(-140, 8)
+                      : const Offset(24, -24),
                   spawnedChildBuilder: (context, closeOverlay) {
                     return DecoratedBox(
                       decoration: BoxDecoration(
@@ -191,22 +199,38 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                     children: [
                       Padding(
                         padding: isExpandable ? const EdgeInsets.only(bottom: 12) : EdgeInsets.zero,
-                        child: Container(
-                          constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width * 0.75,
-                          ),
-                          padding: const EdgeInsets.all(12),
-                          child: AnimatedSize(
-                            duration: const Duration(
-                              milliseconds: 300,
+                        child: InkWell(
+                          splashColor: uiColors.backgroundPrimaryColor,
+                          borderRadius: borderRadius,
+                          onLongPress: () {
+                            _copyMessage(
+                              encryptedMessage: encryptedMessage,
+                              localizations: localizations,
+                            );
+                          },
+                          child: Ink(
+                            decoration: BoxDecoration(
+                              borderRadius: borderRadius,
+                              color: uiColors.secondaryColor,
                             ),
-                            curve: Curves.easeIn,
-                            child: Text(
-                              showEncrypted ? encryptedMessage : widget.message.decryptedMessage,
-                              maxLines: isExpanded ? null : 4,
-                              overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
-                              style: uiTextStyles.body16.copyWith(
-                                color: uiColors.backgroundPrimaryColor,
+                            child: Container(
+                              constraints: BoxConstraints(
+                                maxWidth: MediaQuery.of(context).size.width * 0.75,
+                              ),
+                              padding: const EdgeInsets.all(12),
+                              child: AnimatedSize(
+                                duration: const Duration(
+                                  milliseconds: 300,
+                                ),
+                                curve: Curves.easeIn,
+                                child: Text(
+                                  showEncrypted ? encryptedMessage : widget.message.decryptedMessage,
+                                  maxLines: isExpanded ? null : 4,
+                                  overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
+                                  style: uiTextStyles.body16.copyWith(
+                                    color: uiColors.backgroundPrimaryColor,
+                                  ),
+                                ),
                               ),
                             ),
                           ),

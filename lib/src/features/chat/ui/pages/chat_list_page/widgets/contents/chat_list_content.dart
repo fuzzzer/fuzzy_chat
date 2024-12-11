@@ -13,20 +13,13 @@ class ChatListContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizations = FuzzyChatLocalizations.of(context)!;
 
-    const defaultSpacer = SliverToBoxAdapter(
-      child: SizedBox(height: 20),
-    );
-
     return CustomScrollView(
       slivers: [
         SliverToBoxAdapter(
-          child: Center(
-            child: FuzzyHeader(
-              title: localizations.fuzzyChat,
-            ),
+          child: FuzzyHeader(
+            title: localizations.fuzzyChat,
           ),
         ),
-        defaultSpacer,
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) {

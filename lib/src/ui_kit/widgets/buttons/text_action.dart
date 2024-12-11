@@ -41,7 +41,7 @@ class TextAction extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(
-            horizontal: 16,
+            horizontal: 12,
             vertical: 8,
           ),
           child: Text(
