@@ -19,6 +19,20 @@ class MessageDataRepository {
     return storedMessages.map(MessageData.fromStored).toList();
   }
 
+  Future<List<MessageData>> getMessagesForChatPaginated(
+    String chatId, {
+    required int pageSize,
+    required int pageIndex,
+  }) async {
+    final storedMessages = await localDataSource.getMessagesForChatPaginated(
+      chatId,
+      pageSize: pageSize,
+      pageIndex: pageIndex,
+    );
+
+    return storedMessages.map(MessageData.fromStored).toList();
+  }
+
   Future<void> deleteMessage(int messageId) async {
     await localDataSource.deleteMessage(messageId);
   }

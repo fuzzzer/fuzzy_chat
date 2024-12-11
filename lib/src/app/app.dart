@@ -7,6 +7,7 @@ export 'initializer.dart';
 export 'run_app.dart';
 
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -22,6 +23,7 @@ class App extends StatelessWidget {
     return GlobalBlocProviders(
       child: MaterialApp(
         scaffoldMessengerKey: scaffoldMessengerKey,
+        navigatorKey: navigatorKey,
         theme: UiKitTheme.dark(),
         localizationsDelegates: FuzzyChatLocalizations.localizationsDelegates,
         supportedLocales: FuzzyChatLocalizations.supportedLocales,

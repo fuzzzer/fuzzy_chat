@@ -9,6 +9,7 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
     required this.chatId,
     required this.messageDataRepository,
     required this.keyStorageRepository,
+    this.messagesPerPage = 8,
   }) : super(
           const ConnectedChatState(
             status: StateStatus.initial,
@@ -20,30 +21,77 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
   final MessageDataRepository messageDataRepository;
   final KeyStorageRepository keyStorageRepository;
 
-  Future<void> loadMessages() async {
-    emit(state.copyWith(status: StateStatus.loading));
+  final int messagesPerPage;
+  int currentPage = 0;
+
+  Future<void> loadInitialMessages() async {
+    emit(
+      state.copyWith(
+        hasFetchedAllMessages: false,
+      ),
+    );
+    currentPage = 0;
+
+    await loadCurrentMessagesPage();
+  }
+
+  Future<void> loadOlderMessages() async {
+    if (state.status.isLoading || state.hasFetchedAllMessages) return;
+    currentPage++;
+    await loadCurrentMessagesPage();
+  }
+
+  Future<void> loadCurrentMessagesPage() async {
+    emit(
+      state.copyWith(
+        status: StateStatus.loading,
+      ),
+    );
 
     try {
-      final storedMessages = await messageDataRepository.getMessagesForChat(chatId);
+      final paginatedMessages = await messageDataRepository.getMessagesForChatPaginated(
+        chatId,
+        pageSize: messagesPerPage,
+        pageIndex: currentPage,
+      );
+
+      if (paginatedMessages.isEmpty) {
+        emit(
+          state.copyWith(
+            status: StateStatus.success,
+            hasFetchedAllMessages: true,
+          ),
+        );
+        return;
+      }
+
       final symmetricKey = await keyStorageRepository.getSymmetricKey(chatId);
       if (symmetricKey == null) {
         throw Exception('Symmetric key not found');
       }
 
-      final messages = await Future.wait(
-        storedMessages.map((message) async {
+      final decryptedMessages = await Future.wait(
+        paginatedMessages.map((message) async {
           final decryptedMessage = await AESManager.decrypt(
             message.encryptedMessage,
             symmetricKey,
           );
-
-          return message.copyWith(
-            decryptedMessage: decryptedMessage,
-          );
+          return message.copyWith(decryptedMessage: decryptedMessage);
         }),
       );
 
-      emit(state.copyWith(status: StateStatus.success, messages: messages));
+      // Append newly loaded messages to the existing list
+      final updatedMessages = [
+        ...state.messages,
+        ...decryptedMessages,
+      ];
+
+      emit(
+        state.copyWith(
+          status: StateStatus.success,
+          messages: updatedMessages,
+        ),
+      );
     } catch (ex) {
       emit(
         state.copyWith(

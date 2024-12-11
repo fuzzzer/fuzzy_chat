@@ -16,6 +16,22 @@ class MessageDataLocalDataSource {
     return await isar.storedMessageDatas.filter().chatIdEqualTo(chatId).sortBySentAt().findAll();
   }
 
+  Future<List<StoredMessageData>> getMessagesForChatPaginated(
+    String chatId, {
+    required int pageSize,
+    required int pageIndex,
+  }) async {
+    final offset = pageIndex * pageSize;
+
+    return await isar.storedMessageDatas
+        .filter()
+        .chatIdEqualTo(chatId)
+        .sortBySentAtDesc()
+        .offset(offset)
+        .limit(pageSize)
+        .findAll();
+  }
+
   Future<int> updateMessage(StoredMessageData messageData) async {
     return await isar.writeTxn<int>(() async {
       return await isar.storedMessageDatas.put(messageData);
