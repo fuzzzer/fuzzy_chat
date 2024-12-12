@@ -8,8 +8,10 @@ class UiColors extends ThemeExtension<UiColors> {
   final Color secondaryColor;
   final Color errorColor;
   final Color backgroundPrimaryColor;
+  final Color backgroundSecondaryColor;
   final Color primaryTextColor;
   final Color secondaryTextColor;
+  final Color diffColor;
 
   const UiColors({
     this.primaryColor = UiKitColors.primaryColor,
@@ -17,8 +19,10 @@ class UiColors extends ThemeExtension<UiColors> {
     this.secondaryColor = UiKitColors.secondaryColor,
     this.errorColor = UiKitColors.errorColor,
     this.backgroundPrimaryColor = UiKitColors.backgroundPrimaryColor,
+    this.backgroundSecondaryColor = UiKitColors.backgroundSecondaryColor,
     this.primaryTextColor = UiKitColors.primaryTextColor,
     this.secondaryTextColor = UiKitColors.secondaryTextColor,
+    this.diffColor = UiKitColors.diffColor,
   });
 
   const UiColors.light() : this();
@@ -30,8 +34,10 @@ class UiColors extends ThemeExtension<UiColors> {
           secondaryColor: UiKitColors.secondaryColorDark,
           errorColor: UiKitColors.errorColorDark,
           backgroundPrimaryColor: UiKitColors.backgroundPrimaryColorDark,
+          backgroundSecondaryColor: UiKitColors.backgroundSecondaryColorDark,
           primaryTextColor: UiKitColors.primaryTextColorDark,
           secondaryTextColor: UiKitColors.secondaryTextColorDark,
+          diffColor: UiKitColors.diffColorDark,
         );
 
   @override
@@ -44,8 +50,10 @@ class UiColors extends ThemeExtension<UiColors> {
       secondaryColor: Color.lerp(secondaryColor, other.secondaryColor, t)!,
       errorColor: Color.lerp(errorColor, other.errorColor, t)!,
       backgroundPrimaryColor: Color.lerp(backgroundPrimaryColor, other.backgroundPrimaryColor, t)!,
+      backgroundSecondaryColor: Color.lerp(backgroundSecondaryColor, other.backgroundSecondaryColor, t)!,
       primaryTextColor: Color.lerp(primaryTextColor, other.primaryTextColor, t)!,
       secondaryTextColor: Color.lerp(secondaryTextColor, other.secondaryTextColor, t)!,
+      diffColor: Color.lerp(diffColor, other.diffColor, t)!,
     );
   }
 
@@ -56,8 +64,10 @@ class UiColors extends ThemeExtension<UiColors> {
     Color? secondaryColor,
     Color? errorColor,
     Color? backgroundPrimaryColor,
+    Color? backgroundSecondaryColor,
     Color? primaryTextColor,
     Color? secondaryTextColor,
+    Color? diffColor,
   }) {
     return UiColors(
       primaryColor: primaryColor ?? this.primaryColor,
@@ -65,8 +75,10 @@ class UiColors extends ThemeExtension<UiColors> {
       secondaryColor: secondaryColor ?? this.secondaryColor,
       errorColor: errorColor ?? this.errorColor,
       backgroundPrimaryColor: backgroundPrimaryColor ?? this.backgroundPrimaryColor,
+      backgroundSecondaryColor: backgroundSecondaryColor ?? this.backgroundSecondaryColor,
       primaryTextColor: primaryTextColor ?? this.primaryTextColor,
       secondaryTextColor: secondaryTextColor ?? this.secondaryTextColor,
+      diffColor: diffColor ?? this.diffColor,
     );
   }
 }

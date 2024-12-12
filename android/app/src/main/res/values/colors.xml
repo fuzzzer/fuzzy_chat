@@ -1,0 +1,8 @@
+<resources>
+    <!-- Define the white color -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!-- Define any other colors if needed -->
+    <color name="splash_background">#FFFFFF</color>
+</resources>

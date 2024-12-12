@@ -4,11 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
-import 'package:fuzzy_chat/src/app/app.dart';
-import 'package:fuzzy_chat/src/core/utils/rsa_manager/rsa_manager.dart';
+import 'package:fuzzy_chat/lib.dart';
 import 'package:pointycastle/impl.dart' as pointy;
-
-import '../../../core/utils/map_casting.dart';
 
 class SendPage extends StatefulWidget {
   const SendPage({
@@ -39,9 +36,7 @@ class _SendPageState extends State<SendPage> {
 
   Future<void> _encrypt() async {
     if (publicKey == null) {
-      scaffoldMessengerKey.currentState?.showSnackBar(
-        const SnackBar(content: Text('Public key not loaded')),
-      );
+      FuzzySnackbar.show(label: 'Public key not loaded');
       return;
     }
     final plainText = _plainTextController.text;
@@ -51,9 +46,7 @@ class _SendPageState extends State<SendPage> {
     });
   }
 
-  Future<void> _importPublicKeyFromFile(dynamic event) async {
-    final messenger = scaffoldMessengerKey.currentState;
-
+  Future<void> _importPublicKeyFromFile(DropzoneFileInterface event) async {
     try {
       final bytes = await _controller.getFileData(event);
       final jsonString = utf8.decode(bytes);
@@ -62,19 +55,15 @@ class _SendPageState extends State<SendPage> {
       setState(() {
         publicKey = importedPublicKey;
       });
-      messenger?.showSnackBar(
-        const SnackBar(content: Text('Public key imported successfully')),
-      );
+      FuzzySnackbar.show(label: 'Public key imported successfully');
     } catch (e) {
-      messenger?.showSnackBar(
-        const SnackBar(content: Text('Failed to import public key')),
-      );
+      FuzzySnackbar.show(label: 'Failed to import public key');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return FuzzyScaffold(
       appBar: AppBar(title: const Text('Send Message')),
       body: Stack(
         children: [
@@ -103,9 +92,7 @@ class _SendPageState extends State<SendPage> {
                   ElevatedButton(
                     onPressed: () {
                       Clipboard.setData(ClipboardData(text: _encryptedText));
-                      scaffoldMessengerKey.currentState?.showSnackBar(
-                        const SnackBar(content: Text('Decoded Text Copied')),
-                      );
+                      FuzzySnackbar.show(label: 'Decoded Text Copied');
                     },
                     child: const Text('Copy Encrypted Text'),
                   ),
@@ -116,7 +103,7 @@ class _SendPageState extends State<SendPage> {
           if (kIsWeb)
             DropzoneView(
               onCreated: (controller) => _controller = controller,
-              onDrop: (event) async {
+              onDropFile: (event) async {
                 setState(() {
                   _highlighted = false;
                 });

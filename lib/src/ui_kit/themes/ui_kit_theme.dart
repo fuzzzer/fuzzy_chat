@@ -36,6 +36,10 @@ class UiKitTheme {
       brightness: Brightness.light,
       useMaterial3: true,
       colorScheme: lightColorScheme(),
+      textSelectionTheme: TextSelectionThemeData(
+        selectionColor: darkUiColors.diffColor,
+        selectionHandleColor: const Color.fromARGB(255, 138, 138, 138),
+      ),
       primaryColor: lightUiColors.primaryColor,
       focusColor: lightUiColors.focusColor,
       textTheme: const TextTheme()
@@ -43,6 +47,7 @@ class UiKitTheme {
           bodyColor: lightUiColors.primaryColor,
           displayColor: lightUiColors.primaryColor,
         ),
+      fontFamily: 'Barlow',
       extensions: <ThemeExtension<dynamic>>[
         lightUiColors,
         uiTextStyles.apply(
@@ -58,13 +63,18 @@ class UiKitTheme {
     return ThemeData(
       brightness: Brightness.dark,
       useMaterial3: true,
+      textSelectionTheme: TextSelectionThemeData(
+        selectionColor: darkUiColors.diffColor,
+        selectionHandleColor: const Color.fromARGB(255, 138, 138, 138),
+      ),
       colorScheme: darkColorScheme(),
       primaryColor: darkUiColors.primaryColor,
       focusColor: darkUiColors.focusColor,
+      fontFamily: 'Barlow',
       textTheme: const TextTheme()
         ..apply(
-          bodyColor: darkUiColors.primaryColor,
-          displayColor: darkUiColors.primaryColor,
+          bodyColor: darkUiColors.primaryTextColor,
+          displayColor: darkUiColors.primaryTextColor,
         ),
       extensions: <ThemeExtension<dynamic>>[
         darkUiColors,

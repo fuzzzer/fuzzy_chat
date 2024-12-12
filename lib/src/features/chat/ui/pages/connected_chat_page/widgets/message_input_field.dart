@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:fuzzy_chat/src/ui_kit/ui_kit.dart';
+import 'package:fuzzy_chat/lib.dart';
 
 class MessageInputField extends StatelessWidget {
   final TextEditingController controller;
   final FocusNode focusNode;
-  final VoidCallback onEncryptTap;
-  final VoidCallback onDecryptTap;
+  final VoidCallback onSend;
+  final bool isEncrypting;
 
   const MessageInputField({
     required this.controller,
     required this.focusNode,
-    required this.onEncryptTap,
-    required this.onDecryptTap,
+    required this.onSend,
+    required this.isEncrypting,
     super.key,
   });
 
@@ -20,10 +20,10 @@ class MessageInputField extends StatelessWidget {
     final theme = Theme.of(context);
     final uiColors = theme.extension<UiColors>()!;
 
+    final localizations = FuzzyChatLocalizations.of(context)!;
+
     const height = 200.0;
     const aroundTextFieldPadding = 8.0;
-
-    const gapBetweenButtons = 8.0;
 
     final fullWidth = MediaQuery.of(context).size.width;
 
@@ -35,7 +35,17 @@ class MessageInputField extends StatelessWidget {
           Container(
             height: 2,
             width: fullWidth,
-            color: Colors.black,
+            color: uiColors.backgroundSecondaryColor,
+          ),
+          Center(
+            child: Text(
+              isEncrypting ? localizations.encrypting : localizations.decrypting,
+            ),
+          ),
+          Container(
+            height: 2,
+            width: fullWidth,
+            color: uiColors.backgroundSecondaryColor,
           ),
           Expanded(
             child: Row(
@@ -48,50 +58,28 @@ class MessageInputField extends StatelessWidget {
                       controller: controller,
                       focusNode: focusNode,
                       maxLines: 7,
-                      decoration: const InputDecoration.collapsed(
-                        hintText: 'Text Goes here...',
+                      decoration: InputDecoration.collapsed(
+                        hintText: '${localizations.textGoesHere}...',
                       ),
                     ),
                   ),
                 ),
                 const SizedBox(width: 8),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(
-                      width: 60,
-                      height: height / 2 - gapBetweenButtons / 2,
-                      child: InkWell(
-                        onTap: onDecryptTap,
-                        child: const DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: Colors.grey,
-                          ),
-                          child: Icon(
-                            Icons.no_encryption,
-                            color: Colors.red,
-                          ),
-                        ),
-                      ),
+                InkWell(
+                  borderRadius: BorderRadius.circular(12),
+                  onTap: onSend,
+                  child: Container(
+                    height: height,
+                    width: 60,
+                    decoration: BoxDecoration(
+                      color: uiColors.focusColor,
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    const SizedBox(height: gapBetweenButtons),
-                    SizedBox(
-                      width: 60,
-                      height: height / 2 - gapBetweenButtons / 2,
-                      child: InkWell(
-                        onTap: onEncryptTap,
-                        child: const DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: Colors.grey,
-                          ),
-                          child: Icon(
-                            Icons.lock,
-                            color: Colors.green,
-                          ),
-                        ),
-                      ),
+                    child: Icon(
+                      Icons.send,
+                      color: uiColors.backgroundPrimaryColor,
                     ),
-                  ],
+                  ),
                 ),
               ],
             ),
