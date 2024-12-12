@@ -96,7 +96,9 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
       emit(
         state.copyWith(
           status: StateStatus.failed,
-          failure: DefaultFailure(),
+          failure: DefaultFailure(
+            message: ex.toString(),
+          ),
         ),
       );
     }
