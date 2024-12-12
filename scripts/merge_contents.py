@@ -22,11 +22,9 @@ def collect_dart_files_content(directory, output_file):
                     file_count += 1
                     # Get the full file path
                     file_path = os.path.join(root, file)
-                    print(f"Found Dart file: {file_path}")  # Debug: print each .dart file found
                     # Read the content of the dart file and write it to the output file
                     with open(file_path, 'r', encoding='utf-8') as dart_file:
                         content = dart_file.read()
-                        outfile.write(f"// Content from: {file_path}\n\n")
                         outfile.write(content)
                         outfile.write("\n\n")  # Add spacing between files
         
@@ -41,8 +39,8 @@ if __name__ == "__main__":
     script_dir = os.path.dirname(os.path.abspath(__file__))
     
     # Use relative path from script's directory
-    lib_folder = os.path.join(script_dir, '../lib/src/features/chat/ui/pages/chat_invitation_page')
-    output_txt_file = os.path.join(script_dir, 'outputs/chat_invitation_page.txt')
+    lib_folder = os.path.join(script_dir, '../lib/src/features/chat')
+    output_txt_file = os.path.join(script_dir, 'outputs/chat.txt')
 
     # Collect all .dart file contents and write them to the output file
     collect_dart_files_content(lib_folder, output_txt_file)
