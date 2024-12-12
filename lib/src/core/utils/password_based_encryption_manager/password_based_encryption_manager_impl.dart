@@ -6,7 +6,7 @@ class _PasswordBasedEncryptionManagerImpl {
 
   static const macSize = 128;
 
-  static String syncEncrypt(String text, String password) {
+  static Uint8List syncEncrypt(Uint8List inputBytes, String password) {
     final salt = generateRandomSecureBytes(_saltByteLength);
     final key = deriveKey(password, salt);
     final nonce = generateRandomSecureBytes(_nonceByteLength);
@@ -17,19 +17,16 @@ class _PasswordBasedEncryptionManagerImpl {
         AEADParameters(KeyParameter(key), macSize, nonce, Uint8List(0)),
       );
 
-    final input = Uint8List.fromList(utf8.encode(text));
-    final encryptedData = encryptCipher.process(input);
+    final encryptedData = encryptCipher.process(inputBytes);
 
     final result = Uint8List.fromList(salt + nonce + encryptedData);
-    return base64.encode(result);
+    return result;
   }
 
-  static String syncDecrypt(String encryptedText, String password) {
-    final input = base64.decode(encryptedText);
-
-    final salt = input.sublist(0, _saltByteLength);
-    final nonce = input.sublist(_saltByteLength, _saltByteLength + _nonceByteLength);
-    final encryptedData = input.sublist(_saltByteLength + _nonceByteLength);
+  static Uint8List syncDecrypt(Uint8List encryptedInputBytes, String password) {
+    final salt = encryptedInputBytes.sublist(0, _saltByteLength);
+    final nonce = encryptedInputBytes.sublist(_saltByteLength, _saltByteLength + _nonceByteLength);
+    final encryptedData = encryptedInputBytes.sublist(_saltByteLength + _nonceByteLength);
 
     final key = deriveKey(password, salt);
 
@@ -40,7 +37,7 @@ class _PasswordBasedEncryptionManagerImpl {
       );
 
     final decryptedData = decryptCipher.process(encryptedData);
-    return utf8.decode(decryptedData);
+    return decryptedData;
   }
 
   static Uint8List deriveKey(String password, Uint8List salt) {

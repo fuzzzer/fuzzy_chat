@@ -10,7 +10,7 @@ class _AESManagerImpl {
     return generateRandomSecureBytes(_keyByteLength);
   }
 
-  static String syncEncrypt(String text, Uint8List key) {
+  static Uint8List syncEncrypt(Uint8List inputBytes, Uint8List key) {
     final nonce = generateRandomSecureBytes(_nonceByteLength);
     final encryptCipher = GCMBlockCipher(AESEngine())
       ..init(
@@ -18,17 +18,15 @@ class _AESManagerImpl {
         AEADParameters(KeyParameter(key), macSize, nonce, Uint8List(0)),
       );
 
-    final input = Uint8List.fromList(utf8.encode(text));
-    final encryptedData = encryptCipher.process(input);
+    final encryptedData = encryptCipher.process(inputBytes);
 
     final result = Uint8List.fromList(nonce + encryptedData);
-    return base64.encode(result);
+    return result;
   }
 
-  static String syncDecrypt(String text, Uint8List key) {
-    final input = base64.decode(text);
-    final nonce = input.sublist(0, _nonceByteLength);
-    final encryptedData = input.sublist(_nonceByteLength);
+  static Uint8List syncDecrypt(Uint8List encryptedInputBytes, Uint8List key) {
+    final nonce = encryptedInputBytes.sublist(0, _nonceByteLength);
+    final encryptedData = encryptedInputBytes.sublist(_nonceByteLength);
 
     final decryptCipher = GCMBlockCipher(AESEngine())
       ..init(
@@ -37,6 +35,6 @@ class _AESManagerImpl {
       );
 
     final decryptedData = decryptCipher.process(encryptedData);
-    return utf8.decode(decryptedData);
+    return decryptedData;
   }
 }
