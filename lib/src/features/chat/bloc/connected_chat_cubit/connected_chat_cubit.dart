@@ -133,16 +133,16 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
 
       final newMessageId = await messageDataRepository.addMessage(message);
 
-      final updatedMessages = List<MessageData>.from(state.messages)
-        ..add(
-          message.copyWith(
-            id: newMessageId,
-          ),
-        );
+      final preparedNewMessage = message.copyWith(
+        id: newMessageId,
+      );
 
       emit(
         state.copyWith(
-          messages: updatedMessages,
+          messages: [
+            preparedNewMessage,
+            ...state.messages,
+          ],
           actionStatus: StateStatus.success,
           actionType: ChatActionType.sendMessage,
         ),
@@ -189,16 +189,16 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
 
       final newMessageId = await messageDataRepository.addMessage(message);
 
-      final updatedMessages = List<MessageData>.from(state.messages)
-        ..add(
-          message.copyWith(
-            id: newMessageId,
-          ),
-        );
+      final preparedNewMessage = message.copyWith(
+        id: newMessageId,
+      );
 
       emit(
         state.copyWith(
-          messages: updatedMessages,
+          messages: [
+            preparedNewMessage,
+            ...state.messages,
+          ],
           actionStatus: StateStatus.success,
           actionType: ChatActionType.receiveMessage,
         ),
