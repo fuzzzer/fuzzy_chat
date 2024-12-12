@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:fuzzy_chat/src/features/chat/chat.dart';
-import 'package:fuzzy_chat/src/ui_kit/ui_kit.dart';
+import 'package:flutter/services.dart';
+
+import 'package:fuzzy_chat/lib.dart';
 
 class SettingsToolbox extends StatefulWidget {
   final ChatGeneralData chatGeneralData;
+  final void Function() onActionPressed;
+  final void Function() onChatDeleted;
 
   const SettingsToolbox({
     super.key,
     required this.chatGeneralData,
+    required this.onActionPressed,
+    required this.onChatDeleted,
   });
 
   @override
@@ -15,60 +20,78 @@ class SettingsToolbox extends StatefulWidget {
 }
 
 class _SettingsToolboxState extends State<SettingsToolbox> {
-  Future<void> _deleteChat() async {
-    await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Delete Chat'),
-        content: const Text('Are you sure you want to delete this chat?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              //TODO add delete chat functionality, delete chat completely with keys and everything
-
-              // context.read<ConnectedChatCubit>().deleteChat();
-              Navigator.pop(context);
-              Navigator.pop(context);
-            },
-            child: const Text('Delete'),
-          ),
-        ],
-      ),
+  void _exportAcceptance({
+    required FuzzyChatLocalizations localizations,
+  }) {
+    final acceptanceReaderCubit = AcceptanceReaderCubit(
+      handshakeManager: sl.get<HandshakeManager>(),
+      keyStorageRepository: sl.get<KeyStorageRepository>(),
     );
+
+    acceptanceReaderCubit.generateAcceptance(chatId: widget.chatGeneralData.chatId).then((_) {
+      if (acceptanceReaderCubit.state.status.isSuccess) {
+        _copyAcceptance(
+          acceptanceContent: acceptanceReaderCubit.state.acceptance?.acceptanceContent ?? '',
+          localizations: localizations,
+        );
+      } else {
+        FuzzySnackbar.show(
+          label: localizations.failedToGetAcceptance,
+        );
+      }
+    });
   }
 
-  void _exportAcceptance() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => AcceptanceExportPage(
-          payload: AcceptanceExportPagePayload(
-            chatGeneralData: widget.chatGeneralData,
-            hasBackButton: true,
-          ),
-        ),
+  void _copyAcceptance({
+    required String acceptanceContent,
+    required FuzzyChatLocalizations localizations,
+  }) {
+    Clipboard.setData(
+      ClipboardData(
+        text: acceptanceContent,
       ),
-    );
+    ).then((_) {
+      FuzzySnackbar.show(
+        label: localizations.acceptanceCopiedToClipboard,
+      );
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final localizations = FuzzyChatLocalizations.of(context)!;
+
     return IntrinsicWidth(
       child: FuzzyToolbox(
         children: [
           ListTile(
             leading: const Icon(Icons.delete),
-            title: const Text('Delete Chat'),
-            onTap: _deleteChat,
+            contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+            title: Text(
+              localizations.deleteChat,
+            ),
+            onTap: () {
+              widget.onActionPressed();
+              showChatDeletionDialog(
+                context,
+                chatId: widget.chatGeneralData.chatId,
+                chatName: widget.chatGeneralData.chatName,
+                onChatDeleted: widget.onChatDeleted,
+              );
+            },
           ),
           if (widget.chatGeneralData.didAcceptInvitation)
             ListTile(
               leading: const Icon(Icons.file_upload),
-              title: const Text('Export Acceptance'),
-              onTap: _exportAcceptance,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+              title: Text(
+                localizations.exportAcceptance,
+              ),
+              onTap: () {
+                _exportAcceptance(localizations: localizations);
+
+                widget.onActionPressed();
+              },
             ),
         ],
       ),

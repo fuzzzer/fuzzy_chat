@@ -8,11 +8,11 @@ import '../secure_bytes_generation.dart';
 part 'password_based_encryption_manager_impl.dart';
 
 class PasswordBasedEncryptionManager {
-  static Future<String> encrypt(String text, String pin) async {
-    return Isolate.run(() => _PasswordBasedEncryptionManagerImpl.syncEncrypt(text, pin));
+  static Future<Uint8List> encrypt(Uint8List bytes, String password) async {
+    return Isolate.run(() => _PasswordBasedEncryptionManagerImpl.syncEncrypt(bytes, password));
   }
 
-  static Future<String> decrypt(String text, String pin) async {
-    return Isolate.run(() => _PasswordBasedEncryptionManagerImpl.syncDecrypt(text, pin));
+  static Future<Uint8List> decrypt(Uint8List encryptedBytes, String password) async {
+    return Isolate.run(() => _PasswordBasedEncryptionManagerImpl.syncDecrypt(encryptedBytes, password));
   }
 }

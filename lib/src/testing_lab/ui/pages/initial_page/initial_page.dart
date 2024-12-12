@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-
-import '../recieve_setup_page.dart';
-import '../send_setup_page.dart';
+import 'package:fuzzy_chat/lib.dart';
 
 class InitialPage extends StatelessWidget {
   const InitialPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return FuzzyScaffold(
       appBar: AppBar(title: const Text('RSA Encrypter')),
       body: Center(
         child: Column(

@@ -37,12 +37,12 @@ android {
     ndkVersion flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = "17"
     }
 
     sourceSets {
@@ -82,17 +82,17 @@ android {
         production {
             dimension "default"
             applicationIdSuffix ""
-            manifestPlaceholders = [appName: "Secure Chat"]
+            manifestPlaceholders = [appName: "Fuzzy Chat"]
         }
         staging {
             dimension "default"
             applicationIdSuffix ".stg"
-            manifestPlaceholders = [appName: "[STG] Secure Chat"]
+            manifestPlaceholders = [appName: "[STG] Fuzzy Chat"]
         }
         development {
             dimension "default"
             applicationIdSuffix ".dev"
-            manifestPlaceholders = [appName: "[DEV] Secure Chat"]
+            manifestPlaceholders = [appName: "[DEV] Fuzzy Chat"]
         }
     }
 
@@ -114,4 +114,5 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
 }

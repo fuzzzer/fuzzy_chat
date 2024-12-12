@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fuzzy_chat/src/core/core.dart';
-import 'package:fuzzy_chat/src/features/chat/chat.dart';
+import 'package:fuzzy_chat/lib.dart';
 
 export 'components/components.dart';
 export 'widgets/widgets.dart';
@@ -21,7 +20,7 @@ class ConnectedChatPage extends StatelessWidget {
         chatId: payload.chatGeneralData.chatId,
         messageDataRepository: sl.get<MessageDataRepository>(),
         keyStorageRepository: sl.get<KeyStorageRepository>(),
-      )..loadMessages(),
+      )..loadInitialMessages(),
       child: ProvidedConnectedChatPage(payload: payload),
     );
   }
@@ -44,7 +43,28 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
   final FocusNode _messageFocusNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
 
-  bool _isSettingsOpen = false;
+  bool isEncrypting = true;
+
+  @override
+  void initState() {
+    _messageController.addListener(_onMessageUpdated);
+    initializePagination();
+    super.initState();
+  }
+
+  void _onMessageUpdated() {
+    setState(() {
+      isEncrypting = !_messageController.text.startsWith(fuzzIdentificator);
+    });
+  }
+
+  void initializePagination() {
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 20) {
+        loadOlderMessages();
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -54,22 +74,41 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
     super.dispose();
   }
 
-  void _sendMessage() {
+  void loadOlderMessages() {
+    final connectedChatCubit = context.read<ConnectedChatCubit>();
+
+    if (connectedChatCubit.state.status.isLoading) return;
+    if (connectedChatCubit.state.status.isFailed) {
+      connectedChatCubit.loadCurrentMessagesPage();
+      return;
+    }
+
+    connectedChatCubit.loadOlderMessages();
+  }
+
+  void _onSend() {
     final text = _messageController.text.trim();
-    if (text.isNotEmpty) {
-      context.read<ConnectedChatCubit>().sendMessage(text: text);
-      _messageController.clear();
-      _scrollToBottom();
+    if (text.isEmpty) return;
+
+    final isFuzzed = text.startsWith(fuzzIdentificator);
+
+    if (isFuzzed) {
+      _receiveMessage(text.substring(5));
+    } else {
+      _sendMessage(text);
     }
   }
 
-  void _receiveMessage() {
-    final text = _messageController.text.trim();
-    if (text.isNotEmpty) {
-      context.read<ConnectedChatCubit>().receiveMessage(encryptedText: text);
-      _messageController.clear();
-      _scrollToBottom();
-    }
+  void _sendMessage(String text) {
+    context.read<ConnectedChatCubit>().sendMessage(text: text);
+    _messageController.clear();
+    _scrollToBottom();
+  }
+
+  void _receiveMessage(String text) {
+    context.read<ConnectedChatCubit>().receiveMessage(encryptedText: text);
+    _messageController.clear();
+    _scrollToBottom();
   }
 
   void _scrollToBottom() {
@@ -82,22 +121,24 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
     }
   }
 
-  void openSettingsToolbox() {
-    setState(() {
-      _isSettingsOpen = !_isSettingsOpen;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocBuilder<ConnectedChatCubit, ConnectedChatState>(
+    return FuzzyScaffold(
+      hasAutomaticBackButton: false,
+      body: BlocConsumer<ConnectedChatCubit, ConnectedChatState>(
+        listener: (context, state) {
+          if (state.status.isFailed) {
+            if (state.failure?.message?.isEmpty ?? true) return;
+            FuzzySnackbar.show(label: state.failure?.message ?? '');
+          }
+        },
         builder: (context, state) {
           return Stack(
             children: [
               CustomScrollView(
                 reverse: true,
                 controller: _scrollController,
+                physics: const AlwaysScrollableScrollPhysics(),
                 slivers: [
                   const SliverToBoxAdapter(
                     child: SizedBox(height: 300),
@@ -105,38 +146,33 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
                   MessageListSliver(
                     messages: state.messages,
                   ),
+                  if (state.status.isLoading)
+                    const SliverToBoxAdapter(
+                      child: SizedBox(height: 24),
+                    ),
+                  if (state.status.isLoading)
+                    const SliverToBoxAdapter(
+                      child: DefaultLoadingWidget(),
+                    ),
                   const SliverToBoxAdapter(
-                    child: SizedBox(height: 120),
+                    child: SizedBox(height: 80),
                   ),
                 ],
               ),
               Align(
                 alignment: Alignment.topCenter,
                 child: ChatHeader(
-                  chatName: widget.payload.chatGeneralData.chatName,
+                  chatGeneralData: widget.payload.chatGeneralData,
                   onBackPressed: () => Navigator.pop(context),
-                  onSettingsPressed: openSettingsToolbox,
                 ),
               ),
-              if (_isSettingsOpen)
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      top: 80,
-                    ),
-                    child: SettingsToolbox(
-                      chatGeneralData: widget.payload.chatGeneralData,
-                    ),
-                  ),
-                ),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: MessageInputField(
                   controller: _messageController,
                   focusNode: _messageFocusNode,
-                  onEncryptTap: _sendMessage,
-                  onDecryptTap: _receiveMessage,
+                  onSend: _onSend,
+                  isEncrypting: isEncrypting,
                 ),
               ),
             ],

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:fuzzy_chat/src/features/chat/chat.dart';
 
@@ -6,14 +8,29 @@ import '../../../../core/core.dart';
 part 'chat_general_data_list_state.dart';
 
 class ChatGeneralDataListCubit extends Cubit<ChatGeneralDataListState> {
-  ChatGeneralDataListCubit({required this.chatRepository})
-      : super(
+  ChatGeneralDataListCubit({
+    required this.keyStorageRepository,
+    required this.chatRepository,
+  }) : super(
           const ChatGeneralDataListState(
             status: StateStatus.initial,
           ),
-        );
+        ) {
+    _chatListUpdatesSubscription = chatRepository.chatListUpdates.listen((_) {
+      _fetchChatsInBackground();
+    });
+  }
+
+  final KeyStorageRepository keyStorageRepository;
 
   final ChatGeneralDataListRepository chatRepository;
+  late final StreamSubscription<ChatGeneralDataListUpdated> _chatListUpdatesSubscription;
+
+  @override
+  Future<void> close() {
+    _chatListUpdatesSubscription.cancel();
+    return super.close();
+  }
 
   Future<void> fetchChats() async {
     emit(state.copyWith(status: StateStatus.loading));
@@ -24,6 +41,25 @@ class ChatGeneralDataListCubit extends Cubit<ChatGeneralDataListState> {
       emit(
         state.copyWith(
           status: StateStatus.success,
+          chatList: chats,
+        ),
+      );
+    } catch (ex) {
+      emit(
+        state.copyWith(
+          status: StateStatus.failed,
+          failure: DefaultFailure(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _fetchChatsInBackground() async {
+    try {
+      final chats = await chatRepository.getAllChats();
+
+      emit(
+        state.copyWith(
           chatList: chats,
         ),
       );
@@ -49,6 +85,7 @@ class ChatGeneralDataListCubit extends Cubit<ChatGeneralDataListState> {
 
     try {
       await chatRepository.deleteChat(chatId);
+      await keyStorageRepository.clearAllKeysForChat(chatId);
 
       final updatedChats = state.chatList?.where((chat) => chat.chatId != chatId).toList();
 

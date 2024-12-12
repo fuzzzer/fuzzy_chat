@@ -5,13 +5,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
-import 'package:fuzzy_chat/src/app/app.dart';
-import 'package:fuzzy_chat/src/core/utils/keys_repository/keys_repository.dart';
+import 'package:fuzzy_chat/lib.dart';
 import 'package:pointycastle/pointycastle.dart' as pointy;
-
-import '../../../core/utils/map_casting.dart';
-import '../../../core/utils/rsa_manager/rsa_manager.dart';
-import 'send_page.dart';
 
 class SendSetupPage extends StatefulWidget {
   const SendSetupPage({super.key});
@@ -26,9 +21,7 @@ class _SendSetupPageState extends State<SendSetupPage> {
   bool _highlighted = false;
   final TextEditingController _publicKeyController = TextEditingController();
 
-  Future<void> _importPublicKeyFromFile(dynamic event) async {
-    final messenger = scaffoldMessengerKey.currentState;
-
+  Future<void> _importPublicKeyFromFile(DropzoneFileInterface event) async {
     try {
       final bytes = await _controller.getFileData(event);
       final originalStringBytes = base64Decode(utf8.decode(bytes));
@@ -39,20 +32,14 @@ class _SendSetupPageState extends State<SendSetupPage> {
         _publicKey = importedPublicKey;
       });
       await KeysRepository.savePublicKeyToFile(importedPublicKey, 'public_key.json');
-      messenger?.showSnackBar(
-        const SnackBar(content: Text('Public key imported successfully')),
-      );
+      FuzzySnackbar.show(label: 'Public key imported successfully');
       _showPublicKeyDialog(importedPublicKey);
     } catch (e) {
-      messenger?.showSnackBar(
-        const SnackBar(content: Text('Failed to import public key')),
-      );
+      FuzzySnackbar.show(label: 'Failed to import public key');
     }
   }
 
   Future<void> _importPublicKeyFromPicker() async {
-    final messenger = scaffoldMessengerKey.currentState;
-
     try {
       final result = await FilePicker.platform.pickFiles();
       if (result != null) {
@@ -66,20 +53,14 @@ class _SendSetupPageState extends State<SendSetupPage> {
           _publicKey = importedPublicKey;
         });
         await KeysRepository.savePublicKeyToFile(importedPublicKey, 'public_key.json');
-        messenger?.showSnackBar(
-          const SnackBar(content: Text('Public key imported successfully')),
-        );
+        FuzzySnackbar.show(label: 'Public key imported successfully');
       }
     } catch (e) {
-      messenger?.showSnackBar(
-        SnackBar(content: Text('Failed to import public key: $e')),
-      );
+      FuzzySnackbar.show(label: 'Failed to import public key: $e');
     }
   }
 
   Future<void> _importPublicKeyFromString(String publicKeyString) async {
-    final messenger = scaffoldMessengerKey.currentState;
-
     try {
       final originalString = base64Decode(publicKeyString);
       final jsonString = utf8.decode(originalString);
@@ -90,14 +71,10 @@ class _SendSetupPageState extends State<SendSetupPage> {
         _publicKey = importedPublicKey;
       });
       await KeysRepository.savePublicKeyToFile(importedPublicKey, 'public_key.json');
-      messenger?.showSnackBar(
-        const SnackBar(content: Text('Public key imported successfully')),
-      );
+      FuzzySnackbar.show(label: 'Public key imported successfully');
       _showPublicKeyDialog(importedPublicKey);
     } catch (e) {
-      messenger?.showSnackBar(
-        const SnackBar(content: Text('Invalid public key string')),
-      );
+      FuzzySnackbar.show(label: 'Invalid public key string');
     }
   }
 
@@ -166,7 +143,7 @@ class _SendSetupPageState extends State<SendSetupPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return FuzzyScaffold(
       appBar: AppBar(title: const Text('Send Setup')),
       body: Stack(
         children: [
@@ -207,9 +184,7 @@ class _SendSetupPageState extends State<SendSetupPage> {
                           ),
                         );
                       } else {
-                        scaffoldMessengerKey.currentState?.showSnackBar(
-                          const SnackBar(content: Text('No public key loaded')),
-                        );
+                        FuzzySnackbar.show(label: 'No public key loaded');
                       }
                     },
                     child: const Text('Proceed to Send Message'),
@@ -221,7 +196,7 @@ class _SendSetupPageState extends State<SendSetupPage> {
           if (kIsWeb)
             DropzoneView(
               onCreated: (controller) => _controller = controller,
-              onDrop: (event) async {
+              onDropFile: (event) async {
                 setState(() {
                   _highlighted = false;
                 });

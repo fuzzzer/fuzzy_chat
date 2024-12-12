@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fuzzy_chat/lib.dart';
 
 class FloatingToolbox extends StatefulWidget {
   final VoidCallback onNewChatPressed;
@@ -40,6 +41,11 @@ class _FloatingToolboxState extends State<FloatingToolbox> with SingleTickerProv
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final uiColors = theme.extension<UiColors>()!;
+
+    final localizations = FuzzyChatLocalizations.of(context)!;
+
     return Padding(
       padding: const EdgeInsets.only(right: 8, bottom: 8),
       child: Stack(
@@ -58,10 +64,12 @@ class _FloatingToolboxState extends State<FloatingToolbox> with SingleTickerProv
                     widget.onNewChatPressed();
                   },
                   icon: const Icon(Icons.add),
-                  label: const SizedBox(
+                  backgroundColor: uiColors.secondaryColor,
+                  foregroundColor: uiColors.backgroundPrimaryColor,
+                  label: SizedBox(
                     width: 70,
                     child: Text(
-                      'New Chat',
+                      localizations.newChat,
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -76,10 +84,12 @@ class _FloatingToolboxState extends State<FloatingToolbox> with SingleTickerProv
                       widget.onAcceptInvitationPressed();
                     },
                     icon: const Icon(Icons.mail),
-                    label: const SizedBox(
+                    backgroundColor: uiColors.secondaryColor,
+                    foregroundColor: uiColors.backgroundPrimaryColor,
+                    label: SizedBox(
                       width: 70,
                       child: Text(
-                        'Accept Invitation',
+                        localizations.acceptInvitation,
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -90,6 +100,8 @@ class _FloatingToolboxState extends State<FloatingToolbox> with SingleTickerProv
           ),
           FloatingActionButton(
             onPressed: _toggleMenu,
+            backgroundColor: uiColors.secondaryColor,
+            foregroundColor: uiColors.backgroundPrimaryColor,
             child: AnimatedIcon(
               icon: AnimatedIcons.menu_close,
               progress: _animation,

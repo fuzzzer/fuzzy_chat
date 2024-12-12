@@ -70,7 +70,7 @@ const StoredChatGeneralDataSchema = CollectionSchema(
   getId: _storedChatGeneralDataGetId,
   getLinks: _storedChatGeneralDataGetLinks,
   attach: _storedChatGeneralDataAttach,
-  version: '3.1.0',
+  version: '3.1.0+1',
 );
 
 int _storedChatGeneralDataEstimateSize(

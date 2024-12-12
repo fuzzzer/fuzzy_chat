@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:fuzzy_chat/src/ui_kit/ui_kit.dart';
+import 'package:fuzzy_chat/lib.dart';
 
 class ChatHeader extends StatelessWidget {
-  final String chatName;
+  final ChatGeneralData chatGeneralData;
   final VoidCallback onBackPressed;
-  final VoidCallback onSettingsPressed;
 
   const ChatHeader({
-    required this.chatName,
+    required this.chatGeneralData,
     required this.onBackPressed,
-    required this.onSettingsPressed,
     super.key,
   });
 
@@ -23,7 +21,7 @@ class ChatHeader extends StatelessWidget {
       color: uiColors.backgroundPrimaryColor,
       child: Padding(
         padding: const EdgeInsets.only(
-          top: 30,
+          top: 16,
           bottom: 4,
         ),
         child: Row(
@@ -34,13 +32,28 @@ class ChatHeader extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             Text(
-              chatName,
+              chatGeneralData.chatName,
               style: uiTextStyles.bodyLargeBold20,
             ),
             const Spacer(),
-            IconButton(
-              icon: const Icon(Icons.settings),
-              onPressed: onSettingsPressed,
+            Padding(
+              padding: const EdgeInsets.only(right: 16),
+              child: FuzzyOverlaySpawner(
+                //TODO find better fix, so that offest is dynamically deduced
+                offset: chatGeneralData.didAcceptInvitation ? const Offset(-200, 0) : const Offset(-150, 0),
+                spawnedChildBuilder: (_, closeOverlay) => SettingsToolbox(
+                  chatGeneralData: chatGeneralData,
+                  onActionPressed: () {
+                    closeOverlay();
+                  },
+                  onChatDeleted: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                child: const Icon(
+                  Icons.settings,
+                ),
+              ),
             ),
           ],
         ),
