@@ -89,13 +89,25 @@ void main() {
 
     test('Short tampered ciphertext', () async {
       final enc = await AESManager.encrypt(plaintext, key);
-      // Keep only the nonce portion
       final shortEnc = enc.sublist(0, 12);
 
       expect(
         () async => await AESManager.decrypt(shortEnc, key),
         throwsA(anything),
       );
+    });
+
+    test('Repeated encryption produces different ciphertext', () async {
+      final enc1 = await AESManager.encrypt(plaintext, key);
+      final enc2 = await AESManager.encrypt(plaintext, key);
+
+      expect(enc1, isNot(equals(enc2)));
+
+      final dec1 = await AESManager.decrypt(enc1, key);
+      final dec2 = await AESManager.decrypt(enc2, key);
+
+      expect(dec1, equals(plaintext));
+      expect(dec2, equals(plaintext));
     });
   });
 }
