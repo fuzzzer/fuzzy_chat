@@ -125,7 +125,13 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
   Widget build(BuildContext context) {
     return FuzzyScaffold(
       hasAutomaticBackButton: false,
-      body: BlocBuilder<ConnectedChatCubit, ConnectedChatState>(
+      body: BlocConsumer<ConnectedChatCubit, ConnectedChatState>(
+        listener: (context, state) {
+          if (state.status.isFailed) {
+            if (state.failure?.message?.isEmpty ?? true) return;
+            FuzzySnackbar.show(label: state.failure?.message ?? '');
+          }
+        },
         builder: (context, state) {
           return Stack(
             children: [
