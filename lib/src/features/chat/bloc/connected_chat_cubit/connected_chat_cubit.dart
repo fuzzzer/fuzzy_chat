@@ -72,7 +72,7 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
 
       final decryptedMessages = await Future.wait(
         paginatedMessages.map((message) async {
-          final decryptedMessage = await AESManager.decrypt(
+          final decryptedMessage = await AESManager.decryptText(
             message.encryptedMessage,
             symmetricKey,
           );
@@ -118,7 +118,7 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
         throw Exception('Symmetric key not found');
       }
 
-      final encryptedMessage = await AESManager.encrypt(text, symmetricKey);
+      final encryptedMessage = await AESManager.encryptText(text, symmetricKey);
 
       final message = MessageData(
         id: 0,
@@ -174,7 +174,7 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
         throw Exception('Symmetric key not found');
       }
 
-      final decryptedMessage = await AESManager.decrypt(encryptedText, symmetricKey);
+      final decryptedMessage = await AESManager.decryptText(encryptedText, symmetricKey);
 
       final message = MessageData(
         id: 0,
