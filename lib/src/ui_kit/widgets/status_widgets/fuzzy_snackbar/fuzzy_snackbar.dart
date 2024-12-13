@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fuzzy_chat/lib.dart';
 
-import 'fuzzy_snackbar_content.dart';
-import 'fuzzy_snackbar_data.dart';
+export 'fuzzy_snackbar_content.dart';
+export 'fuzzy_snackbar_data.dart';
 
 const Duration _snackBarDisplayDuration = Duration(milliseconds: 2500);
 
