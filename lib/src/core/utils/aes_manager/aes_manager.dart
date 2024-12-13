@@ -5,7 +5,6 @@ import 'dart:isolate';
 import 'dart:typed_data';
 import 'package:fuzzy_chat/src/core/utils/secure_bytes_generation.dart';
 import 'package:pointycastle/export.dart';
-
 import 'components/components.dart';
 
 export 'components/components.dart';
@@ -13,13 +12,11 @@ export 'components/components.dart';
 part 'aes_manger_impl.dart';
 
 class AESManager {
-  static Future<Uint8List> encrypt(Uint8List bytes, Uint8List key) async {
-    return Isolate.run(() => _AESManagerImpl.syncEncrypt(bytes, key));
-  }
+  static Future<Uint8List> encrypt(Uint8List bytes, Uint8List key) async =>
+      Isolate.run(() => _AESManagerImpl.syncEncrypt(bytes, key));
 
-  static Future<Uint8List> decrypt(Uint8List encryptedBytes, Uint8List key) async {
-    return Isolate.run(() => _AESManagerImpl.syncDecrypt(encryptedBytes, key));
-  }
+  static Future<Uint8List> decrypt(Uint8List encryptedBytes, Uint8List key) async =>
+      Isolate.run(() => _AESManagerImpl.syncDecrypt(encryptedBytes, key));
 
   static Future<String> encryptText(String text, Uint8List key) async {
     final decryptedTextBytes = utf8.encode(text);
@@ -33,31 +30,31 @@ class AESManager {
     return utf8.decode(decryptedTextBytes);
   }
 
-  static Future<Uint8List> generateKey() async {
-    return Isolate.run(_AESManagerImpl.generateKey);
-  }
+  static Future<Uint8List> generateKey() async => Isolate.run(_AESManagerImpl.generateKey);
 
-  Stream<FileProcessingProgress> encryptFile({
+  Future<FileProcessingHandler> encryptFile({
     required String inputPath,
     required String outputPath,
     required Uint8List key,
-  }) {
-    return _AESManagerImpl.encryptFile(
-      inputPath: inputPath,
-      outputPath: outputPath,
-      key: key,
-    );
-  }
+  }) =>
+      Isolate.run(
+        () => _AESManagerImpl.encryptFile(
+          inputPath: inputPath,
+          outputPath: outputPath,
+          key: key,
+        ),
+      );
 
-  Stream<FileProcessingProgress> decryptFile({
+  Future<FileProcessingHandler> decryptFile({
     required String inputPath,
     required String outputPath,
     required Uint8List key,
-  }) {
-    return _AESManagerImpl.decryptFile(
-      inputPath: inputPath,
-      outputPath: outputPath,
-      key: key,
-    );
-  }
+  }) async =>
+      Isolate.run(
+        () => _AESManagerImpl.decryptFile(
+          inputPath: inputPath,
+          outputPath: outputPath,
+          key: key,
+        ),
+      );
 }
