@@ -37,9 +37,8 @@ class FileProcessingProgress {
         isCancelled = false,
         errorMessage = null;
 
-  FileProcessingProgress.cancelled({
-    required double currentProgress,
-  })  : progress = currentProgress,
+  FileProcessingProgress.cancelled()
+      : progress = 0,
         isComplete = false,
         isCancelled = true,
         errorMessage = null;

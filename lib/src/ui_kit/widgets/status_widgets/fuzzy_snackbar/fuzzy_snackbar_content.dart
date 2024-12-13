@@ -3,8 +3,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:fuzzy_chat/lib.dart';
 
-import 'fuzzy_snackbar_data.dart';
-
 class FuzzySnackBarContent extends StatefulWidget {
   const FuzzySnackBarContent({
     super.key,
