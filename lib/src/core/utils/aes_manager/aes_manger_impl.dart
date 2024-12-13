@@ -1,10 +1,9 @@
 part of 'aes_manager.dart';
 
 class _AESManagerImpl {
-  static const _nonceByteLength = 12;
-  static const _keyByteLength = 32;
-  static const _macSize = 128;
-  static const _defaultChunkSize = 64 * 1024; // 64KB
+  static const int _nonceByteLength = 12;
+  static const int _keyByteLength = 32;
+  static const int _macSize = 128;
 
   static Uint8List generateKey() {
     return generateRandomSecureBytes(_keyByteLength);
@@ -15,7 +14,7 @@ class _AESManagerImpl {
     final ephemeralKey = _deriveEphemeralKey(mainKey: key, nonce: nonce);
     final encryptCipher = _initializeCipher(
       isForEncryption: true,
-      key: ephemeralKey,
+      ephemeralKey: ephemeralKey,
       nonce: nonce,
     );
     final encryptedBytes = encryptCipher.process(bytes);
@@ -32,170 +31,221 @@ class _AESManagerImpl {
     final ephemeralKey = _deriveEphemeralKey(mainKey: key, nonce: nonce);
     final decryptCipher = _initializeCipher(
       isForEncryption: false,
-      key: ephemeralKey,
+      ephemeralKey: ephemeralKey,
       nonce: nonce,
     );
     return decryptCipher.process(ciphertext);
   }
 
-  static Stream<FileProcessingProgress> encryptFile({
+  static FileProcessingHandler encryptFile({
     required String inputPath,
     required String outputPath,
     required Uint8List key,
-  }) async* {
-    final inputFile = File(inputPath);
-    final outputFile = File(outputPath);
-
-    final totalFileSize = await inputFile.length();
-    var processedPart = 0.0;
-
+  }) {
     final nonce = generateRandomSecureBytes(_nonceByteLength);
-    final ephemeralKey = _deriveEphemeralKey(mainKey: key, nonce: nonce);
 
-    final encryptCipher = _initializeCipher(
+    final ephemeralKey = _deriveEphemeralKey(mainKey: key, nonce: nonce);
+    final cipher = _initializeCipher(
       isForEncryption: true,
-      key: ephemeralKey,
+      ephemeralKey: ephemeralKey,
       nonce: nonce,
     );
 
+    return _processFile(
+      inputPath: inputPath,
+      outputPath: outputPath,
+      isEncryption: true,
+      cipher: cipher,
+      nonce: nonce,
+    );
+  }
+
+  static Future<FileProcessingHandler> decryptFile({
+    required String inputPath,
+    required String outputPath,
+    required Uint8List key,
+  }) async {
+    final inputFile = File(inputPath);
+    final raf = await inputFile.open();
+    final nonce = await _readNonce(raf);
+    await raf.close();
+
+    final ephemeralKey = _deriveEphemeralKey(mainKey: key, nonce: nonce);
+    final cipher = _initializeCipher(
+      isForEncryption: false,
+      ephemeralKey: ephemeralKey,
+      nonce: nonce,
+    );
+
+    return _processFile(
+      inputPath: inputPath,
+      outputPath: outputPath,
+      isEncryption: false,
+      nonce: nonce,
+      cipher: cipher,
+    );
+  }
+
+  static FileProcessingHandler _processFile({
+    required String inputPath,
+    required String outputPath,
+    required bool isEncryption,
+    required Uint8List nonce,
+    required GCMBlockCipher cipher,
+  }) {
+    final controller = StreamController<FileProcessingProgress>();
+    bool isPaused = false;
+    bool isCancelled = false;
+
+    void pause() => isPaused = true;
+    void resume() => isPaused = false;
+    Future<void> cancel() async {
+      isCancelled = true;
+      controller.add(FileProcessingProgress.cancelled(currentProgress: 0));
+      await controller.close();
+    }
+
+    _startFileProcessing(
+      inputPath: inputPath,
+      outputPath: outputPath,
+      isEncryption: isEncryption,
+      nonce: nonce,
+      cipher: cipher,
+      controller: controller,
+      isPaused: () => isPaused,
+      isCancelled: () => isCancelled,
+    );
+
+    return FileProcessingHandler(
+      progressStream: controller.stream,
+      pause: pause,
+      resume: resume,
+      cancel: cancel,
+    );
+  }
+
+  static Future<void> _startFileProcessing({
+    required String inputPath,
+    required String outputPath,
+    required bool isEncryption,
+    required Uint8List nonce,
+    required GCMBlockCipher cipher,
+    required StreamController<FileProcessingProgress> controller,
+    required bool Function() isPaused,
+    required bool Function() isCancelled,
+  }) async {
     IOSink? outputSink;
     StreamSubscription<List<int>>? subscription;
-    final controller = StreamController<FileProcessingProgress>();
+    double processedSize = 0;
 
     try {
+      final inputFile = File(inputPath);
+      final outputFile = File(outputPath);
+      final totalInputFileSize = await inputFile.length();
+
       outputSink = outputFile.openWrite();
-      outputSink.add(nonce);
 
-      final inputStream = inputFile.openRead();
-      subscription = inputStream.listen(
-        (chunk) {
-          final encryptedChunk = Uint8List(encryptCipher.getOutputSize(chunk.length));
-          final processedLength = encryptCipher.processBytes(
-            Uint8List.fromList(chunk),
-            0,
-            chunk.length,
-            encryptedChunk,
-            0,
-          );
-          outputSink!.add(encryptedChunk.sublist(0, processedLength));
+      final int adjustedTotalSize;
+      final Stream<List<int>> inputStream;
 
-          processedPart += chunk.length;
-          final progress = (processedPart / totalFileSize).clamp(0.0, 1.0);
+      if (isEncryption) {
+        //in case of encryption we start writing with nonce (so that we have it later, when decrypting)
+        outputSink.add(nonce);
+        adjustedTotalSize = totalInputFileSize;
+        inputStream = inputFile.openRead();
+      } else {
+        //in case of decription we start reading content after nonce
+        adjustedTotalSize = totalInputFileSize - _nonceByteLength;
+        inputStream = inputFile.openRead(_nonceByteLength);
+      }
+
+      subscription = _startProcessing(
+        inputStream: inputStream,
+        cipher: cipher,
+        outputSink: outputSink,
+        controller: controller,
+        isPaused: isPaused,
+        isCancelled: isCancelled,
+        onChunkProcessed: (processedChunkLength) {
+          processedSize += processedChunkLength;
+          final progress = (processedSize / adjustedTotalSize).clamp(0.0, 1.0);
           controller.add(FileProcessingProgress(progress: progress));
         },
-        onDone: () {
-          final finalChunk = Uint8List(encryptCipher.getOutputSize(0));
-          final finalLength = encryptCipher.doFinal(finalChunk, 0);
-          if (finalLength > 0) {
-            outputSink!.add(finalChunk.sublist(0, finalLength));
-          }
-          controller.add(FileProcessingProgress.completed());
-        },
-        onError: (dynamic e) => _handleError(
-          e: e,
-          processed: processedPart,
-          totalCiphertextSize: totalFileSize,
-          controller: controller,
-          cancel: () => subscription?.cancel(),
-        ),
-        cancelOnError: true,
       );
-
-      yield* controller.stream;
-    } finally {
-      await subscription?.cancel();
-      await outputSink?.close();
-      await controller.close();
+    } catch (e) {
+      _handleError(
+        e: e,
+        processed: processedSize,
+        totalCiphertextSize: 0,
+        controller: controller,
+        cancel: () async {
+          await subscription?.cancel();
+          await outputSink?.close();
+        },
+      );
     }
   }
 
-  static Stream<FileProcessingProgress> decryptFile({
-    required String inputPath,
-    required String outputPath,
-    required Uint8List key,
-  }) async* {
-    final inputFile = File(inputPath);
-    final outputFile = File(outputPath);
+  static StreamSubscription<List<int>> _startProcessing({
+    required Stream<List<int>> inputStream,
+    required GCMBlockCipher cipher,
+    required IOSink? outputSink,
+    required StreamController<FileProcessingProgress> controller,
+    required bool Function() isPaused,
+    required bool Function() isCancelled,
+    required void Function(int processedChunkLength) onChunkProcessed,
+  }) {
+    return inputStream.listen(
+      (chunk) async {
+        if (isCancelled()) return;
+        if (isPaused()) {
+          await Future.doWhile(() async {
+            await Future.delayed(const Duration(milliseconds: 100));
+            return isPaused();
+          });
+        }
 
-    final totalSize = await inputFile.length();
-    if (totalSize < _nonceByteLength) {
-      throw ArgumentError('Encrypted file too short to contain a nonce.');
-    }
-
-    var processedPart = 0.0;
-
-    final raf = await inputFile.open();
-    final nonce = await _readNonce(raf);
-    final ephemeralKey = _deriveEphemeralKey(mainKey: key, nonce: nonce);
-
-    final decryptCipher = _initializeCipher(
-      isForEncryption: false,
-      key: ephemeralKey,
-      nonce: nonce,
+        final outputBuffer = Uint8List(cipher.getOutputSize(chunk.length));
+        final processedLength = cipher.processBytes(
+          Uint8List.fromList(chunk),
+          0,
+          chunk.length,
+          outputBuffer,
+          0,
+        );
+        outputSink!.add(outputBuffer.sublist(0, processedLength));
+        onChunkProcessed(chunk.length);
+      },
+      onDone: () {
+        final finalChunk = Uint8List(cipher.getOutputSize(0));
+        final finalLength = cipher.doFinal(finalChunk, 0);
+        if (finalLength > 0) {
+          outputSink!.add(finalChunk.sublist(0, finalLength));
+        }
+        controller.add(FileProcessingProgress.completed());
+      },
+      onError: (dynamic e) {
+        controller.add(
+          FileProcessingProgress.failed(
+            message: 'Error during processing: $e',
+            currentProgress: 0,
+          ),
+        );
+      },
+      cancelOnError: true,
     );
-
-    IOSink? outputSink;
-    StreamSubscription<List<int>>? subscription;
-    final controller = StreamController<FileProcessingProgress>();
-
-    try {
-      outputSink = outputFile.openWrite();
-      final ciphertextSize = totalSize - _nonceByteLength;
-      final inputStream = raf.readStream(chunkSize: _defaultChunkSize);
-
-      subscription = inputStream.listen(
-        (chunk) {
-          final decryptedChunk = Uint8List(decryptCipher.getOutputSize(chunk.length));
-          final processedLength = decryptCipher.processBytes(
-            Uint8List.fromList(chunk),
-            0,
-            chunk.length,
-            decryptedChunk,
-            0,
-          );
-          outputSink!.add(decryptedChunk.sublist(0, processedLength));
-
-          processedPart += chunk.length;
-          final progress = (processedPart / ciphertextSize).clamp(0.0, 1.0);
-          controller.add(FileProcessingProgress(progress: progress));
-        },
-        onDone: () {
-          final finalChunk = Uint8List(decryptCipher.getOutputSize(0));
-          final finalLength = decryptCipher.doFinal(finalChunk, 0);
-          if (finalLength > 0) {
-            outputSink!.add(finalChunk.sublist(0, finalLength));
-          }
-          controller.add(FileProcessingProgress.completed());
-        },
-        onError: (dynamic e) => _handleError(
-          e: e,
-          processed: processedPart,
-          totalCiphertextSize: ciphertextSize,
-          controller: controller,
-          cancel: () => subscription?.cancel(),
-        ),
-        cancelOnError: true,
-      );
-
-      yield* controller.stream;
-    } finally {
-      await subscription?.cancel();
-      await raf.close();
-      await outputSink?.close();
-      await controller.close();
-    }
   }
 
   static GCMBlockCipher _initializeCipher({
     required bool isForEncryption,
-    required Uint8List key,
+    required Uint8List ephemeralKey,
     required Uint8List nonce,
   }) {
     final cipher = GCMBlockCipher(AESEngine());
     cipher.init(
       isForEncryption,
       AEADParameters(
-        KeyParameter(key),
+        KeyParameter(ephemeralKey),
         _macSize,
         nonce,
         Uint8List(0),
@@ -237,7 +287,7 @@ class _AESManagerImpl {
     required double processed,
     required int totalCiphertextSize,
     required StreamController<FileProcessingProgress> controller,
-    required void Function() cancel,
+    required Future<void> Function() cancel,
   }) {
     controller.add(
       FileProcessingProgress.failed(
@@ -246,16 +296,5 @@ class _AESManagerImpl {
       ),
     );
     cancel();
-  }
-}
-
-extension _RandomAccessFileExtensions on RandomAccessFile {
-  Stream<List<int>> readStream({required int chunkSize}) async* {
-    while (true) {
-      final buffer = Uint8List(chunkSize);
-      final bytesRead = await readInto(buffer, 0, chunkSize);
-      if (bytesRead <= 0) break;
-      yield buffer.sublist(0, bytesRead);
-    }
   }
 }
