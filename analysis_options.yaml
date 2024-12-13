@@ -23,3 +23,4 @@ linter:
     eol_at_end_of_file: false
     always_put_required_named_parameters_first: false
     omit_local_variable_types: false
+    avoid_slow_async_io: false
