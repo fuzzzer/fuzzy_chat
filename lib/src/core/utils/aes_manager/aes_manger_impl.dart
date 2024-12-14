@@ -171,7 +171,7 @@ class _AESManagerImpl {
     required bool Function() isCancelled,
   }) async {
     IOSink? outputSink;
-    StreamSubscription<List<int>>? subscription;
+    StreamSubscription<List<int>>? processedChunksSubscription;
     double processedSize = 0;
 
     final inputFile = File(inputPath);
@@ -197,7 +197,7 @@ class _AESManagerImpl {
         inputStream = inputFile.openRead(_nonceByteLength);
       }
 
-      subscription = _startProcessing(
+      processedChunksSubscription = _startChunkedProcessing(
         inputStream: inputStream,
         cipher: cipher,
         outputSink: outputSink,
@@ -218,7 +218,7 @@ class _AESManagerImpl {
         ),
       );
 
-      await subscription.asFuture();
+      await processedChunksSubscription.asFuture();
     } catch (e) {
       await _handleError(
         e: e,
@@ -228,13 +228,13 @@ class _AESManagerImpl {
         totalInputFileSize: totalInputFileSize ?? 0,
       );
     } finally {
-      await subscription?.cancel();
+      await processedChunksSubscription?.cancel();
       await outputSink?.close();
       await controller.close();
     }
   }
 
-  static StreamSubscription<List<int>> _startProcessing({
+  static StreamSubscription<List<int>> _startChunkedProcessing({
     required Stream<List<int>> inputStream,
     required GCMBlockCipher cipher,
     required IOSink? outputSink,
