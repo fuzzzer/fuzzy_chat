@@ -198,16 +198,19 @@ class _AESManagerImpl {
       }
 
       processedChunksSubscription = _startChunkedProcessing(
+        isEncryption: isEncryption,
         inputStream: inputStream,
         cipher: cipher,
         outputSink: outputSink,
-        controller: controller,
         isPaused: isPaused,
         isCancelled: isCancelled,
         onChunkProcessed: (processedChunkLength) {
           processedSize += processedChunkLength;
           final progress = (processedSize / adjustedTotalSize).clamp(0.0, 1.0);
           controller.add(FileProcessingProgress(progress: progress));
+        },
+        onDone: () {
+          controller.add(FileProcessingProgress.completed());
         },
         onError: (e) => _handleError(
           e: e,
@@ -220,6 +223,8 @@ class _AESManagerImpl {
 
       await processedChunksSubscription.asFuture();
     } catch (e) {
+      logger.e('ERROR: while processing file $e');
+
       await _handleError(
         e: e,
         controller: controller,
@@ -235,13 +240,14 @@ class _AESManagerImpl {
   }
 
   static StreamSubscription<List<int>> _startChunkedProcessing({
+    required bool isEncryption,
     required Stream<List<int>> inputStream,
     required GCMBlockCipher cipher,
     required IOSink? outputSink,
-    required StreamController<FileProcessingProgress> controller,
     required bool Function() isPaused,
     required bool Function() isCancelled,
     required void Function(int processedChunkLength) onChunkProcessed,
+    required void Function() onDone,
     required void Function(dynamic e) onError,
   }) {
     return inputStream.listen(
@@ -254,11 +260,15 @@ class _AESManagerImpl {
           });
         }
 
-        final outputBuffer = Uint8List(cipher.getOutputSize(chunk.length));
+        final chunkBytes = Uint8List.fromList(chunk);
+
+        // Using getOutputSize for encryption to account for overhead; decryption requires exact input size.
+        final outputLength = isEncryption ? cipher.getOutputSize(chunkBytes.length) : chunkBytes.length;
+        final outputBuffer = Uint8List(outputLength);
         final processedLength = cipher.processBytes(
-          Uint8List.fromList(chunk),
+          chunkBytes,
           0,
-          chunk.length,
+          chunkBytes.length,
           outputBuffer,
           0,
         );
@@ -271,7 +281,7 @@ class _AESManagerImpl {
         if (finalLength > 0) {
           outputSink!.add(finalChunk.sublist(0, finalLength));
         }
-        controller.add(FileProcessingProgress.completed());
+        onDone();
       },
       onError: onError,
       cancelOnError: true,

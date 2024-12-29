@@ -4,7 +4,6 @@ import 'package:fuzzy_chat/lib.dart';
 export 'components/components.dart';
 export 'globals/globals.dart';
 export 'initializer.dart';
-export 'run_app.dart';
 
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

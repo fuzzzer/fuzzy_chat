@@ -124,6 +124,7 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
 
       final message = MessageData(
         id: 0,
+        type: MessageType.text,
         chatId: chatId,
         encryptedMessage: encryptedMessage,
         decryptedMessage: text,
@@ -181,6 +182,7 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
       final message = MessageData(
         id: 0,
         chatId: chatId,
+        type: MessageType.text,
         encryptedMessage: encryptedText,
         decryptedMessage: decryptedMessage,
         sentAt: DateTime.now(),

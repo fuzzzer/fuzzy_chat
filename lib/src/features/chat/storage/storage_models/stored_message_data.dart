@@ -1,3 +1,4 @@
+import 'package:fuzzy_chat/lib.dart';
 import 'package:isar/isar.dart';
 
 part 'stored_message_data.g.dart';
@@ -10,6 +11,7 @@ class StoredMessageData {
   late String chatId;
 
   late String encryptedMessage;
+  String messageType = MessageType.text.name;
 
   DateTime sentAt = DateTime.now();
 

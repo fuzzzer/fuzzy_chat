@@ -26,6 +26,18 @@ class GlobalBlocProviders extends StatelessWidget {
             keyStorageRepository: sl.get<KeyStorageRepository>(),
           )..fetchChats(),
         ),
+        BlocProvider<FileProcessingCubit<FileEncryptionOption>>(
+          create: (_) => FileProcessingCubit<FileEncryptionOption>(
+            processingOption: const FileEncryptionOption(),
+            keyStorageRepository: sl.get<KeyStorageRepository>(),
+          ),
+        ),
+        BlocProvider<FileProcessingCubit<FileDecryptionOption>>(
+          create: (_) => FileProcessingCubit<FileDecryptionOption>(
+            processingOption: const FileDecryptionOption(),
+            keyStorageRepository: sl.get<KeyStorageRepository>(),
+          ),
+        ),
       ],
       child: child,
     );

@@ -32,8 +32,13 @@ const StoredMessageDataSchema = CollectionSchema(
       name: r'isSent',
       type: IsarType.bool,
     ),
-    r'sentAt': PropertySchema(
+    r'messageType': PropertySchema(
       id: 3,
+      name: r'messageType',
+      type: IsarType.string,
+    ),
+    r'sentAt': PropertySchema(
+      id: 4,
       name: r'sentAt',
       type: IsarType.dateTime,
     )
@@ -74,6 +79,7 @@ int _storedMessageDataEstimateSize(
   var bytesCount = offsets.last;
   bytesCount += 3 + object.chatId.length * 3;
   bytesCount += 3 + object.encryptedMessage.length * 3;
+  bytesCount += 3 + object.messageType.length * 3;
   return bytesCount;
 }
 
@@ -86,7 +92,8 @@ void _storedMessageDataSerialize(
   writer.writeString(offsets[0], object.chatId);
   writer.writeString(offsets[1], object.encryptedMessage);
   writer.writeBool(offsets[2], object.isSent);
-  writer.writeDateTime(offsets[3], object.sentAt);
+  writer.writeString(offsets[3], object.messageType);
+  writer.writeDateTime(offsets[4], object.sentAt);
 }
 
 StoredMessageData _storedMessageDataDeserialize(
@@ -100,7 +107,8 @@ StoredMessageData _storedMessageDataDeserialize(
   object.encryptedMessage = reader.readString(offsets[1]);
   object.id = id;
   object.isSent = reader.readBool(offsets[2]);
-  object.sentAt = reader.readDateTime(offsets[3]);
+  object.messageType = reader.readString(offsets[3]);
+  object.sentAt = reader.readDateTime(offsets[4]);
   return object;
 }
 
@@ -118,6 +126,8 @@ P _storedMessageDataDeserializeProp<P>(
     case 2:
       return (reader.readBool(offset)) as P;
     case 3:
+      return (reader.readString(offset)) as P;
+    case 4:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -604,6 +614,142 @@ extension StoredMessageDataQueryFilter
   }
 
   QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      messageTypeEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'messageType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      messageTypeGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'messageType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      messageTypeLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'messageType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      messageTypeBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'messageType',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      messageTypeStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'messageType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      messageTypeEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'messageType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      messageTypeContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'messageType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      messageTypeMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'messageType',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      messageTypeIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'messageType',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
+      messageTypeIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'messageType',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterFilterCondition>
       sentAtEqualTo(DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -711,6 +857,20 @@ extension StoredMessageDataQuerySortBy
   }
 
   QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy>
+      sortByMessageType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'messageType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy>
+      sortByMessageTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'messageType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy>
       sortBySentAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'sentAt', Sort.asc);
@@ -783,6 +943,20 @@ extension StoredMessageDataQuerySortThenBy
   }
 
   QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy>
+      thenByMessageType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'messageType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy>
+      thenByMessageTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'messageType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<StoredMessageData, StoredMessageData, QAfterSortBy>
       thenBySentAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'sentAt', Sort.asc);
@@ -822,6 +996,13 @@ extension StoredMessageDataQueryWhereDistinct
   }
 
   QueryBuilder<StoredMessageData, StoredMessageData, QDistinct>
+      distinctByMessageType({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'messageType', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<StoredMessageData, StoredMessageData, QDistinct>
       distinctBySentAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'sentAt');
@@ -853,6 +1034,13 @@ extension StoredMessageDataQueryProperty
   QueryBuilder<StoredMessageData, bool, QQueryOperations> isSentProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isSent');
+    });
+  }
+
+  QueryBuilder<StoredMessageData, String, QQueryOperations>
+      messageTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'messageType');
     });
   }
 

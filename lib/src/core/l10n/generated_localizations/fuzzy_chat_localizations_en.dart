@@ -157,4 +157,13 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
 
   @override
   String get failedToGetAcceptance => 'Failed to get acceptance';
+
+  @override
+  String get storagePermissionDenied => 'Storage permission denied.';
+
+  @override
+  String get errorPickingFiles => 'Error picking files.';
+
+  @override
+  String get loading => 'Loading';
 }

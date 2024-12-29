@@ -394,6 +394,24 @@ abstract class FuzzyChatLocalizations {
   /// In en, this message translates to:
   /// **'Failed to get acceptance'**
   String get failedToGetAcceptance;
+
+  /// No description provided for @storagePermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Storage permission denied.'**
+  String get storagePermissionDenied;
+
+  /// No description provided for @errorPickingFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Error picking files.'**
+  String get errorPickingFiles;
+
+  /// No description provided for @loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading'**
+  String get loading;
 }
 
 class _FuzzyChatLocalizationsDelegate extends LocalizationsDelegate<FuzzyChatLocalizations> {
