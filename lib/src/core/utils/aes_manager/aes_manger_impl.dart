@@ -207,6 +207,7 @@ class _AESManagerImpl {
         onChunkProcessed: (processedChunkLength) {
           processedSize += processedChunkLength;
           final progress = (processedSize / adjustedTotalSize).clamp(0.0, 1.0);
+
           controller.add(FileProcessingProgress(progress: progress));
         },
         onDone: () {
