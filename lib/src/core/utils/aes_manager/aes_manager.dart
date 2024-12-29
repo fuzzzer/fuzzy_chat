@@ -3,9 +3,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
 import 'dart:typed_data';
-import 'package:fuzzy_chat/src/core/utils/secure_bytes_generation.dart';
+import 'package:fuzzy_chat/lib.dart';
 import 'package:pointycastle/export.dart';
-import 'components/components.dart';
 
 export 'components/components.dart';
 
@@ -32,29 +31,25 @@ class AESManager {
 
   static Future<Uint8List> generateKey() async => Isolate.run(_AESManagerImpl.generateKey);
 
-  Future<FileProcessingHandler> encryptFile({
-    required String inputPath,
-    required String outputPath,
-    required Uint8List key,
-  }) =>
-      Isolate.run(
-        () => _AESManagerImpl.encryptFile(
-          inputPath: inputPath,
-          outputPath: outputPath,
-          key: key,
-        ),
-      );
-
-  Future<FileProcessingHandler> decryptFile({
+  static Future<FileProcessingHandler> encryptFile({
     required String inputPath,
     required String outputPath,
     required Uint8List key,
   }) async =>
-      Isolate.run(
-        () => _AESManagerImpl.decryptFile(
-          inputPath: inputPath,
-          outputPath: outputPath,
-          key: key,
-        ),
+      _AESManagerImpl.encryptFile(
+        inputPath: inputPath,
+        outputPath: outputPath,
+        key: key,
+      );
+
+  static Future<FileProcessingHandler> decryptFile({
+    required String inputPath,
+    required String outputPath,
+    required Uint8List key,
+  }) async =>
+      _AESManagerImpl.decryptFile(
+        inputPath: inputPath,
+        outputPath: outputPath,
+        key: key,
       );
 }

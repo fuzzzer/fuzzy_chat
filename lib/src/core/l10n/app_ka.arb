@@ -103,5 +103,11 @@
     }
   },
   "failedToGetAcceptance": "Failed to get acceptance",
-  "@failedToGetAcceptance": {}
+  "@failedToGetAcceptance": {},
+  "storagePermissionDenied": "Storage permission denied.",
+  "@storagePermissionDenied": {},
+  "errorPickingFiles": "Error picking files.",
+  "@errorPickingFiles": {},
+  "loading": "Loading",
+  "@loading": {}
 }
