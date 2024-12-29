@@ -21,7 +21,7 @@ class FileProcessingState {
   }) {
     return FileProcessingState(
       progress: progress ?? this.progress,
-      currentProcessingFile: currentProcessingFile,
+      currentProcessingFile: currentProcessingFile ?? this.currentProcessingFile,
       toBeProcessedFiles: toBeProcessedFiles ?? this.toBeProcessedFiles,
       processedFiles: processedFiles ?? this.processedFiles,
     );
