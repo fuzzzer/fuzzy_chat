@@ -80,6 +80,7 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
     required FileProcessingData fileData,
   }) async {
     try {
+      //TODO refine output path handling and set up correct output paths not same directory as input
       String outputPath = '';
 
       FileProcessingHandler handler;
