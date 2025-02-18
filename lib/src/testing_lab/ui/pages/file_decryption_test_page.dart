@@ -20,10 +20,14 @@ class FileDecryptionTestPage extends StatelessWidget {
                 allowMultiple: true,
                 onSelected: (paths) {
                   cubit.addFilesToProcess(
-                    chatId: 'someChatId',
+                    chatId: 'ed446aea-8c03-4668-b256-bd37c52d340f',
                     filePaths: paths,
                   );
                 },
+              ),
+              Text(
+                state.progress.toString(),
+                style: const TextStyle(fontSize: 100),
               ),
               if (state.currentProcessingFile != null) ...[
                 Text('Decrypting: ${state.currentProcessingFile}'),
@@ -61,8 +65,8 @@ class FileDecryptionTestPage extends StatelessWidget {
                     Text('Processed: ${state.processedFiles.length} file(s).'),
                     ...state.processedFiles.map(
                       (f) => ListTile(
-                        title: Text(f.inputFilePath),
-                        subtitle: Text(
+                        title: SelectableText(f.inputFilePath),
+                        subtitle: SelectableText(
                           f.status == FileProcessingStatus.completed
                               ? 'Decrypted -> ${f.outputFilePath}'
                               : 'Status: ${f.status}',

@@ -37,4 +37,9 @@ class FileProcessingData {
         status: status ?? this.status,
         progress: progress ?? this.progress,
       );
+
+  @override
+  String toString() {
+    return 'FileProcessingData(chatId: $chatId, encryptionStartTime: $encryptionStartTime, isProcessed: $isProcessed, inputFilePath: $inputFilePath, outputFilePath: $outputFilePath, status: $status, progress: $progress)';
+  }
 }

@@ -50,4 +50,9 @@ class FileProcessingProgress {
         isComplete = false,
         isCancelled = false,
         errorMessage = message;
+
+  @override
+  String toString() {
+    return 'FileProcessingProgress(progress: $progress, isComplete: $isComplete, isCancelled: $isCancelled, errorMessage: $errorMessage)';
+  }
 }
