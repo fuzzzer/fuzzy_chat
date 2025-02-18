@@ -20,6 +20,10 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
   StreamSubscription<FileProcessingProgress>? _progressSubscription;
   FileProcessingHandler? _activeFileProcessingHandler;
 
+  static const progressPostingThrottleDuration = Duration(milliseconds: 100);
+  Timer? _throttleTimer;
+  double? _pendingProgress;
+
   void addFilesToProcess({
     required String chatId,
     required List<String> filePaths,
@@ -142,6 +146,7 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
     required String outputPath,
   }) {
     if (event.isCancelled) {
+      _resetThrottle();
       _markFileAsFinished(
         fileData: fileData,
         status: FileProcessingStatus.canceled,
@@ -150,11 +155,11 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
       );
       _goToNextFileProcessing();
       logger.i('FILE PROCESSING: Marked as isCancelled $state');
-
       return;
     }
 
     if (event.isComplete) {
+      _resetThrottle();
       _markFileAsFinished(
         fileData: fileData,
         status: FileProcessingStatus.completed,
@@ -163,16 +168,49 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
       );
       _goToNextFileProcessing();
       logger.i('FILE PROCESSING: Marked as isComplete $state');
+      return;
+    }
 
+    _handleThrottledProgress(
+      fileData: fileData,
+      progress: event.progress,
+    );
+    logger.i('FILE PROCESSING: progress ${event.progress} FileProcessingStatus.inProgress');
+  }
+
+  void _resetThrottle() {
+    _throttleTimer?.cancel();
+    _throttleTimer = null;
+    _pendingProgress = null;
+  }
+
+  void _handleThrottledProgress({
+    required FileProcessingData fileData,
+    required double progress,
+  }) {
+    if (_throttleTimer != null) {
+      _pendingProgress = progress;
       return;
     }
 
     _updateFileStatus(
       fileData: fileData,
       newStatus: FileProcessingStatus.inProgress,
-      newProgress: event.progress,
+      newProgress: progress,
     );
-    logger.i('FILE PROCESSING: progress ${event.progress} FileProcessingStatus.inProgress');
+
+    //Timer callback will collect all acumulated _pendingProgress which was saved while progress was being detected when timer was ON.
+    _throttleTimer = Timer(progressPostingThrottleDuration, () {
+      if (_pendingProgress != null) {
+        _updateFileStatus(
+          fileData: fileData,
+          newStatus: FileProcessingStatus.inProgress,
+          newProgress: _pendingProgress!,
+        );
+        _pendingProgress = null;
+      }
+      _throttleTimer = null;
+    });
   }
 
   void _markFileAsFinished({
