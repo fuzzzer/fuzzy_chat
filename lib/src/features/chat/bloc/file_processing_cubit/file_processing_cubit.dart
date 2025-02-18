@@ -1,10 +1,12 @@
-// ignore_for_file: avoid_redundant_argument_values
-
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/lib.dart';
 
 export 'components/components.dart';
+
+// ignore_for_file: avoid_redundant_argument_values
+
+
 
 part 'file_processing_state.dart';
 
