@@ -4,6 +4,7 @@ class _AESManagerImpl {
   static const int _nonceByteLength = 12;
   static const int _keyByteLength = 32;
   static const int _macSize = 128;
+  static const int _aesBlockSize = 16;
 
   static Uint8List generateKey() {
     return generateRandomSecureBytes(_keyByteLength);
@@ -171,9 +172,7 @@ class _AESManagerImpl {
     required bool Function() isCancelled,
   }) async {
     IOSink? outputSink;
-    StreamSubscription<List<int>>? processedChunksSubscription;
     double processedSize = 0;
-
     final inputFile = File(inputPath);
     final outputFile = File(outputPath);
     int? totalInputFileSize;
@@ -187,19 +186,20 @@ class _AESManagerImpl {
       final Stream<List<int>> inputStream;
 
       if (isEncryption) {
-        // In case of encryption, start writing with nonce
+        // For encryption, write the nonce first.
         outputSink.add(nonce);
         adjustedTotalSize = totalInputFileSize;
         inputStream = inputFile.openRead();
       } else {
-        // In case of decryption, skip reading the nonce
+        // For decryption, skip the nonce.
         adjustedTotalSize = totalInputFileSize - _nonceByteLength;
         inputStream = inputFile.openRead(_nonceByteLength);
       }
 
-      processedChunksSubscription = _startChunkedProcessing(
+      await _processChunks(
         isEncryption: isEncryption,
         inputStream: inputStream,
+        adjustedTotalSize: adjustedTotalSize,
         cipher: cipher,
         outputSink: outputSink,
         isPaused: isPaused,
@@ -207,25 +207,15 @@ class _AESManagerImpl {
         onChunkProcessed: (processedChunkLength) {
           processedSize += processedChunkLength;
           final progress = (processedSize / adjustedTotalSize).clamp(0.0, 1.0);
-
           controller.add(FileProcessingProgress(progress: progress));
-        },
-        onDone: () {
-          controller.add(FileProcessingProgress.completed());
-        },
-        onError: (e) => _handleError(
-          e: e,
-          controller: controller,
-          outputFile: outputFile,
-          processedSize: processedSize,
-          totalInputFileSize: totalInputFileSize ?? 0,
-        ),
-      );
 
-      await processedChunksSubscription.asFuture();
+          if (progress == 1) {
+            controller.add(FileProcessingProgress.completed());
+          }
+        },
+      );
     } catch (e) {
       logger.e('ERROR: while processing file $e');
-
       await _handleError(
         e: e,
         controller: controller,
@@ -234,59 +224,60 @@ class _AESManagerImpl {
         totalInputFileSize: totalInputFileSize ?? 0,
       );
     } finally {
-      await processedChunksSubscription?.cancel();
       await outputSink?.close();
       await controller.close();
     }
   }
 
-  static StreamSubscription<List<int>> _startChunkedProcessing({
+  static Future<void> _processChunks({
     required bool isEncryption,
     required Stream<List<int>> inputStream,
+    required int adjustedTotalSize,
     required GCMBlockCipher cipher,
-    required IOSink? outputSink,
+    required IOSink outputSink,
     required bool Function() isPaused,
     required bool Function() isCancelled,
     required void Function(int processedChunkLength) onChunkProcessed,
-    required void Function() onDone,
-    required void Function(dynamic e) onError,
-  }) {
-    return inputStream.listen(
-      (chunk) async {
-        if (isCancelled()) return;
-        if (isPaused()) {
-          await Future.doWhile(() async {
-            await Future.delayed(const Duration(milliseconds: 100));
-            return isPaused();
-          });
-        }
+  }) async {
+    int processedInputSize = 0;
 
-        final chunkBytes = Uint8List.fromList(chunk);
+    await for (final chunk in inputStream) {
+      if (isCancelled()) break;
+      while (isPaused()) {
+        await Future.delayed(const Duration(milliseconds: 100));
+      }
 
-        // Using getOutputSize for encryption to account for overhead; decryption requires exact input size.
-        final outputLength = isEncryption ? cipher.getOutputSize(chunkBytes.length) : chunkBytes.length;
-        final outputBuffer = Uint8List(outputLength);
-        final processedLength = cipher.processBytes(
-          chunkBytes,
-          0,
-          chunkBytes.length,
-          outputBuffer,
-          0,
-        );
-        outputSink!.add(outputBuffer.sublist(0, processedLength));
-        onChunkProcessed(chunk.length);
-      },
-      onDone: () {
-        final finalChunk = Uint8List(cipher.getOutputSize(0));
-        final finalLength = cipher.doFinal(finalChunk, 0);
-        if (finalLength > 0) {
-          outputSink!.add(finalChunk.sublist(0, finalLength));
-        }
-        onDone();
-      },
-      onError: onError,
-      cancelOnError: true,
-    );
+      final chunkBytes = Uint8List.fromList(chunk);
+      final int outputLength;
+
+      // Using getOutputSize for encryption to account for overhead; decryption requires exact input size.
+      if (isEncryption) {
+        outputLength = cipher.getOutputSize(chunkBytes.length);
+      } else {
+        final isLastChunk = (processedInputSize + chunkBytes.length) == adjustedTotalSize;
+        outputLength = chunkBytes.length + (isLastChunk ? _aesBlockSize : 0);
+      }
+
+      final outputBuffer = Uint8List(outputLength);
+      final processedLength = cipher.processBytes(
+        chunkBytes,
+        0,
+        chunkBytes.length,
+        outputBuffer,
+        0,
+      );
+      outputSink.add(outputBuffer.sublist(0, processedLength));
+      onChunkProcessed(chunk.length);
+
+      processedInputSize += chunkBytes.length;
+    }
+
+    final finalChunk = Uint8List(cipher.getOutputSize(0) + _aesBlockSize);
+    final finalLength = cipher.doFinal(finalChunk, 0);
+    if (finalLength > 0) {
+      outputSink.add(finalChunk.sublist(0, finalLength));
+      onChunkProcessed(finalLength);
+    }
   }
 
   static Future<Uint8List> _readNonce(RandomAccessFile raf) async {
