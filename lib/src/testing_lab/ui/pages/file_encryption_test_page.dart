@@ -59,7 +59,9 @@ class FileEncryptionTestPage extends StatelessWidget {
                     ),
                     Text(
                       state.progress.toString(),
-                      style: TextStyle(fontSize: 100),
+                      style: const TextStyle(
+                        fontSize: 100,
+                      ),
                     ),
                     const Divider(),
                     Text('Processed: ${state.processedFiles.length} file(s) are done or are canceled.'),
