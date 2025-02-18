@@ -55,6 +55,8 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
       return;
     }
 
+    logger.i('FILE PROCESSING: To be processed files: $toBeProcessedFiles');
+
     final nextFileData = toBeProcessedFiles.first.copyWith(
       status: FileProcessingStatus.inProgress,
       progress: 0,
@@ -120,7 +122,11 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
           outputPath: outputPath,
         ),
       );
+
+      logger.i('FILE PROCESSING: _progressSubscription set up correctly');
     } catch (error) {
+      logger.i('FILE PROCESSING: file processing failed: $error');
+
       _markFileAsFinished(
         fileData: fileData,
         status: FileProcessingStatus.failed,
@@ -143,6 +149,8 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
         progress: event.progress,
       );
       _goToNextFileProcessing();
+      logger.i('FILE PROCESSING: Marked as isCancelled $state');
+
       return;
     }
 
@@ -154,6 +162,8 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
         progress: 1,
       );
       _goToNextFileProcessing();
+      logger.i('FILE PROCESSING: Marked as isComplete $state');
+
       return;
     }
 
@@ -162,6 +172,7 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
       newStatus: FileProcessingStatus.inProgress,
       newProgress: event.progress,
     );
+    logger.i('FILE PROCESSING: progress ${event.progress} FileProcessingStatus.inProgress');
   }
 
   void _markFileAsFinished({

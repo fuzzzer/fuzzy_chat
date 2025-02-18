@@ -20,7 +20,7 @@ class FileEncryptionTestPage extends StatelessWidget {
                 allowMultiple: true,
                 onSelected: (paths) {
                   fileEncryptionCubit.addFilesToProcess(
-                    chatId: 'myChatId',
+                    chatId: 'ed446aea-8c03-4668-b256-bd37c52d340f',
                     filePaths: paths,
                   );
                 },
@@ -56,6 +56,10 @@ class FileEncryptionTestPage extends StatelessWidget {
                         title: Text(f.inputFilePath),
                         subtitle: Text('Status: ${f.status}, progress: ${f.progress.toStringAsFixed(2)}'),
                       ),
+                    ),
+                    Text(
+                      state.progress.toString(),
+                      style: TextStyle(fontSize: 100),
                     ),
                     const Divider(),
                     Text('Processed: ${state.processedFiles.length} file(s) are done or are canceled.'),

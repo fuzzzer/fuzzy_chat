@@ -1,7 +1,7 @@
 PODS:
   - device_info_plus (0.0.1):
     - FlutterMacOS
-  - flutter_secure_storage_macos (6.1.1):
+  - flutter_secure_storage_macos (6.1.3):
     - FlutterMacOS
   - FlutterMacOS (1.0.0)
   - isar_flutter_libs (1.0.0):
@@ -42,7 +42,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   device_info_plus: 1b14eed9bf95428983aed283a8d51cce3d8c4215
-  flutter_secure_storage_macos: 59459653abe1adb92abbc8ea747d79f8d19866c9
+  flutter_secure_storage_macos: c2754d3483d20bb207bb9e5a14f1b8e771abcdb9
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
   isar_flutter_libs: 43385c99864c168fadba7c9adeddc5d38838ca6a
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
