@@ -50,6 +50,7 @@ class GlobalBlocListeners extends StatelessWidget {
         ),
         BlocListener<ChatFileInjectorCubit, ChatFileInjectorState>(
           listenWhen: (previous, current) =>
+              previous.failedToAddProcessedFiles != null &&
               previous.failedToAddProcessedFiles?.length != current.failedToAddProcessedFiles?.length,
           listener: (_, state) {
             final localizations = FuzzyChatLocalizations.of(
@@ -61,8 +62,10 @@ class GlobalBlocListeners extends StatelessWidget {
                 behavior: SnackBarBehavior.floating,
                 content: Text(
                   ' ${localizations.failedToProcessFiles}: ${state.failedToAddProcessedFiles?.map(
-                    (file) => file.inputFilePath.split('/').last,
-                  )}',
+                    (file) {
+                      return file.inputFilePath.split('/').last;
+                    },
+                  ).toList()}',
                 ),
               ),
             );
