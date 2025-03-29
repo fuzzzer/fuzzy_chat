@@ -424,6 +424,12 @@ abstract class FuzzyChatLocalizations {
   /// In en, this message translates to:
   /// **'Defuzz'**
   String get defuzz;
+
+  /// No description provided for @failedToProcessFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to process files'**
+  String get failedToProcessFiles;
 }
 
 class _FuzzyChatLocalizationsDelegate extends LocalizationsDelegate<FuzzyChatLocalizations> {

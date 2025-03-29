@@ -35,32 +35,36 @@ class ChatFileInjectorCubit extends Cubit<ChatFileInjectorState> {
     );
 
     final List<Future<int>> addMessageFutures = [];
-    final List<FileProcessingData> failedToAddMessages = [];
+    final List<FileProcessingData> failedToAddProcessedFiles = [];
 
     for (final file in processedFiles) {
       final outputPath = file.outputFilePath;
 
       if (outputPath == null) {
-        failedToAddMessages.add(file);
+        failedToAddProcessedFiles.add(file);
         continue;
       }
 
-      final message = MessageData(
-        id: 0,
-        type: MessageType.file,
-        chatId: file.chatId,
-        encryptedMessage: outputPath,
-        decryptedMessage: '',
-        sentAt: DateTime.now(),
-        isSent: filesAreEncrypted,
-      );
+      if (file.status == FileProcessingStatus.completed) {
+        final message = MessageData(
+          id: 0,
+          type: MessageType.file,
+          chatId: file.chatId,
+          encryptedMessage: outputPath,
+          decryptedMessage: '',
+          sentAt: DateTime.now(),
+          isSent: filesAreEncrypted,
+        );
 
-      final addMessageFuture = messageDataRepository.addMessage(
-        message,
-        notifyListeners: true,
-      );
+        final addMessageFuture = messageDataRepository.addMessage(
+          message,
+          notifyListeners: true,
+        );
 
-      addMessageFutures.add(addMessageFuture);
+        addMessageFutures.add(addMessageFuture);
+      } else {
+        failedToAddProcessedFiles.add(file);
+      }
     }
 
     await addMessageFutures.wait;
@@ -68,6 +72,7 @@ class ChatFileInjectorCubit extends Cubit<ChatFileInjectorState> {
     emit(
       state.copyWith(
         status: StateStatus.success,
+        failedToAddProcessedFiles: failedToAddProcessedFiles,
       ),
     );
   }

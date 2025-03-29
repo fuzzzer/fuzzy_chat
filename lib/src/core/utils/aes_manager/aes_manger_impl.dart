@@ -67,6 +67,7 @@ class _AESManagerImpl {
   }) async {
     final inputFile = File(inputPath);
     final randomAccessFile = await inputFile.open();
+
     final nonce = await _readNonce(randomAccessFile);
     await randomAccessFile.close();
 
@@ -268,7 +269,6 @@ class _AESManagerImpl {
       );
       outputSink.add(outputBuffer.sublist(0, processedLength));
       onChunkProcessed(chunk.length);
-
       processedInputSize += chunkBytes.length;
     }
 

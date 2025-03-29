@@ -1,4 +1,7 @@
 enum MessageType {
   text,
-  file,
+  file;
+
+  bool get isText => this == text;
+  bool get isFile => this == file;
 }
