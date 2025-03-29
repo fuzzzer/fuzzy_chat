@@ -6,8 +6,6 @@ export 'components/components.dart';
 
 // ignore_for_file: avoid_redundant_argument_values
 
-
-
 part 'file_processing_state.dart';
 
 class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> extends Cubit<FileProcessingState> {
@@ -25,6 +23,22 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
   static const progressPostingThrottleDuration = Duration(milliseconds: 100);
   Timer? _throttleTimer;
   double? _pendingProgress;
+
+  void markProcessedFilesAsReadAndClear({
+    required List<FileProcessingData> readProcessedFiles,
+  }) {
+    final updatedProcessedFilesList = state.processedFiles
+        .where(
+          (processedFile) => !readProcessedFiles.contains(processedFile),
+        )
+        .toList();
+
+    emit(
+      state.copyWith(
+        processedFiles: updatedProcessedFilesList,
+      ),
+    );
+  }
 
   void addFilesToProcess({
     required String chatId,
@@ -100,7 +114,7 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
       }
 
       if (processingOption is FileEncryptionOption) {
-        outputPath = '${fileData.inputFilePath}.fuzz';
+        outputPath = '${fileData.inputFilePath}.$fuzzedFileIdentificator';
 
         handler = await AESManager.encryptFile(
           inputPath: fileData.inputFilePath,
@@ -108,7 +122,7 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
           key: symmetricKey,
         );
       } else if (processingOption is FileDecryptionOption) {
-        outputPath = fileData.inputFilePath.replaceFirst(RegExp(r'\.fuzz$'), '');
+        outputPath = fileData.inputFilePath.replaceFirst(RegExp('.$fuzzedFileIdentificator'), '');
 
         handler = await AESManager.decryptFile(
           inputPath: fileData.inputFilePath,
@@ -177,7 +191,6 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
       fileData: fileData,
       progress: event.progress,
     );
-    logger.i('FILE PROCESSING: progress ${event.progress} FileProcessingStatus.inProgress');
   }
 
   void _resetThrottle() {

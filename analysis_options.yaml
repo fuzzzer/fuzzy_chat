@@ -25,3 +25,4 @@ linter:
     omit_local_variable_types: false
     avoid_slow_async_io: false
     flutter_style_todos: false
+    use_if_null_to_convert_nulls_to_bools: false

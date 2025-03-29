@@ -43,6 +43,8 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
   final FocusNode _messageFocusNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
 
+  List<String>? selectedFilePaths;
+
   bool isEncrypting = true;
 
   @override
@@ -87,6 +89,36 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
   }
 
   void _onSend() {
+    _sendText();
+    _sendFiles();
+  }
+
+  void _sendFiles() {
+    final fileEncryptionCubit = context.read<FileProcessingCubit<FileEncryptionOption>>();
+    final fileDecryptionCubit = context.read<FileProcessingCubit<FileDecryptionOption>>();
+
+    if (selectedFilePaths?.isNotEmpty == true) {
+      for (final filePath in selectedFilePaths!) {
+        if (filePath.endsWith(fuzzedFileIdentificator)) {
+          fileDecryptionCubit.addFilesToProcess(
+            chatId: widget.payload.chatGeneralData.chatId,
+            filePaths: [filePath],
+          );
+        } else {
+          fileEncryptionCubit.addFilesToProcess(
+            chatId: widget.payload.chatGeneralData.chatId,
+            filePaths: [filePath],
+          );
+        }
+      }
+    }
+
+    setState(() {
+      selectedFilePaths = null;
+    });
+  }
+
+  void _sendText() {
     final text = _messageController.text.trim();
     if (text.isEmpty) return;
 
@@ -97,6 +129,12 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
     } else {
       _sendMessage(text);
     }
+  }
+
+  void onFilesSelected(List<String> paths) {
+    setState(() {
+      selectedFilePaths = paths;
+    });
   }
 
   void _sendMessage(String text) {
@@ -155,6 +193,12 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
                       child: DefaultLoadingWidget(),
                     ),
                   const SliverToBoxAdapter(
+                    child: FileDecryptionProgressesDisplaylaceholder(),
+                  ),
+                  const SliverToBoxAdapter(
+                    child: FileEncryptionProgressesDisplaylaceholder(),
+                  ),
+                  const SliverToBoxAdapter(
                     child: SizedBox(height: 80),
                   ),
                 ],
@@ -168,11 +212,25 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: MessageInputField(
-                  controller: _messageController,
-                  focusNode: _messageFocusNode,
-                  onSend: _onSend,
-                  isEncrypting: isEncrypting,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    FileDecryptionProgressDisplay(
+                      chatId: widget.payload.chatGeneralData.chatId,
+                    ),
+                    FileEncryptionProgressDisplay(
+                      chatId: widget.payload.chatGeneralData.chatId,
+                    ),
+                    MessageInputField(
+                      controller: _messageController,
+                      focusNode: _messageFocusNode,
+                      onSend: _onSend,
+                      onFilesSelected: onFilesSelected,
+                      selectedFilePaths: selectedFilePaths,
+                      isEncrypting: isEncrypting,
+                      chatId: widget.payload.chatGeneralData.chatId,
+                    ),
+                  ],
                 ),
               ),
             ],

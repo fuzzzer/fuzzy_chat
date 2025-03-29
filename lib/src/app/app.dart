@@ -20,13 +20,15 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GlobalBlocProviders(
-      child: MaterialApp(
-        scaffoldMessengerKey: scaffoldMessengerKey,
-        navigatorKey: navigatorKey,
-        theme: UiKitTheme.dark(),
-        localizationsDelegates: FuzzyChatLocalizations.localizationsDelegates,
-        supportedLocales: FuzzyChatLocalizations.supportedLocales,
-        home: const ChatListPage(),
+      child: GlobalBlocListeners(
+        child: MaterialApp(
+          scaffoldMessengerKey: scaffoldMessengerKey,
+          navigatorKey: navigatorKey,
+          theme: UiKitTheme.dark(),
+          localizationsDelegates: FuzzyChatLocalizations.localizationsDelegates,
+          supportedLocales: FuzzyChatLocalizations.supportedLocales,
+          home: const ChatListPage(),
+        ),
       ),
     );
   }

@@ -412,6 +412,18 @@ abstract class FuzzyChatLocalizations {
   /// In en, this message translates to:
   /// **'Loading'**
   String get loading;
+
+  /// No description provided for @fuzz.
+  ///
+  /// In en, this message translates to:
+  /// **'Fuzz'**
+  String get fuzz;
+
+  /// No description provided for @defuzz.
+  ///
+  /// In en, this message translates to:
+  /// **'Defuzz'**
+  String get defuzz;
 }
 
 class _FuzzyChatLocalizationsDelegate extends LocalizationsDelegate<FuzzyChatLocalizations> {

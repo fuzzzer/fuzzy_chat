@@ -109,5 +109,9 @@
   "errorPickingFiles": "Error picking files.",
   "@errorPickingFiles": {},
   "loading": "Loading",
-  "@loading": {}
+  "@loading": {},
+  "fuzz": "Fuzz",
+  "@fuzz": {},
+  "defuzz": "Defuzz",
+  "@defuzz": {}
 }
