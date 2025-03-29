@@ -113,5 +113,7 @@
   "fuzz": "Fuzz",
   "@fuzz": {},
   "defuzz": "Defuzz",
-  "@defuzz": {}
+  "@defuzz": {},
+  "failedToProcessFiles": "Failed to process files",
+  "@failedToProcessFiles": {}
 }

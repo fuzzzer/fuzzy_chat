@@ -172,4 +172,7 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
 
   @override
   String get defuzz => 'Defuzz';
+
+  @override
+  String get failedToProcessFiles => 'Failed to process files';
 }

@@ -48,6 +48,26 @@ class GlobalBlocListeners extends StatelessWidget {
             }
           },
         ),
+        BlocListener<ChatFileInjectorCubit, ChatFileInjectorState>(
+          listenWhen: (previous, current) =>
+              previous.failedToAddProcessedFiles?.length != current.failedToAddProcessedFiles?.length,
+          listener: (_, state) {
+            final localizations = FuzzyChatLocalizations.of(
+              navigatorKey.currentContext!,
+            )!;
+
+            scaffoldMessengerKey.currentState?.showSnackBar(
+              SnackBar(
+                behavior: SnackBarBehavior.floating,
+                content: Text(
+                  ' ${localizations.failedToProcessFiles}: ${state.failedToAddProcessedFiles?.map(
+                    (file) => file.inputFilePath.split('/').last,
+                  )}',
+                ),
+              ),
+            );
+          },
+        ),
       ],
       child: child,
     );

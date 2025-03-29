@@ -95,11 +95,17 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
 
       final decryptedMessages = await Future.wait(
         paginatedMessages.map((message) async {
-          final decryptedMessage = await AESManager.decryptText(
-            message.encryptedMessage,
-            symmetricKey,
-          );
-          return message.copyWith(decryptedMessage: decryptedMessage);
+          if (message.type.isText) {
+            final decryptedMessage = await AESManager.decryptText(
+              message.encryptedMessage,
+              symmetricKey,
+            );
+            return message.copyWith(decryptedMessage: decryptedMessage);
+          } else {
+            return message.copyWith(
+              decryptedMessage: message.encryptedMessage,
+            );
+          }
         }),
       );
 
