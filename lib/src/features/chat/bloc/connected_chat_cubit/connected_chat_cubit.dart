@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/src/core/core.dart';
 import 'package:fuzzy_chat/src/features/chat/chat.dart';
@@ -15,7 +17,11 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
             status: StateStatus.initial,
             messages: [],
           ),
-        );
+        ) {
+    _newMessageUpdatesSubscription = messageDataRepository.newMessageUpdates.listen(addNewMessageInBackground);
+  }
+
+  late final StreamSubscription<NewMessageAdded> _newMessageUpdatesSubscription;
 
   final String chatId;
   final MessageDataRepository messageDataRepository;
@@ -23,6 +29,23 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
 
   final int messagesPerPage;
   int currentPage = 0;
+
+  @override
+  Future<void> close() {
+    _newMessageUpdatesSubscription.cancel();
+    return super.close();
+  }
+
+  Future<void> addNewMessageInBackground(NewMessageAdded newMessageAdded) async {
+    emit(
+      state.copyWith(
+        messages: [
+          newMessageAdded.message,
+          ...state.messages,
+        ],
+      ),
+    );
+  }
 
   Future<void> loadInitialMessages() async {
     emit(
@@ -136,6 +159,7 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
 
       final preparedNewMessage = message.copyWith(
         id: newMessageId,
+        sentAt: DateTime.now(),
       );
 
       emit(
@@ -193,6 +217,7 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
 
       final preparedNewMessage = message.copyWith(
         id: newMessageId,
+        sentAt: DateTime.now(),
       );
 
       emit(

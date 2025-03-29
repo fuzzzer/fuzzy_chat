@@ -15,9 +15,9 @@ class FileDecryptionTestPage extends StatelessWidget {
           appBar: AppBar(title: const Text('Decryption Example')),
           body: Column(
             children: [
-              FileSelector(
-                buttonText: 'Select File(s) to Decrypt',
+              FileSelectorWidget(
                 allowMultiple: true,
+                selectedFilePaths: const [],
                 onSelected: (paths) {
                   cubit.addFilesToProcess(
                     chatId: 'ed446aea-8c03-4668-b256-bd37c52d340f',

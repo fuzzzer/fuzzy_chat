@@ -1,17 +1,38 @@
-import 'package:fuzzy_chat/src/features/chat/chat.dart';
+import 'package:fuzzy_chat/lib.dart';
+
+export 'events/events.dart';
 
 class MessageDataRepository {
   final MessageDataLocalDataSource localDataSource;
 
+  Stream<NewMessageAdded> get newMessageUpdates => fuzzyHub.on<NewMessageAdded>();
+
   MessageDataRepository({required this.localDataSource});
 
-  Future<int> addMessage(MessageData message) async {
+  Future<int> addMessage(
+    MessageData message, {
+    bool notifyListeners = false,
+  }) async {
     final storedMessage = StoredMessageData()
       ..chatId = message.chatId
       ..isSent = message.isSent
+      ..messageType = message.type.name
       ..encryptedMessage = message.encryptedMessage;
 
-    return await localDataSource.addMessage(storedMessage);
+    final id = await localDataSource.addMessage(storedMessage);
+
+    if (notifyListeners) {
+      fuzzyHub.sendSignal(
+        NewMessageAdded(
+          message: message.copyWith(
+            id: storedMessage.id,
+            sentAt: storedMessage.sentAt,
+          ),
+        ),
+      );
+    }
+
+    return id;
   }
 
   Future<List<MessageData>> getMessagesForChat(String chatId) async {

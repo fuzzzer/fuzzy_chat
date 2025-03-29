@@ -5,13 +5,19 @@ class MessageInputField extends StatelessWidget {
   final TextEditingController controller;
   final FocusNode focusNode;
   final VoidCallback onSend;
+  final SelectedFilesCallback onFilesSelected;
+  final List<String>? selectedFilePaths;
   final bool isEncrypting;
+  final String chatId;
 
   const MessageInputField({
     required this.controller,
     required this.focusNode,
     required this.onSend,
+    required this.onFilesSelected,
     required this.isEncrypting,
+    required this.selectedFilePaths,
+    required this.chatId,
     super.key,
   });
 
@@ -19,6 +25,7 @@ class MessageInputField extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final uiColors = theme.extension<UiColors>()!;
+    final uiTextStyles = theme.extension<UiTextStyles>()!;
 
     final localizations = FuzzyChatLocalizations.of(context)!;
 
@@ -40,6 +47,9 @@ class MessageInputField extends StatelessWidget {
           Center(
             child: Text(
               isEncrypting ? localizations.encrypting : localizations.decrypting,
+              style: uiTextStyles.body16.copyWith(
+                color: uiColors.secondaryColor,
+              ),
             ),
           ),
           Container(
@@ -65,6 +75,17 @@ class MessageInputField extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 8),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: FileSelectorWidget(
+                      onSelected: onFilesSelected,
+                      selectedFilePaths: selectedFilePaths,
+                      allowMultiple: true,
+                    ),
+                  ),
+                ),
                 InkWell(
                   borderRadius: BorderRadius.circular(12),
                   onTap: onSend,

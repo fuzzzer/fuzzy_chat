@@ -1,7 +1,7 @@
 export 'buttons/buttons.dart';
 export 'buttons/fuzzy_button.dart';
 export 'buttons/fuzzy_icon_container_button.dart';
-export 'file_selector.dart';
+export 'file_selector_widget.dart';
 export 'fuzzy_header.dart';
 export 'fuzzy_scaffold.dart';
 export 'fuzzy_textfield.dart';

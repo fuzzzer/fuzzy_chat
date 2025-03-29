@@ -7,7 +7,7 @@ class UiKitTextStyles {
     fontWeight: FontWeight.w700,
     fontStyle: FontStyle.normal,
     fontSize: 72,
-    height: 1.1,
+    height: 1.2,
     fontFamily: 'Barlow',
   );
 
@@ -15,7 +15,7 @@ class UiKitTextStyles {
     fontWeight: FontWeight.w400,
     fontStyle: FontStyle.normal,
     fontSize: 72,
-    height: 1.1,
+    height: 1.2,
     fontFamily: 'Barlow',
   );
 
@@ -23,7 +23,7 @@ class UiKitTextStyles {
     fontWeight: FontWeight.w700,
     fontStyle: FontStyle.normal,
     fontSize: 32,
-    height: 1.1,
+    height: 1.2,
     fontFamily: 'Barlow',
   );
 
@@ -31,7 +31,7 @@ class UiKitTextStyles {
     fontWeight: FontWeight.w400,
     fontStyle: FontStyle.normal,
     fontSize: 32,
-    height: 1.1,
+    height: 1.2,
     fontFamily: 'Barlow',
   );
 
@@ -39,7 +39,7 @@ class UiKitTextStyles {
     fontWeight: FontWeight.w700,
     fontStyle: FontStyle.normal,
     fontSize: 28,
-    height: 1.1,
+    height: 1.2,
     fontFamily: 'Barlow',
   );
 
@@ -47,7 +47,7 @@ class UiKitTextStyles {
     fontWeight: FontWeight.w400,
     fontStyle: FontStyle.normal,
     fontSize: 28,
-    height: 1.1,
+    height: 1.2,
     fontFamily: 'Barlow',
   );
 
@@ -55,7 +55,7 @@ class UiKitTextStyles {
     fontWeight: FontWeight.w700,
     fontStyle: FontStyle.normal,
     fontSize: 20,
-    height: 1.1,
+    height: 1.2,
     fontFamily: 'Barlow',
   );
 
@@ -63,7 +63,7 @@ class UiKitTextStyles {
     fontWeight: FontWeight.w400,
     fontStyle: FontStyle.normal,
     fontSize: 20,
-    height: 1.1,
+    height: 1.2,
     fontFamily: 'Barlow',
   );
 
@@ -71,7 +71,7 @@ class UiKitTextStyles {
     fontWeight: FontWeight.w700,
     fontStyle: FontStyle.normal,
     fontSize: 16,
-    height: 1.1,
+    height: 1.2,
     fontFamily: 'Barlow',
   );
 
@@ -79,7 +79,7 @@ class UiKitTextStyles {
     fontWeight: FontWeight.w400,
     fontStyle: FontStyle.normal,
     fontSize: 16,
-    height: 1.1,
+    height: 1.2,
     fontFamily: 'Barlow',
   );
 
@@ -87,7 +87,7 @@ class UiKitTextStyles {
     fontWeight: FontWeight.w700,
     fontStyle: FontStyle.normal,
     fontSize: 12,
-    height: 1.1,
+    height: 1.2,
     fontFamily: 'Barlow',
   );
 
@@ -95,7 +95,7 @@ class UiKitTextStyles {
     fontWeight: FontWeight.w400,
     fontStyle: FontStyle.normal,
     fontSize: 12,
-    height: 1.1,
+    height: 1.2,
     fontFamily: 'Barlow',
   );
 }

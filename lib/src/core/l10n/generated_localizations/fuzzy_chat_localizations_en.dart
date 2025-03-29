@@ -166,4 +166,10 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
 
   @override
   String get loading => 'Loading';
+
+  @override
+  String get fuzz => 'Fuzz';
+
+  @override
+  String get defuzz => 'Defuzz';
 }

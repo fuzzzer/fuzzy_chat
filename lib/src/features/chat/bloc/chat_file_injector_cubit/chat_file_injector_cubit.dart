@@ -1,0 +1,74 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fuzzy_chat/src/core/core.dart';
+import 'package:fuzzy_chat/src/features/chat/chat.dart';
+
+part 'chat_file_injector_state.dart';
+
+class ChatFileInjectorCubit extends Cubit<ChatFileInjectorState> {
+  ChatFileInjectorCubit({
+    required this.messageDataRepository,
+  }) : super(
+          const ChatFileInjectorState(
+            status: StateStatus.initial,
+          ),
+        );
+
+  final MessageDataRepository messageDataRepository;
+
+  Future<void> injectProcessedFile({
+    required List<FileProcessingData> processedFiles,
+    required bool filesAreEncrypted,
+  }) async {
+    if (processedFiles.isEmpty) {
+      emit(
+        state.copyWith(
+          status: StateStatus.failed,
+        ),
+      );
+      return;
+    }
+
+    emit(
+      state.copyWith(
+        status: StateStatus.loading,
+      ),
+    );
+
+    final List<Future<int>> addMessageFutures = [];
+    final List<FileProcessingData> failedToAddMessages = [];
+
+    for (final file in processedFiles) {
+      final outputPath = file.outputFilePath;
+
+      if (outputPath == null) {
+        failedToAddMessages.add(file);
+        continue;
+      }
+
+      final message = MessageData(
+        id: 0,
+        type: MessageType.file,
+        chatId: file.chatId,
+        encryptedMessage: outputPath,
+        decryptedMessage: '',
+        sentAt: DateTime.now(),
+        isSent: filesAreEncrypted,
+      );
+
+      final addMessageFuture = messageDataRepository.addMessage(
+        message,
+        notifyListeners: true,
+      );
+
+      addMessageFutures.add(addMessageFuture);
+    }
+
+    await addMessageFutures.wait;
+
+    emit(
+      state.copyWith(
+        status: StateStatus.success,
+      ),
+    );
+  }
+}

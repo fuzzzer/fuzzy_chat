@@ -14,10 +14,10 @@ class GlobalBlocProviders extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
+        BlocProvider<LocalizationCubit>(
           create: (_) => LocalizationCubit(),
         ),
-        BlocProvider(
+        BlocProvider<ThemeCubit>(
           create: (_) => ThemeCubit(),
         ),
         BlocProvider<ChatGeneralDataListCubit>(
@@ -36,6 +36,11 @@ class GlobalBlocProviders extends StatelessWidget {
           create: (_) => FileProcessingCubit<FileDecryptionOption>(
             processingOption: const FileDecryptionOption(),
             keyStorageRepository: sl.get<KeyStorageRepository>(),
+          ),
+        ),
+        BlocProvider<ChatFileInjectorCubit>(
+          create: (_) => ChatFileInjectorCubit(
+            messageDataRepository: sl.get<MessageDataRepository>(),
           ),
         ),
       ],

@@ -15,9 +15,9 @@ class FileEncryptionTestPage extends StatelessWidget {
           appBar: AppBar(title: const Text('Encryption Example')),
           body: Column(
             children: [
-              FileSelector(
-                buttonText: 'Select File(s) to Encrypt',
+              FileSelectorWidget(
                 allowMultiple: true,
+                selectedFilePaths: const [],
                 onSelected: (paths) {
                   fileEncryptionCubit.addFilesToProcess(
                     chatId: 'ed446aea-8c03-4668-b256-bd37c52d340f',

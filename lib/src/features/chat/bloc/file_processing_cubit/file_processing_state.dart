@@ -6,6 +6,14 @@ class FileProcessingState {
   final List<FileProcessingData> toBeProcessedFiles;
   final List<FileProcessingData> processedFiles;
 
+  List<FileProcessingData> getToBeProcessedFilesByChatId(String chatId) {
+    return toBeProcessedFiles.where((tbpf) => tbpf.chatId == chatId).toList();
+  }
+
+  List<FileProcessingData> getProcessedFilesByChatId(String chatId) {
+    return processedFiles.where((pf) => pf.chatId == chatId).toList();
+  }
+
   const FileProcessingState({
     this.progress = 0.0,
     this.currentProcessingFile,
