@@ -173,6 +173,7 @@ class _AESManagerImpl {
   }) async {
     IOSink? outputSink;
     double processedSize = 0;
+    double progress = 0;
     final inputFile = File(inputPath);
     final outputFile = File(outputPath);
     int? totalInputFileSize;
@@ -204,12 +205,8 @@ class _AESManagerImpl {
         isCancelled: isCancelled,
         onChunkProcessed: (processedChunkLength) {
           processedSize += processedChunkLength;
-          final progress = (processedSize / adjustedTotalSize).clamp(0.0, 1.0);
+          progress = (processedSize / adjustedTotalSize).clamp(0.0, 1.0);
           controller.add(FileProcessingProgress(progress: progress));
-
-          if (progress == 1) {
-            controller.add(FileProcessingProgress.completed());
-          }
         },
       );
     } catch (e) {
@@ -222,9 +219,13 @@ class _AESManagerImpl {
         totalInputFileSize: totalInputFileSize ?? 0,
       );
     } finally {
-      // await outputSink?.flush();
-      // await outputSink?.close();
-      // await controller.close();
+      await outputSink?.flush();
+      await outputSink?.close();
+      await controller.close();
+
+      if (progress == 1) {
+        controller.add(FileProcessingProgress.completed());
+      }
     }
   }
 
