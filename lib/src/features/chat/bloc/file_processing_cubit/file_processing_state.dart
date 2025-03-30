@@ -2,7 +2,7 @@ part of 'file_processing_cubit.dart';
 
 class FileProcessingState {
   final double progress; // value between 0 and 1
-  final String? currentProcessingFile;
+  final FileProcessingData? currentProcessingFile;
   final List<FileProcessingData> toBeProcessedFiles;
   final List<FileProcessingData> processedFiles;
 
@@ -23,7 +23,7 @@ class FileProcessingState {
 
   FileProcessingState copyWith({
     double? progress,
-    String? currentProcessingFile,
+    FileProcessingData? currentProcessingFile,
     List<FileProcessingData>? toBeProcessedFiles,
     List<FileProcessingData>? processedFiles,
   }) {

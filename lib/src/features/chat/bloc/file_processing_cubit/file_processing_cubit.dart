@@ -90,7 +90,7 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
     emit(
       state.copyWith(
         toBeProcessedFiles: updatedToBeProcessedFiles,
-        currentProcessingFile: nextFileData.inputFilePath,
+        currentProcessingFile: nextFileData,
         progress: 0,
       ),
     );
@@ -243,7 +243,7 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
 
     final updatedState = _removeFromQueueAndAddToProcessed(fileProcessingData: updatedFile);
 
-    final isActive = updatedFile.inputFilePath == state.currentProcessingFile;
+    final isActive = updatedFile.inputFilePath == state.currentProcessingFile?.inputFilePath;
 
     emit(
       updatedState.copyWith(
@@ -292,7 +292,7 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
       return item;
     }).toList();
 
-    final isActive = fileData.inputFilePath == state.currentProcessingFile;
+    final isActive = fileData.inputFilePath == state.currentProcessingFile?.inputFilePath;
 
     emit(
       state.copyWith(

@@ -21,7 +21,7 @@ class FileDecryptionProgressDisplay extends StatelessWidget {
 
     return FileDecriptionCubitBuilder(
       builder: (context, state) {
-        if (state.currentProcessingFile == null) {
+        if (state.currentProcessingFile?.chatId != chatId) {
           return const SizedBox.shrink();
         }
 
