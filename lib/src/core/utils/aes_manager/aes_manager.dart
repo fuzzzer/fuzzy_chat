@@ -35,21 +35,161 @@ class AESManager {
     required String inputPath,
     required String outputPath,
     required Uint8List key,
-  }) async =>
-      _AESManagerImpl.encryptFile(
-        inputPath: inputPath,
-        outputPath: outputPath,
-        key: key,
-      );
+  }) async {
+    final progressReceivePort = ReceivePort();
+    final commandPortReceivePort = ReceivePort();
+
+    final controller = StreamController<FileProcessingProgress>();
+
+    final args = FileEncryptionIsolateArguments(
+      isEncryption: true,
+      inputPath: inputPath,
+      outputPath: outputPath,
+      key: key,
+      progressSendPort: progressReceivePort.sendPort,
+      commandPortSendPort: commandPortReceivePort.sendPort,
+    );
+
+    final isolate = await Isolate.spawn(
+      fileEncryptionIsolateEntry,
+      args,
+      debugName: 'FileEncryptionIsolate',
+    );
+
+    progressReceivePort.listen((message) {
+      if (message is FileProcessingProgress) {
+        controller.add(message);
+
+        if (message.isComplete || message.isCancelled || message.errorMessage != null) {
+          controller.close();
+          isolate.kill(priority: Isolate.immediate);
+        }
+      }
+    });
+
+    SendPort? commandSendPort;
+
+    commandPortReceivePort.listen((dynamic msg) {
+      if (msg is SendPort) {
+        commandSendPort = msg;
+      }
+    });
+
+    void sendCommand(FileEncryptionCommand cmd) {
+      if (commandSendPort != null) {
+        commandSendPort!.send(cmd);
+      }
+    }
+
+    void pause() => sendCommand(FileEncryptionCommand.pause);
+    void resume() => sendCommand(FileEncryptionCommand.resume);
+    void cancel() => sendCommand(FileEncryptionCommand.cancel);
+
+    return FileProcessingHandler(
+      progressStream: controller.stream,
+      pause: pause,
+      resume: resume,
+      cancel: cancel,
+    );
+  }
 
   static Future<FileProcessingHandler> decryptFile({
     required String inputPath,
     required String outputPath,
     required Uint8List key,
-  }) async =>
-      _AESManagerImpl.decryptFile(
-        inputPath: inputPath,
-        outputPath: outputPath,
-        key: key,
-      );
+  }) async {
+    final progressReceivePort = ReceivePort();
+    final commandPortReceivePort = ReceivePort();
+    final controller = StreamController<FileProcessingProgress>();
+
+    final args = FileEncryptionIsolateArguments(
+      isEncryption: false,
+      inputPath: inputPath,
+      outputPath: outputPath,
+      key: key,
+      progressSendPort: progressReceivePort.sendPort,
+      commandPortSendPort: commandPortReceivePort.sendPort,
+    );
+
+    final isolate = await Isolate.spawn(
+      fileEncryptionIsolateEntry,
+      args,
+      debugName: 'FileDecryptionIsolate',
+    );
+
+    progressReceivePort.listen((message) {
+      if (message is FileProcessingProgress) {
+        controller.add(message);
+
+        if (message.isComplete || message.isCancelled || message.errorMessage != null) {
+          controller.close();
+          isolate.kill(priority: Isolate.immediate);
+        }
+      }
+    });
+
+    SendPort? commandSendPort;
+    commandPortReceivePort.listen((dynamic msg) {
+      if (msg is SendPort) {
+        commandSendPort = msg;
+      }
+    });
+
+    void sendCommand(FileEncryptionCommand cmd) {
+      if (commandSendPort != null) {
+        commandSendPort!.send(cmd);
+      }
+    }
+
+    void pause() => sendCommand(FileEncryptionCommand.pause);
+    void resume() => sendCommand(FileEncryptionCommand.resume);
+    void cancel() => sendCommand(FileEncryptionCommand.cancel);
+
+    return FileProcessingHandler(
+      progressStream: controller.stream,
+      pause: pause,
+      resume: resume,
+      cancel: cancel,
+    );
+  }
+}
+
+Future<void> fileEncryptionIsolateEntry(FileEncryptionIsolateArguments args) async {
+  final commandReceivePort = ReceivePort();
+
+  args.commandPortSendPort.send(commandReceivePort.sendPort);
+
+  FileProcessingHandler handler;
+  if (args.isEncryption) {
+    handler = _AESManagerImpl.encryptFile(
+      inputPath: args.inputPath,
+      outputPath: args.outputPath,
+      key: args.key,
+    );
+  } else {
+    handler = await _AESManagerImpl.decryptFile(
+      inputPath: args.inputPath,
+      outputPath: args.outputPath,
+      key: args.key,
+    );
+  }
+
+  final subscription = handler.progressStream.listen((progress) {
+    args.progressSendPort.send(progress);
+  });
+
+  commandReceivePort.listen((message) {
+    if (message is FileEncryptionCommand) {
+      switch (message) {
+        case FileEncryptionCommand.pause:
+          handler.pause();
+        case FileEncryptionCommand.resume:
+          handler.resume();
+        case FileEncryptionCommand.cancel:
+          handler.cancel();
+      }
+    }
+  });
+
+  subscription.onDone(subscription.cancel);
 }
