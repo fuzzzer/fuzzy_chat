@@ -161,6 +161,8 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
 
   @override
   Widget build(BuildContext context) {
+    final chatId = widget.payload.chatGeneralData.chatId;
+
     return FuzzyScaffold(
       hasAutomaticBackButton: false,
       body: BlocConsumer<ConnectedChatCubit, ConnectedChatState>(
@@ -192,11 +194,15 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
                     const SliverToBoxAdapter(
                       child: DefaultLoadingWidget(),
                     ),
-                  const SliverToBoxAdapter(
-                    child: FileDecryptionProgressesDisplaylaceholder(),
+                  SliverToBoxAdapter(
+                    child: FileDecryptionProgressesDisplaylaceholder(
+                      chatId: chatId,
+                    ),
                   ),
-                  const SliverToBoxAdapter(
-                    child: FileEncryptionProgressesDisplaylaceholder(),
+                  SliverToBoxAdapter(
+                    child: FileEncryptionProgressesDisplaylaceholder(
+                      chatId: chatId,
+                    ),
                   ),
                   const SliverToBoxAdapter(
                     child: SizedBox(height: 80),
@@ -216,10 +222,10 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     FileDecryptionProgressDisplay(
-                      chatId: widget.payload.chatGeneralData.chatId,
+                      chatId: chatId,
                     ),
                     FileEncryptionProgressDisplay(
-                      chatId: widget.payload.chatGeneralData.chatId,
+                      chatId: chatId,
                     ),
                     MessageInputField(
                       controller: _messageController,
@@ -228,7 +234,7 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
                       onFilesSelected: onFilesSelected,
                       selectedFilePaths: selectedFilePaths,
                       isEncrypting: isEncrypting,
-                      chatId: widget.payload.chatGeneralData.chatId,
+                      chatId: chatId,
                     ),
                   ],
                 ),
