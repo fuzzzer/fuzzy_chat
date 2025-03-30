@@ -65,7 +65,7 @@ class _ProvidedChatCreationPageState extends State<ProvidedChatCreationPage> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = FuzzyChatLocalizations.of(context)!;
+    final localizations = context.fuzzyChatLocalizations;
 
     return BlocConsumer<ChatCreationCubit, ChatCreationState>(
       listener: (context, state) {
@@ -82,7 +82,7 @@ class _ProvidedChatCreationPageState extends State<ProvidedChatCreationPage> {
           );
         } else if (state.status.isFailed) {
           FuzzySnackbar.show(
-            label: state.failure?.message ?? localizations.failedToCreateChat,
+            label: state.failure?.type.toUiMessage(localizations),
           );
         }
       },
@@ -101,7 +101,7 @@ class _ProvidedChatCreationPageState extends State<ProvidedChatCreationPage> {
             onCreate: _createChat,
           ),
           onFailure: () => FuzzyErrorPageBuilder(
-            message: state.failure?.message ?? localizations.failedToCreateChat,
+            message: state.failure?.type.toUiMessage(localizations),
           ),
         );
       },

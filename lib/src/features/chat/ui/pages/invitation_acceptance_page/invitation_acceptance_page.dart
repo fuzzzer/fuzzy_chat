@@ -70,6 +70,8 @@ class _ProvidedInvitationAcceptancePageState extends State<ProvidedInvitationAcc
 
   @override
   Widget build(BuildContext context) {
+    final localizations = context.fuzzyChatLocalizations;
+
     return BlocConsumer<InvitationAcceptanceCubit, InvitationAcceptanceState>(
       listener: (context, state) {
         if (state.status.isSuccess && state.generatedAcceptance != null) {
@@ -86,7 +88,10 @@ class _ProvidedInvitationAcceptancePageState extends State<ProvidedInvitationAcc
           );
         } else if (state.status.isFailed) {
           FuzzySnackbar.show(
-            label: state.failure?.message ?? FuzzyChatLocalizations.of(context)?.failedToAcceptInvitation ?? '',
+            label: state.failure?.type.toUiMessage(
+              localizations,
+              customUnknownMessage: FuzzyChatLocalizations.of(context)?.failedToAcceptInvitation,
+            ),
           );
         }
       },

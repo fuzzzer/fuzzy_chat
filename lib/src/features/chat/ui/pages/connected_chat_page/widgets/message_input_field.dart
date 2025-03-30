@@ -27,7 +27,7 @@ class MessageInputField extends StatelessWidget {
     final uiColors = theme.extension<UiColors>()!;
     final uiTextStyles = theme.extension<UiTextStyles>()!;
 
-    final localizations = FuzzyChatLocalizations.of(context)!;
+    final localizations = context.fuzzyChatLocalizations;
 
     const height = 200.0;
     const aroundTextFieldPadding = 8.0;

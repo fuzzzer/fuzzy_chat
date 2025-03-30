@@ -109,7 +109,7 @@ class _SentMessageAreaState extends State<SentMessageArea> {
     final uiColors = theme.extension<UiColors>()!;
     final uiTextStyles = theme.extension<UiTextStyles>()!;
 
-    final localizations = FuzzyChatLocalizations.of(context)!;
+    final localizations = context.fuzzyChatLocalizations;
 
     const borderRadius = BorderRadius.only(
       topLeft: Radius.circular(12),

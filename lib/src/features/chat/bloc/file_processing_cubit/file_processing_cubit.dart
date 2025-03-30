@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:path/path.dart' as path;
 
 export 'components/components.dart';
 
@@ -42,6 +44,7 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
 
   void addFilesToProcess({
     required String chatId,
+    required String chatName,
     required List<String> filePaths,
   }) {
     final now = DateTime.now();
@@ -49,6 +52,7 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
     final newFilesToBeProcessed = filePaths.map(
       (path) => FileProcessingData(
         chatId: chatId,
+        chatName: chatName,
         inputFilePath: path,
         encryptionStartTime: now,
         status: FileProcessingStatus.pending,
@@ -102,8 +106,7 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
     required FileProcessingData fileData,
   }) async {
     try {
-      //TODO refine output path handling and set up correct output paths not same directory as input
-      String outputPath = '';
+      String generalOutputPath = sl.get<AppDocumentsDirectory>().directory.path;
 
       FileProcessingHandler handler;
 
@@ -114,19 +117,31 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
       }
 
       if (processingOption is FileEncryptionOption) {
-        outputPath = '${fileData.inputFilePath}.$fuzzedFileIdentificator';
+        generalOutputPath = await _buildOutputPathInChatFolder(
+          inputFilePath: fileData.inputFilePath,
+          outputPath: generalOutputPath,
+          chatName: fileData.chatName,
+          isEncryption: true,
+          fuzzedFileIdentificator: fuzzedFileIdentificator,
+        );
 
         handler = await AESManager.encryptFile(
           inputPath: fileData.inputFilePath,
-          outputPath: outputPath,
+          outputPath: generalOutputPath,
           key: symmetricKey,
         );
       } else if (processingOption is FileDecryptionOption) {
-        outputPath = fileData.inputFilePath.replaceFirst(RegExp('.$fuzzedFileIdentificator'), '');
+        generalOutputPath = await _buildOutputPathInChatFolder(
+          inputFilePath: fileData.inputFilePath,
+          outputPath: generalOutputPath,
+          chatName: fileData.chatName,
+          isEncryption: false,
+          fuzzedFileIdentificator: fuzzedFileIdentificator,
+        );
 
         handler = await AESManager.decryptFile(
           inputPath: fileData.inputFilePath,
-          outputPath: outputPath,
+          outputPath: generalOutputPath,
           key: symmetricKey,
         );
       } else {
@@ -139,7 +154,7 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
         (event) => _onProgress(
           event: event,
           fileData: fileData,
-          outputPath: outputPath,
+          outputPath: generalOutputPath,
         ),
       );
 
@@ -313,5 +328,29 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
     _progressSubscription?.cancel();
     _activeFileProcessingHandler = null;
     return super.close();
+  }
+}
+
+Future<String> _buildOutputPathInChatFolder({
+  required String inputFilePath,
+  required String outputPath,
+  required String chatName,
+  required bool isEncryption,
+  required String fuzzedFileIdentificator,
+}) async {
+  final chatIdFolder = Directory(path.join(outputPath, chatName));
+
+  if (!await chatIdFolder.exists()) {
+    await chatIdFolder.create(recursive: true);
+  }
+
+  final fileName = path.basename(inputFilePath);
+  if (isEncryption) {
+    return path.join(chatIdFolder.path, '$fileName.$fuzzedFileIdentificator');
+  } else {
+    final defuzzedFileName = fileName.endsWith('.$fuzzedFileIdentificator')
+        ? fileName.substring(0, fileName.length - '.$fuzzedFileIdentificator'.length)
+        : fileName;
+    return path.join(chatIdFolder.path, defuzzedFileName);
   }
 }

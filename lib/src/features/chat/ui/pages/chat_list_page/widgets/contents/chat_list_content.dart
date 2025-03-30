@@ -11,7 +11,7 @@ class ChatListContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = FuzzyChatLocalizations.of(context)!;
+    final localizations = context.fuzzyChatLocalizations;
 
     return CustomScrollView(
       slivers: [

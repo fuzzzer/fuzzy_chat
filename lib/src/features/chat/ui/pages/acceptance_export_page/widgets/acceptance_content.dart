@@ -15,7 +15,7 @@ class AcceptanceContent extends StatelessWidget {
   });
 
   void _copyAcceptance(BuildContext context) {
-    final localizations = FuzzyChatLocalizations.of(context)!;
+    final localizations = context.fuzzyChatLocalizations;
 
     Clipboard.setData(ClipboardData(text: acceptanceContent));
     FuzzySnackbar.show(
@@ -28,7 +28,7 @@ class AcceptanceContent extends StatelessWidget {
     final theme = Theme.of(context);
     final uiTextStyles = theme.extension<UiTextStyles>()!;
 
-    final localizations = FuzzyChatLocalizations.of(context)!;
+    final localizations = context.fuzzyChatLocalizations;
 
     return FuzzyScaffold(
       hasAutomaticBackButton: false,

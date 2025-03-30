@@ -115,5 +115,7 @@
   "defuzz": "Defuzz",
   "@defuzz": {},
   "failedToProcessFiles": "Failed to process files",
-  "@failedToProcessFiles": {}
+  "@failedToProcessFiles": {},
+  "chatWithIndicatedNameAlreadyExists": "Chat with indicated name already exists",
+  "@chatWithIndicatedNameAlreadyExists": {}
 }

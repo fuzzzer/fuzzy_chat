@@ -91,7 +91,7 @@ class _ProvidedChatInvitationPageState extends State<ProvidedChatInvitationPage>
 
   @override
   Widget build(BuildContext context) {
-    final localizations = FuzzyChatLocalizations.of(context)!;
+    final localizations = context.fuzzyChatLocalizations;
 
     return MultiBlocListener(
       listeners: [

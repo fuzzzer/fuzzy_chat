@@ -430,6 +430,12 @@ abstract class FuzzyChatLocalizations {
   /// In en, this message translates to:
   /// **'Failed to process files'**
   String get failedToProcessFiles;
+
+  /// No description provided for @chatWithIndicatedNameAlreadyExists.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat with indicated name already exists'**
+  String get chatWithIndicatedNameAlreadyExists;
 }
 
 class _FuzzyChatLocalizationsDelegate extends LocalizationsDelegate<FuzzyChatLocalizations> {

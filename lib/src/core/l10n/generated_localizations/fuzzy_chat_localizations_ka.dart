@@ -175,4 +175,7 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
 
   @override
   String get failedToProcessFiles => 'Failed to process files';
+
+  @override
+  String get chatWithIndicatedNameAlreadyExists => 'Chat with indicated name already exists';
 }

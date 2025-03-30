@@ -59,7 +59,7 @@ class _SettingsToolboxState extends State<SettingsToolbox> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = FuzzyChatLocalizations.of(context)!;
+    final localizations = context.fuzzyChatLocalizations;
 
     return IntrinsicWidth(
       child: FuzzyToolbox(

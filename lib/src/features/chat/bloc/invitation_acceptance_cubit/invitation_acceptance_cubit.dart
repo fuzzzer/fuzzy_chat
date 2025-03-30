@@ -26,6 +26,20 @@ class InvitationAcceptanceCubit extends Cubit<InvitationAcceptanceState> {
     emit(state.copyWith(status: StateStatus.loading));
 
     try {
+      final restriction = await checkChatNameRestrictions(chatName);
+
+      if (restriction != null) {
+        emit(
+          state.copyWith(
+            status: StateStatus.failed,
+            failure: ChatCreationFailure(
+              type: restriction,
+            ),
+          ),
+        );
+        return;
+      }
+
       final receivedInvitation = await handshakeManager.parseInvitation(invitationContent);
       final chatId = generateId();
       final otherPartyPublicKey = receivedInvitation.publicKey;
@@ -71,9 +85,22 @@ class InvitationAcceptanceCubit extends Cubit<InvitationAcceptanceState> {
       emit(
         state.copyWith(
           status: StateStatus.failed,
-          failure: DefaultFailure(),
+          failure: ChatCreationFailure(
+            internalMessage: ex.toString(),
+            type: ChatCreationFailureType.unknown,
+          ),
         ),
       );
     }
+  }
+
+  Future<ChatCreationFailureType?> checkChatNameRestrictions(String chatName) async {
+    final name = await chatGeneralDataListRepository.getChatByName(chatName);
+
+    if (name != null) {
+      return ChatCreationFailureType.existingName;
+    }
+
+    return null;
   }
 }
