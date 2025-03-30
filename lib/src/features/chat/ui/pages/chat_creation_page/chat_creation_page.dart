@@ -87,22 +87,14 @@ class _ProvidedChatCreationPageState extends State<ProvidedChatCreationPage> {
         }
       },
       builder: (context, state) {
-        return StatusBuilder.buildByStatus(
-          status: state.status,
-          onInitial: () => ChatCreationInitialContent(
-            chatNameController: _chatNameController,
-            focusNode: _focusNode,
-            onCreate: _createChat,
-          ),
-          onLoading: () => const FuzzyLoadingPagebuilder(),
-          onSuccess: () => ChatCreationInitialContent(
-            chatNameController: _chatNameController,
-            focusNode: _focusNode,
-            onCreate: _createChat,
-          ),
-          onFailure: () => FuzzyErrorPageBuilder(
-            message: state.failure?.type.toUiMessage(localizations),
-          ),
+        if (state.status.isLoading) {
+          return const FuzzyLoadingPagebuilder();
+        }
+
+        return ChatCreationInitialContent(
+          chatNameController: _chatNameController,
+          focusNode: _focusNode,
+          onCreate: _createChat,
         );
       },
     );
