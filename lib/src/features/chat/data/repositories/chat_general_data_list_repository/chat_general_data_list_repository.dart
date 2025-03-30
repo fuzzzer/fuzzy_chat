@@ -39,6 +39,14 @@ class ChatGeneralDataListRepository {
     return null;
   }
 
+  Future<ChatGeneralData?> getChatByName(String name) async {
+    final storedChat = await localDataSource.getChatByName(name);
+    if (storedChat != null) {
+      return ChatGeneralData.fromStored(storedChat);
+    }
+    return null;
+  }
+
   Future<void> updateChat(ChatGeneralData chat) async {
     final storedGeneralChatData = await localDataSource.getChatById(chat.chatId);
 

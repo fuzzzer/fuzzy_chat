@@ -21,6 +21,20 @@ class ChatCreationCubit extends Cubit<ChatCreationState> {
     emit(state.copyWith(status: StateStatus.loading, chatName: chatName));
 
     try {
+      final restriction = await checkChatNameRestrictions(chatName);
+
+      if (restriction != null) {
+        emit(
+          state.copyWith(
+            status: StateStatus.failed,
+            failure: ChatCreationFailure(
+              type: restriction,
+            ),
+          ),
+        );
+        return;
+      }
+
       final keyPair = await RSAManager.generateRSAKeyPair();
       final chatId = generateId();
 
@@ -50,9 +64,22 @@ class ChatCreationCubit extends Cubit<ChatCreationState> {
       emit(
         state.copyWith(
           status: StateStatus.failed,
-          failure: DefaultFailure(),
+          failure: ChatCreationFailure(
+            internalMessage: ex.toString(),
+            type: ChatCreationFailureType.unknown,
+          ),
         ),
       );
     }
+  }
+
+  Future<ChatCreationFailureType?> checkChatNameRestrictions(String chatName) async {
+    final name = await chatGeneralDataListRepository.getChatByName(chatName);
+
+    if (name != null) {
+      return ChatCreationFailureType.existingName;
+    }
+
+    return null;
   }
 }

@@ -19,7 +19,7 @@ class InvitedChatTile extends StatelessWidget {
     final uiColors = theme.extension<UiColors>()!;
     final uiTextStyles = theme.extension<UiTextStyles>()!;
 
-    final localizations = FuzzyChatLocalizations.of(context)!;
+    final localizations = context.fuzzyChatLocalizations;
 
     return Card(
       shape: RoundedRectangleBorder(

@@ -4,7 +4,7 @@ class InvitationAcceptanceState {
   final StateStatus status;
   final ChatGeneralData? chatData;
   final ToBeSentAcceptance? generatedAcceptance;
-  final DefaultFailure? failure;
+  final ChatCreationFailure? failure;
 
   const InvitationAcceptanceState({
     required this.status,
@@ -17,7 +17,7 @@ class InvitationAcceptanceState {
     StateStatus? status,
     ChatGeneralData? chatData,
     ToBeSentAcceptance? generatedAcceptance,
-    DefaultFailure? failure,
+    ChatCreationFailure? failure,
   }) {
     return InvitationAcceptanceState(
       status: status ?? this.status,

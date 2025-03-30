@@ -44,7 +44,7 @@ class _FloatingToolboxState extends State<FloatingToolbox> with SingleTickerProv
     final theme = Theme.of(context);
     final uiColors = theme.extension<UiColors>()!;
 
-    final localizations = FuzzyChatLocalizations.of(context)!;
+    final localizations = context.fuzzyChatLocalizations;
 
     return Padding(
       padding: const EdgeInsets.only(right: 8, bottom: 8),

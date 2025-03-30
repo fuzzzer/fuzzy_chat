@@ -31,7 +31,7 @@ class ProvidedAcceptanceExportPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = FuzzyChatLocalizations.of(context)!;
+    final localizations = context.fuzzyChatLocalizations;
 
     return BlocBuilder<AcceptanceReaderCubit, AcceptanceReaderState>(
       builder: (context, state) {

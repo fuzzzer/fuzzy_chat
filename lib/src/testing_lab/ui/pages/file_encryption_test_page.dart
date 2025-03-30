@@ -21,6 +21,7 @@ class FileEncryptionTestPage extends StatelessWidget {
                 onSelected: (paths) {
                   fileEncryptionCubit.addFilesToProcess(
                     chatId: 'ed446aea-8c03-4668-b256-bd37c52d340f',
+                    chatName: 'test',
                     filePaths: paths,
                   );
                 },

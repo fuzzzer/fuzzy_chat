@@ -101,11 +101,13 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
       for (final filePath in selectedFilePaths!) {
         if (filePath.endsWith(fuzzedFileIdentificator)) {
           fileDecryptionCubit.addFilesToProcess(
+            chatName: widget.payload.chatGeneralData.chatName,
             chatId: widget.payload.chatGeneralData.chatId,
             filePaths: [filePath],
           );
         } else {
           fileEncryptionCubit.addFilesToProcess(
+            chatName: widget.payload.chatGeneralData.chatName,
             chatId: widget.payload.chatGeneralData.chatId,
             filePaths: [filePath],
           );

@@ -20,6 +20,10 @@ class ChatGeneralDataLocalDataSource {
     return await isar.storedChatGeneralDatas.filter().chatIdEqualTo(chatId).findFirst();
   }
 
+  Future<StoredChatGeneralData?> getChatByName(String name) async {
+    return await isar.storedChatGeneralDatas.filter().chatNameEqualTo(name).findFirst();
+  }
+
   Future<void> updateChat(StoredChatGeneralData storedChatGeneralData) async {
     await isar.writeTxn(() async {
       await isar.storedChatGeneralDatas.put(storedChatGeneralData);

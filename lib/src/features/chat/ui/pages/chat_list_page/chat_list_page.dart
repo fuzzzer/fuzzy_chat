@@ -23,7 +23,7 @@ class ProvidedChatListPage extends StatefulWidget {
 class _ProvidedChatListPageState extends State<ProvidedChatListPage> {
   @override
   Widget build(BuildContext context) {
-    final localizations = FuzzyChatLocalizations.of(context)!;
+    final localizations = context.fuzzyChatLocalizations;
 
     return FuzzyScaffold(
       hasAutomaticBackButton: false,

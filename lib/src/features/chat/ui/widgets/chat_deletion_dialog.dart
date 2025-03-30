@@ -11,7 +11,7 @@ Future<void> showChatDeletionDialog(
   await showDialog<bool>(
     context: context,
     builder: (context) {
-      final localizations = FuzzyChatLocalizations.of(context)!;
+      final localizations = context.fuzzyChatLocalizations;
 
       return AlertDialog(
         title: Text(localizations.deleteChat),
