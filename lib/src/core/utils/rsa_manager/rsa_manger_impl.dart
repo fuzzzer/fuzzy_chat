@@ -20,8 +20,8 @@ class _RSAManagerImpl {
       );
 
     final keyPair = keyGenerator.generateKeyPair();
-    final publicKey = keyPair.publicKey as RSAPublicKey;
-    final privateKey = keyPair.privateKey as RSAPrivateKey;
+    final publicKey = keyPair.publicKey;
+    final privateKey = keyPair.privateKey;
 
     return AsymmetricKeyPair(publicKey, privateKey);
   }

@@ -68,7 +68,6 @@ class AESManager {
     });
 
     SendPort? commandSendPort;
-
     commandPortReceivePort.listen((dynamic msg) {
       if (msg is SendPort) {
         commandSendPort = msg;
@@ -76,9 +75,7 @@ class AESManager {
     });
 
     void sendCommand(FileEncryptionCommand cmd) {
-      if (commandSendPort != null) {
-        commandSendPort!.send(cmd);
-      }
+      commandSendPort?.send(cmd);
     }
 
     void pause() => sendCommand(FileEncryptionCommand.pause);
@@ -136,9 +133,7 @@ class AESManager {
     });
 
     void sendCommand(FileEncryptionCommand cmd) {
-      if (commandSendPort != null) {
-        commandSendPort!.send(cmd);
-      }
+      commandSendPort?.send(cmd);
     }
 
     void pause() => sendCommand(FileEncryptionCommand.pause);
@@ -159,20 +154,17 @@ Future<void> fileEncryptionIsolateEntry(FileEncryptionIsolateArguments args) asy
 
   args.commandPortSendPort.send(commandReceivePort.sendPort);
 
-  FileProcessingHandler handler;
-  if (args.isEncryption) {
-    handler = _AESManagerImpl.encryptFile(
-      inputPath: args.inputPath,
-      outputPath: args.outputPath,
-      key: args.key,
-    );
-  } else {
-    handler = await _AESManagerImpl.decryptFile(
-      inputPath: args.inputPath,
-      outputPath: args.outputPath,
-      key: args.key,
-    );
-  }
+  final handler = args.isEncryption
+      ? _AESManagerImpl.encryptFile(
+          inputPath: args.inputPath,
+          outputPath: args.outputPath,
+          key: args.key,
+        )
+      : await _AESManagerImpl.decryptFile(
+          inputPath: args.inputPath,
+          outputPath: args.outputPath,
+          key: args.key,
+        );
 
   final subscription = handler.progressStream.listen((progress) {
     args.progressSendPort.send(progress);
@@ -191,5 +183,7 @@ Future<void> fileEncryptionIsolateEntry(FileEncryptionIsolateArguments args) asy
     }
   });
 
-  subscription.onDone(subscription.cancel);
+  await subscription.asFuture<void>();
+
+  await subscription.cancel();
 }
