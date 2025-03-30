@@ -198,9 +198,7 @@ class _AESManagerImpl {
       }
 
       await _processChunks(
-        isEncryption: isEncryption,
         inputStream: inputStream,
-        adjustedTotalSize: adjustedTotalSize,
         cipher: cipher,
         outputSink: outputSink,
         isPaused: isPaused,
@@ -225,59 +223,113 @@ class _AESManagerImpl {
         totalInputFileSize: totalInputFileSize ?? 0,
       );
     } finally {
-      await outputSink?.close();
-      await controller.close();
+      // await outputSink?.flush();
+      // await outputSink?.close();
+      // await controller.close();
     }
   }
 
   static Future<void> _processChunks({
-    required bool isEncryption,
     required Stream<List<int>> inputStream,
-    required int adjustedTotalSize,
     required GCMBlockCipher cipher,
     required IOSink outputSink,
     required bool Function() isPaused,
     required bool Function() isCancelled,
     required void Function(int processedChunkLength) onChunkProcessed,
   }) async {
-    int processedInputSize = 0;
+    print('[DEBUG] GCM cipher mode: ${cipher.forEncryption ? "ENCRYPTION" : "DECRYPTION"}');
+    print('[DEBUG] GCM blockSize: ${cipher.blockSize}, macSize: ${cipher.macSize}');
 
     await for (final chunk in inputStream) {
-      if (isCancelled()) break;
+      if (isCancelled()) {
+        print('[DEBUG] Operation cancelled before next chunk.');
+        break;
+      }
+
       while (isPaused()) {
+        print('[DEBUG] Processing paused...');
         await Future.delayed(const Duration(milliseconds: 100));
+        if (isCancelled()) {
+          print('[DEBUG] Operation cancelled while paused.');
+          break;
+        }
+      }
+
+      if (isCancelled()) {
+        print('[DEBUG] Operation cancelled after pause check.');
+        break;
       }
 
       final chunkBytes = Uint8List.fromList(chunk);
-      final int outputLength;
+      print('[DEBUG] Incoming chunk length: ${chunkBytes.length}');
 
-      // Using getOutputSize for encryption to account for overhead; decryption requires exact input size.
-      if (isEncryption) {
-        outputLength = cipher.getOutputSize(chunkBytes.length);
-      } else {
-        final isLastChunk = (processedInputSize + chunkBytes.length) == adjustedTotalSize;
-        outputLength = chunkBytes.length + (isLastChunk ? _aesBlockSize : 0);
+      // Over-allocate the output buffer by one block size to avoid RangeError
+      final normalOutSize = cipher.getOutputSize(chunkBytes.length);
+      print('[DEBUG] normal getOutputSize for chunk: $normalOutSize');
+
+      final overAllocatedOutSize = normalOutSize + cipher.blockSize;
+      print('[DEBUG] overAllocatedOutSize: $overAllocatedOutSize');
+
+      final outputBuffer = Uint8List(overAllocatedOutSize);
+      print('[DEBUG] outputBuffer.length: ${outputBuffer.length}');
+
+      // Process
+      final processedLength = cipher.processBytes(
+        chunkBytes, // input data
+        0, // input offset
+        chunkBytes.length, // length of data to process
+        outputBuffer, // output buffer
+        0, // output offset
+      );
+
+      print('[DEBUG] processedLength: $processedLength');
+
+      if (processedLength > overAllocatedOutSize) {
+        print('[ERROR] processBytes returned $processedLength which is > $overAllocatedOutSize');
+        // You can throw or handle error
+        throw StateError('Cipher produced more bytes than even over-allocated size.');
       }
 
-      final outputBuffer = Uint8List(outputLength);
-      final processedLength = cipher.processBytes(
-        chunkBytes,
-        0,
-        chunkBytes.length,
-        outputBuffer,
-        0,
-      );
-      outputSink.add(outputBuffer.sublist(0, processedLength));
-      onChunkProcessed(chunk.length);
-      processedInputSize += chunkBytes.length;
+      if (processedLength > 0) {
+        final toWrite = outputBuffer.sublist(0, processedLength);
+        print('[DEBUG] writing processed bytes to sink: length ${toWrite.length}');
+        outputSink.add(toWrite);
+        onChunkProcessed(processedLength);
+      }
     }
 
-    final finalChunk = Uint8List(cipher.getOutputSize(0) + _aesBlockSize);
-    final finalLength = cipher.doFinal(finalChunk, 0);
-    if (finalLength > 0) {
-      outputSink.add(finalChunk.sublist(0, finalLength));
-      onChunkProcessed(finalLength);
+    if (!isCancelled()) {
+      final leftoverBytes = cipher.remainingInput.length;
+      print('[DEBUG] leftoverBytes in cipher: $leftoverBytes');
+
+      final finalOutSize = cipher.getOutputSize(leftoverBytes);
+      print('[DEBUG] finalOutSize (for doFinal): $finalOutSize');
+
+      // Over-allocate again for final
+      final overAllocatedFinalSize = finalOutSize + cipher.blockSize;
+      final finalBuffer = Uint8List(overAllocatedFinalSize);
+      print('[DEBUG] finalBuffer.length (overallocated): ${finalBuffer.length}');
+
+      final finalLength = cipher.doFinal(finalBuffer, 0);
+      print('[DEBUG] finalLength returned by doFinal: $finalLength');
+
+      if (finalLength > overAllocatedFinalSize) {
+        print('[ERROR] doFinal returned more bytes than the overallocated buffer!');
+        throw StateError('Cipher produced more bytes than over-allocated final buffer.');
+      }
+
+      if (finalLength > 0) {
+        final toWrite = finalBuffer.sublist(0, finalLength);
+        print('[DEBUG] writing final bytes to sink: length ${toWrite.length}');
+        outputSink.add(toWrite);
+        onChunkProcessed(finalLength);
+      }
+    } else {
+      print('[DEBUG] Skipping doFinal due to cancellation.');
     }
+
+    await outputSink.flush();
+    print('[DEBUG] Finished processing (or cancelled).');
   }
 
   static Future<Uint8List> _readNonce(RandomAccessFile raf) async {
