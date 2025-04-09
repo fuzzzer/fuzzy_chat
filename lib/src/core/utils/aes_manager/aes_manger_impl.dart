@@ -221,11 +221,10 @@ class _AESManagerImpl {
     } finally {
       await outputSink?.flush();
       await outputSink?.close();
-      await controller.close();
 
-      if (progress == 1) {
-        controller.add(FileProcessingProgress.completed());
-      }
+      controller.add(FileProcessingProgress.completed());
+
+      await controller.close();
     }
   }
 
