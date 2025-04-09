@@ -47,7 +47,7 @@ class _SnackBarContentState extends State<FuzzySnackBarContent> {
     final uiTextStyles = theme.extension<UiTextStyles>()!;
 
     return Positioned(
-      top: MediaQuery.of(context).padding.top + 16.0,
+      top: MediaQuery.of(context).padding.top + 64.0,
       width: MediaQuery.of(context).size.width,
       child: Dismissible(
         key: const Key('snackbarKey'),
