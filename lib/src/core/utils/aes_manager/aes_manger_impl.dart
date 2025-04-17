@@ -34,6 +34,7 @@ class _AESManagerImpl {
       ephemeralKey: ephemeralKey,
       nonce: nonce,
     );
+
     return decryptCipher.process(ciphertext);
   }
 
@@ -114,6 +115,7 @@ class _AESManagerImpl {
           mainKey,
           _keyByteLength,
           nonce,
+          fuzzVersionInfo,
         ),
       );
 
