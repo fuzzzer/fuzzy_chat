@@ -113,7 +113,6 @@ class _AESManagerImpl {
         HkdfParameters(
           mainKey,
           _keyByteLength,
-          null,
           nonce,
         ),
       );
