@@ -2,6 +2,7 @@ part of 'aes_manager.dart';
 
 class _AESManagerImpl {
   static const int _nonceByteLength = 12;
+  static const int _saltByteLength = 24;
   static const int _keyByteLength = 32;
   static const int _macSize = 128;
 
@@ -10,15 +11,19 @@ class _AESManagerImpl {
   }
 
   static Uint8List syncEncrypt(Uint8List bytes, Uint8List key) {
+    final salt = generateRandomSecureBytes(_saltByteLength);
     final nonce = generateRandomSecureBytes(_nonceByteLength);
-    final ephemeralKey = _deriveEphemeralKey(mainKey: key, nonce: nonce);
+
+    final ephemeralKey = _deriveEphemeralKey(mainKey: key, salt: salt);
     final encryptCipher = _initializeCipher(
       isForEncryption: true,
       ephemeralKey: ephemeralKey,
       nonce: nonce,
     );
+
     final encryptedBytes = encryptCipher.process(bytes);
-    return Uint8List.fromList(nonce + encryptedBytes);
+
+    return Uint8List.fromList(salt + nonce + encryptedBytes);
   }
 
   static Uint8List syncDecrypt(Uint8List encryptedBytes, Uint8List key) {
@@ -26,9 +31,11 @@ class _AESManagerImpl {
       throw ArgumentError('Ciphertext too short, no room for nonce.');
     }
 
-    final nonce = encryptedBytes.sublist(0, _nonceByteLength);
-    final ciphertext = encryptedBytes.sublist(_nonceByteLength);
-    final ephemeralKey = _deriveEphemeralKey(mainKey: key, nonce: nonce);
+    final salt = encryptedBytes.sublist(0, _saltByteLength);
+    final nonce = encryptedBytes.sublist(_saltByteLength, _saltByteLength + _nonceByteLength);
+    final ciphertext = encryptedBytes.sublist(_saltByteLength + _nonceByteLength);
+
+    final ephemeralKey = _deriveEphemeralKey(mainKey: key, salt: salt);
     final decryptCipher = _initializeCipher(
       isForEncryption: false,
       ephemeralKey: ephemeralKey,
@@ -43,8 +50,10 @@ class _AESManagerImpl {
     required String outputPath,
     required Uint8List key,
   }) {
+    final salt = generateRandomSecureBytes(_saltByteLength);
     final nonce = generateRandomSecureBytes(_nonceByteLength);
-    final ephemeralKey = _deriveEphemeralKey(mainKey: key, nonce: nonce);
+
+    final ephemeralKey = _deriveEphemeralKey(mainKey: key, salt: salt);
     final cipher = _initializeCipher(
       isForEncryption: true,
       ephemeralKey: ephemeralKey,
@@ -56,6 +65,7 @@ class _AESManagerImpl {
       outputPath: outputPath,
       isEncryption: true,
       cipher: cipher,
+      salt: salt,
       nonce: nonce,
     );
   }
@@ -68,10 +78,11 @@ class _AESManagerImpl {
     final inputFile = File(inputPath);
     final randomAccessFile = await inputFile.open();
 
-    final nonce = await _readNonce(randomAccessFile);
+    final (salt, nonce) = await _readSaltAndNonce(randomAccessFile);
     await randomAccessFile.close();
 
-    final ephemeralKey = _deriveEphemeralKey(mainKey: key, nonce: nonce);
+    final ephemeralKey = _deriveEphemeralKey(mainKey: key, salt: salt);
+
     final cipher = _initializeCipher(
       isForEncryption: false,
       ephemeralKey: ephemeralKey,
@@ -83,6 +94,7 @@ class _AESManagerImpl {
       outputPath: outputPath,
       isEncryption: false,
       nonce: nonce,
+      salt: salt,
       cipher: cipher,
     );
   }
@@ -107,14 +119,14 @@ class _AESManagerImpl {
 
   static Uint8List _deriveEphemeralKey({
     required Uint8List mainKey,
-    required Uint8List nonce,
+    required Uint8List salt,
   }) {
     final hkdf = HKDFKeyDerivator(SHA256Digest())
       ..init(
         HkdfParameters(
           mainKey,
           _keyByteLength,
-          nonce,
+          salt,
           fuzzVersionInfo,
         ),
       );
@@ -129,6 +141,7 @@ class _AESManagerImpl {
     required String outputPath,
     required bool isEncryption,
     required Uint8List nonce,
+    required Uint8List salt,
     required GCMBlockCipher cipher,
   }) {
     final controller = StreamController<FileProcessingProgress>();
@@ -148,6 +161,7 @@ class _AESManagerImpl {
       outputPath: outputPath,
       isEncryption: isEncryption,
       nonce: nonce,
+      salt: salt,
       cipher: cipher,
       controller: controller,
       isPaused: () => isPaused,
@@ -167,13 +181,14 @@ class _AESManagerImpl {
     required String outputPath,
     required bool isEncryption,
     required Uint8List nonce,
+    required Uint8List salt,
     required GCMBlockCipher cipher,
     required StreamController<FileProcessingProgress> controller,
     required bool Function() isPaused,
     required bool Function() isCancelled,
   }) async {
     IOSink? outputSink;
-    double processedSize = 0;
+    double processedInputSize = 0;
     double progress = 0;
     final inputFile = File(inputPath);
     final outputFile = File(outputPath);
@@ -184,18 +199,21 @@ class _AESManagerImpl {
 
       outputSink = outputFile.openWrite();
 
-      final int adjustedTotalSize;
+      final int totalSizeToBeProcessed;
       final Stream<List<int>> inputStream;
 
       if (isEncryption) {
-        // For encryption, write the nonce first.
+        //Input is file to be encrypted and before encrypted text writing the nonce and salt
+        outputSink.add(salt);
         outputSink.add(nonce);
-        adjustedTotalSize = totalInputFileSize;
+
+        //Input is file so it should be processed fully
+        totalSizeToBeProcessed = totalInputFileSize;
         inputStream = inputFile.openRead();
       } else {
-        // For decryption, skip the nonce.
-        adjustedTotalSize = totalInputFileSize - _nonceByteLength;
-        inputStream = inputFile.openRead(_nonceByteLength);
+        // Input is encrypted file and to get full text size that needs to be decrypted skip the nonce and salt.
+        totalSizeToBeProcessed = totalInputFileSize - _saltByteLength - _nonceByteLength;
+        inputStream = inputFile.openRead(_saltByteLength + _nonceByteLength);
       }
 
       await _processChunks(
@@ -204,9 +222,9 @@ class _AESManagerImpl {
         outputSink: outputSink,
         isPaused: isPaused,
         isCancelled: isCancelled,
-        onChunkProcessed: (processedChunkLength) {
-          processedSize += processedChunkLength;
-          progress = (processedSize / adjustedTotalSize).clamp(0.0, 1.0);
+        onInputChunkProcessed: (processedSize) {
+          processedInputSize += processedSize;
+          progress = (processedInputSize / totalSizeToBeProcessed).clamp(0.0, 1.0);
           controller.add(FileProcessingProgress(progress: progress));
         },
       );
@@ -216,7 +234,7 @@ class _AESManagerImpl {
         e: e,
         controller: controller,
         outputFile: outputFile,
-        processedSize: processedSize,
+        processedSize: processedInputSize,
         totalInputFileSize: totalInputFileSize ?? 0,
       );
     } finally {
@@ -235,7 +253,7 @@ class _AESManagerImpl {
     required IOSink outputSink,
     required bool Function() isPaused,
     required bool Function() isCancelled,
-    required void Function(int processedChunkLength) onChunkProcessed,
+    required void Function(int processedChunkLength) onInputChunkProcessed,
   }) async {
     await for (final chunk in inputStream) {
       if (isCancelled()) {
@@ -272,8 +290,9 @@ class _AESManagerImpl {
       if (processedLength > 0) {
         final toWrite = outputBuffer.sublist(0, processedLength);
         outputSink.add(toWrite);
-        onChunkProcessed(processedLength);
       }
+
+      onInputChunkProcessed(chunkBytes.length);
     }
 
     if (!isCancelled()) {
@@ -287,20 +306,23 @@ class _AESManagerImpl {
       if (finalLength > 0) {
         final toWrite = finalBuffer.sublist(0, finalLength);
         outputSink.add(toWrite);
-        onChunkProcessed(finalLength);
       }
     }
 
     await outputSink.flush();
   }
 
-  static Future<Uint8List> _readNonce(RandomAccessFile raf) async {
-    final nonceBuffer = Uint8List(_nonceByteLength);
-    final bytesRead = await raf.readInto(nonceBuffer, 0, _nonceByteLength);
-    if (bytesRead != _nonceByteLength) {
+  static Future<(Uint8List salt, Uint8List nonce)> _readSaltAndNonce(RandomAccessFile raf) async {
+    const totalLength = _saltByteLength + _nonceByteLength;
+
+    final saltAndNonceBuffer = Uint8List(totalLength);
+    final bytesRead = await raf.readInto(saltAndNonceBuffer, 0, totalLength);
+    if (bytesRead != totalLength) {
       throw ArgumentError('Could not read nonce from encrypted file.');
     }
-    return nonceBuffer;
+    final salt = saltAndNonceBuffer.sublist(0, _saltByteLength);
+    final nonce = saltAndNonceBuffer.sublist(_saltByteLength, totalLength);
+    return (salt, nonce);
   }
 
   static Future<void> _handleError({
