@@ -125,5 +125,9 @@
   "open": "Open",
   "@open": {},
   "dropFilesHere": "Drop files here",
-  "@dropFilesHere": {}
+  "@dropFilesHere": {},
+  "shareInvitation": "Share invitation",
+  "@shareInvitation": {},
+  "acceptanceText": "Acceptance Text",
+  "@acceptanceText": {}
 }

@@ -460,6 +460,18 @@ abstract class FuzzyChatLocalizations {
   /// In en, this message translates to:
   /// **'Drop files here'**
   String get dropFilesHere;
+
+  /// No description provided for @shareInvitation.
+  ///
+  /// In en, this message translates to:
+  /// **'Share invitation'**
+  String get shareInvitation;
+
+  /// No description provided for @acceptanceText.
+  ///
+  /// In en, this message translates to:
+  /// **'Acceptance Text'**
+  String get acceptanceText;
 }
 
 class _FuzzyChatLocalizationsDelegate extends LocalizationsDelegate<FuzzyChatLocalizations> {
