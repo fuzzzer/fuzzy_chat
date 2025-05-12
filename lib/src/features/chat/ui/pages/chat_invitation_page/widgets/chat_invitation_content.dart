@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ChatInvitationContent extends StatefulWidget {
   final String chatName;
@@ -47,7 +48,7 @@ class _ChatInvitationContentState extends State<ChatInvitationContent> {
               FuzzyHeader(
                 title: widget.chatName,
               ),
-              const SizedBox(height: 48),
+              const SizedBox(height: 20),
               Text(
                 localizations
                     .inOrderToStartFuzzyChatWithSomeoneFirstTheyNeedToImportTheInvitationAndProvideAcceptanceFileOrTextGeneratedOnTheirChatSoTheyCanAlsoSendAndUnlockMessages,
@@ -70,13 +71,21 @@ class _ChatInvitationContentState extends State<ChatInvitationContent> {
                   });
                 },
               ),
-              const SizedBox(height: 48),
+              const SizedBox(height: 20),
+              FuzzyButton(
+                text: localizations.shareInvitation,
+                icon: Icons.share,
+                onTap: () {
+                  Share.share(widget.invitationContent);
+                },
+              ),
+              const SizedBox(height: 20),
               Divider(
                 height: 20,
                 thickness: 4,
                 color: uiColors.secondaryColor,
               ),
-              const SizedBox(height: 48),
+              const SizedBox(height: 20),
               Text(
                 localizations.theAcceptanceThatYouGetFromInvitedPersonShouldBePastedHere,
                 textAlign: TextAlign.center,
@@ -84,9 +93,9 @@ class _ChatInvitationContentState extends State<ChatInvitationContent> {
               ),
               const SizedBox(height: 16),
               FuzzyTextField(
-                labelText: localizations.pasteAcceptanceText,
+                labelText: localizations.acceptanceText,
                 controller: widget.acceptanceTextController,
-                maxLines: 3,
+                maxLines: 5,
                 scrollPadding: const EdgeInsets.only(bottom: 150),
               ),
               const SizedBox(height: 120),

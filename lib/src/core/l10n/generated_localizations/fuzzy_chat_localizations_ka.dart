@@ -190,4 +190,10 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
 
   @override
   String get dropFilesHere => 'Drop files here';
+
+  @override
+  String get shareInvitation => 'Share invitation';
+
+  @override
+  String get acceptanceText => 'Acceptance Text';
 }
