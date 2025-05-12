@@ -175,73 +175,76 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
           }
         },
         builder: (context, state) {
-          return Stack(
-            children: [
-              CustomScrollView(
-                reverse: true,
-                controller: _scrollController,
-                physics: const AlwaysScrollableScrollPhysics(),
-                slivers: [
-                  const SliverToBoxAdapter(
-                    child: SizedBox(height: 300),
-                  ),
-                  MessageListSliver(
-                    messages: state.messages,
-                  ),
-                  if (state.status.isLoading)
+          return FileDropArea(
+            onDropped: onFilesSelected,
+            child: Stack(
+              children: [
+                CustomScrollView(
+                  reverse: true,
+                  controller: _scrollController,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  slivers: [
                     const SliverToBoxAdapter(
-                      child: SizedBox(height: 24),
+                      child: SizedBox(height: 300),
                     ),
-                  if (state.status.isLoading)
+                    MessageListSliver(
+                      messages: state.messages,
+                    ),
+                    if (state.status.isLoading)
+                      const SliverToBoxAdapter(
+                        child: SizedBox(height: 24),
+                      ),
+                    if (state.status.isLoading)
+                      const SliverToBoxAdapter(
+                        child: DefaultLoadingWidget(),
+                      ),
+                    SliverToBoxAdapter(
+                      child: FileDecryptionProgressesDisplaylaceholder(
+                        chatId: chatId,
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: FileEncryptionProgressesDisplaylaceholder(
+                        chatId: chatId,
+                      ),
+                    ),
                     const SliverToBoxAdapter(
-                      child: DefaultLoadingWidget(),
-                    ),
-                  SliverToBoxAdapter(
-                    child: FileDecryptionProgressesDisplaylaceholder(
-                      chatId: chatId,
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: FileEncryptionProgressesDisplaylaceholder(
-                      chatId: chatId,
-                    ),
-                  ),
-                  const SliverToBoxAdapter(
-                    child: SizedBox(height: 80),
-                  ),
-                ],
-              ),
-              Align(
-                alignment: Alignment.topCenter,
-                child: ChatHeader(
-                  chatGeneralData: widget.payload.chatGeneralData,
-                  onBackPressed: () => Navigator.pop(context),
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    FileDecryptionProgressDisplay(
-                      chatId: chatId,
-                    ),
-                    FileEncryptionProgressDisplay(
-                      chatId: chatId,
-                    ),
-                    MessageInputField(
-                      controller: _messageController,
-                      focusNode: _messageFocusNode,
-                      onSend: _onSend,
-                      onFilesSelected: onFilesSelected,
-                      selectedFilePaths: selectedFilePaths,
-                      isEncrypting: isEncrypting,
-                      chatId: chatId,
+                      child: SizedBox(height: 80),
                     ),
                   ],
                 ),
-              ),
-            ],
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: ChatHeader(
+                    chatGeneralData: widget.payload.chatGeneralData,
+                    onBackPressed: () => Navigator.pop(context),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      FileDecryptionProgressDisplay(
+                        chatId: chatId,
+                      ),
+                      FileEncryptionProgressDisplay(
+                        chatId: chatId,
+                      ),
+                      MessageInputField(
+                        controller: _messageController,
+                        focusNode: _messageFocusNode,
+                        onSend: _onSend,
+                        onFilesSelected: onFilesSelected,
+                        selectedFilePaths: selectedFilePaths,
+                        isEncrypting: isEncrypting,
+                        chatId: chatId,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           );
         },
       ),

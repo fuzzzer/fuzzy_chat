@@ -178,4 +178,16 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
 
   @override
   String get chatWithIndicatedNameAlreadyExists => 'Chat with indicated name already exists';
+
+  @override
+  String get reveal => 'Reveal';
+
+  @override
+  String get show => 'Show';
+
+  @override
+  String get open => 'Open';
+
+  @override
+  String get dropFilesHere => 'Drop files here';
 }

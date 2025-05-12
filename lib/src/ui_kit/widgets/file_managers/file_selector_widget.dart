@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:fuzzy_chat/lib.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-typedef SelectedFilesCallback = void Function(List<String> filePaths);
-
 class FileSelectorWidget extends StatefulWidget {
   final void Function(List<String> filePaths) onSelected;
   final List<String>? selectedFilePaths;

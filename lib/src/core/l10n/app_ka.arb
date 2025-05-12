@@ -117,5 +117,13 @@
   "failedToProcessFiles": "Failed to process files",
   "@failedToProcessFiles": {},
   "chatWithIndicatedNameAlreadyExists": "Chat with indicated name already exists",
-  "@chatWithIndicatedNameAlreadyExists": {}
+  "@chatWithIndicatedNameAlreadyExists": {},
+  "reveal": "Reveal",
+  "@reveal": {},
+  "show": "Show",
+  "@show": {},
+  "open": "Open",
+  "@open": {},
+  "dropFilesHere": "Drop files here",
+  "@dropFilesHere": {}
 }
