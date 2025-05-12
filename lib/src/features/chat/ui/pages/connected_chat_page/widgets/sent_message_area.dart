@@ -17,6 +17,9 @@ class SentMessageArea extends StatefulWidget {
 }
 
 class _SentMessageAreaState extends State<SentMessageArea> {
+  late final bool isEncryptedFile;
+  String fileName = '';
+
   bool hasJustCopied = false;
   bool isExpanded = false;
   bool isExpandable = false;
@@ -27,6 +30,12 @@ class _SentMessageAreaState extends State<SentMessageArea> {
   @override
   void initState() {
     super.initState();
+    isEncryptedFile = widget.message.type.isFile;
+
+    if (isEncryptedFile) {
+      final parts = widget.message.encryptedMessage.split('/');
+      fileName = parts.isNotEmpty ? parts.last : '';
+    }
   }
 
   @override
@@ -103,6 +112,14 @@ class _SentMessageAreaState extends State<SentMessageArea> {
     });
   }
 
+  void _openEncryptedFileDirectory({
+    required String encryptedMessage,
+  }) {
+    final filePath = encryptedMessage.replaceAll(fuzzIdentificator, '');
+
+    DeviceFileInteractor.revealFile(filePath);
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -119,135 +136,158 @@ class _SentMessageAreaState extends State<SentMessageArea> {
 
     final encryptedMessage = widget.message.encryptedMessage;
 
-    return GestureDetector(
-      onPanUpdate: (details) {
-        final swipedLeftToRight = details.delta.dx > 0;
-        final swipedRightToLeft = details.delta.dx < 0;
-        if (swipedLeftToRight) {
-          _toggleHide(true);
-        } else if (swipedRightToLeft) {
-          _toggleHide(false);
-        }
-      },
-      child: InkWell(
-        splashColor: uiColors.backgroundPrimaryColor,
-        onLongPress: () {
-          _copyMessage(
-            encryptedMessage: encryptedMessage,
-            localizations: localizations,
-          );
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: GestureDetector(
+        onPanUpdate: (details) {
+          final swipedLeftToRight = details.delta.dx > 0;
+          final swipedRightToLeft = details.delta.dx < 0;
+          if (swipedLeftToRight) {
+            _toggleHide(true);
+          } else if (swipedRightToLeft) {
+            _toggleHide(false);
+          }
         },
-        child: Container(
-          width: double.maxFinite,
-          margin: const EdgeInsets.symmetric(vertical: 4),
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: Material(
-              color: Colors.transparent,
-              child: Ink(
-                decoration: BoxDecoration(
-                  borderRadius: borderRadius,
-                  color: uiColors.secondaryColor,
-                ),
-                child: Stack(
-                  children: [
-                    Padding(
-                      padding: isExpandable ? const EdgeInsets.only(bottom: 12) : EdgeInsets.zero,
-                      child: FuzzyOverlaySpawner(
-                        splashColor: uiColors.backgroundPrimaryColor,
-                        splashRadius: borderRadius,
-                        offset: (!showEncrypted && widget.message.decryptedMessage.length < 10)
-                            ? const Offset(-140, 8)
-                            : const Offset(24, -24),
-                        spawnedChildBuilder: (context, closeOverlay) {
-                          return DecoratedBox(
-                            decoration: BoxDecoration(
-                              color: uiColors.focusColor,
-                              borderRadius: BorderRadius.circular(100),
+        child: InkWell(
+          splashColor: uiColors.backgroundPrimaryColor,
+          onLongPress: () {
+            if (isEncryptedFile) {
+              _openEncryptedFileDirectory(
+                encryptedMessage: encryptedMessage,
+              );
+            } else {
+              _copyMessage(
+                encryptedMessage: encryptedMessage,
+                localizations: localizations,
+              );
+            }
+          },
+          child: SizedBox(
+            width: double.maxFinite,
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Material(
+                color: Colors.transparent,
+                child: Ink(
+                  decoration: BoxDecoration(
+                    borderRadius: borderRadius,
+                    color: uiColors.secondaryColor,
+                  ),
+                  child: Stack(
+                    children: [
+                      Padding(
+                        padding: isExpandable ? const EdgeInsets.only(bottom: 12) : EdgeInsets.zero,
+                        child: FuzzyOverlaySpawner(
+                          splashColor: uiColors.backgroundPrimaryColor,
+                          splashRadius: borderRadius,
+                          offset: (!showEncrypted && widget.message.decryptedMessage.length < 10)
+                              ? const Offset(-140, 8)
+                              : const Offset(24, -24),
+                          spawnedChildBuilder: (context, closeOverlay) {
+                            return DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: uiColors.focusColor,
+                                borderRadius: BorderRadius.circular(100),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: isEncryptedFile
+                                    ? <Widget>[
+                                        TextAction(
+                                          hasLeftBorder: true,
+                                          hasRightBorder: true,
+                                          label: localizations.show,
+                                          onTap: () {
+                                            _openEncryptedFileDirectory(
+                                              encryptedMessage: encryptedMessage,
+                                            );
+                                          },
+                                        ),
+                                      ]
+                                    : <Widget>[
+                                        TextAction(
+                                          hasLeftBorder: true,
+                                          label: localizations.copy,
+                                          onTap: () {
+                                            _copyMessage(
+                                              encryptedMessage: encryptedMessage,
+                                              localizations: localizations,
+                                            );
+
+                                            closeOverlay();
+                                          },
+                                        ),
+                                        const SizedBox(width: 2),
+                                        TextAction(
+                                          hasRightBorder: true,
+                                          label: localizations.share,
+                                          onTap: () {
+                                            final preparedEncryptedMessage = _prepareEncrypredMessage(encryptedMessage);
+
+                                            Share.share(preparedEncryptedMessage);
+
+                                            closeOverlay();
+                                          },
+                                        ),
+                                      ],
+                              ),
+                            );
+                          },
+                          onLongPress: () {
+                            _copyMessage(
+                              encryptedMessage: encryptedMessage,
+                              localizations: localizations,
+                            );
+                          },
+                          child: Container(
+                            constraints: BoxConstraints(
+                              maxWidth: MediaQuery.of(context).size.width * 0.75,
                             ),
+                            padding: const EdgeInsets.all(12),
+                            child: AnimatedSize(
+                              duration: const Duration(
+                                milliseconds: 300,
+                              ),
+                              curve: Curves.easeIn,
+                              child: Text(
+                                isEncryptedFile
+                                    ? (showEncrypted ? encryptedMessage : fileName)
+                                    : (showEncrypted ? encryptedMessage : widget.message.decryptedMessage),
+                                maxLines: isExpanded ? null : 4,
+                                overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
+                                style: uiTextStyles.body16.copyWith(
+                                  color: uiColors.backgroundPrimaryColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      if (isExpandable)
+                        Positioned(
+                          bottom: 8,
+                          right: 8,
+                          child: GestureDetector(
+                            onTap: _toggleExpand,
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                TextAction(
-                                  hasLeftBorder: true,
-                                  label: localizations.copy,
-                                  onTap: () {
-                                    _copyMessage(
-                                      encryptedMessage: encryptedMessage,
-                                      localizations: localizations,
-                                    );
-
-                                    closeOverlay();
-                                  },
+                                Container(
+                                  width: 60,
+                                  height: 24,
+                                  color: Colors.white.withOpacity(0),
                                 ),
-                                const SizedBox(width: 1),
-                                TextAction(
-                                  hasRightBorder: true,
-                                  label: localizations.share,
-                                  onTap: () {
-                                    final preparedEncryptedMessage = _prepareEncrypredMessage(encryptedMessage);
-
-                                    Share.share(preparedEncryptedMessage);
-
-                                    closeOverlay();
-                                  },
+                                Icon(
+                                  isExpanded ? Icons.expand_less : Icons.expand_more,
+                                  size: 24,
+                                  color: uiColors.backgroundPrimaryColor,
                                 ),
                               ],
                             ),
-                          );
-                        },
-                        onLongPress: () {
-                          _copyMessage(
-                            encryptedMessage: encryptedMessage,
-                            localizations: localizations,
-                          );
-                        },
-                        child: Container(
-                          constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width * 0.75,
-                          ),
-                          padding: const EdgeInsets.all(12),
-                          child: AnimatedSize(
-                            duration: const Duration(
-                              milliseconds: 300,
-                            ),
-                            curve: Curves.easeIn,
-                            child: Text(
-                              showEncrypted ? encryptedMessage : widget.message.decryptedMessage,
-                              maxLines: isExpanded ? null : 4,
-                              overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
-                              style: uiTextStyles.body16.copyWith(
-                                color: uiColors.backgroundPrimaryColor,
-                              ),
-                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    if (isExpandable)
-                      Positioned(
-                        bottom: 8,
-                        right: 8,
-                        child: GestureDetector(
-                          onTap: _toggleExpand,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Container(
-                                width: 60,
-                                height: 24,
-                                color: Colors.white.withOpacity(0),
-                              ),
-                              Icon(
-                                isExpanded ? Icons.expand_less : Icons.expand_more,
-                                size: 24,
-                                color: uiColors.backgroundPrimaryColor,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

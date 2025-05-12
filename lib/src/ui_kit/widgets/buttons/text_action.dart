@@ -20,17 +20,15 @@ class TextAction extends StatelessWidget {
     final uiColors = theme.extension<UiColors>()!;
     final uiTextStyles = theme.extension<UiTextStyles>()!;
 
-    final borderRadius = hasLeftBorder
-        ? const BorderRadius.only(
-            topLeft: Radius.circular(12),
-            bottomLeft: Radius.circular(12),
-          )
-        : hasRightBorder
-            ? const BorderRadius.only(
-                topRight: Radius.circular(12),
-                bottomRight: Radius.circular(12),
-              )
-            : null;
+    const defaultRadius = Radius.circular(12);
+
+    final borderRadius = BorderRadius.only(
+      topLeft: hasLeftBorder ? defaultRadius : Radius.zero,
+      bottomLeft: hasLeftBorder ? defaultRadius : Radius.zero,
+      topRight: hasRightBorder ? defaultRadius : Radius.zero,
+      bottomRight: hasRightBorder ? defaultRadius : Radius.zero,
+    );
+
     return InkWell(
       borderRadius: borderRadius,
       onTap: onTap,

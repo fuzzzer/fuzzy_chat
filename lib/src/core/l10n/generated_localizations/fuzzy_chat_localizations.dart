@@ -436,6 +436,30 @@ abstract class FuzzyChatLocalizations {
   /// In en, this message translates to:
   /// **'Chat with indicated name already exists'**
   String get chatWithIndicatedNameAlreadyExists;
+
+  /// No description provided for @reveal.
+  ///
+  /// In en, this message translates to:
+  /// **'Reveal'**
+  String get reveal;
+
+  /// No description provided for @show.
+  ///
+  /// In en, this message translates to:
+  /// **'Show'**
+  String get show;
+
+  /// No description provided for @open.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get open;
+
+  /// No description provided for @dropFilesHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Drop files here'**
+  String get dropFilesHere;
 }
 
 class _FuzzyChatLocalizationsDelegate extends LocalizationsDelegate<FuzzyChatLocalizations> {
