@@ -5,11 +5,9 @@ import 'package:fuzzy_chat/src/core/core.dart';
 import 'package:pointycastle/export.dart';
 import 'package:test/test.dart';
 
-/// ---------- Helpers ----------
 Uint8List _randomBytes(int length) =>
     Uint8List.fromList(List<int>.generate(length, (_) => Random.secure().nextInt(256)));
 
-/// Maximum plaintext length that OAEP can encode with given modulus size.
 int _maxOaepLen(RSAPublicKey k, {int hashLen = 20 /* SHA‑1 default */}) {
   final keyBytes = (k.modulus!.bitLength + 7) >> 3;
   return keyBytes - 2 * hashLen - 2;
@@ -45,6 +43,24 @@ void main() {
     });
   });
 
+  test('cross‑key isolation (decrypt/verify with wrong key fails)', () async {
+    final kp1 = await RSAManager.generateRSAKeyPair();
+    final kp2 = await RSAManager.generateRSAKeyPair();
+
+    // Encryption/decryption mismatch
+    final msg = _randomBytes(42);
+    final ct = await RSAManager.encrypt(msg, kp1.publicKey);
+
+    expect(
+      () async => await RSAManager.decrypt(ct, kp2.privateKey),
+      throwsA(isA<ArgumentError>()),
+    );
+
+    final sig = await RSAManager.sign(msg, kp1.privateKey);
+    final ok = await RSAManager.verify(msg, sig, kp2.publicKey);
+    expect(ok, isFalse);
+  });
+
   group('RSAManager – Encryption/Decryption', () {
     late AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> keyPair;
     late RSAPublicKey pub;
@@ -76,12 +92,10 @@ void main() {
       final ct = await RSAManager.encrypt(msg, pub);
       ct[ct.length - 1] ^= 0x01;
 
-      try {
-        await RSAManager.decrypt(ct, priv);
-        expect(true, false, reason: 'Decription should not have happent, we used incorrect encrypted payload');
-      } catch (ex) {
-        expect(true, true, reason: 'Always correctly throws exception $ex');
-      }
+      expect(
+        () async => await RSAManager.decrypt(ct, priv),
+        throwsA(isA<ArgumentError>()),
+      );
     });
 
     test('identical plaintext encrypts to different ciphertexts (OAEP randomness)', () async {
@@ -172,32 +186,10 @@ void main() {
       final modulusBytes = (priv.n!.bitLength + 7) >> 3;
       final junk = _randomBytes(modulusBytes);
 
-      try {
-        await RSAManager.decrypt(junk, priv);
-        expect(true, false, reason: 'Decription should not have happent, we used incorrect ranodm key');
-      } catch (ex) {
-        expect(true, true, reason: 'Always correctly throws exception $ex');
-      }
-    });
-
-    test('cross‑key isolation (decrypt/verify with wrong key fails)', () async {
-      final kp1 = await RSAManager.generateRSAKeyPair();
-      final kp2 = await RSAManager.generateRSAKeyPair();
-
-      // Encryption/decryption mismatch
-      final msg = _randomBytes(42);
-      final ct = await RSAManager.encrypt(msg, kp1.publicKey);
-      try {
-        await RSAManager.decrypt(ct, kp2.privateKey);
-        expect(true, false, reason: 'Decription should not have happent, we used incorrect ranodm key');
-      } catch (ex) {
-        expect(true, true, reason: 'Always correctly throws exception $ex');
-      }
-
-      // Sign/verify mismatch
-      final sig = await RSAManager.sign(msg, kp1.privateKey);
-      final ok = await RSAManager.verify(msg, sig, kp2.publicKey);
-      expect(ok, isFalse);
+      expect(
+        () async => await RSAManager.decrypt(junk, priv),
+        throwsA(isA<ArgumentError>()),
+      );
     });
 
     test('multiple key pairs have unique moduli', () async {
@@ -215,26 +207,7 @@ void main() {
     });
 
     test('modulus bit‑flip during serialisation breaks decrypt', () async {
-      try {
-        final kp = await RSAManager.generateRSAKeyPair();
-        final privMap = RSAManager.transformRSAPrivateKeyToMap(kp.privateKey);
-        // Flip least‑significant bit of modulus string
-        final modStr = privMap['modulus']!;
-        final flipped = (BigInt.parse(modStr) ^ BigInt.one).toString();
-        privMap['modulus'] = flipped;
-        RSAManager.transformMapToRSAPrivateKey(privMap);
-
-        final msg = _randomBytes(32);
-        await RSAManager.encrypt(msg, kp.publicKey);
-      } catch (ex) {
-        expect(
-          true,
-          true,
-          reason: 'Throws exception when modulus inconsistent with RSA p and q. exeption from api: $ex',
-        );
-        return;
-      }
-
+      bool runsSuccessfully = false;
       try {
         final kp = await RSAManager.generateRSAKeyPair();
         final privMap = RSAManager.transformRSAPrivateKeyToMap(kp.privateKey);
@@ -248,10 +221,10 @@ void main() {
         final ct = await RSAManager.encrypt(msg, kp.publicKey);
 
         await RSAManager.decrypt(ct, badPriv);
-        expect(true, false, reason: 'Decription should not have happent, we used incorrect ranodm key');
-      } catch (ex) {
-        expect(true, true, reason: 'Always correctly throws exception $ex');
-      }
+        runsSuccessfully = true;
+      } catch (_) {}
+
+      expect(runsSuccessfully, false, reason: 'Decription should not have happened we used incorrect ranodm key');
     });
   });
 }

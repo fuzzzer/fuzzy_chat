@@ -11,6 +11,10 @@ class _AESManagerImpl {
   }
 
   static Uint8List syncEncrypt(Uint8List bytes, Uint8List key) {
+    if (key.length != _keyByteLength) {
+      throw Exception('Incorrect key provided');
+    }
+
     final salt = generateRandomSecureBytes(_saltByteLength);
     final nonce = generateRandomSecureBytes(_nonceByteLength);
 
@@ -343,5 +347,32 @@ class _AESManagerImpl {
     if (outputFile != null && (await outputFile.exists())) {
       await outputFile.delete();
     }
+  }
+}
+
+@visibleForTesting
+// ignore: unused_element
+class AESManagerDebugExpose {
+  static Uint8List deriveEphemeralKey({
+    required Uint8List mainKey,
+    required Uint8List salt,
+  }) =>
+      _AESManagerImpl._deriveEphemeralKey(mainKey: mainKey, salt: salt);
+
+  /// Encrypt with *caller-supplied* salt & nonce so tests can
+  /// intentionally reuse them.
+  static Uint8List encryptWithFixedSaltNonce({
+    required Uint8List plaintext,
+    required Uint8List key,
+    required Uint8List salt,
+    required Uint8List nonce,
+  }) {
+    final epk = _AESManagerImpl._deriveEphemeralKey(mainKey: key, salt: salt);
+    final c = _AESManagerImpl._initializeCipher(
+      isForEncryption: true,
+      ephemeralKey: epk,
+      nonce: nonce,
+    ).process(plaintext);
+    return Uint8List.fromList(salt + nonce + c);
   }
 }
