@@ -14,10 +14,6 @@ def process_dart_files(directory):
         # Get Dart files in the current directory
         dart_files = [file for file in files if file.endswith('.dart') and not file.endswith('.g.dart')]
 
-        # Skip if no .dart files found in this folder
-        if not dart_files:
-            continue
-
         # The name of the export file should match the folder name
         folder_name = os.path.basename(root)
         export_file_path = os.path.join(root, f"{folder_name}.dart")
