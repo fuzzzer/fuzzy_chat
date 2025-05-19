@@ -8,7 +8,19 @@ Think of it like a invisible ink pen and decoder ring, but for your digital stuf
 
 Once you link up with someone, within the app 'fuzz' (encrypt) messages and files to send out via any channel, then 'unfuzz' (decrypt) any coded replies you get back. (And don't worry about linking up: the Invitation and Acceptance can be shared openly. Just make super sure the *Acceptance code you get back* is from the person you actually intended to link with!)
 
-[TODO: add GIF here showing the basic flows]
+<!-- [TODO: add GIF here showing the basic flows] -->
+
+## 🚀 Get Fuzzy Chat!
+
+Ready to start fuzzing? Grab the latest version here:
+
+<!-- [TODO: add app build and link them] -->
+*   **Android:** [Download Fuzzy Chat vX.Y.Z APK]()
+*   **Windows (64-bit):** [Download Fuzzy Chat vX.Y.Z ZIP]()
+*   **macOS (Universal):** [Download Fuzzy Chat vX.Y.Z DMG]()
+*   **Linux (AppImage):** [Download Fuzzy Chat vX.Y.Z AppImage]()
+
+Or visit the [**Latest Releases Page**](https://github.com/fuzzzer/fuzzy_chat/releases) for all releases.
 
 ## What's the Big Idea?
 
