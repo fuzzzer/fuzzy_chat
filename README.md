@@ -110,7 +110,7 @@ Repeat as many times as your secret-sharing heart desires!
 ## Want to Dive Deeper into the Rabbit Hole?
 
 *   🎬 **Watch the Quick Mission Briefing (Video Guide):** [//TODO video guide link]
-*   📖 **For Gadget Q-Branch Types (Technical Details):** [documents/technical_documentation.md]
+*   📖 **For Gadget Q-Branch Types ([Technical Details](documents/technical_documentation.md)):**
 *   🐛 **Spotted a Gremlin? Got Ideas for a New Gadget?** Report to HQ (GitHub Issues): [https://github.com/fuzzzer/fuzzy_chat/issues]
 
 Happy (and secure) scheming with Fuzzy Chat! 🛡️
