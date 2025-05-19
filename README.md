@@ -3,7 +3,7 @@
 
 **First of all, this is not a chat!** (At least, not the kind that spies on your every word.)
 
-Fuzzy Chat is your personal, **offline encryption system**. It gives you private, local "message spaces" for two, perfect for managing encrypted words and files you plan to share.
+Fuzzy Chat is your personal, **offline encryption system**. It gives you private, local "message spaces" for two parties. Perfect for managing encrypted words and files you plan to share.
 Think of it like a invisible ink pen and decoder ring, but for your digital stuff!
 
 Once you link up with someone, within the app 'fuzz' (encrypt) messages and files to send out via any channel, then 'unfuzz' (decrypt) any coded replies you get back. (And don't worry about linking up: the Invitation and Acceptance can be shared openly. Just make super sure the *Acceptance code you get back* is from the person you actually intended to link with!)
