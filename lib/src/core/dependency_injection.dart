@@ -38,6 +38,14 @@ class DependencyInjection {
 
     sl.safeRegisterSingleton<Isar>(isar);
 
-    await ChatDependencyInjection.inject();
+    sl.safeRegisterSingleton<KeyStorageRepository>(KeyStorageRepository());
+
+    sl.safeRegisterSingleton<ChatGeneralDataListRepository>(
+      ChatGeneralDataListRepository(localDataSource: ChatGeneralDataLocalDataSource(isar: sl.get())),
+    );
+
+    sl.safeRegisterSingleton<MessageDataRepository>(
+      MessageDataRepository(localDataSource: MessageDataLocalDataSource(isar: sl.get())),
+    );
   }
 }

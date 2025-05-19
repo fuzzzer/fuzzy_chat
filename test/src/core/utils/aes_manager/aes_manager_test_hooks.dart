@@ -1,12 +1,12 @@
 import 'dart:typed_data';
-import 'package:fuzzy_chat/src/core/core.dart' show AESManagerDebugExpose;
+import 'package:fuzzy_chat/src/core/core.dart' show AESServiceDebugExpose;
 
 class AESManagerTestHooks {
   static Uint8List deriveEphemeral({
     required Uint8List mainKey,
     required Uint8List salt,
   }) =>
-      AESManagerDebugExpose.deriveEphemeralKey(
+      AESServiceDebugExpose.deriveEphemeralKey(
         mainKey: mainKey,
         salt: salt,
       );
@@ -17,7 +17,7 @@ class AESManagerTestHooks {
     Uint8List salt,
     Uint8List nonce,
   ) =>
-      AESManagerDebugExpose.encryptWithFixedSaltNonce(
+      AESServiceDebugExpose.encryptWithFixedSaltNonce(
         plaintext: plaintext,
         key: key,
         salt: salt,

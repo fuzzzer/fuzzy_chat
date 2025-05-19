@@ -14,35 +14,35 @@ void main() {
     });
 
     test('Basic password-based encryption/decryption', () async {
-      encrypted = await PasswordBasedEncryptionManager.encrypt(plaintext, password);
+      encrypted = await PasswordBasedEncryptionSevice.encrypt(plaintext, password);
       expect(encrypted, isNotEmpty);
 
-      final decrypted = await PasswordBasedEncryptionManager.decrypt(encrypted, password);
+      final decrypted = await PasswordBasedEncryptionSevice.decrypt(encrypted, password);
       expect(decrypted, equals(plaintext));
     });
 
     test('Incorrect password should fail to decrypt', () async {
-      encrypted = await PasswordBasedEncryptionManager.encrypt(plaintext, password);
+      encrypted = await PasswordBasedEncryptionSevice.encrypt(plaintext, password);
       expect(
-        () async => await PasswordBasedEncryptionManager.decrypt(encrypted, 'WrongPassword'),
+        () async => await PasswordBasedEncryptionSevice.decrypt(encrypted, 'WrongPassword'),
         throwsA(anything),
       );
     });
 
     test('Tampering with encrypted bytes leads to failure', () async {
-      encrypted = await PasswordBasedEncryptionManager.encrypt(plaintext, password);
+      encrypted = await PasswordBasedEncryptionSevice.encrypt(plaintext, password);
       encrypted[20] = encrypted[20] ^ 0xAA;
 
       expect(
-        () async => await PasswordBasedEncryptionManager.decrypt(encrypted, password),
+        () async => await PasswordBasedEncryptionSevice.decrypt(encrypted, password),
         throwsA(anything),
       );
     });
 
     test('Password-based encryption with empty plaintext', () async {
       final empty = Uint8List.fromList([]);
-      final enc = await PasswordBasedEncryptionManager.encrypt(empty, password);
-      final dec = await PasswordBasedEncryptionManager.decrypt(enc, password);
+      final enc = await PasswordBasedEncryptionSevice.encrypt(empty, password);
+      final dec = await PasswordBasedEncryptionSevice.decrypt(enc, password);
 
       expect(dec, equals(empty));
     });

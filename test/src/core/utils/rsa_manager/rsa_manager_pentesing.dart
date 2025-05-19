@@ -18,7 +18,7 @@ void main() {
     late AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> keyPair;
 
     setUpAll(() async {
-      keyPair = await RSAManager.generateRSAKeyPair();
+      keyPair = await RSAService.generateRSAKeyPair();
     });
 
     test('generates 4096‑bit modulus', () {
@@ -44,20 +44,20 @@ void main() {
   });
 
   test('cross‑key isolation (decrypt/verify with wrong key fails)', () async {
-    final kp1 = await RSAManager.generateRSAKeyPair();
-    final kp2 = await RSAManager.generateRSAKeyPair();
+    final kp1 = await RSAService.generateRSAKeyPair();
+    final kp2 = await RSAService.generateRSAKeyPair();
 
     // Encryption/decryption mismatch
     final msg = _randomBytes(42);
-    final ct = await RSAManager.encrypt(msg, kp1.publicKey);
+    final ct = await RSAService.encrypt(msg, kp1.publicKey);
 
     expect(
-      () async => await RSAManager.decrypt(ct, kp2.privateKey),
+      () async => await RSAService.decrypt(ct, kp2.privateKey),
       throwsA(isA<ArgumentError>()),
     );
 
-    final sig = await RSAManager.sign(msg, kp1.privateKey);
-    final ok = await RSAManager.verify(msg, sig, kp2.publicKey);
+    final sig = await RSAService.sign(msg, kp1.privateKey);
+    final ok = await RSAService.verify(msg, sig, kp2.publicKey);
     expect(ok, isFalse);
   });
 
@@ -67,7 +67,7 @@ void main() {
     late RSAPrivateKey priv;
 
     setUpAll(() async {
-      keyPair = await RSAManager.generateRSAKeyPair();
+      keyPair = await RSAService.generateRSAKeyPair();
       pub = keyPair.publicKey;
       priv = keyPair.privateKey;
     });
@@ -76,32 +76,32 @@ void main() {
       final max = _maxOaepLen(pub);
       for (final len in [1, 64, 128, max - 1, max]) {
         final msg = _randomBytes(len);
-        final ct = await RSAManager.encrypt(msg, pub);
-        final pt = await RSAManager.decrypt(ct, priv);
+        final ct = await RSAService.encrypt(msg, pub);
+        final pt = await RSAService.decrypt(ct, priv);
         expect(pt, equals(msg));
       }
     });
 
     test('encrypting message longer than OAEP limit throws', () async {
       final tooLong = _randomBytes(_maxOaepLen(pub) + 1);
-      expect(() => RSAManager.encrypt(tooLong, pub), throwsA(isA<ArgumentError>()));
+      expect(() => RSAService.encrypt(tooLong, pub), throwsA(isA<ArgumentError>()));
     });
 
     test('tampered ciphertext fails to decrypt', () async {
       final msg = _randomBytes(64);
-      final ct = await RSAManager.encrypt(msg, pub);
+      final ct = await RSAService.encrypt(msg, pub);
       ct[ct.length - 1] ^= 0x01;
 
       expect(
-        () async => await RSAManager.decrypt(ct, priv),
+        () async => await RSAService.decrypt(ct, priv),
         throwsA(isA<ArgumentError>()),
       );
     });
 
     test('identical plaintext encrypts to different ciphertexts (OAEP randomness)', () async {
       final msg = _randomBytes(32);
-      final ct1 = await RSAManager.encrypt(msg, pub);
-      final ct2 = await RSAManager.encrypt(msg, pub);
+      final ct1 = await RSAService.encrypt(msg, pub);
+      final ct2 = await RSAService.encrypt(msg, pub);
       expect(ct1, isNot(equals(ct2)));
     });
   });
@@ -112,31 +112,31 @@ void main() {
     late RSAPrivateKey priv;
 
     setUpAll(() async {
-      keyPair = await RSAManager.generateRSAKeyPair();
+      keyPair = await RSAService.generateRSAKeyPair();
       pub = keyPair.publicKey;
       priv = keyPair.privateKey;
     });
 
     test('valid signature verifies', () async {
       final msg = _randomBytes(128);
-      final sig = await RSAManager.sign(msg, priv);
-      final ok = await RSAManager.verify(msg, sig, pub);
+      final sig = await RSAService.sign(msg, priv);
+      final ok = await RSAService.verify(msg, sig, pub);
       expect(ok, isTrue);
     });
 
     test('message alteration invalidates signature', () async {
       final msg = _randomBytes(128);
-      final sig = await RSAManager.sign(msg, priv);
+      final sig = await RSAService.sign(msg, priv);
       msg[0] ^= 0x01;
-      final ok = await RSAManager.verify(msg, sig, pub);
+      final ok = await RSAService.verify(msg, sig, pub);
       expect(ok, isFalse);
     });
 
     test('tampered signature fails verification', () async {
       final msg = _randomBytes(128);
-      final sig = await RSAManager.sign(msg, priv);
+      final sig = await RSAService.sign(msg, priv);
       sig[sig.length - 1] ^= 0x01;
-      final ok = await RSAManager.verify(msg, sig, pub);
+      final ok = await RSAService.verify(msg, sig, pub);
       expect(ok, isFalse);
     });
   });
@@ -145,19 +145,19 @@ void main() {
     late AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> keyPair;
 
     setUpAll(() async {
-      keyPair = await RSAManager.generateRSAKeyPair();
+      keyPair = await RSAService.generateRSAKeyPair();
     });
 
     test('private key map round‑trips', () {
-      final m = RSAManager.transformRSAPrivateKeyToMap(keyPair.privateKey);
-      final rebuilt = RSAManager.transformMapToRSAPrivateKey(m);
+      final m = RSAService.transformRSAPrivateKeyToMap(keyPair.privateKey);
+      final rebuilt = RSAService.transformMapToRSAPrivateKey(m);
       expect(rebuilt.n, equals(keyPair.privateKey.n));
       expect(rebuilt.privateExponent, equals(keyPair.privateKey.privateExponent));
     });
 
     test('public key map round‑trips', () {
-      final m = RSAManager.transformRSAPublicKeyToMap(keyPair.publicKey);
-      final rebuilt = RSAManager.transformMapToRSAPublicKey(m);
+      final m = RSAService.transformRSAPublicKeyToMap(keyPair.publicKey);
+      final rebuilt = RSAService.transformMapToRSAPublicKey(m);
       expect(rebuilt.n, equals(keyPair.publicKey.n));
       expect(rebuilt.publicExponent, equals(keyPair.publicKey.publicExponent));
     });
@@ -165,15 +165,15 @@ void main() {
 
   group('RSAManager – Concurrency', () {
     test('parallel isolates round‑trip correctly', () async {
-      final keyPair = await RSAManager.generateRSAKeyPair();
+      final keyPair = await RSAService.generateRSAKeyPair();
       final pub = keyPair.publicKey;
       final priv = keyPair.privateKey;
 
       await Future.wait(
         List.generate(8, (_) async {
           final msg = _randomBytes(48);
-          final ct = await RSAManager.encrypt(msg, pub);
-          final pt = await RSAManager.decrypt(ct, priv);
+          final ct = await RSAService.encrypt(msg, pub);
+          final pt = await RSAService.decrypt(ct, priv);
           expect(pt, equals(msg));
         }),
       );
@@ -181,46 +181,46 @@ void main() {
   });
   group('RSAManager – Advanced & Negative Scenarios', () {
     test('random ciphertext (same length as modulus) fails to decrypt', () async {
-      final keyPair = await RSAManager.generateRSAKeyPair();
+      final keyPair = await RSAService.generateRSAKeyPair();
       final priv = keyPair.privateKey;
       final modulusBytes = (priv.n!.bitLength + 7) >> 3;
       final junk = _randomBytes(modulusBytes);
 
       expect(
-        () async => await RSAManager.decrypt(junk, priv),
+        () async => await RSAService.decrypt(junk, priv),
         throwsA(isA<ArgumentError>()),
       );
     });
 
     test('multiple key pairs have unique moduli', () async {
-      final pairs = await Future.wait(List.generate(5, (_) => RSAManager.generateRSAKeyPair()));
+      final pairs = await Future.wait(List.generate(5, (_) => RSAService.generateRSAKeyPair()));
       final moduli = pairs.map((kp) => kp.publicKey.n).toSet();
       expect(moduli.length, equals(5));
     });
 
     test('signing is deterministic with same key & message', () async {
-      final kp = await RSAManager.generateRSAKeyPair();
+      final kp = await RSAService.generateRSAKeyPair();
       final msg = _randomBytes(64);
-      final s1 = await RSAManager.sign(msg, kp.privateKey);
-      final s2 = await RSAManager.sign(msg, kp.privateKey);
+      final s1 = await RSAService.sign(msg, kp.privateKey);
+      final s2 = await RSAService.sign(msg, kp.privateKey);
       expect(s1, equals(s2));
     });
 
     test('modulus bit‑flip during serialisation breaks decrypt', () async {
       bool runsSuccessfully = false;
       try {
-        final kp = await RSAManager.generateRSAKeyPair();
-        final privMap = RSAManager.transformRSAPrivateKeyToMap(kp.privateKey);
+        final kp = await RSAService.generateRSAKeyPair();
+        final privMap = RSAService.transformRSAPrivateKeyToMap(kp.privateKey);
         // Flip least‑significant bit of modulus string
         final modStr = privMap['modulus']!;
         final flipped = (BigInt.parse(modStr) ^ BigInt.one).toString();
         privMap['modulus'] = flipped;
-        final badPriv = RSAManager.transformMapToRSAPrivateKey(privMap);
+        final badPriv = RSAService.transformMapToRSAPrivateKey(privMap);
 
         final msg = _randomBytes(32);
-        final ct = await RSAManager.encrypt(msg, kp.publicKey);
+        final ct = await RSAService.encrypt(msg, kp.publicKey);
 
-        await RSAManager.decrypt(ct, badPriv);
+        await RSAService.decrypt(ct, badPriv);
         runsSuccessfully = true;
       } catch (_) {}
 

@@ -35,7 +35,7 @@ void main() {
     final rng = Random.secure();
 
     setUp(() async {
-      mainKey = await AESManager.generateKey();
+      mainKey = await AESService.generateKey();
       nonce = generateRandomSecureBytes(12);
     });
 
