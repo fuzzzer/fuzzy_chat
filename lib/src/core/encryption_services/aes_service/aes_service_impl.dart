@@ -359,8 +359,6 @@ class AESServiceDebugExpose {
   }) =>
       _AESServiceImpl._deriveEphemeralKey(mainKey: mainKey, salt: salt);
 
-  /// Encrypt with *caller-supplied* salt & nonce so tests can
-  /// intentionally reuse them.
   static Uint8List encryptWithFixedSaltNonce({
     required Uint8List plaintext,
     required Uint8List key,
