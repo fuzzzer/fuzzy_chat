@@ -1,7 +1,8 @@
 export 'app/app.dart';
-export 'bloc/bloc.dart';
 export 'core/core.dart';
-export 'data/data.dart';
-export 'storage/storage.dart';
-export 'ui/ui.dart';
+export 'fuzzy_chat/bloc/bloc.dart';
+export 'fuzzy_chat/data/data.dart';
+export 'fuzzy_chat/fuzzy_chat.dart';
+export 'fuzzy_chat/storage/storage.dart';
+export 'fuzzy_chat/ui/ui.dart';
 export 'ui_kit/ui_kit.dart';

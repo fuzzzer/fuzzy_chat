@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fuzzy_chat/src/core/core.dart';
+import 'package:fuzzy_chat/lib.dart';
 
 part 'acceptance_reader_state.dart';
 

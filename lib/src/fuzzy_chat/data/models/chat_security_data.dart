@@ -1,4 +1,4 @@
-import 'package:fuzzy_chat/src/storage/storage.dart';
+import 'package:fuzzy_chat/src/fuzzy_chat/storage/storage.dart';
 
 class ChatSecurityData {
   final String chatId;
