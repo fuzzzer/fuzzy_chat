@@ -1,3 +1,5 @@
 bricks:
   remote_brick:
     path: bricks/remote_brick
+  local_brick:
+    path: bricks/local_brick

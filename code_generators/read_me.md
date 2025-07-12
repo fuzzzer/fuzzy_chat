@@ -9,6 +9,8 @@ You can read the documetation of the [mason](https://docs.brickhub.dev/) on: htt
 
 For initialization use:
 `mason add -g remote_brick --path code_generators/bricks/remote_brick`
+`mason add -g local_brick --path code_generators/bricks/local_brick`
 
 For creation use:
-`mason make marketplace_remote_brick`
+`mason make remote_brick`
+`mason make local_brick`
