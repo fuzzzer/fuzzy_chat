@@ -78,15 +78,11 @@ class AESService {
       commandSendPort?.send(cmd);
     }
 
-    void pause() => sendCommand(FileEncryptionCommand.pause);
-    void resume() => sendCommand(FileEncryptionCommand.resume);
-    void cancel() => sendCommand(FileEncryptionCommand.cancel);
-
     return FileProcessingHandler(
       progressStream: controller.stream,
-      pause: pause,
-      resume: resume,
-      cancel: cancel,
+      pause: () => sendCommand(FileEncryptionCommand.pause),
+      resume: () => sendCommand(FileEncryptionCommand.resume),
+      cancel: () => sendCommand(FileEncryptionCommand.cancel),
     );
   }
 

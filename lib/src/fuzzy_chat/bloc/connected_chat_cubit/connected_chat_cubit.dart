@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/lib.dart';
@@ -7,9 +8,10 @@ part 'connected_chat_state.dart';
 
 class ConnectedChatCubit extends Cubit<ConnectedChatState> {
   ConnectedChatCubit({
-    required this.chatId,
     required this.messageDataRepository,
     required this.keyStorageRepository,
+    required this.chatId,
+    this.chatSymmetricKey,
     this.messagesPerPage = 8,
   }) : super(
           const ConnectedChatState(
@@ -22,9 +24,11 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
 
   late final StreamSubscription<NewMessageAdded> _newMessageUpdatesSubscription;
 
-  final String chatId;
   final MessageDataRepository messageDataRepository;
   final KeyStorageRepository keyStorageRepository;
+
+  final String chatId;
+  Uint8List? chatSymmetricKey;
 
   final int messagesPerPage;
   int currentPage = 0;
@@ -87,10 +91,13 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
         return;
       }
 
-      final symmetricKey = await keyStorageRepository.getSymmetricKey(chatId);
-      if (symmetricKey == null) {
+      chatSymmetricKey = chatSymmetricKey ?? await keyStorageRepository.getSymmetricKey(chatId);
+
+      if (chatSymmetricKey == null) {
         throw Exception('Symmetric key not found');
       }
+
+      final symmetricKey = chatSymmetricKey!;
 
       final decryptedMessages = await Future.wait(
         paginatedMessages.map((message) async {
@@ -143,10 +150,13 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
     );
 
     try {
-      final symmetricKey = await keyStorageRepository.getSymmetricKey(chatId);
-      if (symmetricKey == null) {
+      chatSymmetricKey = chatSymmetricKey ?? await keyStorageRepository.getSymmetricKey(chatId);
+
+      if (chatSymmetricKey == null) {
         throw Exception('Symmetric key not found');
       }
+
+      final symmetricKey = chatSymmetricKey!;
 
       final encryptedMessage = await AESService.encryptText(text, symmetricKey);
 
@@ -201,10 +211,13 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
     );
 
     try {
-      final symmetricKey = await keyStorageRepository.getSymmetricKey(chatId);
-      if (symmetricKey == null) {
+      chatSymmetricKey = chatSymmetricKey ?? await keyStorageRepository.getSymmetricKey(chatId);
+
+      if (chatSymmetricKey == null) {
         throw Exception('Symmetric key not found');
       }
+
+      final symmetricKey = chatSymmetricKey!;
 
       final decryptedMessage = await AESService.decryptText(encryptedText, symmetricKey);
 

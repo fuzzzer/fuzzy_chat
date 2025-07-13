@@ -1,5 +1,6 @@
 export 'app/app.dart';
 export 'core/core.dart';
+export 'fuzzy_auth/fuzzy_auth.dart';
 export 'fuzzy_chat/bloc/bloc.dart';
 export 'fuzzy_chat/data/data.dart';
 export 'fuzzy_chat/fuzzy_chat.dart';

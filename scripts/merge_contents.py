@@ -26,7 +26,10 @@ def collect_dart_files_content(directory, output_file):
                     with open(file_path, 'r', encoding='utf-8') as dart_file:
                         content = dart_file.read()
                         outfile.write(content)
-                        outfile.write("\n\n")  # Add spacing between files
+                        outfile.write("\n \n")
+                        relative_path = os.path.relpath(file_path, directory)
+                        outfile.write(relative_path) 
+                        outfile.write("\n \n") 
         
         # Summary of the process
         if file_count == 0:
@@ -39,8 +42,8 @@ if __name__ == "__main__":
     script_dir = os.path.dirname(os.path.abspath(__file__))
     
     # Use relative path from script's directory
-    lib_folder = os.path.join(script_dir, '../lib/src/features/chat')
-    output_txt_file = os.path.join(script_dir, 'outputs/chat.txt')
+    lib_folder = os.path.join(script_dir, '../code_generators/bricks/local_brick')
+    output_txt_file = os.path.join(script_dir, 'outputs/local_brick.txt')
 
     # Collect all .dart file contents and write them to the output file
     collect_dart_files_content(lib_folder, output_txt_file)

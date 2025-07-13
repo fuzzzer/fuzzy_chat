@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:fuzzy_chat/src/core/core.dart';
+import 'package:fuzzy_chat/lib.dart';
 import 'package:pointycastle/export.dart';
 
 //TODO while getting symmetric keys, require password or pin authentication for additionaly secured chats
@@ -42,15 +42,25 @@ class KeyStorageRepository {
   }
 
   Future<void> saveSymmetricKey(String chatId, Uint8List symmetricKey) async {
-    final keyBase64 = base64Encode(symmetricKey);
-    await _secureStorage.write(key: 'symmetricKey_$chatId', value: keyBase64);
+    final password = sl.get<FuzzyAuthStore>().state.authData.password;
+
+    final encryptedSymmetricKey = await PasswordBasedEncryptionSevice.encrypt(symmetricKey, password);
+    final encryptedSymmetricKeyBase64 = base64Encode(encryptedSymmetricKey);
+
+    await _secureStorage.write(key: 'symmetricKey_$chatId', value: encryptedSymmetricKeyBase64);
   }
 
   Future<Uint8List?> getSymmetricKey(String chatId) async {
-    final keyBase64 = await _secureStorage.read(key: 'symmetricKey_$chatId');
-    if (keyBase64 != null) {
-      return base64Decode(keyBase64);
+    final password = sl.get<FuzzyAuthStore>().state.authData.password;
+
+    final encryptedSymmetricKeyBase64 = await _secureStorage.read(key: 'symmetricKey_$chatId');
+    if (encryptedSymmetricKeyBase64 != null) {
+      final encryptedSymmetricKey = base64Decode(encryptedSymmetricKeyBase64);
+      final symmetricKey = await PasswordBasedEncryptionSevice.decrypt(encryptedSymmetricKey, password);
+
+      return symmetricKey;
     }
+
     return null;
   }
 

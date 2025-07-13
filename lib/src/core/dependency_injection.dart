@@ -32,11 +32,18 @@ class DependencyInjection {
         StoredChatPreferencesSchema,
         StoredChatSecurityDataSchema,
         StoredMessageDataSchema,
+        StoredUserAuthPreferencesSchema,
       ],
       directory: supportDirectory.path,
     );
 
     sl.safeRegisterSingleton<Isar>(isar);
+
+    sl.safeRegisterSingleton<FuzzyAuthStore>(FuzzyAuthStore());
+
+    sl.safeRegisterSingleton<UserAuthPreferencesRepository>(
+      UserAuthPreferencesRepository(localDataSource: UserAuthPreferencesLocalDataSource(isar: sl.get())),
+    );
 
     sl.safeRegisterSingleton<KeyStorageRepository>(KeyStorageRepository());
 
