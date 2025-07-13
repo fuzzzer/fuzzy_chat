@@ -1,0 +1,28 @@
+name: local_single_entity_brick
+description: A brick to generate a local feature that manages a single data entity (e.g., settings, user profile).
+version: 0.1.0+1
+
+environment:
+  mason: 0.1.1
+
+vars:
+  parentFeatureName:
+    type: string
+    description: Parent folder name in which the feature is created (e.g., 'fuzzy_chat')
+    default: fuzzy_chat
+    prompt: What is the name of your parent folder?
+  name:
+    type: string
+    description: Name of the feature/service (e.g., 'UserSettings')
+    default: UserSettings
+    prompt: What is the name of your feature/service?
+  modelName:
+    type: string
+    description: Model name that you want to manage (e.g., 'UserPreferences')
+    default: UserPreferences
+    prompt: What is the name of the model?
+  functionName:
+    type: string
+    description: Function name that calls the repository to get data (e.g., 'fetchPreferences')
+    default: fetchPreferences
+    prompt: What is the name of the function that fetches the data?

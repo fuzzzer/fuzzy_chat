@@ -3,3 +3,5 @@ bricks:
     path: bricks/remote_brick
   local_brick:
     path: bricks/local_brick
+  local_single_entity_brick:
+    path: bricks/local_single_entity_brick
