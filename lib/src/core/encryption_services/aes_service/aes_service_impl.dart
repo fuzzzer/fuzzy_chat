@@ -198,6 +198,8 @@ class _AESServiceImpl {
     final outputFile = File(outputPath);
     int? totalInputFileSize;
 
+    FileProcessingProgress? failedFileProcessingProgress;
+
     try {
       totalInputFileSize = await inputFile.length();
 
@@ -234,18 +236,24 @@ class _AESServiceImpl {
       );
     } catch (e) {
       logger.e('ERROR: while processing file $e');
-      await _handleError(
-        e: e,
-        controller: controller,
+
+      failedFileProcessingProgress = FileProcessingProgress.completedWithFailure(
+        message: 'Error while processing: $e',
+        currentProgress: 1,
+      );
+
+      await _deleteOutputOnError(
         outputFile: outputFile,
-        processedSize: processedInputSize,
-        totalInputFileSize: totalInputFileSize ?? 0,
       );
     } finally {
       await outputSink?.flush();
       await outputSink?.close();
 
-      controller.add(FileProcessingProgress.completed());
+      if (failedFileProcessingProgress != null) {
+        controller.add(failedFileProcessingProgress);
+      } else {
+        controller.add(FileProcessingProgress.completed());
+      }
 
       await controller.close();
     }
@@ -329,21 +337,9 @@ class _AESServiceImpl {
     return (salt, nonce);
   }
 
-  static Future<void> _handleError({
-    required dynamic e,
-    required StreamController<FileProcessingProgress> controller,
+  static Future<void> _deleteOutputOnError({
     required File? outputFile,
-    required double processedSize,
-    required int totalInputFileSize,
   }) async {
-    controller.add(
-      FileProcessingProgress.failed(
-        message: 'Error while processing: $e',
-        currentProgress: (processedSize / totalInputFileSize).clamp(0.0, 1.0),
-      ),
-    );
-
-    //Attempting to delete the output file if an error occurs, in the future in continuation of encrytion is introduced, maybe do not delete the generated file
     if (outputFile != null && (await outputFile.exists())) {
       await outputFile.delete();
     }

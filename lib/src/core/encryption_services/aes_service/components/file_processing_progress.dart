@@ -43,11 +43,11 @@ class FileProcessingProgress {
         isCancelled = true,
         errorMessage = null;
 
-  FileProcessingProgress.failed({
+  FileProcessingProgress.completedWithFailure({
     required String message,
     required double currentProgress,
   })  : progress = currentProgress,
-        isComplete = false,
+        isComplete = true,
         isCancelled = false,
         errorMessage = message;
 
