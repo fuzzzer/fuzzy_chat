@@ -3,16 +3,22 @@ import 'dart:io';
 import 'package:fuzzy_chat/lib.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DependencyInjection {
   static Future<void> inject() async {
     late final Directory documentsDirectory;
     late final Directory supportDirectory;
 
+    late final SharedPreferences prefs;
+
     await Future.wait<void>([
       (() async => documentsDirectory = await getApplicationDocumentsDirectory())(),
       (() async => supportDirectory = await getApplicationSupportDirectory())(),
+      (() async => prefs = await SharedPreferences.getInstance())(),
     ]);
+
+    sl.safeRegisterSingleton<PreferencesService>(PreferencesService(prefs));
 
     sl.safeRegisterSingleton<AppDocumentsDirectory>(
       AppDocumentsDirectory(

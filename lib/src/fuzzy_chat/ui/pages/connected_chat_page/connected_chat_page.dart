@@ -46,9 +46,11 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
   List<String>? selectedFilePaths;
 
   bool isEncrypting = true;
+  late bool _showTutorial;
 
   @override
   void initState() {
+    _showTutorial = !sl.get<PreferencesService>().hasCompletedTutorial;
     _messageController.addListener(_onMessageUpdated);
     initializePagination();
     super.initState();
@@ -123,6 +125,13 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
   void _sendText() {
     final text = _messageController.text.trim();
     if (text.isEmpty) return;
+
+    if (_showTutorial && mounted) {
+      sl.get<PreferencesService>().setHasCompletedTutorial(true);
+      setState(() {
+        _showTutorial = false;
+      });
+    }
 
     final isFuzzed = text.startsWith(fuzzIdentificator);
 
@@ -225,6 +234,8 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      if (_showTutorial)
+                        _buildTutorialBanner(context, context.fuzzyChatLocalizations),
                       FileDecryptionProgressDisplay(
                         chatId: chatId,
                       ),
@@ -250,4 +261,53 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
       ),
     );
   }
+
+  Widget _buildTutorialBanner(BuildContext context, FuzzyChatLocalizations localizations) {
+    final theme = Theme.of(context);
+    final uiColors = theme.extension<UiColors>()!;
+    
+    return Container(
+      margin: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: uiColors.secondaryColor,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: uiColors.diffColor, width: 2),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                localizations.firstEncryption,
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: uiColors.primaryTextColor,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  sl.get<PreferencesService>().setHasCompletedTutorial(true);
+                  setState(() {
+                    _showTutorial = false;
+                  });
+                },
+                child: Icon(Icons.close, color: uiColors.primaryTextColor),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            localizations.typeAMessageAndPressSendItWillBeEncryptedLocallyAndYouCanThenCopyTheSecureFuzzedText,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: uiColors.secondaryTextColor,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
+

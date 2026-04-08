@@ -64,7 +64,7 @@ class _FloatingToolboxState extends State<FloatingToolbox> with SingleTickerProv
                     widget.onNewChatPressed();
                   },
                   icon: const Icon(Icons.add),
-                  backgroundColor: uiColors.secondaryColor,
+                  backgroundColor: uiColors.primaryColor,
                   foregroundColor: uiColors.backgroundPrimaryColor,
                   label: SizedBox(
                     width: 70,
@@ -84,7 +84,7 @@ class _FloatingToolboxState extends State<FloatingToolbox> with SingleTickerProv
                       widget.onAcceptInvitationPressed();
                     },
                     icon: const Icon(Icons.mail),
-                    backgroundColor: uiColors.secondaryColor,
+                    backgroundColor: uiColors.primaryColor,
                     foregroundColor: uiColors.backgroundPrimaryColor,
                     label: SizedBox(
                       width: 70,
@@ -100,8 +100,8 @@ class _FloatingToolboxState extends State<FloatingToolbox> with SingleTickerProv
           ),
           FloatingActionButton(
             onPressed: _toggleMenu,
-            backgroundColor: uiColors.secondaryColor,
-            foregroundColor: uiColors.backgroundPrimaryColor,
+            backgroundColor: uiColors.diffColor,
+            foregroundColor: const Color(0xFF18181A),
             child: AnimatedIcon(
               icon: AnimatedIcons.menu_close,
               progress: _animation,

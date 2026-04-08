@@ -241,4 +241,91 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
 
   @override
   String get decryptionFailedCheckYourKeyOrEncryptedText => 'Decryption failed check your key or encrypted text';
+
+  @override
+  String get welcomeToFuzzyChat => 'Welcome to Fuzzy Chat';
+
+  @override
+  String get offlineEncryptedClipboard => 'Offline Encrypted Clipboard';
+
+  @override
+  String get yourDataNeverLeavesYourDeviceNoServersNoTracking => 'Your data never leaves your device. No servers, no tracking.';
+
+  @override
+  String get secureHandshake => 'Secure Handshake';
+
+  @override
+  String get connectWithOthersUsingASecureOfflineCodeExchange => 'Connect with others using a secure, offline code exchange.';
+
+  @override
+  String get getStarted => 'Get Started';
+
+  @override
+  String get next => 'Next';
+
+  @override
+  String get noOngoingChats => 'No Ongoing Chats';
+
+  @override
+  String get tapTheButtonBelowToCreateANewSecureHandshakeOrAcceptAnInvitation => 'Tap the button below to create a new secure handshake or accept an invitation.';
+
+  @override
+  String get stepSendYourInviteCode => 'Step 1: Send Your Invite Code';
+
+  @override
+  String get sendThisCodeToThePersonYouWantToChatWithUsingAnySecureChannel => 'Send this code to the person you want to chat with using any secure channel.';
+
+  @override
+  String get stepPasteTheirAcceptanceCode => 'Step 2: Paste Their Acceptance Code';
+
+  @override
+  String get onceTheyAcceptYourInviteTheyWillSendACodeBackPasteItBelow => 'Once they accept your invite, they will send a code back. Paste it below.';
+
+  @override
+  String get stepPasteTheirInviteCode => 'Step 1: Paste Their Invite Code';
+
+  @override
+  String get askYourContactToShareTheirInviteCodeSecurelyAndPasteItBelow => 'Ask your contact to share their invite code securely and paste it below.';
+
+  @override
+  String get stepNameThisChat => 'Step 2: Name This Chat';
+
+  @override
+  String get chooseALocalNameForThisChatThisIsOnlyVisibleToYou => 'Choose a local name for this chat. This is only visible to you.';
+
+  @override
+  String get securityWarning => 'Security Warning';
+
+  @override
+  String get areYouSureYouWantToCopyUnencryptedDataToYourClipboardThisCouldCompromiseYourSecureChat => 'Are you sure you want to copy unencrypted data to your clipboard? This could compromise your secure chat.';
+
+  @override
+  String get copyFuzz => 'Copy Fuzz';
+
+  @override
+  String get copyPlaintext => 'Copy Plaintext';
+
+  @override
+  String get firstEncryption => 'First Encryption';
+
+  @override
+  String get typeAMessageAndPressSendItWillBeEncryptedLocallyAndYouCanThenCopyTheSecureFuzzedText => 'Type a message and press send. It will be encrypted locally, and you can then copy the secure fuzzed text.';
+
+  @override
+  String get settings => 'Settings';
+
+  @override
+  String get securityLevel => 'Security Level';
+
+  @override
+  String get strict => 'Strict';
+
+  @override
+  String get moderate => 'Moderate';
+
+  @override
+  String get strictSecurityDescription => 'Shows a confirmation dialog before copying any decrypted text. Recommended for maximum privacy.';
+
+  @override
+  String get moderateSecurityDescription => 'Received messages are selectable and can be copied directly without a warning.';
 }

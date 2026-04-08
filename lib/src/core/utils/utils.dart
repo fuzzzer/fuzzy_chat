@@ -1,3 +1,4 @@
+export 'copy_guard.dart';
 export 'debouncer.dart';
 export 'file_reader.dart';
 export 'id_generator.dart';

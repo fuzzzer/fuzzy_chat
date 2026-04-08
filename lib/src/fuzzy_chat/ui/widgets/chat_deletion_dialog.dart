@@ -21,6 +21,9 @@ Future<void> showChatDeletionDialog(
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
+            style: TextButton.styleFrom(
+              foregroundColor: context.uiColors.focusColor,
+            ),
             child: Text(
               localizations.cancel,
             ),
@@ -36,6 +39,9 @@ Future<void> showChatDeletionDialog(
                 onChatDeleted();
               }
             },
+            style: TextButton.styleFrom(
+              foregroundColor: context.uiColors.errorColor,
+            ),
             child: Text(
               localizations.delete,
             ),

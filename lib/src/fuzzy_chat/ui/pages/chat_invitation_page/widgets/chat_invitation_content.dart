@@ -50,10 +50,15 @@ class _ChatInvitationContentState extends State<ChatInvitationContent> {
               ),
               const SizedBox(height: 20),
               Text(
-                localizations
-                    .inOrderToStartFuzzyChatWithSomeoneFirstTheyNeedToImportTheInvitationAndProvideAcceptanceFileOrTextGeneratedOnTheirChatSoTheyCanAlsoSendAndUnlockMessages,
-                textAlign: TextAlign.center,
-                style: uiTextStyles.body16,
+                localizations.stepSendYourInviteCode,
+                textAlign: TextAlign.start,
+                style: uiTextStyles.body16.copyWith(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                localizations.sendThisCodeToThePersonYouWantToChatWithUsingAnySecureChannel,
+                textAlign: TextAlign.start,
+                style: uiTextStyles.body16.copyWith(color: uiColors.secondaryTextColor),
               ),
               const SizedBox(height: 20),
               FuzzyButton(
@@ -71,7 +76,7 @@ class _ChatInvitationContentState extends State<ChatInvitationContent> {
                   });
                 },
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 12),
               FuzzyButton(
                 text: localizations.shareInvitation,
                 icon: Icons.share,
@@ -79,17 +84,23 @@ class _ChatInvitationContentState extends State<ChatInvitationContent> {
                   Share.share(widget.invitationContent);
                 },
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 32),
               Divider(
                 height: 20,
                 thickness: 4,
                 color: uiColors.secondaryColor,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 32),
               Text(
-                localizations.theAcceptanceThatYouGetFromInvitedPersonShouldBePastedHere,
-                textAlign: TextAlign.center,
-                style: uiTextStyles.body16,
+                localizations.stepPasteTheirAcceptanceCode,
+                textAlign: TextAlign.start,
+                style: uiTextStyles.body16.copyWith(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                localizations.onceTheyAcceptYourInviteTheyWillSendACodeBackPasteItBelow,
+                textAlign: TextAlign.start,
+                style: uiTextStyles.body16.copyWith(color: uiColors.secondaryTextColor),
               ),
               const SizedBox(height: 16),
               FuzzyTextField(

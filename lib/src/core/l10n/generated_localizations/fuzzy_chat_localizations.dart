@@ -562,6 +562,180 @@ abstract class FuzzyChatLocalizations {
   /// In en, this message translates to:
   /// **'Decryption failed check your key or encrypted text'**
   String get decryptionFailedCheckYourKeyOrEncryptedText;
+
+  /// No description provided for @welcomeToFuzzyChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Fuzzy Chat'**
+  String get welcomeToFuzzyChat;
+
+  /// No description provided for @offlineEncryptedClipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline Encrypted Clipboard'**
+  String get offlineEncryptedClipboard;
+
+  /// No description provided for @yourDataNeverLeavesYourDeviceNoServersNoTracking.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data never leaves your device. No servers, no tracking.'**
+  String get yourDataNeverLeavesYourDeviceNoServersNoTracking;
+
+  /// No description provided for @secureHandshake.
+  ///
+  /// In en, this message translates to:
+  /// **'Secure Handshake'**
+  String get secureHandshake;
+
+  /// No description provided for @connectWithOthersUsingASecureOfflineCodeExchange.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect with others using a secure, offline code exchange.'**
+  String get connectWithOthersUsingASecureOfflineCodeExchange;
+
+  /// No description provided for @getStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Started'**
+  String get getStarted;
+
+  /// No description provided for @next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get next;
+
+  /// No description provided for @noOngoingChats.
+  ///
+  /// In en, this message translates to:
+  /// **'No Ongoing Chats'**
+  String get noOngoingChats;
+
+  /// No description provided for @tapTheButtonBelowToCreateANewSecureHandshakeOrAcceptAnInvitation.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the button below to create a new secure handshake or accept an invitation.'**
+  String get tapTheButtonBelowToCreateANewSecureHandshakeOrAcceptAnInvitation;
+
+  /// No description provided for @stepSendYourInviteCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Step 1: Send Your Invite Code'**
+  String get stepSendYourInviteCode;
+
+  /// No description provided for @sendThisCodeToThePersonYouWantToChatWithUsingAnySecureChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'Send this code to the person you want to chat with using any secure channel.'**
+  String get sendThisCodeToThePersonYouWantToChatWithUsingAnySecureChannel;
+
+  /// No description provided for @stepPasteTheirAcceptanceCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Step 2: Paste Their Acceptance Code'**
+  String get stepPasteTheirAcceptanceCode;
+
+  /// No description provided for @onceTheyAcceptYourInviteTheyWillSendACodeBackPasteItBelow.
+  ///
+  /// In en, this message translates to:
+  /// **'Once they accept your invite, they will send a code back. Paste it below.'**
+  String get onceTheyAcceptYourInviteTheyWillSendACodeBackPasteItBelow;
+
+  /// No description provided for @stepPasteTheirInviteCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Step 1: Paste Their Invite Code'**
+  String get stepPasteTheirInviteCode;
+
+  /// No description provided for @askYourContactToShareTheirInviteCodeSecurelyAndPasteItBelow.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask your contact to share their invite code securely and paste it below.'**
+  String get askYourContactToShareTheirInviteCodeSecurelyAndPasteItBelow;
+
+  /// No description provided for @stepNameThisChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Step 2: Name This Chat'**
+  String get stepNameThisChat;
+
+  /// No description provided for @chooseALocalNameForThisChatThisIsOnlyVisibleToYou.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a local name for this chat. This is only visible to you.'**
+  String get chooseALocalNameForThisChatThisIsOnlyVisibleToYou;
+
+  /// No description provided for @securityWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Security Warning'**
+  String get securityWarning;
+
+  /// No description provided for @areYouSureYouWantToCopyUnencryptedDataToYourClipboardThisCouldCompromiseYourSecureChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to copy unencrypted data to your clipboard? This could compromise your secure chat.'**
+  String get areYouSureYouWantToCopyUnencryptedDataToYourClipboardThisCouldCompromiseYourSecureChat;
+
+  /// No description provided for @copyFuzz.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy Fuzz'**
+  String get copyFuzz;
+
+  /// No description provided for @copyPlaintext.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy Plaintext'**
+  String get copyPlaintext;
+
+  /// No description provided for @firstEncryption.
+  ///
+  /// In en, this message translates to:
+  /// **'First Encryption'**
+  String get firstEncryption;
+
+  /// No description provided for @typeAMessageAndPressSendItWillBeEncryptedLocallyAndYouCanThenCopyTheSecureFuzzedText.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a message and press send. It will be encrypted locally, and you can then copy the secure fuzzed text.'**
+  String get typeAMessageAndPressSendItWillBeEncryptedLocallyAndYouCanThenCopyTheSecureFuzzedText;
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// No description provided for @securityLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Security Level'**
+  String get securityLevel;
+
+  /// No description provided for @strict.
+  ///
+  /// In en, this message translates to:
+  /// **'Strict'**
+  String get strict;
+
+  /// No description provided for @moderate.
+  ///
+  /// In en, this message translates to:
+  /// **'Moderate'**
+  String get moderate;
+
+  /// No description provided for @strictSecurityDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Shows a confirmation dialog before copying any decrypted text. Recommended for maximum privacy.'**
+  String get strictSecurityDescription;
+
+  /// No description provided for @moderateSecurityDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Received messages are selectable and can be copied directly without a warning.'**
+  String get moderateSecurityDescription;
 }
 
 class _FuzzyChatLocalizationsDelegate extends LocalizationsDelegate<FuzzyChatLocalizations> {

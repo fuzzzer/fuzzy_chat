@@ -42,10 +42,8 @@ class _ReceivedFileMessageAreaState extends State<ReceivedFileMessageArea> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    final uiTextStyles = theme.extension<UiTextStyles>()!;
-    final uiColors = theme.extension<UiColors>()!;
+    final uiTextStyles = context.uiTextStyles;
+    final uiColors = context.uiColors;
 
     final localizations = context.fuzzyChatLocalizations;
 
@@ -91,7 +89,6 @@ class _ReceivedFileMessageAreaState extends State<ReceivedFileMessageArea> {
                       ),
                       const SizedBox(width: 2),
                       TextAction(
-                        hasRightBorder: true,
                         label: localizations.open,
                         onTap: () {
                           _openDecryptedFile(
@@ -109,7 +106,7 @@ class _ReceivedFileMessageAreaState extends State<ReceivedFileMessageArea> {
                 ),
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
+                  color: uiColors.backgroundSecondaryColor,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(12),
                     topRight: Radius.circular(12),
@@ -119,7 +116,7 @@ class _ReceivedFileMessageAreaState extends State<ReceivedFileMessageArea> {
                 child: Text(
                   widget.message.encryptedMessage,
                   style: uiTextStyles.body16.copyWith(
-                    color: Colors.black,
+                    color: uiColors.primaryTextColor,
                   ),
                 ),
               ),

@@ -45,10 +45,24 @@ class MessageInputField extends StatelessWidget {
             color: uiColors.backgroundSecondaryColor,
           ),
           Center(
-            child: Text(
-              isEncrypting ? localizations.encrypting : localizations.decrypting,
-              style: uiTextStyles.body16.copyWith(
-                color: uiColors.secondaryColor,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                transitionBuilder: (child, animation) {
+                  return FadeTransition(
+                    opacity: animation,
+                    child: ScaleTransition(scale: animation, child: child),
+                  );
+                },
+                child: Text(
+                  isEncrypting ? localizations.encrypting : localizations.decrypting,
+                  key: ValueKey<bool>(isEncrypting),
+                  style: uiTextStyles.body16.copyWith(
+                    color: isEncrypting ? uiColors.diffColor : uiColors.secondaryColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
           ),
@@ -89,7 +103,8 @@ class MessageInputField extends StatelessWidget {
                 InkWell(
                   borderRadius: BorderRadius.circular(12),
                   onTap: onSend,
-                  child: Container(
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
                     height: height,
                     width: 60,
                     decoration: BoxDecoration(
@@ -98,7 +113,7 @@ class MessageInputField extends StatelessWidget {
                     ),
                     child: Icon(
                       Icons.send,
-                      color: uiColors.backgroundPrimaryColor,
+                      color: isEncrypting ? const Color(0xFF18181A) : uiColors.backgroundPrimaryColor,
                     ),
                   ),
                 ),

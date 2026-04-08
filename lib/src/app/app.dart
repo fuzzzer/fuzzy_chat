@@ -27,7 +27,7 @@ class App extends StatelessWidget {
           theme: UiKitTheme.dark(),
           localizationsDelegates: FuzzyChatLocalizations.localizationsDelegates,
           supportedLocales: FuzzyChatLocalizations.supportedLocales,
-          home: const ChatListPage(),
+          home: sl.get<PreferencesService>().hasSeenOnboarding ? const ChatListPage() : const OnboardingPage(),
         ),
       ),
     );

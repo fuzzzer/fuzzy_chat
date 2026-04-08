@@ -1,0 +1,46 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fuzzy_chat/lib.dart';
+
+class CopyGuard {
+  static Future<void> copyPlaintext({
+    required BuildContext context,
+    required String textToCopy,
+  }) async {
+    final prefs = sl.get<PreferencesService>();
+    final localizations = context.fuzzyChatLocalizations;
+    
+    if (prefs.copySecurityLevel == CopySecurityLevel.strict) {
+      final confirm = await showDialog<bool>(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(localizations.securityWarning),
+            content: Text(localizations.areYouSureYouWantToCopyUnencryptedDataToYourClipboardThisCouldCompromiseYourSecureChat),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                style: TextButton.styleFrom(
+                  foregroundColor: context.uiColors.focusColor,
+                ),
+                child: Text(localizations.cancel),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                style: TextButton.styleFrom(
+                  foregroundColor: context.uiColors.errorColor,
+                ),
+                child: Text(localizations.copy),
+              ),
+            ],
+          );
+        },
+      );
+
+      if (confirm != true) return;
+    }
+
+    await Clipboard.setData(ClipboardData(text: textToCopy));
+    FuzzySnackbar.show(label: localizations.copiedToTheClipboard);
+  }
+}

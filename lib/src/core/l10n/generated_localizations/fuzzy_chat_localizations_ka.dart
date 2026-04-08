@@ -241,4 +241,91 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
 
   @override
   String get decryptionFailedCheckYourKeyOrEncryptedText => 'გაშიფრვა ვერ მოხერხდა შეამოწმეთ გასაღები ან დაშიფრული ტექსტი';
+
+  @override
+  String get welcomeToFuzzyChat => 'მოგესალმებით Fuzzy Chat-ში';
+
+  @override
+  String get offlineEncryptedClipboard => 'ოფლაინ დაშიფრული ბუფერი';
+
+  @override
+  String get yourDataNeverLeavesYourDeviceNoServersNoTracking => 'თქვენი მონაცემები არასდროს ტოვებს თქვენს მოწყობილობას. არანაირი სერვერი, არანაირი თვალთვალი.';
+
+  @override
+  String get secureHandshake => 'უსაფრთხო ხელის ჩამორთმევა';
+
+  @override
+  String get connectWithOthersUsingASecureOfflineCodeExchange => 'დაუკავშირდით სხვებს უსაფრთხო, ოფლაინ კოდების გაცვლის გამოყენებით.';
+
+  @override
+  String get getStarted => 'დაწყება';
+
+  @override
+  String get next => 'შემდეგი';
+
+  @override
+  String get noOngoingChats => 'მიმდინარე ჩატები არ არის';
+
+  @override
+  String get tapTheButtonBelowToCreateANewSecureHandshakeOrAcceptAnInvitation => 'დააჭირეთ ღილაკს ქვემოთ, რომ შექმნათ ახალი უსაფრთხო ხელის ჩამორთმევა ან მიიღოთ მოწვევა.';
+
+  @override
+  String get stepSendYourInviteCode => 'ნაბიჯი 1: გაგზავნეთ თქვენი მოწვევის კოდი';
+
+  @override
+  String get sendThisCodeToThePersonYouWantToChatWithUsingAnySecureChannel => 'გაუგზავნეთ ეს კოდი იმ ადამიანს, ვისთანაც გსურთ საუბარი, ნებისმიერი უსაფრთხო არხის გამოყენებით.';
+
+  @override
+  String get stepPasteTheirAcceptanceCode => 'ნაბიჯი 2: ჩასვით მათი მიღების კოდი';
+
+  @override
+  String get onceTheyAcceptYourInviteTheyWillSendACodeBackPasteItBelow => 'როგორც კი მიიღებენ თქვენს მოწვევას, ისინი გამოგიგზავნიან კოდს უკან. ჩასვით ის ქვემოთ.';
+
+  @override
+  String get stepPasteTheirInviteCode => 'ნაბიჯი 1: ჩასვით მათი მოწვევის კოდი';
+
+  @override
+  String get askYourContactToShareTheirInviteCodeSecurelyAndPasteItBelow => 'სთხოვეთ თქვენს კონტაქტს უსაფრთხოდ გაგიზიარონ მოწვევის კოდი და ჩასვით ის ქვემოთ.';
+
+  @override
+  String get stepNameThisChat => 'ნაბიჯი 2: დაარქვით სახელი ამ საუბარს';
+
+  @override
+  String get chooseALocalNameForThisChatThisIsOnlyVisibleToYou => 'აირჩიეთ ლოკალური სახელი ამ საუბრისთვის. ეს მხოლოდ თქვენთვის იქნება ხილული.';
+
+  @override
+  String get securityWarning => 'უსაფრთხოების გაფრთხილება';
+
+  @override
+  String get areYouSureYouWantToCopyUnencryptedDataToYourClipboardThisCouldCompromiseYourSecureChat => 'დარწმუნებული ხართ, რომ გსურთ დაუშიფრავი მონაცემების ბუფერში კოპირება? ამან შეიძლება საფრთხე შეუქმნას თქვენს უსაფრთხო ჩატს.';
+
+  @override
+  String get copyFuzz => 'Fuzz-ის კოპირება';
+
+  @override
+  String get copyPlaintext => 'ტექსტის კოპირება';
+
+  @override
+  String get firstEncryption => 'პირველი დაშიფვრა';
+
+  @override
+  String get typeAMessageAndPressSendItWillBeEncryptedLocallyAndYouCanThenCopyTheSecureFuzzedText => 'აკრიფეთ მესიჯი და დააჭირეთ გაგზავნას. ის ლოკალურად დაშიფრდება, რის შემდეგაც შეგეძლებათ უსაფრთხო, დაშიფრული ტექსტის კოპირება.';
+
+  @override
+  String get settings => 'პარამეტრები';
+
+  @override
+  String get securityLevel => 'უსაფრთხოების დონე';
+
+  @override
+  String get strict => 'მკაცრი';
+
+  @override
+  String get moderate => 'ზომიერი';
+
+  @override
+  String get strictSecurityDescription => 'ნებისმიერი გაშიფრული ტექსტის კოპირებამდე გამოჩნდება დადასტურების დიალოგი. რეკომენდებულია მაქსიმალური კონფიდენციალურობისთვის.';
+
+  @override
+  String get moderateSecurityDescription => 'მიღებული შეტყობინებები იკითხება და კოპირება შესაძლებელია გაფრთხილების გარეშე.';
 }

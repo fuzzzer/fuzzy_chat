@@ -195,7 +195,6 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                                     ? <Widget>[
                                         TextAction(
                                           hasLeftBorder: true,
-                                          hasRightBorder: true,
                                           label: localizations.show,
                                           onTap: () {
                                             _openEncryptedFileDirectory(
@@ -203,11 +202,23 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                                             );
                                           },
                                         ),
+                                        const SizedBox(width: 2),
+                                        TextAction(
+                                          hasRightBorder: true,
+                                          label: localizations.share,
+                                          onTap: () {
+                                            final preparedEncryptedMessage = _prepareEncrypredMessage(encryptedMessage);
+
+                                            Share.share(preparedEncryptedMessage);
+
+                                            closeOverlay();
+                                          },
+                                        ),
                                       ]
                                     : <Widget>[
                                         TextAction(
                                           hasLeftBorder: true,
-                                          label: localizations.copy,
+                                          label: localizations.copyFuzz,
                                           onTap: () {
                                             _copyMessage(
                                               encryptedMessage: encryptedMessage,
