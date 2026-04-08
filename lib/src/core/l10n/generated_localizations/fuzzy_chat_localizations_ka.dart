@@ -196,4 +196,49 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
 
   @override
   String get acceptanceText => 'Acceptance Text';
+
+  @override
+  String get basicEncryption => 'მარტივი დაშიფრვა';
+
+  @override
+  String get customKey => 'სპეციალური გასაღები';
+
+  @override
+  String get enterYourSecretKey => 'შეიყვანეთ საიდუმლო გასაღები';
+
+  @override
+  String get textToEncryptDecrypt => 'ტექსტი დასაშიფრად ან გასაშიფრად';
+
+  @override
+  String get encryptText => 'ტექსტის დაშიფრვა';
+
+  @override
+  String get decryptText => 'ტექსტის გაშიფრვა';
+
+  @override
+  String get result => 'შედეგი';
+
+  @override
+  String get processSelectedFiles => 'მონიშნული ფაილების დამუშავება';
+
+  @override
+  String get pleaseEnterAKey => 'გთხოვთ შეიყვანოთ გასაღები';
+
+  @override
+  String get pleaseSelectFilesToProcess => 'გთხოვთ მონიშნოთ ფაილები';
+
+  @override
+  String get anUnknownErrorOccurred => 'დაფიქსირდა უცნობი შეცდომა';
+
+  @override
+  String get textAndKeyCannotBeEmpty => 'ტექსტი და გასაღები ცარიელი არ უნდა იყოს';
+
+  @override
+  String get encryptionFailed => 'დაშიფრვა ვერ მოხერხდა';
+
+  @override
+  String get encryptedTextAndKeyCannotBeEmpty => 'დაშიფრული ტექსტი და გასაღები ცარიელი არ უნდა იყოს';
+
+  @override
+  String get decryptionFailedCheckYourKeyOrEncryptedText => 'გაშიფრვა ვერ მოხერხდა შეამოწმეთ გასაღები ან დაშიფრული ტექსტი';
 }

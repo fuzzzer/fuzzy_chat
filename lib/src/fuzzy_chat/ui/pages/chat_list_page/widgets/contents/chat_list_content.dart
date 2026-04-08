@@ -18,6 +18,7 @@ class ChatListContent extends StatelessWidget {
         SliverToBoxAdapter(
           child: FuzzyHeader(
             title: localizations.fuzzyChat,
+            rightAction: const BasicEncryptionNavigatorAction(),
           ),
         ),
         SliverList(

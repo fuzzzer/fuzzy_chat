@@ -498,7 +498,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = C9387PQ63V;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "Fuzzy Chat";
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -507,7 +507,7 @@
 					"@executable_path/Frameworks",
 				);
 				PACKAGE_CONFIG = .dart_tool/package_config.json;
-				PRODUCT_BUNDLE_IDENTIFIER = com.fuzzzytechnologies.fuzzy_chat;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fuzzzytechnologies.secure-chat.dev";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -594,7 +594,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = C9387PQ63V;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "Fuzzy Chat";
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -603,7 +603,7 @@
 					"@executable_path/Frameworks",
 				);
 				PACKAGE_CONFIG = .dart_tool/package_config.json;
-				PRODUCT_BUNDLE_IDENTIFIER = com.fuzzzytechnologies.fuzzy_chat;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fuzzzytechnologies.secure-chat.dev";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -685,7 +685,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = C9387PQ63V;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "Fuzzy Chat";
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -694,7 +694,7 @@
 					"@executable_path/Frameworks",
 				);
 				PACKAGE_CONFIG = .dart_tool/package_config.json;
-				PRODUCT_BUNDLE_IDENTIFIER = com.fuzzzytechnologies.fuzzy_chat;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fuzzzytechnologies.secure-chat.dev";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -781,7 +781,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = C9387PQ63V;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[DEV] Fuzzy Chat";
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -790,7 +790,7 @@
 					"@executable_path/Frameworks",
 				);
 				PACKAGE_CONFIG = .dart_tool/package_config.json;
-				PRODUCT_BUNDLE_IDENTIFIER = com.fuzzzytechnologies.fuzzy_chat.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fuzzzytechnologies.secure-chat.dev";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -875,7 +875,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = C9387PQ63V;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[DEV] Fuzzy Chat";
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -884,7 +884,7 @@
 					"@executable_path/Frameworks",
 				);
 				PACKAGE_CONFIG = .dart_tool/package_config.json;
-				PRODUCT_BUNDLE_IDENTIFIER = com.fuzzzytechnologies.fuzzy_chat.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fuzzzytechnologies.secure-chat.dev";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -968,7 +968,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = C9387PQ63V;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[DEV] Fuzzy Chat";
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -977,7 +977,7 @@
 					"@executable_path/Frameworks",
 				);
 				PACKAGE_CONFIG = .dart_tool/package_config.json;
-				PRODUCT_BUNDLE_IDENTIFIER = com.fuzzzytechnologies.fuzzy_chat.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fuzzzytechnologies.secure-chat.dev";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -1064,7 +1064,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = C9387PQ63V;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[STG] Fuzzy Chat";
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -1073,7 +1073,7 @@
 					"@executable_path/Frameworks",
 				);
 				PACKAGE_CONFIG = .dart_tool/package_config.json;
-				PRODUCT_BUNDLE_IDENTIFIER = com.fuzzzytechnologies.fuzzy_chat.stg;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fuzzzytechnologies.secure-chat.stg";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1160,7 +1160,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = C9387PQ63V;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[STG] Fuzzy Chat";
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -1169,7 +1169,7 @@
 					"@executable_path/Frameworks",
 				);
 				PACKAGE_CONFIG = .dart_tool/package_config.json;
-				PRODUCT_BUNDLE_IDENTIFIER = com.fuzzzytechnologies.fuzzy_chat.stg;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fuzzzytechnologies.secure-chat.stg";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -1251,7 +1251,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = C9387PQ63V;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[STG] Fuzzy Chat";
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -1260,7 +1260,7 @@
 					"@executable_path/Frameworks",
 				);
 				PACKAGE_CONFIG = .dart_tool/package_config.json;
-				PRODUCT_BUNDLE_IDENTIFIER = com.fuzzzytechnologies.fuzzy_chat.stg;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fuzzzytechnologies.secure-chat.stg";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

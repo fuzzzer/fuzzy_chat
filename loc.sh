@@ -11,4 +11,4 @@ if [ ! -d "$SCRIPT_DIR" ]; then
 fi
 
 # Run the add_localizations.py script with the provided arguments
-python3 "$SCRIPT_DIR/add_localizations.py" "$@"
+source ./scripts/runner.sh "$SCRIPT_DIR/add_localizations.py" "$@"

@@ -5,11 +5,15 @@ class FuzzyHeader extends StatelessWidget {
   final String title;
 
   final TextAlign textAlign;
+  final Widget? leftAction;
+  final Widget? rightAction;
 
   const FuzzyHeader({
     required this.title,
     super.key,
     this.textAlign = TextAlign.center,
+    this.leftAction,
+    this.rightAction,
   });
 
   @override
@@ -19,10 +23,24 @@ class FuzzyHeader extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.all(16),
-      child: Text(
-        title,
-        style: uiTextStyles.bodyLarge20,
-        textAlign: textAlign,
+      child: Row(
+        children: [
+          SizedBox.square(
+            dimension: 32,
+            child: leftAction,
+          ),
+          const Spacer(),
+          Text(
+            title,
+            style: uiTextStyles.bodyLarge20,
+            textAlign: textAlign,
+          ),
+          const Spacer(),
+          SizedBox.square(
+            dimension: 32,
+            child: rightAction,
+          ),
+        ],
       ),
     );
   }

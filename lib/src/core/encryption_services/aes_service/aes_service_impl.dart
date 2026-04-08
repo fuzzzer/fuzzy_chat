@@ -31,8 +31,8 @@ class _AESServiceImpl {
   }
 
   static Uint8List syncDecrypt(Uint8List encryptedBytes, Uint8List key) {
-    if (encryptedBytes.length < _nonceByteLength) {
-      throw ArgumentError('Ciphertext too short, no room for nonce.');
+    if (encryptedBytes.length < _saltByteLength + _nonceByteLength) {
+      throw ArgumentError('Ciphertext too short, no room for salt and nonce.');
     }
 
     final salt = encryptedBytes.sublist(0, _saltByteLength);

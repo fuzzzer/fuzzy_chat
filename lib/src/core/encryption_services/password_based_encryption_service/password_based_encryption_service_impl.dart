@@ -24,6 +24,10 @@ class _PasswordBasedEncryptionServiceImpl {
   }
 
   static Uint8List syncDecrypt(Uint8List encryptedInputBytes, String password) {
+    if (encryptedInputBytes.length < _saltByteLength + _nonceByteLength) {
+      throw ArgumentError('Ciphertext too short, no room for salt and nonce.');
+    }
+
     final salt = encryptedInputBytes.sublist(0, _saltByteLength);
     final nonce = encryptedInputBytes.sublist(_saltByteLength, _saltByteLength + _nonceByteLength);
     final encryptedData = encryptedInputBytes.sublist(_saltByteLength + _nonceByteLength);

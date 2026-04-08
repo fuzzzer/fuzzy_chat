@@ -5,11 +5,11 @@ import re
 import json
 import subprocess
 
-# usage: python add_localizations.py marketplace "Some String" "Welcome {userName}" "You have {numberOfMessages, plural, =0{no messages} one{1 message} other{{numberOfMessages} messages}}"
+# usage: python add_localizations.py marketplace "Some String||ka||ქართული სტრიქონი||es||Cadena en español" "Welcome {userName}||ka||მოგესალმებით {userName}"
 
 def to_camel_case(s):
-    s = re.sub(r'{[^}]*}', '', s)
-    s = re.sub(r'[^a-zA-Z\s]', '', s)
+    s = re.sub(r'{[^}]*}', '', s)  # Remove placeholders
+    s = re.sub(r'[^a-zA-Z\s]', '', s)  # Keep only letters and spaces
     words = s.strip().split()
     if not words:
         return ''
@@ -44,25 +44,37 @@ def add_localizations_to_arb(arb_file_path, localizations):
         placeholders = extract_placeholders(value)
         metadata = {}
         if placeholders:
-            metadata['placeholders'] = {}
-            for placeholder in placeholders:
-                metadata['placeholders'][placeholder] = {}
+            metadata['placeholders'] = {placeholder: {} for placeholder in placeholders}
         arb_data[f"@{key}"] = metadata
         updated = True
 
     if not updated:
-        return False  # No changes made
+        return False
 
     with open(arb_file_path, 'w', encoding='utf-8') as f:
         json.dump(arb_data, f, indent=2, ensure_ascii=False)
-        f.write('\n')  # Ensure the file ends with a newline
+        f.write('\n')
     print(f"Updated {arb_file_path} with new localizations.")
     return True
 
+def parse_localization_string(s):
+    # Split the string by ||lang||, e.g., "message||ka||მესიჯი||es||mensaje"
+    parts = re.split(r'\|\|(\w+)\|\|', s)
+    if len(parts) == 1:
+        # No localization delimiters, treat as English only
+        return {'en': parts[0].strip()}, parts[0].strip()
+    
+    # Parts: [default_message, lang1, translation1, lang2, translation2, ...]
+    default_message = parts[0].strip()
+    translations = {'en': default_message}
+    for i in range(1, len(parts), 2):
+        lang = parts[i]
+        translation = parts[i + 1].strip()
+        translations[lang] = translation
+    return translations, default_message
+
 def run_flutter_gen_l10n(project_root):
-    commands = [
-        ['flutter', 'gen-l10n'],
-    ]
+    commands = [['flutter', 'gen-l10n']]
     for cmd in commands:
         try:
             subprocess.run(cmd, check=True, cwd=project_root)
@@ -77,14 +89,12 @@ def run_flutter_gen_l10n(project_root):
 
 def find_project_root(script_dir, project_name=None):
     if project_name:
-        # If project_name is provided, we assume it is in ../{project_name}
         project_root = os.path.abspath(os.path.join(script_dir, '..', project_name))
         if os.path.isdir(project_root):
             return project_root
         else:
             print(f"Error: Project '{project_name}' not found at '../{project_name}'")
             sys.exit(1)
-        # If project_name is not provided, we assume it is at the project root so same location as l10n_yaml or in "scrips" folder
     else:
         l10n_yaml_in_same_dir = os.path.exists(os.path.join(script_dir, 'l10n.yaml'))
         if l10n_yaml_in_same_dir:
@@ -95,7 +105,7 @@ def find_project_root(script_dir, project_name=None):
                 project_root = parent_dir
                 if os.path.exists(os.path.join(project_root, 'l10n.yaml')):
                     return project_root
-            print("Error: 'l10n.yaml' not found. Please provide the project name as the first argument or ensure 'l10n.yaml' is in the project root.")
+            print("Error: 'l10n.yaml' not found. Please provide the project name or ensure 'l10n.yaml' is in the project root.")
             sys.exit(1)
 
 def main():
@@ -116,21 +126,8 @@ def main():
         print("Error: No localization strings provided.")
         sys.exit(1)
 
-    localizations = {}
-    for s in localization_strings:
-        key = to_camel_case(s)
-        if not key:
-            print(f"Warning: Unable to generate a key for '{s}'")
-            continue
-        localizations[key] = s
-
-    if not localizations:
-        print("No valid localizations to add.")
-        sys.exit(1)
-
     script_dir = os.path.dirname(os.path.abspath(__file__))
     project_root = find_project_root(script_dir, project_name)
-
     l10n_yaml_path = os.path.join(project_root, 'l10n.yaml')
 
     if not os.path.exists(l10n_yaml_path):
@@ -138,32 +135,49 @@ def main():
         sys.exit(1)
 
     config = read_l10n_yaml(l10n_yaml_path)
-
     arb_dir = config.get('arb-dir')
     if not arb_dir:
         print("Error: 'arb-dir' not found in l10n.yaml")
         sys.exit(1)
 
     arb_dir_path = os.path.join(project_root, arb_dir)
-
     if not os.path.isdir(arb_dir_path):
         print(f"Error: ARB directory '{arb_dir_path}' does not exist")
         sys.exit(1)
 
-    arb_files = [f for f in os.listdir(arb_dir_path) if f.endswith('.arb')]
-    if not arb_files:
-        print(f"No .arb files found in '{arb_dir_path}'")
+    localizations_by_lang = {}
+    for s in localization_strings:
+        translations, default_message = parse_localization_string(s)
+        key = to_camel_case(default_message)
+        if not key:
+            print(f"Warning: Unable to generate a key for '{default_message}'")
+            continue
+
+        for lang, message in translations.items():
+            if lang not in localizations_by_lang:
+                localizations_by_lang[lang] = {}
+            localizations_by_lang[lang][key] = message
+
+    if not localizations_by_lang:
+        print("No valid localizations to add.")
         sys.exit(1)
 
+    # Update ARB files
     any_updates = False
-    for arb_file in arb_files:
+    for lang, localizations in localizations_by_lang.items():
+        arb_file = f"app_{lang}.arb"
         arb_file_path = os.path.join(arb_dir_path, arb_file)
+        if not os.path.exists(arb_file_path):
+            print(f"Warning: ARB file '{arb_file}' does not exist, creating it.")
+            with open(arb_file_path, 'w', encoding='utf-8') as f:
+                json.dump({}, f, indent=2, ensure_ascii=False)
+                f.write('\n')
+        
         updated = add_localizations_to_arb(arb_file_path, localizations)
         if updated:
             any_updates = True
 
     if any_updates:
-        # Run 'flutter gen-l10n' after updating the arb files
         run_flutter_gen_l10n(project_root)
     else:
         print("No updates made to any .arb files. Skipping 'flutter gen-l10n' command.")

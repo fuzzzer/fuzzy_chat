@@ -196,4 +196,49 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
 
   @override
   String get acceptanceText => 'Acceptance Text';
+
+  @override
+  String get basicEncryption => 'Basic Encryption';
+
+  @override
+  String get customKey => 'Custom Key';
+
+  @override
+  String get enterYourSecretKey => 'Enter your secret key';
+
+  @override
+  String get textToEncryptDecrypt => 'Text to Encrypt Decrypt';
+
+  @override
+  String get encryptText => 'Encrypt Text';
+
+  @override
+  String get decryptText => 'Decrypt Text';
+
+  @override
+  String get result => 'Result';
+
+  @override
+  String get processSelectedFiles => 'Process Selected Files';
+
+  @override
+  String get pleaseEnterAKey => 'Please enter a key';
+
+  @override
+  String get pleaseSelectFilesToProcess => 'Please select files to process';
+
+  @override
+  String get anUnknownErrorOccurred => 'An unknown error occurred';
+
+  @override
+  String get textAndKeyCannotBeEmpty => 'Text and key cannot be empty';
+
+  @override
+  String get encryptionFailed => 'Encryption failed';
+
+  @override
+  String get encryptedTextAndKeyCannotBeEmpty => 'Encrypted text and key cannot be empty';
+
+  @override
+  String get decryptionFailedCheckYourKeyOrEncryptedText => 'Decryption failed check your key or encrypted text';
 }

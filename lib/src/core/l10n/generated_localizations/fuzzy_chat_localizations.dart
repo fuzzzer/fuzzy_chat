@@ -472,6 +472,96 @@ abstract class FuzzyChatLocalizations {
   /// In en, this message translates to:
   /// **'Acceptance Text'**
   String get acceptanceText;
+
+  /// No description provided for @basicEncryption.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic Encryption'**
+  String get basicEncryption;
+
+  /// No description provided for @customKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Key'**
+  String get customKey;
+
+  /// No description provided for @enterYourSecretKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your secret key'**
+  String get enterYourSecretKey;
+
+  /// No description provided for @textToEncryptDecrypt.
+  ///
+  /// In en, this message translates to:
+  /// **'Text to Encrypt Decrypt'**
+  String get textToEncryptDecrypt;
+
+  /// No description provided for @encryptText.
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypt Text'**
+  String get encryptText;
+
+  /// No description provided for @decryptText.
+  ///
+  /// In en, this message translates to:
+  /// **'Decrypt Text'**
+  String get decryptText;
+
+  /// No description provided for @result.
+  ///
+  /// In en, this message translates to:
+  /// **'Result'**
+  String get result;
+
+  /// No description provided for @processSelectedFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Process Selected Files'**
+  String get processSelectedFiles;
+
+  /// No description provided for @pleaseEnterAKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a key'**
+  String get pleaseEnterAKey;
+
+  /// No description provided for @pleaseSelectFilesToProcess.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select files to process'**
+  String get pleaseSelectFilesToProcess;
+
+  /// No description provided for @anUnknownErrorOccurred.
+  ///
+  /// In en, this message translates to:
+  /// **'An unknown error occurred'**
+  String get anUnknownErrorOccurred;
+
+  /// No description provided for @textAndKeyCannotBeEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Text and key cannot be empty'**
+  String get textAndKeyCannotBeEmpty;
+
+  /// No description provided for @encryptionFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Encryption failed'**
+  String get encryptionFailed;
+
+  /// No description provided for @encryptedTextAndKeyCannotBeEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypted text and key cannot be empty'**
+  String get encryptedTextAndKeyCannotBeEmpty;
+
+  /// No description provided for @decryptionFailedCheckYourKeyOrEncryptedText.
+  ///
+  /// In en, this message translates to:
+  /// **'Decryption failed check your key or encrypted text'**
+  String get decryptionFailedCheckYourKeyOrEncryptedText;
 }
 
 class _FuzzyChatLocalizationsDelegate extends LocalizationsDelegate<FuzzyChatLocalizations> {

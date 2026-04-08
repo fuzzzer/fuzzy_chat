@@ -42,8 +42,8 @@ if __name__ == "__main__":
     script_dir = os.path.dirname(os.path.abspath(__file__))
     
     # Use relative path from script's directory
-    lib_folder = os.path.join(script_dir, '../code_generators/bricks/local_brick')
-    output_txt_file = os.path.join(script_dir, 'outputs/local_brick.txt')
+    lib_folder = os.path.join(script_dir, '../lib/src/fuzzy_basics')
+    output_txt_file = os.path.join(script_dir, 'outputs/fuzzy_basics.txt')
 
     # Collect all .dart file contents and write them to the output file
     collect_dart_files_content(lib_folder, output_txt_file)

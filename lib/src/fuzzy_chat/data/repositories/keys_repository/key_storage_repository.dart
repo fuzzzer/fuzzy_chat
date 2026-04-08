@@ -10,8 +10,15 @@ class KeyStorageRepository {
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
   Future<void> savePrivateKey(String chatId, RSAPrivateKey privateKey) async {
+    final password = sl.get<FuzzyAuthStore>().state.authData.password;
     final privateKeyMap = RSAService.transformRSAPrivateKeyToMap(privateKey);
-    await _secureStorage.write(key: 'privateKey_$chatId', value: jsonEncode(privateKeyMap));
+    final privateKeyJson = jsonEncode(privateKeyMap);
+    final privateKeyBytes = Uint8List.fromList(utf8.encode(privateKeyJson));
+
+    final encryptedPrivateKey = await PasswordBasedEncryptionSevice.encrypt(privateKeyBytes, password);
+    final encryptedPrivateKeyBase64 = base64Encode(encryptedPrivateKey);
+
+    await _secureStorage.write(key: 'privateKey_$chatId', value: encryptedPrivateKeyBase64);
   }
 
   Future<void> savePublicKey(String chatId, RSAPublicKey publicKey) async {
@@ -20,12 +27,23 @@ class KeyStorageRepository {
   }
 
   Future<RSAPrivateKey?> getPrivateKey(String chatId) async {
-    final privateKeyJson = await _secureStorage.read(key: 'privateKey_$chatId');
+    final password = sl.get<FuzzyAuthStore>().state.authData.password;
+    final privateKeyData = await _secureStorage.read(key: 'privateKey_$chatId');
 
-    if (privateKeyJson != null) {
-      return RSAService.transformMapToRSAPrivateKey(
-        (jsonDecode(privateKeyJson) as Map<String, dynamic>).cast(),
-      );
+    if (privateKeyData != null) {
+      if (privateKeyData.startsWith('{')) {
+        return RSAService.transformMapToRSAPrivateKey(
+          (jsonDecode(privateKeyData) as Map<String, dynamic>).cast(),
+        );
+      } else {
+        final encryptedPrivateKey = base64Decode(privateKeyData);
+        final decryptedBytes = await PasswordBasedEncryptionSevice.decrypt(encryptedPrivateKey, password);
+        final privateKeyJson = utf8.decode(decryptedBytes);
+
+        return RSAService.transformMapToRSAPrivateKey(
+          (jsonDecode(privateKeyJson) as Map<String, dynamic>).cast(),
+        );
+      }
     }
     return null;
   }
