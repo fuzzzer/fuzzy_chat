@@ -4,7 +4,9 @@ import 'package:fuzzy_chat/lib.dart';
 import 'package:go_router/go_router.dart';
 
 class VaultItemList extends StatelessWidget {
-  const VaultItemList({super.key});
+  final VaultItemType? filterType;
+
+  const VaultItemList({super.key, this.filterType});
 
   @override
   Widget build(BuildContext context) {
@@ -14,15 +16,22 @@ class VaultItemList extends StatelessWidget {
           if (searchState.status == StateStatus.loading) {
             return const Center(child: CircularProgressIndicator());
           }
-          if (searchState.results.isEmpty) {
-            return const Center(child: Text('No results found.'));
+
+          var results = searchState.results;
+          if (filterType != null) {
+            results = results.where((i) => i.type == filterType).toList();
           }
+
+          if (results.isEmpty) {
+            return _EmptyState(filterType: filterType, isSearch: true);
+          }
+
           return ListView.separated(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            itemCount: searchState.results.length,
+            itemCount: results.length,
             separatorBuilder: (_, __) => const SizedBox(height: 8),
             itemBuilder: (context, index) {
-              return VaultItemCard(itemMetadata: searchState.results[index]);
+              return VaultItemCard(itemMetadata: results[index]);
             },
           );
         }
@@ -34,12 +43,15 @@ class VaultItemList extends StatelessWidget {
             }
 
             var items = itemsState.items;
+            if (filterType != null) {
+              items = items.where((i) => i.type == filterType).toList();
+            }
             if (itemsState.selectedGroupId != null) {
               items = items.where((i) => i.groupId == itemsState.selectedGroupId).toList();
             }
 
             if (items.isEmpty) {
-              return const Center(child: Text('Vault is empty. Add a password or note.'));
+              return _EmptyState(filterType: filterType);
             }
 
             return ListView.separated(
@@ -53,6 +65,48 @@ class VaultItemList extends StatelessWidget {
           },
         );
       },
+    );
+  }
+}
+
+class _EmptyState extends StatelessWidget {
+  final VaultItemType? filterType;
+  final bool isSearch;
+
+  const _EmptyState({this.filterType, this.isSearch = false});
+
+  @override
+  Widget build(BuildContext context) {
+    final String message;
+    final IconData icon;
+
+    if (isSearch) {
+      message = currentContextLocalization.vaultNoResultsFound;
+      icon = Icons.search_off_rounded;
+    } else if (filterType == VaultItemType.password) {
+      message = currentContextLocalization.vaultNoPasswordsYet;
+      icon = Icons.key_off_rounded;
+    } else if (filterType == VaultItemType.note) {
+      message = currentContextLocalization.vaultNoNotesYet;
+      icon = Icons.note_outlined;
+    } else {
+      message = currentContextLocalization.vaultIsEmpty;
+      icon = Icons.lock_outline;
+    }
+
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 48, color: context.uiColors.secondaryTextColor),
+          const SizedBox(height: 12),
+          Text(
+            message,
+            textAlign: TextAlign.center,
+            style: TextStyle(color: context.uiColors.secondaryTextColor),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -83,7 +137,7 @@ class VaultItemCard extends StatelessWidget {
           ),
         ),
         subtitle: Text(
-          isPassword ? 'Password' : 'Note',
+          isPassword ? currentContextLocalization.vaultPasswordLabel : currentContextLocalization.vaultNoteLabel,
           style: TextStyle(color: context.uiColors.secondaryTextColor),
         ),
         trailing: IconButton(
@@ -91,7 +145,7 @@ class VaultItemCard extends StatelessWidget {
           onPressed: () {
             // Need to fetch full item and decrypt to copy. For now just placeholder
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Copying not fully implemented yet.')),
+              SnackBar(content: Text(currentContextLocalization.vaultCopyingNotImplemented)),
             );
           },
         ),
@@ -114,7 +168,7 @@ class VaultItemCard extends StatelessWidget {
             if (context.mounted) await context.read<VaultItemsCubit>().loadItems();
           } else if (context.mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Failed to load item')),
+              SnackBar(content: Text(currentContextLocalization.vaultFailedToLoadItem)),
             );
           }
         },

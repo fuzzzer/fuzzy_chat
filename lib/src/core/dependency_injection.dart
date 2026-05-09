@@ -82,6 +82,8 @@ class DependencyInjection {
       VaultFileDataSource(vaultDirectoryPath: sl.get<AppDocumentsDirectory>().directory.path),
     );
 
+    await sl.get<VaultFileDataSource>().recoverStagedChangesIfNeeded();
+
     sl.safeRegisterSingleton<VaultItemLocalDataSource>(
       VaultItemLocalDataSource(isar: sl.get<Isar>()),
     );

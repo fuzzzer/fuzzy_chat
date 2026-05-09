@@ -114,6 +114,10 @@ class VaultAuthCubit extends Cubit<VaultAuthState> {
 
   void lock() {
     _autoLockTimer?.cancel();
+    final keyToWipe = state.masterKey;
+    if (keyToWipe != null && keyToWipe.isNotEmpty) {
+      keyToWipe.fillRange(0, keyToWipe.length, 0);
+    }
     emit(state.copyWith(
       status: StateStatus.success,
       authState: VaultAuthEnum.locked,

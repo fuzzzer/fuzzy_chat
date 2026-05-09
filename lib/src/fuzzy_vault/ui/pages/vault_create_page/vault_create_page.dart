@@ -51,7 +51,7 @@ class _VaultCreatePageState extends State<VaultCreatePage> {
       listener: (context, state) {
         if (state.failureType != null) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Failed to create vault: ${state.failureType!.name}')),
+            SnackBar(content: Text(currentContextLocalization.vaultFailedToCreate(state.failureType!.name))),
           );
         }
       },
@@ -75,7 +75,7 @@ class _VaultCreatePageState extends State<VaultCreatePage> {
                   ),
                   const SizedBox(height: 24),
                   Text(
-                    'Create Your Vault',
+                    currentContextLocalization.vaultCreateYourVault,
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: context.uiColors.primaryTextColor,
@@ -84,7 +84,7 @@ class _VaultCreatePageState extends State<VaultCreatePage> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Your vault encrypts all passwords and notes locally on your device.\nChoose a strong master password.',
+                    currentContextLocalization.vaultCreateDescription,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: context.uiColors.secondaryTextColor,
                         ),
@@ -93,7 +93,7 @@ class _VaultCreatePageState extends State<VaultCreatePage> {
                   const SizedBox(height: 40),
                   FuzzyTextField(
                     controller: _passwordController,
-                    labelText: 'Master Password',
+                    labelText: currentContextLocalization.vaultMasterPassword,
                     obscureText: !_isPasswordVisible,
                     suffixIcon: IconButton(
                       icon: Icon(
@@ -110,7 +110,7 @@ class _VaultCreatePageState extends State<VaultCreatePage> {
                   ],
                   FuzzyTextField(
                     controller: _confirmController,
-                    labelText: 'Confirm Password',
+                    labelText: currentContextLocalization.vaultConfirmPassword,
                     obscureText: !_isConfirmVisible,
                     suffixIcon: IconButton(
                       icon: Icon(
@@ -122,9 +122,9 @@ class _VaultCreatePageState extends State<VaultCreatePage> {
                   ),
                   if (_confirmController.text.isNotEmpty && _passwordController.text != _confirmController.text) ...[
                     const SizedBox(height: 8),
-                    const Text(
-                      'Passwords do not match',
-                      style: TextStyle(color: Colors.red),
+                    Text(
+                      currentContextLocalization.vaultPasswordsDoNotMatch,
+                      style: const TextStyle(color: Colors.red),
                     ),
                   ],
                   const SizedBox(height: 40),
@@ -141,7 +141,7 @@ class _VaultCreatePageState extends State<VaultCreatePage> {
                         const SizedBox(width: 16),
                         Expanded(
                           child: Text(
-                            'This password cannot be reset. If you forget it, your data will be permanently lost.',
+                            currentContextLocalization.vaultPasswordCannotBeReset,
                             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                   color: Colors.red,
                                 ),
@@ -152,7 +152,7 @@ class _VaultCreatePageState extends State<VaultCreatePage> {
                   ),
                   const SizedBox(height: 40),
                   FuzzyButton(
-                    text: 'Create Vault',
+                    text: currentContextLocalization.vaultCreateVault,
                     isEnabled: _isValid() && !isLoading,
                     onTap: _isValid() && !isLoading ? _onCreate : () {},
                   ),

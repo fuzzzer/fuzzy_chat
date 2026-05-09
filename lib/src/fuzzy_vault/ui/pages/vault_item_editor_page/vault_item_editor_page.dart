@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/lib.dart';
 import 'package:uuid/uuid.dart';
@@ -67,15 +68,15 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
       if (_usernameController.text.trim().isNotEmpty) {
         finalTitle = _usernameController.text.trim();
       } else {
-        finalTitle = widget.payload.existingItem?.metadata.title ?? 'Untitled';
+        finalTitle = widget.payload.existingItem?.metadata.title ?? currentContextLocalization.vaultUntitled;
         if (finalTitle.isEmpty) {
-          finalTitle = 'Untitled';
+          finalTitle = currentContextLocalization.vaultUntitled;
         }
       }
     }
 
     if (finalTitle.isEmpty) {
-      finalTitle = 'Untitled';
+      finalTitle = currentContextLocalization.vaultUntitled;
     }
 
     final now = DateTime.now();
@@ -137,76 +138,86 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
 
   @override
   Widget build(BuildContext context) {
-    return FuzzyScaffold(
-      hasAutomaticBackButton: false,
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            FuzzyHeader(
-              title: widget.payload.existingItem == null 
-                  ? (_type == VaultItemType.password ? 'New Password' : 'New Note')
-                  : 'Edit Item',
-              leftAction: const FuzzyBackButton(),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            if (_type != VaultItemType.password) ...[
-              FuzzyTextField(
-                controller: _titleController,
-                labelText: 'Title',
-              ),
-              const SizedBox(height: 16),
-            ],
-            
-            if (_type == VaultItemType.password) ...[
-              FuzzyTextField(
-                controller: _usernameController,
-                labelText: 'Username / Email',
-              ),
-              const SizedBox(height: 16),
-              FuzzyTextField(
-                controller: _passwordController,
-                labelText: 'Password',
-                obscureText: !_isPasswordVisible,
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
-                    color: context.uiColors.secondaryTextColor,
-                  ),
-                  onPressed: () => setState(() => _isPasswordVisible = !_isPasswordVisible),
+    return CallbackShortcuts(
+      bindings: {
+        const SingleActivator(LogicalKeyboardKey.keyS, meta: true): () => _onSave(context),
+        const SingleActivator(LogicalKeyboardKey.keyS, control: true): () => _onSave(context),
+      },
+      child: Focus(
+        autofocus: true,
+        child: FuzzyScaffold(
+          hasAutomaticBackButton: false,
+          body: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                FuzzyHeader(
+                  title: widget.payload.existingItem == null 
+                      ? (_type == VaultItemType.password ? currentContextLocalization.vaultNewPassword : currentContextLocalization.vaultNewNote)
+                      : currentContextLocalization.vaultEditItem,
+                  leftAction: const FuzzyBackButton(),
                 ),
-              ),
-              const SizedBox(height: 16),
-              FuzzyTextField(
-                controller: _urlController,
-                labelText: 'URL (Website)',
-              ),
-              const SizedBox(height: 16),
-            ],
-            
-            FuzzyTextField(
-              controller: _notesController,
-              labelText: _type == VaultItemType.password ? 'Notes (Optional)' : 'Secure Note',
-              maxLines: _type == VaultItemType.password ? 3 : 15,
+                Expanded(
+                  child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (_type != VaultItemType.password) ...[
+                  FuzzyTextField(
+                    controller: _titleController,
+                    labelText: currentContextLocalization.vaultTitle,
+                  ),
+                  const SizedBox(height: 16),
+                ],
+                
+                if (_type == VaultItemType.password) ...[
+                  FuzzyTextField(
+                    controller: _usernameController,
+                    labelText: currentContextLocalization.vaultUsernameEmail,
+                  ),
+                  const SizedBox(height: 16),
+                  FuzzyTextField(
+                    controller: _passwordController,
+                    labelText: currentContextLocalization.vaultPassword,
+                    obscureText: !_isPasswordVisible,
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                        color: context.uiColors.secondaryTextColor,
+                      ),
+                      onPressed: () => setState(() => _isPasswordVisible = !_isPasswordVisible),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  FuzzyTextField(
+                    controller: _urlController,
+                    labelText: currentContextLocalization.vaultUrlWebsite,
+                  ),
+                  const SizedBox(height: 16),
+                ],
+                
+                FuzzyTextField(
+                  controller: _notesController,
+                  labelText: _type == VaultItemType.password ? currentContextLocalization.vaultNotesOptional : currentContextLocalization.vaultSecureNote,
+                  maxLines: _type == VaultItemType.password ? 3 : 15,
+                ),
+                
+                const SizedBox(height: 40),
+                FuzzyButton(
+                  text: currentContextLocalization.vaultSave,
+                  onTap: () => _onSave(context),
+                ),
+              ],
             ),
-            
-            const SizedBox(height: 40),
-            FuzzyButton(
-              text: 'Save',
-              onTap: () => _onSave(context),
-            ),
-          ],
+          ),
         ),
-      ),
-    ),
-          ],
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 }
+

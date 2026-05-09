@@ -33,7 +33,7 @@ class PasswordStrengthIndicator extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Password Strength',
+              currentContextLocalization.vaultPasswordStrength,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: context.uiColors.secondaryTextColor,
               ),

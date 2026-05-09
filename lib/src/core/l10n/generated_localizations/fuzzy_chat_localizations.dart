@@ -856,6 +856,246 @@ abstract class FuzzyChatLocalizations {
   /// In en, this message translates to:
   /// **'Share File'**
   String get shareFile;
+
+  /// No description provided for @vaultUntitled.
+  ///
+  /// In en, this message translates to:
+  /// **'Untitled'**
+  String get vaultUntitled;
+
+  /// No description provided for @vaultNewPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'New Password'**
+  String get vaultNewPassword;
+
+  /// No description provided for @vaultNewNote.
+  ///
+  /// In en, this message translates to:
+  /// **'New Note'**
+  String get vaultNewNote;
+
+  /// No description provided for @vaultEditItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Item'**
+  String get vaultEditItem;
+
+  /// No description provided for @vaultTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get vaultTitle;
+
+  /// No description provided for @vaultUsernameEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Username / Email'**
+  String get vaultUsernameEmail;
+
+  /// No description provided for @vaultPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get vaultPassword;
+
+  /// No description provided for @vaultUrlWebsite.
+  ///
+  /// In en, this message translates to:
+  /// **'URL (Website)'**
+  String get vaultUrlWebsite;
+
+  /// No description provided for @vaultNotesOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes (Optional)'**
+  String get vaultNotesOptional;
+
+  /// No description provided for @vaultSecureNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Secure Note'**
+  String get vaultSecureNote;
+
+  /// No description provided for @vaultSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get vaultSave;
+
+  /// No description provided for @vaultPasswords.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords'**
+  String get vaultPasswords;
+
+  /// No description provided for @vaultNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get vaultNotes;
+
+  /// No description provided for @vaultAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get vaultAll;
+
+  /// No description provided for @vaultAddGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Group'**
+  String get vaultAddGroup;
+
+  /// No description provided for @vaultNewGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'New Group'**
+  String get vaultNewGroup;
+
+  /// No description provided for @vaultGroupName.
+  ///
+  /// In en, this message translates to:
+  /// **'Group name'**
+  String get vaultGroupName;
+
+  /// No description provided for @vaultNoResultsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No results found.'**
+  String get vaultNoResultsFound;
+
+  /// No description provided for @vaultNoPasswordsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No passwords yet.\nTap + to add one.'**
+  String get vaultNoPasswordsYet;
+
+  /// No description provided for @vaultNoNotesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No notes yet.\nTap + to add one.'**
+  String get vaultNoNotesYet;
+
+  /// No description provided for @vaultIsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Vault is empty.\nAdd a password or note.'**
+  String get vaultIsEmpty;
+
+  /// No description provided for @vaultPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get vaultPasswordLabel;
+
+  /// No description provided for @vaultNoteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get vaultNoteLabel;
+
+  /// No description provided for @vaultCopyingNotImplemented.
+  ///
+  /// In en, this message translates to:
+  /// **'Copying not fully implemented yet.'**
+  String get vaultCopyingNotImplemented;
+
+  /// No description provided for @vaultFailedToLoadItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load item'**
+  String get vaultFailedToLoadItem;
+
+  /// No description provided for @vaultSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search passwords & notes'**
+  String get vaultSearchHint;
+
+  /// No description provided for @vaultCreateYourVault.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Your Vault'**
+  String get vaultCreateYourVault;
+
+  /// No description provided for @vaultCreateDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Your vault encrypts all passwords and notes locally on your device.\nChoose a strong master password.'**
+  String get vaultCreateDescription;
+
+  /// No description provided for @vaultMasterPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Master Password'**
+  String get vaultMasterPassword;
+
+  /// No description provided for @vaultConfirmPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get vaultConfirmPassword;
+
+  /// No description provided for @vaultPasswordsDoNotMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get vaultPasswordsDoNotMatch;
+
+  /// No description provided for @vaultPasswordCannotBeReset.
+  ///
+  /// In en, this message translates to:
+  /// **'This password cannot be reset. If you forget it, your data will be permanently lost.'**
+  String get vaultPasswordCannotBeReset;
+
+  /// No description provided for @vaultCreateVault.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Vault'**
+  String get vaultCreateVault;
+
+  /// No description provided for @vaultFailedToCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to create vault: {failureType}'**
+  String vaultFailedToCreate(Object failureType);
+
+  /// No description provided for @vaultUnlockVault.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Vault'**
+  String get vaultUnlockVault;
+
+  /// No description provided for @vaultIncorrectPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect password'**
+  String get vaultIncorrectPassword;
+
+  /// No description provided for @vaultUnlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock'**
+  String get vaultUnlock;
+
+  /// No description provided for @vaultForgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot password? Your data is encrypted and cannot be recovered.'**
+  String get vaultForgotPassword;
+
+  /// No description provided for @vaultUnlockFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock failed: {failureType}'**
+  String vaultUnlockFailed(Object failureType);
+
+  /// No description provided for @vaultPasswordStrength.
+  ///
+  /// In en, this message translates to:
+  /// **'Password Strength'**
+  String get vaultPasswordStrength;
 }
 
 class _FuzzyChatLocalizationsDelegate extends LocalizationsDelegate<FuzzyChatLocalizations> {

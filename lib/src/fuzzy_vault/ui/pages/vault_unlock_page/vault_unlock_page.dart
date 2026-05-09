@@ -44,7 +44,7 @@ class _VaultUnlockPageState extends State<VaultUnlockPage> with SingleTickerProv
         if (state.failureType != null) {
           _shakeController.forward(from: 0);
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Unlock failed: ${state.failureType!.name}')),
+            SnackBar(content: Text(currentContextLocalization.vaultUnlockFailed(state.failureType!.name))),
           );
         }
       },
@@ -66,7 +66,7 @@ class _VaultUnlockPageState extends State<VaultUnlockPage> with SingleTickerProv
                   ),
                   const SizedBox(height: 24),
                   Text(
-                    'Unlock Vault',
+                    currentContextLocalization.vaultUnlockVault,
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: context.uiColors.primaryTextColor,
@@ -86,7 +86,7 @@ class _VaultUnlockPageState extends State<VaultUnlockPage> with SingleTickerProv
                     },
                     child: FuzzyTextField(
                       controller: _passwordController,
-                      labelText: 'Master Password',
+                      labelText: currentContextLocalization.vaultMasterPassword,
                       obscureText: !_isPasswordVisible,
                       onSubmitted: (_) => _onUnlock(),
                       suffixIcon: IconButton(
@@ -100,21 +100,21 @@ class _VaultUnlockPageState extends State<VaultUnlockPage> with SingleTickerProv
                   ),
                   if (state.failureType != null) ...[
                     const SizedBox(height: 8),
-                    const Text(
-                      'Incorrect password',
-                      style: TextStyle(color: Colors.red),
+                    Text(
+                      currentContextLocalization.vaultIncorrectPassword,
+                      style: const TextStyle(color: Colors.red),
                       textAlign: TextAlign.center,
                     ),
                   ],
                   const SizedBox(height: 40),
                   FuzzyButton(
-                    text: 'Unlock',
+                    text: currentContextLocalization.vaultUnlock,
                     isEnabled: _passwordController.text.isNotEmpty && !isLoading,
                     onTap: _passwordController.text.isNotEmpty && !isLoading ? _onUnlock : () {},
                   ),
                   const SizedBox(height: 40),
                   Text(
-                    'Forgot password? Your data is encrypted and cannot be recovered.',
+                    currentContextLocalization.vaultForgotPassword,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: context.uiColors.secondaryTextColor,
                     ),

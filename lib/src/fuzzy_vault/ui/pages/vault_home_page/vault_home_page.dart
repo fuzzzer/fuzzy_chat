@@ -15,86 +15,124 @@ class VaultHomePage extends StatefulWidget {
   State<VaultHomePage> createState() => _VaultHomePageState();
 }
 
-class _VaultHomePageState extends State<VaultHomePage> {
+class _VaultHomePageState extends State<VaultHomePage> with SingleTickerProviderStateMixin {
+  late final TabController _tabController;
+
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(_onTabChanged);
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<VaultItemsCubit>().loadItems();
       context.read<VaultGroupsCubit>().loadGroups();
     });
   }
 
-  void _showAddOptions(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: context.uiColors.secondaryColor,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (bottomSheetContext) {
-        return SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(height: 16),
-              Text(
-                'Add to Vault',
-                style: TextStyle(
-                  color: context.uiColors.primaryTextColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-              ),
-              const SizedBox(height: 16),
-              ListTile(
-                leading: Icon(Icons.key, color: context.uiColors.primaryColor),
-                title: Text('New Password', style: TextStyle(color: context.uiColors.primaryTextColor)),
-                onTap: () async {
-                  Navigator.pop(bottomSheetContext);
-                  await context.push(
-                    AppRouter.vaultItemEditor,
-                    extra: const VaultItemEditorPagePayload(type: VaultItemType.password),
-                  );
-                  if (context.mounted) await context.read<VaultItemsCubit>().loadItems();
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.notes, color: context.uiColors.primaryColor),
-                title: Text('New Secure Note', style: TextStyle(color: context.uiColors.primaryTextColor)),
-                onTap: () async {
-                  Navigator.pop(bottomSheetContext);
-                  await context.push(
-                    AppRouter.vaultItemEditor,
-                    extra: const VaultItemEditorPagePayload(type: VaultItemType.note),
-                  );
-                  if (context.mounted) await context.read<VaultItemsCubit>().loadItems();
-                },
-              ),
-              const SizedBox(height: 16),
-            ],
-          ),
-        );
-      },
-    );
+  void _onTabChanged() {
+    if (_tabController.indexIsChanging) return;
+    setState(() {});
   }
+
+  @override
+  void dispose() {
+    _tabController.removeListener(_onTabChanged);
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  VaultItemType get _activeType => _tabController.index == 0 ? VaultItemType.password : VaultItemType.note;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent, // Background handled by MainShellPage
-      body: const Column(
+      backgroundColor: Colors.transparent,
+      body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          VaultSearchBar(),
-          VaultGroupFilter(),
-          Expanded(child: VaultItemList()),
+          const VaultSearchBar(),
+          _VaultTabBar(controller: _tabController),
+          const VaultGroupFilter(),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: const [
+                VaultItemList(filterType: VaultItemType.password),
+                VaultItemList(filterType: VaultItemType.note),
+              ],
+            ),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _showAddOptions(context),
+        onPressed: () => _createItem(context),
         backgroundColor: context.uiColors.primaryColor,
         child: const Icon(Icons.add, color: Colors.white),
+      ),
+    );
+  }
+
+  Future<void> _createItem(BuildContext context) async {
+    await context.push(
+      AppRouter.vaultItemEditor,
+      extra: VaultItemEditorPagePayload(type: _activeType),
+    );
+    if (context.mounted) await context.read<VaultItemsCubit>().loadItems();
+  }
+}
+
+class _VaultTabBar extends StatelessWidget {
+  final TabController controller;
+
+  const _VaultTabBar({required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+      decoration: BoxDecoration(
+        color: context.uiColors.backgroundSecondaryColor,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: TabBar(
+        controller: controller,
+        indicator: BoxDecoration(
+          color: context.uiColors.primaryColor,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        indicatorSize: TabBarIndicatorSize.tab,
+        dividerColor: Colors.transparent,
+        labelColor: context.uiColors.backgroundPrimaryColor,
+        unselectedLabelColor: context.uiColors.secondaryTextColor,
+        labelStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+        unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.normal, fontSize: 14),
+        splashBorderRadius: BorderRadius.circular(10),
+        padding: const EdgeInsets.all(4),
+        tabs: [
+          Tab(
+            height: 36,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.key_rounded, size: 16),
+                const SizedBox(width: 6),
+                Text(currentContextLocalization.vaultPasswords),
+              ],
+            ),
+          ),
+          Tab(
+            height: 36,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.notes_rounded, size: 16),
+                const SizedBox(width: 6),
+                Text(currentContextLocalization.vaultNotes),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

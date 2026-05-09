@@ -16,7 +16,7 @@ class VaultCryptoRepository {
         return const VaultFailure(VaultFailureType.weakPassword);
       }
 
-      final salt = generateRandomSecureBytes(16);
+      final salt = generateRandomSecureBytes(24);
       final masterKey = await PasswordBasedEncryptionSevice.deriveKey(password, salt);
 
       final verificationTokenBytes = generateRandomSecureBytes(32);

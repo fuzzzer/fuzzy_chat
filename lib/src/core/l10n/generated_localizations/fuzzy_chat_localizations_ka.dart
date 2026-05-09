@@ -388,4 +388,128 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
 
   @override
   String get shareFile => 'ფაილის გაზიარება';
+
+  @override
+  String get vaultUntitled => 'უსათაურო';
+
+  @override
+  String get vaultNewPassword => 'ახალი პაროლი';
+
+  @override
+  String get vaultNewNote => 'ახალი ჩანაწერი';
+
+  @override
+  String get vaultEditItem => 'ელემენტის რედაქტირება';
+
+  @override
+  String get vaultTitle => 'სათაური';
+
+  @override
+  String get vaultUsernameEmail => 'მომხმარებელი / ელ-ფოსტა';
+
+  @override
+  String get vaultPassword => 'პაროლი';
+
+  @override
+  String get vaultUrlWebsite => 'URL (ვებგვერდი)';
+
+  @override
+  String get vaultNotesOptional => 'შენიშვნები (არასავალდებულო)';
+
+  @override
+  String get vaultSecureNote => 'დაცული ჩანაწერი';
+
+  @override
+  String get vaultSave => 'შენახვა';
+
+  @override
+  String get vaultPasswords => 'პაროლები';
+
+  @override
+  String get vaultNotes => 'ჩანაწერები';
+
+  @override
+  String get vaultAll => 'ყველა';
+
+  @override
+  String get vaultAddGroup => 'ჯგუფის დამატება';
+
+  @override
+  String get vaultNewGroup => 'ახალი ჯგუფი';
+
+  @override
+  String get vaultGroupName => 'ჯგუფის სახელი';
+
+  @override
+  String get vaultNoResultsFound => 'შედეგები ვერ მოიძებნა.';
+
+  @override
+  String get vaultNoPasswordsYet => 'პაროლები ჯერ არ არის.\nდასამატებლად დააჭირეთ +.';
+
+  @override
+  String get vaultNoNotesYet => 'ჩანაწერები ჯერ არ არის.\nდასამატებლად დააჭირეთ +.';
+
+  @override
+  String get vaultIsEmpty => 'საცავი ცარიელია.\nდაამატეთ პაროლი ან ჩანაწერი.';
+
+  @override
+  String get vaultPasswordLabel => 'პაროლი';
+
+  @override
+  String get vaultNoteLabel => 'ჩანაწერი';
+
+  @override
+  String get vaultCopyingNotImplemented => 'კოპირება ჯერ სრულად არ არის განხორციელებული.';
+
+  @override
+  String get vaultFailedToLoadItem => 'ელემენტის ჩატვირთვა ვერ მოხერხდა';
+
+  @override
+  String get vaultSearchHint => 'პაროლების და ჩანაწერების ძიება';
+
+  @override
+  String get vaultCreateYourVault => 'შექმენით თქვენი საცავი';
+
+  @override
+  String get vaultCreateDescription => 'თქვენი საცავი ყველა პაროლსა და ჩანაწერს ლოკალურად შიფრავს თქვენს მოწყობილობაზე.\nაირჩიეთ ძლიერი მთავარი პაროლი.';
+
+  @override
+  String get vaultMasterPassword => 'მთავარი პაროლი';
+
+  @override
+  String get vaultConfirmPassword => 'პაროლის დადასტურება';
+
+  @override
+  String get vaultPasswordsDoNotMatch => 'პაროლები არ ემთხვევა';
+
+  @override
+  String get vaultPasswordCannotBeReset => 'ეს პაროლი აღდგენადი არ არის. თუ დაგავიწყდათ, თქვენი მონაცემები სამუდამოდ დაიკარგება.';
+
+  @override
+  String get vaultCreateVault => 'საცავის შექმნა';
+
+  @override
+  String vaultFailedToCreate(Object failureType) {
+    return 'საცავის შექმნა ვერ მოხერხდა: $failureType';
+  }
+
+  @override
+  String get vaultUnlockVault => 'საცავის განბლოკვა';
+
+  @override
+  String get vaultIncorrectPassword => 'არასწორი პაროლი';
+
+  @override
+  String get vaultUnlock => 'განბლოკვა';
+
+  @override
+  String get vaultForgotPassword => 'დაგავიწყდათ პაროლი? თქვენი მონაცემები დაშიფრულია და აღდგენა შეუძლებელია.';
+
+  @override
+  String vaultUnlockFailed(Object failureType) {
+    return 'განბლოკვა ვერ მოხერხდა: $failureType';
+  }
+
+  @override
+  String get vaultPasswordStrength => 'პაროლის სიძლიერე';
 }

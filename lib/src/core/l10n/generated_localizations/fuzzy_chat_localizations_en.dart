@@ -388,4 +388,128 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
 
   @override
   String get shareFile => 'Share File';
+
+  @override
+  String get vaultUntitled => 'Untitled';
+
+  @override
+  String get vaultNewPassword => 'New Password';
+
+  @override
+  String get vaultNewNote => 'New Note';
+
+  @override
+  String get vaultEditItem => 'Edit Item';
+
+  @override
+  String get vaultTitle => 'Title';
+
+  @override
+  String get vaultUsernameEmail => 'Username / Email';
+
+  @override
+  String get vaultPassword => 'Password';
+
+  @override
+  String get vaultUrlWebsite => 'URL (Website)';
+
+  @override
+  String get vaultNotesOptional => 'Notes (Optional)';
+
+  @override
+  String get vaultSecureNote => 'Secure Note';
+
+  @override
+  String get vaultSave => 'Save';
+
+  @override
+  String get vaultPasswords => 'Passwords';
+
+  @override
+  String get vaultNotes => 'Notes';
+
+  @override
+  String get vaultAll => 'All';
+
+  @override
+  String get vaultAddGroup => 'Add Group';
+
+  @override
+  String get vaultNewGroup => 'New Group';
+
+  @override
+  String get vaultGroupName => 'Group name';
+
+  @override
+  String get vaultNoResultsFound => 'No results found.';
+
+  @override
+  String get vaultNoPasswordsYet => 'No passwords yet.\nTap + to add one.';
+
+  @override
+  String get vaultNoNotesYet => 'No notes yet.\nTap + to add one.';
+
+  @override
+  String get vaultIsEmpty => 'Vault is empty.\nAdd a password or note.';
+
+  @override
+  String get vaultPasswordLabel => 'Password';
+
+  @override
+  String get vaultNoteLabel => 'Note';
+
+  @override
+  String get vaultCopyingNotImplemented => 'Copying not fully implemented yet.';
+
+  @override
+  String get vaultFailedToLoadItem => 'Failed to load item';
+
+  @override
+  String get vaultSearchHint => 'Search passwords & notes';
+
+  @override
+  String get vaultCreateYourVault => 'Create Your Vault';
+
+  @override
+  String get vaultCreateDescription => 'Your vault encrypts all passwords and notes locally on your device.\nChoose a strong master password.';
+
+  @override
+  String get vaultMasterPassword => 'Master Password';
+
+  @override
+  String get vaultConfirmPassword => 'Confirm Password';
+
+  @override
+  String get vaultPasswordsDoNotMatch => 'Passwords do not match';
+
+  @override
+  String get vaultPasswordCannotBeReset => 'This password cannot be reset. If you forget it, your data will be permanently lost.';
+
+  @override
+  String get vaultCreateVault => 'Create Vault';
+
+  @override
+  String vaultFailedToCreate(Object failureType) {
+    return 'Failed to create vault: $failureType';
+  }
+
+  @override
+  String get vaultUnlockVault => 'Unlock Vault';
+
+  @override
+  String get vaultIncorrectPassword => 'Incorrect password';
+
+  @override
+  String get vaultUnlock => 'Unlock';
+
+  @override
+  String get vaultForgotPassword => 'Forgot password? Your data is encrypted and cannot be recovered.';
+
+  @override
+  String vaultUnlockFailed(Object failureType) {
+    return 'Unlock failed: $failureType';
+  }
+
+  @override
+  String get vaultPasswordStrength => 'Password Strength';
 }

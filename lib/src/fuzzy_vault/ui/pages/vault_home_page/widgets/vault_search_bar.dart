@@ -10,7 +10,7 @@ class VaultSearchBar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
       child: FuzzyTextField(
-        labelText: 'Search passwords & notes',
+        labelText: currentContextLocalization.vaultSearchHint,
         suffixIcon: const Icon(Icons.search),
         onChanged: (query) {
           context.read<VaultSearchCubit>().updateQuery(query);
