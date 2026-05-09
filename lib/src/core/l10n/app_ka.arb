@@ -471,5 +471,7 @@
   "chatAuthNewPassword": "ახალი პაროლი",
   "@chatAuthNewPassword": {},
   "chatAuthEnterPassword": "გთხოვთ შეიყვანოთ მიმდინარე პაროლი",
-  "@chatAuthEnterPassword": {}
+  "@chatAuthEnterPassword": {},
+  "vaultFileSaveWarning": "⚠️ ორიგინალი ფაილი არ იშლება ავტომატურად. შენახვის შემდეგ ფაილი რჩება მოწყობილობაზე. გთხოვთ წაშალოთ ის უსაფრთხოების მიზნით.",
+  "@vaultFileSaveWarning": {}
 }

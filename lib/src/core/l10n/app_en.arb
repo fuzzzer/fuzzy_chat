@@ -471,5 +471,7 @@
   "chatAuthNewPassword": "New Password",
   "@chatAuthNewPassword": {},
   "chatAuthEnterPassword": "Please enter your current password",
-  "@chatAuthEnterPassword": {}
+  "@chatAuthEnterPassword": {},
+  "vaultFileSaveWarning": "⚠️ The original file is NOT auto-deleted. After a successful save, the user's source file remains on disk untouched. The app currently doesn't warn about this.",
+  "@vaultFileSaveWarning": {}
 }
