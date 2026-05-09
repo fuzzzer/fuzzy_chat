@@ -15,7 +15,7 @@ class GlobalBlocProviders extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<FuzzyAuthStore>.value(
-          value: sl.get<FuzzyAuthStore>(),
+          value: sl.get<FuzzyAuthStore>()..checkAuthStatus(),
         ),
         BlocProvider<LocalizationCubit>(
           create: (_) => LocalizationCubit(),

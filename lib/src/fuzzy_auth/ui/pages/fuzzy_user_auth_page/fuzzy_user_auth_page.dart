@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/lib.dart';
 
-export 'widgets/widgets.dart';
-
 class FuzzyUserAuthPage extends StatelessWidget {
   const FuzzyUserAuthPage({super.key});
 
@@ -11,45 +9,503 @@ class FuzzyUserAuthPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<FuzzyUserAuthPreferencesCubit>(
       create: (context) => FuzzyUserAuthPreferencesCubit(
-        // TODO: Ensure repository is available via your service locator (like sl.get())
-        userAuthPreferencesRepository: sl.get<UserAuthPreferencesRepository>(),
-      )..getUserAuthPreferences(),
-      child: const _ProvidedFuzzyUserAuthPage(),
+        chatAuthRepository: sl.get<ChatAuthRepository>(),
+        chatGeneralDataListRepository: sl.get<ChatGeneralDataListRepository>(),
+        keyStorageRepository: sl.get<KeyStorageRepository>(),
+        fuzzyAuthStore: sl.get<FuzzyAuthStore>(),
+        biometricAuthRepository: sl.get<BiometricAuthRepository>(),
+      ),
+      child: const _FuzzyUserAuthPageContent(),
     );
   }
 }
 
-class _ProvidedFuzzyUserAuthPage extends StatelessWidget {
-  const _ProvidedFuzzyUserAuthPage();
+class _FuzzyUserAuthPageContent extends StatefulWidget {
+  const _FuzzyUserAuthPageContent();
+
+  @override
+  State<_FuzzyUserAuthPageContent> createState() => _FuzzyUserAuthPageContentState();
+}
+
+class _FuzzyUserAuthPageContentState extends State<_FuzzyUserAuthPageContent> {
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+  final _oldPasswordController = TextEditingController();
+  bool _isPasswordVisible = false;
+  bool _showMismatchError = false;
+
+  @override
+  void dispose() {
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    _oldPasswordController.dispose();
+    super.dispose();
+  }
+
+  void _clearFields() {
+    _passwordController.clear();
+    _confirmPasswordController.clear();
+    _oldPasswordController.clear();
+    setState(() {
+      _showMismatchError = false;
+    });
+  }
+
+  void _togglePasswordVisibility() {
+    setState(() => _isPasswordVisible = !_isPasswordVisible);
+  }
+
+  void _onEnableAuth() {
+    final password = _passwordController.text;
+    final confirm = _confirmPasswordController.text;
+
+    if (password.isEmpty) return;
+
+    if (password != confirm) {
+      setState(() => _showMismatchError = true);
+      return;
+    }
+
+    setState(() => _showMismatchError = false);
+    context.read<FuzzyUserAuthPreferencesCubit>().enableAuth(password);
+  }
+
+  void _onChangePassword() {
+    final oldPassword = _oldPasswordController.text;
+    final newPassword = _passwordController.text;
+    final confirm = _confirmPasswordController.text;
+
+    if (oldPassword.isEmpty || newPassword.isEmpty) return;
+
+    if (newPassword != confirm) {
+      setState(() => _showMismatchError = true);
+      return;
+    }
+
+    setState(() => _showMismatchError = false);
+    context.read<FuzzyUserAuthPreferencesCubit>().changePassword(
+          oldPassword: oldPassword,
+          newPassword: newPassword,
+        );
+  }
+
+  void _onDisableAuth() {
+    final oldPassword = _oldPasswordController.text;
+    if (oldPassword.isEmpty) return;
+
+    context.read<FuzzyUserAuthPreferencesCubit>().disableAuth(oldPassword);
+  }
+
+  void _onEnableBiometric() {
+    final oldPassword = _oldPasswordController.text;
+    if (oldPassword.isEmpty) return;
+
+    context.read<FuzzyUserAuthPreferencesCubit>().enableBiometric(oldPassword);
+  }
+
+  void _onDisableBiometric() {
+    context.read<FuzzyUserAuthPreferencesCubit>().disableBiometric();
+  }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Replace with your actual UI components like FuzzyScaffold
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(currentContextLocalization.fuzzyUserAuth),
-      ),
-      body: BlocBuilder<FuzzyUserAuthPreferencesCubit, FuzzyUserAuthPreferencesState>(
-        builder: (context, state) {
-          return StatusBuilder.buildByStatus(
-            status: state.checkCurrentAuthPreferencesStatus,
-            onInitial: DefaultLoadingWidget.new,
-            onLoading: DefaultLoadingWidget.new,
-            onSuccess: () {
-              if (state.currentAuthPreferences == null) {
-                return const FuzzyUserAuthEmptyContent();
-              }
-              return FuzzyUserAuthLoadedContent(
-                item: state.currentAuthPreferences!,
-              );
-            },
-            onFailure: () => Center(
-              child: Text(
-                currentContextLocalization.authError(state.checkCurrentAuthPreferencesFailure?.message ?? currentContextLocalization.unknownError),
+    final theme = Theme.of(context);
+    final uiColors = theme.extension<UiColors>()!;
+    final localizations = context.fuzzyChatLocalizations;
+    final authStatus = context.watch<FuzzyAuthStore>().state.status;
+    final isAuthEnabled = authStatus.isAuthenticated || authStatus.isLocked;
+
+    return BlocConsumer<FuzzyUserAuthPreferencesCubit, FuzzyUserAuthPreferencesState>(
+      listener: (context, state) {
+        if (state.activationStatus == StateStatus.success) {
+          _clearFields();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(localizations.chatAuthEnabled)),
+          );
+        } else if (state.activationStatus == StateStatus.failed) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                state.activationFailure?.message ?? localizations.unknownError,
               ),
             ),
           );
-        },
+        }
+      },
+      builder: (context, state) {
+        final isLoading = state.activationStatus == StateStatus.loading;
+
+        return Stack(
+          children: [
+            FuzzyScaffold(
+              body: CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: FuzzyHeader(title: localizations.chatAuthSetupTitle),
+                  ),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            localizations.chatAuthProtectionDescription,
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: uiColors.secondaryTextColor,
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+                          if (isAuthEnabled) ...[
+                            _ChangePasswordSection(
+                              passwordController: _passwordController,
+                              confirmPasswordController: _confirmPasswordController,
+                              oldPasswordController: _oldPasswordController,
+                              isPasswordVisible: _isPasswordVisible,
+                              showMismatchError: _showMismatchError,
+                              onTogglePasswordVisibility: _togglePasswordVisibility,
+                              onChangePassword: _onChangePassword,
+                              onDisableAuth: _onDisableAuth,
+                            ),
+                            const SizedBox(height: 16),
+                            _BiometricSection(
+                              onEnableBiometric: _onEnableBiometric,
+                              onDisableBiometric: _onDisableBiometric,
+                            ),
+                          ] else
+                            _SetupPasswordSection(
+                              passwordController: _passwordController,
+                              confirmPasswordController: _confirmPasswordController,
+                              isPasswordVisible: _isPasswordVisible,
+                              showMismatchError: _showMismatchError,
+                              onTogglePasswordVisibility: _togglePasswordVisibility,
+                              onEnableAuth: _onEnableAuth,
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (isLoading)
+              Positioned.fill(
+                child: ColoredBox(
+                  color: Colors.black54,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const CircularProgressIndicator(),
+                      const SizedBox(height: 16),
+                      Text(
+                        localizations.chatAuthMigratingKeys,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _SetupPasswordSection extends StatelessWidget {
+  const _SetupPasswordSection({
+    required this.passwordController,
+    required this.confirmPasswordController,
+    required this.isPasswordVisible,
+    required this.showMismatchError,
+    required this.onTogglePasswordVisibility,
+    required this.onEnableAuth,
+  });
+
+  final TextEditingController passwordController;
+  final TextEditingController confirmPasswordController;
+  final bool isPasswordVisible;
+  final bool showMismatchError;
+  final VoidCallback onTogglePasswordVisibility;
+  final VoidCallback onEnableAuth;
+
+  @override
+  Widget build(BuildContext context) {
+    final localizations = context.fuzzyChatLocalizations;
+
+    return BlocBuilder<FuzzyUserAuthPreferencesCubit, FuzzyUserAuthPreferencesState>(
+      builder: (context, state) {
+        final isLoading = state.activationStatus == StateStatus.loading;
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            FuzzyTextField(
+              controller: passwordController,
+              labelText: localizations.chatAuthPassword,
+              obscureText: !isPasswordVisible,
+              suffixIcon: _PasswordVisibilityToggle(
+                isVisible: isPasswordVisible,
+                onPressed: onTogglePasswordVisibility,
+              ),
+            ),
+            const SizedBox(height: 12),
+            FuzzyTextField(
+              controller: confirmPasswordController,
+              labelText: localizations.chatAuthConfirmPassword,
+              obscureText: !isPasswordVisible,
+              onSubmitted: (_) => onEnableAuth(),
+            ),
+            if (showMismatchError) ...[
+              const SizedBox(height: 8),
+              Text(
+                localizations.chatAuthPasswordsDoNotMatch,
+                style: const TextStyle(color: Colors.red),
+              ),
+            ],
+            const SizedBox(height: 24),
+            FuzzyButton(
+              text: localizations.chatAuthEnableProtection,
+              isEnabled: !isLoading,
+              onTap: !isLoading ? onEnableAuth : () {},
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _ChangePasswordSection extends StatelessWidget {
+  const _ChangePasswordSection({
+    required this.passwordController,
+    required this.confirmPasswordController,
+    required this.oldPasswordController,
+    required this.isPasswordVisible,
+    required this.showMismatchError,
+    required this.onTogglePasswordVisibility,
+    required this.onChangePassword,
+    required this.onDisableAuth,
+  });
+
+  final TextEditingController passwordController;
+  final TextEditingController confirmPasswordController;
+  final TextEditingController oldPasswordController;
+  final bool isPasswordVisible;
+  final bool showMismatchError;
+  final VoidCallback onTogglePasswordVisibility;
+  final VoidCallback onChangePassword;
+  final VoidCallback onDisableAuth;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final uiColors = theme.extension<UiColors>()!;
+    final uiTextStyles = theme.extension<UiTextStyles>()!;
+    final localizations = context.fuzzyChatLocalizations;
+
+    return BlocBuilder<FuzzyUserAuthPreferencesCubit, FuzzyUserAuthPreferencesState>(
+      builder: (context, state) {
+        final isLoading = state.activationStatus == StateStatus.loading;
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _StatusBadge(
+              text: localizations.chatAuthEnabled,
+              color: uiColors.focusColor,
+              uiTextStyles: uiTextStyles,
+            ),
+            const SizedBox(height: 24),
+            FuzzyTextField(
+              controller: oldPasswordController,
+              labelText: localizations.vaultMasterPassword,
+              obscureText: !isPasswordVisible,
+            ),
+            const SizedBox(height: 12),
+            FuzzyTextField(
+              controller: passwordController,
+              labelText: localizations.chatAuthPassword,
+              obscureText: !isPasswordVisible,
+              suffixIcon: _PasswordVisibilityToggle(
+                isVisible: isPasswordVisible,
+                onPressed: onTogglePasswordVisibility,
+              ),
+            ),
+            const SizedBox(height: 12),
+            FuzzyTextField(
+              controller: confirmPasswordController,
+              labelText: localizations.chatAuthConfirmPassword,
+              obscureText: !isPasswordVisible,
+              onSubmitted: (_) => onChangePassword(),
+            ),
+            if (showMismatchError) ...[
+              const SizedBox(height: 8),
+              Text(
+                localizations.chatAuthPasswordsDoNotMatch,
+                style: const TextStyle(color: Colors.red),
+              ),
+            ],
+            const SizedBox(height: 24),
+            FuzzyButton(
+              text: localizations.chatAuthSetPassword,
+              isEnabled: !isLoading,
+              onTap: !isLoading ? onChangePassword : () {},
+            ),
+            const SizedBox(height: 12),
+            FuzzyButton(
+              text: localizations.chatAuthDisableProtection,
+              isEnabled: !isLoading,
+              onTap: !isLoading ? onDisableAuth : () {},
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _PasswordVisibilityToggle extends StatelessWidget {
+  const _PasswordVisibilityToggle({
+    required this.isVisible,
+    required this.onPressed,
+  });
+
+  final bool isVisible;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Icon(
+        isVisible ? Icons.visibility_off : Icons.visibility,
+        color: context.uiColors.secondaryTextColor,
+      ),
+      onPressed: onPressed,
+    );
+  }
+}
+
+class _BiometricSection extends StatefulWidget {
+  const _BiometricSection({
+    required this.onEnableBiometric,
+    required this.onDisableBiometric,
+  });
+
+  final VoidCallback onEnableBiometric;
+  final VoidCallback onDisableBiometric;
+
+  @override
+  State<_BiometricSection> createState() => _BiometricSectionState();
+}
+
+class _BiometricSectionState extends State<_BiometricSection> {
+  bool? _canUseBiometrics;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkAvailability();
+  }
+
+  Future<void> _checkAvailability() async {
+    final canUse = await sl.get<BiometricAuthRepository>().canUseBiometrics();
+    if (!mounted) return;
+    setState(() => _canUseBiometrics = canUse);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final uiColors = theme.extension<UiColors>()!;
+    final uiTextStyles = theme.extension<UiTextStyles>()!;
+    final localizations = context.fuzzyChatLocalizations;
+    final biometricEnabled = context.watch<FuzzyAuthStore>().state.biometricEnabled;
+    final canUse = _canUseBiometrics;
+
+    return BlocBuilder<FuzzyUserAuthPreferencesCubit, FuzzyUserAuthPreferencesState>(
+      builder: (context, state) {
+        final isLoading = state.activationStatus == StateStatus.loading;
+
+        if (canUse == false) {
+          return Text(
+            localizations.chatAuthBiometricUnavailable,
+            style: theme.textTheme.bodySmall?.copyWith(color: uiColors.secondaryTextColor),
+          );
+        }
+
+        if (canUse == null) {
+          return const SizedBox.shrink();
+        }
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (biometricEnabled) ...[
+              _StatusBadge(
+                text: localizations.chatAuthBiometricEnabled,
+                color: uiColors.focusColor,
+                uiTextStyles: uiTextStyles,
+              ),
+              const SizedBox(height: 12),
+              FuzzyButton(
+                text: localizations.chatAuthBiometricDisable,
+                isEnabled: !isLoading,
+                onTap: !isLoading ? widget.onDisableBiometric : () {},
+              ),
+            ] else ...[
+              Text(
+                localizations.chatAuthBiometricDescription,
+                style: theme.textTheme.bodySmall?.copyWith(color: uiColors.secondaryTextColor),
+              ),
+              const SizedBox(height: 12),
+              FuzzyButton(
+                text: localizations.chatAuthBiometricEnable,
+                isEnabled: !isLoading,
+                onTap: !isLoading ? widget.onEnableBiometric : () {},
+              ),
+            ],
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _StatusBadge extends StatelessWidget {
+  const _StatusBadge({
+    required this.text,
+    required this.color,
+    required this.uiTextStyles,
+  });
+
+  final String text;
+  final Color color;
+  final UiTextStyles uiTextStyles;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.12),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: color.withOpacity(0.3)),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.shield, color: color, size: 20),
+          const SizedBox(width: 10),
+          Text(
+            text,
+            style: uiTextStyles.body16.copyWith(
+              color: color,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
       ),
     );
   }

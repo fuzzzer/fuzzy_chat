@@ -555,4 +555,106 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
 
   @override
   String get processingFailed => 'დამუშავება ვერ მოხერხდა';
+
+  @override
+  String get chatUnlockTitle => 'Fuzzy Chat-ის განბლოკვა';
+
+  @override
+  String get chatUnlockSubtitle => 'ჩატებზე წვდომისთვის შეიყვანეთ პაროლი.';
+
+  @override
+  String get chatAuthPassword => 'პაროლი';
+
+  @override
+  String get chatAuthIncorrectPassword => 'არასწორი პაროლი';
+
+  @override
+  String get chatAuthUnlock => 'განბლოკვა';
+
+  @override
+  String get chatAuthForgotPassword => 'დაგავიწყდათ პაროლი? თქვენი დაშიფრული მონაცემების აღდგენა მის გარეშე შეუძლებელია.';
+
+  @override
+  String get chatAuthSetupTitle => 'ჩატების დაცვა';
+
+  @override
+  String get chatAuthSetupDescription => 'დააყენეთ პაროლი ჩატის გასაღებების დასაშიფრად. ეს თქვენს საუბრებს დამატებით დაცვას მისცემს.';
+
+  @override
+  String get chatAuthSetPassword => 'პაროლის დაყენება';
+
+  @override
+  String get chatAuthConfirmPassword => 'პაროლის დადასტურება';
+
+  @override
+  String get chatAuthPasswordsDoNotMatch => 'პაროლები არ ემთხვევა';
+
+  @override
+  String get chatAuthEnabled => 'ჩატის დაცვა ჩართულია';
+
+  @override
+  String get chatAuthDisabled => 'ჩატის დაცვა გამორთულია';
+
+  @override
+  String get chatAuthEnableProtection => 'ჩატის დაცვის ჩართვა';
+
+  @override
+  String get chatAuthDisableProtection => 'ჩატის დაცვის გამორთვა';
+
+  @override
+  String get chatAuthProtectionDescription => 'ჩართვის შემთხვევაში, ჩატებზე წვდომისთვის პაროლის შეყვანა მოგეთხოვებათ. თქვენი გასაღებები ამ პაროლით იქნება დაშიფრული.';
+
+  @override
+  String get chatAuthMigratingKeys => 'გასაღებების დაშიფვრა...';
+
+  @override
+  String get chatAuthentication => 'ჩატის ავთენტიფიკაცია';
+
+  @override
+  String get chatAuthenticationDescription => 'ჩატის პაროლით დაცვის მართვა';
+
+  @override
+  String get chatAuthBiometricUnlock => 'განბლოკვა ბიომეტრიით';
+
+  @override
+  String get chatAuthBiometricEnable => 'ბიომეტრიული განბლოკვის ჩართვა';
+
+  @override
+  String get chatAuthBiometricDisable => 'ბიომეტრიული განბლოკვის გამორთვა';
+
+  @override
+  String get chatAuthBiometricEnabled => 'ბიომეტრიული განბლოკვა ჩართულია';
+
+  @override
+  String get chatAuthBiometricDescription => 'შეიყვანეთ პაროლი დასტურისთვის, შემდეგ განბლოკეთ თითის ანაბეჭდით ან Face ID-ით.';
+
+  @override
+  String get chatAuthBiometricUnavailable => 'ბიომეტრიული ავთენტიფიკაცია ამ მოწყობილობაზე მიუწვდომელია.';
+
+  @override
+  String get chatAuthBiometricFailed => 'ბიომეტრიული ავთენტიფიკაცია ვერ მოხერხდა.';
+
+  @override
+  String get vaultBiometricUnlock => 'განბლოკვა ბიომეტრიით';
+
+  @override
+  String get vaultBiometricEnable => 'ბიომეტრიული განბლოკვის ჩართვა';
+
+  @override
+  String get vaultBiometricDisable => 'ბიომეტრიული განბლოკვის გამორთვა';
+
+  @override
+  String get vaultBiometricEnabled => 'ბიომეტრიული განბლოკვა ჩართულია';
+
+  @override
+  String get vaultBiometricDescription => 'ბიომეტრიული განბლოკვის ჩასართავად დაადასტურეთ მთავარი პაროლი.';
+
+  @override
+  String get vaultBiometricUnavailable => 'ბიომეტრიული ავთენტიფიკაცია ამ მოწყობილობაზე მიუწვდომელია.';
+
+  @override
+  String get vaultBiometricSettings => 'ბიომეტრიის პარამეტრები';
+
+  @override
+  String get vaultBiometricInvalidPassword => 'არასწორი მთავარი პაროლი.';
 }

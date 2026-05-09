@@ -50,13 +50,27 @@ class DependencyInjection {
 
     sl.safeRegisterSingleton<FuzzyLinkService>(FuzzyLinkService());
 
-    sl.safeRegisterSingleton<FuzzyAuthStore>(FuzzyAuthStore());
-
     sl.safeRegisterSingleton<UserAuthPreferencesRepository>(
       UserAuthPreferencesRepository(localDataSource: UserAuthPreferencesLocalDataSource(isar: sl.get())),
     );
 
+    sl.safeRegisterSingleton<ChatAuthRepository>(
+      ChatAuthRepository(
+        userAuthPreferencesRepository: sl.get<UserAuthPreferencesRepository>(),
+      ),
+    );
+
+    sl.safeRegisterSingleton<BiometricAuthRepository>(BiometricAuthRepository());
+
+    sl.safeRegisterSingleton<FuzzyAuthStore>(
+      FuzzyAuthStore(
+        chatAuthRepository: sl.get<ChatAuthRepository>(),
+        biometricAuthRepository: sl.get<BiometricAuthRepository>(),
+      ),
+    );
+
     sl.safeRegisterSingleton<KeyStorageRepository>(KeyStorageRepository());
+    await sl.get<KeyStorageRepository>().recoverStagedMigration();
 
     sl.safeRegisterSingleton<ChatGeneralDataListRepository>(
       ChatGeneralDataListRepository(localDataSource: ChatGeneralDataLocalDataSource(isar: sl.get())),
@@ -71,7 +85,6 @@ class DependencyInjection {
         linkService: sl.get<FuzzyLinkService>(),
         chatRepository: sl.get<ChatGeneralDataListRepository>(),
         authStore: sl.get<FuzzyAuthStore>(),
-        userAuthPreferencesRepository: sl.get<UserAuthPreferencesRepository>(),
       ),
     );
 
@@ -120,6 +133,7 @@ class DependencyInjection {
       VaultAuthCubit(
         vaultRepository: sl.get<VaultRepository>(),
         cryptoRepository: sl.get<VaultCryptoRepository>(),
+        biometricAuthRepository: sl.get<BiometricAuthRepository>(),
       ),
     );
 

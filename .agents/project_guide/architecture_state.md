@@ -20,9 +20,11 @@
 - [x] **Settings** — `ui/pages/settings_page/`
 
 ### fuzzy_auth/ (Auth Feature)
-- [x] **User Auth Preferences** — `bloc/fuzzy_user_auth_preferences_cubit/`
-- [x] **Auth Store** — `bloc/fuzzy_auth_store/`
-- [x] **Auth Page** — `ui/pages/fuzzy_user_auth_page/`
+- [x] **User Auth Preferences** — `bloc/fuzzy_user_auth_preferences_cubit/` (enable/change/disable chat password protection)
+- [x] **Auth Store** — `bloc/fuzzy_auth_store/` (5-state session lifecycle: `initial`, `noAuthRequired`, `locked`, `unlocking`, `authenticated`)
+- [x] **Auth Settings Page** — `ui/pages/fuzzy_user_auth_page/`
+- [x] **Chat Unlock Page** — `ui/pages/chat_unlock_page/`
+- [x] **Chat Auth Repository** — `data/repositories/chat_auth_repository.dart` (salt + AES-encrypted verification token in `FlutterSecureStorage`)
 
 ### fuzzy_basics/ (Standalone Encryption)
 - [x] **Basic Encryption** — `bloc/basic_encryption_cubit/`, `ui/pages/basic_encryption_page/`
@@ -79,6 +81,7 @@
 | `MessageDataRepository` | fuzzy_chat | `lib/src/fuzzy_chat/data/repositories/message_data_repository/` |
 | `ChatPreferencesRepository` | fuzzy_chat | `lib/src/fuzzy_chat/storage/local_data_sources/chat_preferences_repository.dart` |
 | `UserAuthPreferencesRepository` | fuzzy_auth | `lib/src/fuzzy_auth/data/repositories/user_auth_preferences_repository.dart` |
+| `ChatAuthRepository` | fuzzy_auth | `lib/src/fuzzy_auth/data/repositories/chat_auth_repository.dart` |
 
 ---
 
@@ -97,7 +100,17 @@ Router instance is cached at `AppRouter.routerInstance` for access from non-widg
 | `chatConnected` | `/chat/connected` | `ConnectedChatPage` | `ConnectedChatPagePayload` |
 | `settings` | `/settings` | `SettingsPage` | — |
 | `auth` | `/auth` | `FuzzyUserAuthPage` | — |
+| `chatUnlock` | `/chat-unlock` | `ChatUnlockPage` | — |
 | `basics` | `/basics` | `BasicEncryptionPage` | — |
+
+### Chat Authentication Gate
+- **Optional password protection** for chat routes; vault has its own independent password.
+- `ChatAuthRepository.setupPassword()` writes a random salt + AES-encrypted verification token to `FlutterSecureStorage`. The password itself is never persisted.
+- `FuzzyAuthStore.checkAuthStatus()` runs at startup → `locked` if a token exists, otherwise `noAuthRequired`.
+- `AppRouter.redirect()` sends any chat route → `/chat-unlock` while `state.status.isLocked`.
+- `KeyStorageRepository` reads the live password from `FuzzyAuthStore.state.authData.password`. When auth is disabled, the password is `''` (PBE with empty password — trivially reversible by design).
+- Password change runs `KeyStorageRepository.reencryptAllKeys()` as a two-phase commit (`staged_*` keys → flip status flag → overwrite originals → cleanup). `recoverStagedMigration()` is invoked from DI startup to roll forward after a crash.
+- `FuzzyUserAuthPreferencesCubit` orchestrates `enableAuth`, `changePassword`, and `disableAuth` — each operates on the full chat-id list so every key is migrated atomically.
 
 ### Deep Link Flow (FuzzyLink)
 1. `FuzzyLinkListener` wraps `MaterialApp.router`, initializes `FuzzyLinkHandler` on mount.

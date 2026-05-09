@@ -72,12 +72,28 @@ class GlobalBlocListeners extends StatelessWidget {
           },
         ),
         BlocListener<FuzzyAuthStore, FuzzyAuthState>(
-          listenWhen: (previous, current) =>
-              previous.status.isInitial && current.status.isAuthenticated,
-          listener: (_, __) {
+          listenWhen: (previous, current) => !previous.status.hasAccess && current.status.hasAccess,
+          listener: (context, __) {
+            final router = AppRouter.routerInstance;
+            if (router != null) {
+              final currentLocation = router.routerDelegate.currentConfiguration.uri.toString();
+              if (currentLocation == AppRouter.chatUnlock) {
+                router.go(AppRouter.home);
+              }
+            }
+
             final handler = sl.get<FuzzyLinkHandler>();
             if (handler.hasPendingPayload) {
               handler.processPendingPayload();
+            }
+          },
+        ),
+        BlocListener<FuzzyAuthStore, FuzzyAuthState>(
+          listenWhen: (previous, current) => !previous.status.isLocked && current.status.isLocked,
+          listener: (context, __) {
+            final router = AppRouter.routerInstance;
+            if (router != null) {
+              router.go(AppRouter.chatUnlock);
             }
           },
         ),

@@ -7,6 +7,7 @@ class AppRouter {
 
   static const home = '/';
   static const onboarding = '/onboarding';
+  static const chatUnlock = '/chat-unlock';
   static const chatCreate = '/chat/create';
   static const chatInvitation = '/chat/invitation';
   static const chatAccept = '/chat/accept';
@@ -18,10 +19,16 @@ class AppRouter {
   static const vaultHome = '/vault';
   static const vaultItemEditor = '/vault/editor';
 
-  /// Cached router instance for access from [FuzzyLinkHandler].
+  static const _unprotectedRoutes = {
+    onboarding,
+    chatUnlock,
+    settings,
+    auth,
+    basics,
+  };
+
   static GoRouter? _routerInstance;
 
-  /// Returns the cached [GoRouter] instance. Null before [router] is called.
   static GoRouter? get routerInstance => _routerInstance;
 
   static final _shellNavigatorKey = GlobalKey<NavigatorState>();
@@ -38,7 +45,20 @@ class AppRouter {
         final isOnboarding = state.matchedLocation == onboarding;
 
         if (!hasSeenOnboarding && !isOnboarding) return onboarding;
-        if (hasSeenOnboarding && isOnboarding) return AppRouter.home; // Default to home if coming from onboarding
+        if (hasSeenOnboarding && isOnboarding) return AppRouter.home;
+
+        final authStatus = sl.get<FuzzyAuthStore>().state.status;
+        final matchedLocation = state.matchedLocation;
+        final isUnprotected = _unprotectedRoutes.contains(matchedLocation);
+
+        if (!isUnprotected && authStatus.isLocked) {
+          return chatUnlock;
+        }
+
+        if (matchedLocation == chatUnlock && authStatus.hasAccess) {
+          return AppRouter.home;
+        }
+
         return null;
       },
       routes: [
@@ -70,6 +90,10 @@ class AppRouter {
         GoRoute(
           path: onboarding,
           builder: (_, __) => const OnboardingPage(),
+        ),
+        GoRoute(
+          path: chatUnlock,
+          builder: (_, __) => const ChatUnlockPage(),
         ),
         GoRoute(
           path: chatCreate,

@@ -8,16 +8,13 @@ class FuzzyLinkHandler {
     required FuzzyLinkService linkService,
     required ChatGeneralDataListRepository chatRepository,
     required FuzzyAuthStore authStore,
-    required UserAuthPreferencesRepository userAuthPreferencesRepository,
   })  : _linkService = linkService,
         _chatRepository = chatRepository,
-        _authStore = authStore,
-        _userAuthPreferencesRepository = userAuthPreferencesRepository;
+        _authStore = authStore;
 
   final FuzzyLinkService _linkService;
   final ChatGeneralDataListRepository _chatRepository;
   final FuzzyAuthStore _authStore;
-  final UserAuthPreferencesRepository _userAuthPreferencesRepository;
 
   StreamSubscription<Uri>? _subscription;
   FuzzyLinkPayload? _pendingPayload;
@@ -171,17 +168,8 @@ class FuzzyLinkHandler {
   }
 
   Future<bool> _isAppLocked() async {
-    try {
-      final authPreferences = await _userAuthPreferencesRepository.getUserAuthPreferences();
-
-      if (authPreferences == null || !authPreferences.isAuthenticationOnceEnabled) {
-        return false;
-      }
-
-      return _authStore.state.status.isInitial;
-    } catch (_) {
-      return false;
-    }
+    final status = _authStore.state.status;
+    return status.isInitial || status.isLocked || status.isUnlocking;
   }
 
   void dispose() {

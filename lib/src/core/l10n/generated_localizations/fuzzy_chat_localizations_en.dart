@@ -555,4 +555,106 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
 
   @override
   String get processingFailed => 'Processing Failed';
+
+  @override
+  String get chatUnlockTitle => 'Unlock Fuzzy Chat';
+
+  @override
+  String get chatUnlockSubtitle => 'Enter your password to access your chats.';
+
+  @override
+  String get chatAuthPassword => 'Password';
+
+  @override
+  String get chatAuthIncorrectPassword => 'Incorrect password';
+
+  @override
+  String get chatAuthUnlock => 'Unlock';
+
+  @override
+  String get chatAuthForgotPassword => 'Forgot password? Your encrypted data cannot be recovered without it.';
+
+  @override
+  String get chatAuthSetupTitle => 'Protect Your Chats';
+
+  @override
+  String get chatAuthSetupDescription => 'Set a password to encrypt your chat keys. This adds an extra layer of security to your conversations.';
+
+  @override
+  String get chatAuthSetPassword => 'Set Password';
+
+  @override
+  String get chatAuthConfirmPassword => 'Confirm Password';
+
+  @override
+  String get chatAuthPasswordsDoNotMatch => 'Passwords do not match';
+
+  @override
+  String get chatAuthEnabled => 'Chat Protection Enabled';
+
+  @override
+  String get chatAuthDisabled => 'Chat Protection Disabled';
+
+  @override
+  String get chatAuthEnableProtection => 'Enable Chat Protection';
+
+  @override
+  String get chatAuthDisableProtection => 'Disable Chat Protection';
+
+  @override
+  String get chatAuthProtectionDescription => 'When enabled, you must enter a password to access your chats. Your keys will be encrypted with this password.';
+
+  @override
+  String get chatAuthMigratingKeys => 'Encrypting your keys...';
+
+  @override
+  String get chatAuthentication => 'Chat Authentication';
+
+  @override
+  String get chatAuthenticationDescription => 'Manage chat password protection';
+
+  @override
+  String get chatAuthBiometricUnlock => 'Unlock with biometrics';
+
+  @override
+  String get chatAuthBiometricEnable => 'Enable Biometric Unlock';
+
+  @override
+  String get chatAuthBiometricDisable => 'Disable Biometric Unlock';
+
+  @override
+  String get chatAuthBiometricEnabled => 'Biometric Unlock Enabled';
+
+  @override
+  String get chatAuthBiometricDescription => 'Enter your password to confirm, then unlock with fingerprint or Face ID.';
+
+  @override
+  String get chatAuthBiometricUnavailable => 'Biometric authentication is not available on this device.';
+
+  @override
+  String get chatAuthBiometricFailed => 'Biometric authentication failed.';
+
+  @override
+  String get vaultBiometricUnlock => 'Unlock with biometrics';
+
+  @override
+  String get vaultBiometricEnable => 'Enable Biometric Unlock';
+
+  @override
+  String get vaultBiometricDisable => 'Disable Biometric Unlock';
+
+  @override
+  String get vaultBiometricEnabled => 'Biometric Unlock Enabled';
+
+  @override
+  String get vaultBiometricDescription => 'Confirm with your master password to enable biometric unlock for this vault.';
+
+  @override
+  String get vaultBiometricUnavailable => 'Biometric authentication is not available on this device.';
+
+  @override
+  String get vaultBiometricSettings => 'Biometric Settings';
+
+  @override
+  String get vaultBiometricInvalidPassword => 'Incorrect master password.';
 }

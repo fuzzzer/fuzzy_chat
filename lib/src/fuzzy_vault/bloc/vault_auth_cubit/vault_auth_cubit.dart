@@ -9,26 +9,63 @@ class VaultAuthCubit extends Cubit<VaultAuthState> {
   VaultAuthCubit({
     required this.cryptoRepository,
     required this.vaultRepository,
+    required this.biometricAuthRepository,
   }) : super(const VaultAuthState());
 
   final VaultCryptoRepository cryptoRepository;
   final VaultRepository vaultRepository;
+  final BiometricAuthRepository biometricAuthRepository;
   Timer? _autoLockTimer;
 
   Future<void> checkVaultStatus() async {
     emit(state.copyWith(status: StateStatus.loading));
     final metaRes = await vaultRepository.getMetadata();
     if (metaRes is VaultSuccess) {
+      final biometricEnabled = await biometricAuthRepository.isEnabled(BiometricScope.vault);
       emit(state.copyWith(
         status: StateStatus.success,
         authState: VaultAuthEnum.locked,
+        biometricEnabled: biometricEnabled,
       ),);
     } else {
       emit(state.copyWith(
         status: StateStatus.success,
         authState: VaultAuthEnum.noVault,
+        biometricEnabled: false,
       ),);
     }
+  }
+
+  Future<void> unlockWithBiometrics() async {
+    emit(state.copyWith(status: StateStatus.loading, authState: VaultAuthEnum.unlocking));
+    try {
+      final password = await biometricAuthRepository.retrievePassword(BiometricScope.vault);
+      if (password == null) {
+        emit(state.copyWith(status: StateStatus.success, authState: VaultAuthEnum.locked));
+        return;
+      }
+      await unlock(password);
+    } catch (_) {
+      emit(state.copyWith(status: StateStatus.success, authState: VaultAuthEnum.locked));
+    }
+  }
+
+  Future<bool> enableBiometric(String currentPassword) async {
+    final metaRes = await vaultRepository.getMetadata();
+    if (metaRes is! VaultSuccess) return false;
+
+    final metadata = (metaRes as VaultSuccess<VaultMetadata>).data;
+    final keyRes = await cryptoRepository.verifyAndDeriveKey(currentPassword, metadata);
+    if (keyRes is VaultFailure) return false;
+
+    await biometricAuthRepository.enable(BiometricScope.vault, currentPassword);
+    emit(state.copyWith(biometricEnabled: true));
+    return true;
+  }
+
+  Future<void> disableBiometric() async {
+    await biometricAuthRepository.disable(BiometricScope.vault);
+    emit(state.copyWith(biometricEnabled: false));
   }
 
   Future<void> createVault(String password) async {

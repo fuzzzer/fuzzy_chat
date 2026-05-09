@@ -44,5 +44,7 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Authenticate to unlock your Fuzzy Chat password.</string>
 </dict>
 </plist>

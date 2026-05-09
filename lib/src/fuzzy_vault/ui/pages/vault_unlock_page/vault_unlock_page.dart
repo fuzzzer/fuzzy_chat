@@ -13,6 +13,7 @@ class VaultUnlockPage extends StatefulWidget {
 class _VaultUnlockPageState extends State<VaultUnlockPage> with SingleTickerProviderStateMixin {
   final _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
+  bool _autoBiometricAttempted = false;
   late final AnimationController _shakeController;
 
   @override
@@ -23,6 +24,14 @@ class _VaultUnlockPageState extends State<VaultUnlockPage> with SingleTickerProv
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || _autoBiometricAttempted) return;
+      final cubit = context.read<VaultAuthCubit>();
+      if (cubit.state.biometricEnabled && cubit.state.authState == VaultAuthEnum.locked) {
+        _autoBiometricAttempted = true;
+        cubit.unlockWithBiometrics();
+      }
+    });
   }
 
   @override
@@ -35,6 +44,10 @@ class _VaultUnlockPageState extends State<VaultUnlockPage> with SingleTickerProv
   void _onUnlock() {
     if (_passwordController.text.isEmpty) return;
     context.read<VaultAuthCubit>().unlock(_passwordController.text);
+  }
+
+  void _onBiometricUnlock() {
+    context.read<VaultAuthCubit>().unlockWithBiometrics();
   }
 
   @override
@@ -112,6 +125,32 @@ class _VaultUnlockPageState extends State<VaultUnlockPage> with SingleTickerProv
                     isEnabled: _passwordController.text.isNotEmpty && !isLoading,
                     onTap: _passwordController.text.isNotEmpty && !isLoading ? _onUnlock : () {},
                   ),
+                  if (state.biometricEnabled) ...[
+                    const SizedBox(height: 24),
+                    InkWell(
+                      onTap: isLoading ? null : _onBiometricUnlock,
+                      borderRadius: BorderRadius.circular(48),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.fingerprint,
+                              size: 56,
+                              color: context.uiColors.primaryColor,
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              currentContextLocalization.vaultBiometricUnlock,
+                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                color: context.uiColors.secondaryTextColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                   const SizedBox(height: 40),
                   Text(
                     currentContextLocalization.vaultForgotPassword,

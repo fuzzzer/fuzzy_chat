@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:go_router/go_router.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -83,11 +84,91 @@ class _SettingsPageState extends State<SettingsPage> {
                     uiColors: uiColors,
                     uiTextStyles: uiTextStyles,
                   ),
+                  const SizedBox(height: 32),
+                  _SettingsLinkTile(
+                    icon: Icons.shield_outlined,
+                    title: localizations.chatAuthentication,
+                    subtitle: localizations.chatAuthenticationDescription,
+                    onTap: () => context.push(AppRouter.auth),
+                    uiColors: uiColors,
+                    uiTextStyles: uiTextStyles,
+                  ),
                 ],
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _SettingsLinkTile extends StatelessWidget {
+  const _SettingsLinkTile({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+    required this.uiColors,
+    required this.uiTextStyles,
+  });
+
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final VoidCallback onTap;
+  final UiColors uiColors;
+  final UiTextStyles uiTextStyles;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        decoration: BoxDecoration(
+          color: uiColors.backgroundSecondaryColor,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(
+            color: uiColors.focusColor.withOpacity(0.2),
+          ),
+        ),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              color: uiColors.primaryColor,
+              size: 22,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: uiTextStyles.body16.copyWith(
+                      color: uiColors.primaryTextColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    subtitle,
+                    style: uiTextStyles.bodySmall12.copyWith(
+                      color: uiColors.secondaryTextColor,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              Icons.chevron_right,
+              color: uiColors.secondaryTextColor,
+              size: 22,
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1174,6 +1174,210 @@ abstract class FuzzyChatLocalizations {
   /// In en, this message translates to:
   /// **'Processing Failed'**
   String get processingFailed;
+
+  /// No description provided for @chatUnlockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Fuzzy Chat'**
+  String get chatUnlockTitle;
+
+  /// No description provided for @chatUnlockSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password to access your chats.'**
+  String get chatUnlockSubtitle;
+
+  /// No description provided for @chatAuthPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get chatAuthPassword;
+
+  /// No description provided for @chatAuthIncorrectPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect password'**
+  String get chatAuthIncorrectPassword;
+
+  /// No description provided for @chatAuthUnlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock'**
+  String get chatAuthUnlock;
+
+  /// No description provided for @chatAuthForgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot password? Your encrypted data cannot be recovered without it.'**
+  String get chatAuthForgotPassword;
+
+  /// No description provided for @chatAuthSetupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Protect Your Chats'**
+  String get chatAuthSetupTitle;
+
+  /// No description provided for @chatAuthSetupDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a password to encrypt your chat keys. This adds an extra layer of security to your conversations.'**
+  String get chatAuthSetupDescription;
+
+  /// No description provided for @chatAuthSetPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Set Password'**
+  String get chatAuthSetPassword;
+
+  /// No description provided for @chatAuthConfirmPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get chatAuthConfirmPassword;
+
+  /// No description provided for @chatAuthPasswordsDoNotMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get chatAuthPasswordsDoNotMatch;
+
+  /// No description provided for @chatAuthEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat Protection Enabled'**
+  String get chatAuthEnabled;
+
+  /// No description provided for @chatAuthDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat Protection Disabled'**
+  String get chatAuthDisabled;
+
+  /// No description provided for @chatAuthEnableProtection.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Chat Protection'**
+  String get chatAuthEnableProtection;
+
+  /// No description provided for @chatAuthDisableProtection.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable Chat Protection'**
+  String get chatAuthDisableProtection;
+
+  /// No description provided for @chatAuthProtectionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'When enabled, you must enter a password to access your chats. Your keys will be encrypted with this password.'**
+  String get chatAuthProtectionDescription;
+
+  /// No description provided for @chatAuthMigratingKeys.
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypting your keys...'**
+  String get chatAuthMigratingKeys;
+
+  /// No description provided for @chatAuthentication.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat Authentication'**
+  String get chatAuthentication;
+
+  /// No description provided for @chatAuthenticationDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage chat password protection'**
+  String get chatAuthenticationDescription;
+
+  /// No description provided for @chatAuthBiometricUnlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock with biometrics'**
+  String get chatAuthBiometricUnlock;
+
+  /// No description provided for @chatAuthBiometricEnable.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Biometric Unlock'**
+  String get chatAuthBiometricEnable;
+
+  /// No description provided for @chatAuthBiometricDisable.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable Biometric Unlock'**
+  String get chatAuthBiometricDisable;
+
+  /// No description provided for @chatAuthBiometricEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric Unlock Enabled'**
+  String get chatAuthBiometricEnabled;
+
+  /// No description provided for @chatAuthBiometricDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password to confirm, then unlock with fingerprint or Face ID.'**
+  String get chatAuthBiometricDescription;
+
+  /// No description provided for @chatAuthBiometricUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric authentication is not available on this device.'**
+  String get chatAuthBiometricUnavailable;
+
+  /// No description provided for @chatAuthBiometricFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric authentication failed.'**
+  String get chatAuthBiometricFailed;
+
+  /// No description provided for @vaultBiometricUnlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock with biometrics'**
+  String get vaultBiometricUnlock;
+
+  /// No description provided for @vaultBiometricEnable.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Biometric Unlock'**
+  String get vaultBiometricEnable;
+
+  /// No description provided for @vaultBiometricDisable.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable Biometric Unlock'**
+  String get vaultBiometricDisable;
+
+  /// No description provided for @vaultBiometricEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric Unlock Enabled'**
+  String get vaultBiometricEnabled;
+
+  /// No description provided for @vaultBiometricDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm with your master password to enable biometric unlock for this vault.'**
+  String get vaultBiometricDescription;
+
+  /// No description provided for @vaultBiometricUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric authentication is not available on this device.'**
+  String get vaultBiometricUnavailable;
+
+  /// No description provided for @vaultBiometricSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric Settings'**
+  String get vaultBiometricSettings;
+
+  /// No description provided for @vaultBiometricInvalidPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect master password.'**
+  String get vaultBiometricInvalidPassword;
 }
 
 class _FuzzyChatLocalizationsDelegate extends LocalizationsDelegate<FuzzyChatLocalizations> {

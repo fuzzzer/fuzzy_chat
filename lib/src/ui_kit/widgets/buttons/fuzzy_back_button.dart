@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuzzy_chat/lib.dart';
 
-
 class FuzzyBackButton extends StatelessWidget {
   const FuzzyBackButton({
     super.key,
@@ -13,6 +12,7 @@ class FuzzyBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FuzzyIconContainerButton(
+      padding: const EdgeInsets.all(20),
       icon: Icons.arrow_back,
       onTap: onTap ?? () => context.goBack(),
     );
