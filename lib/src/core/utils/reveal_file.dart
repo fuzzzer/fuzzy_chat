@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:fuzzy_chat/lib.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -14,6 +15,7 @@ class DeviceFileInteractor {
     }
 
     if (context != null) {
+      // ignore: use_build_context_synchronously
       await ShareHelper.shareXFiles([XFile(filePath)], context: context);
     } else {
       await Share.shareXFiles([XFile(filePath)]);
