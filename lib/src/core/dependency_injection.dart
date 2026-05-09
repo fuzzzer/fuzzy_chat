@@ -45,6 +45,8 @@ class DependencyInjection {
 
     sl.safeRegisterSingleton<Isar>(isar);
 
+    sl.safeRegisterSingleton<FuzzyLinkService>(FuzzyLinkService());
+
     sl.safeRegisterSingleton<FuzzyAuthStore>(FuzzyAuthStore());
 
     sl.safeRegisterSingleton<UserAuthPreferencesRepository>(
@@ -59,6 +61,15 @@ class DependencyInjection {
 
     sl.safeRegisterSingleton<MessageDataRepository>(
       MessageDataRepository(localDataSource: MessageDataLocalDataSource(isar: sl.get())),
+    );
+
+    sl.safeRegisterSingleton<FuzzyLinkHandler>(
+      FuzzyLinkHandler(
+        linkService: sl.get<FuzzyLinkService>(),
+        chatRepository: sl.get<ChatGeneralDataListRepository>(),
+        authStore: sl.get<FuzzyAuthStore>(),
+        userAuthPreferencesRepository: sl.get<UserAuthPreferencesRepository>(),
+      ),
     );
   }
 }

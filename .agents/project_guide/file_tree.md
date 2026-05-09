@@ -15,9 +15,11 @@ fuzzy_chat/
 │       │
 │       ├── app/                               # App Shell
 │       │   ├── app.dart                       # App widget + runner
+│       │   ├── app_router.dart                # GoRouter config + static routerInstance
 │       │   ├── initializer.dart               # Pre-app initialization
 │       │   ├── components/
 │       │   │   ├── bootstrap.dart             # AppBlocObserver + bootstrap()
+│       │   │   ├── fuzzy_link_listener.dart   # FuzzyLinkHandler lifecycle widget
 │       │   │   └── components.dart
 │       │   └── globals/
 │       │       ├── globals.dart
@@ -92,6 +94,16 @@ fuzzy_chat/
 │       │   │       ├── directory_assets.dart
 │       │   │       ├── app_documents_directory.dart
 │       │   │       └── app_support_directory.dart
+│       │   │   └── fuzzy_link/               # Deep Link Feature
+│       │   │       ├── fuzzy_link.dart        # Barrel
+│       │   │       ├── fuzzy_link_service.dart    # app_links wrapper
+│       │   │       ├── fuzzy_link_parser.dart     # URI → typed payload
+│       │   │       ├── fuzzy_link_generator.dart  # Data → URI string
+│       │   │       ├── fuzzy_link_handler.dart    # Reception, validation, auth gating, routing
+│       │   │       └── components/
+│       │   │           ├── components.dart
+│       │   │           ├── fuzzy_link_type.dart
+│       │   │           └── fuzzy_link_payload.dart
 │       │   ├── l10n/
 │       │   │   ├── l10n.dart
 │       │   │   ├── current_context_localizations.dart
@@ -251,6 +263,11 @@ fuzzy_chat/
 │
 ├── code_generators/bricks/                    # Mason templates
 ├── test/
+│   ├── aes_test.dart
+│   └── src/core/services/fuzzy_link/
+│       ├── fuzzy_link_parser_test.dart
+│       ├── fuzzy_link_generator_test.dart
+│       └── fuzzy_link_payload_test.dart
 ├── assets/
 │
 ├── exp.sh                                     # → runs exporter.py (barrel files)

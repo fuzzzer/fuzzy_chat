@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:go_router/go_router.dart';
 
 export 'components/components.dart';
 export 'widgets/widgets.dart';
@@ -54,6 +55,13 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
     _messageController.addListener(_onMessageUpdated);
     initializePagination();
     super.initState();
+
+    // Pre-fill encrypted message from deep link.
+    if (widget.payload.prefillEncryptedMessage != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _messageController.text = '$fuzzIdentificator${widget.payload.prefillEncryptedMessage}';
+      });
+    }
   }
 
   void _onMessageUpdated() {
@@ -226,7 +234,7 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
                   alignment: Alignment.topCenter,
                   child: ChatHeader(
                     chatGeneralData: widget.payload.chatGeneralData,
-                    onBackPressed: () => Navigator.pop(context),
+                    onBackPressed: () => context.pop(),
                   ),
                 ),
                 Align(

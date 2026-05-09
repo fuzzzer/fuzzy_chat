@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:go_router/go_router.dart';
 
 export 'widgets/widgets.dart';
 
@@ -47,18 +48,10 @@ class _ProvidedChatListPageState extends State<ProvidedChatListPage> {
         alignment: Alignment.bottomRight,
         child: FloatingToolbox(
           onNewChatPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => const ChatCreationPage(),
-              ),
-            );
+            context.push(AppRouter.chatCreate);
           },
           onAcceptInvitationPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => const InvitationAcceptancePage(),
-              ),
-            );
+            context.push(AppRouter.chatAccept);
           },
         ),
       ),

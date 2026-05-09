@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:go_router/go_router.dart';
 
 class ChatListContent extends StatelessWidget {
   final List<ChatGeneralData> chatGeneralDataList;
@@ -83,14 +84,11 @@ class ChatListContent extends StatelessWidget {
                           );
                         },
                         onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => ChatInvitationPage(
-                                payload: ChatInvitationPagePayload(
-                                  chatName: chatGeneralData.chatName,
-                                  chatId: chatGeneralData.chatId,
-                                ),
-                              ),
+                          context.push(
+                            AppRouter.chatInvitation,
+                            extra: ChatInvitationPagePayload(
+                              chatName: chatGeneralData.chatName,
+                              chatId: chatGeneralData.chatId,
                             ),
                           );
                         },
@@ -105,13 +103,10 @@ class ChatListContent extends StatelessWidget {
                           );
                         },
                         onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => ConnectedChatPage(
-                                payload: ConnectedChatPagePayload(
-                                  chatGeneralData: chatGeneralData,
-                                ),
-                              ),
+                          context.push(
+                            AppRouter.chatConnected,
+                            extra: ConnectedChatPagePayload(
+                              chatGeneralData: chatGeneralData,
                             ),
                           );
                         },

@@ -230,12 +230,31 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                                         ),
                                         const SizedBox(width: 2),
                                         TextAction(
-                                          hasRightBorder: true,
                                           label: localizations.share,
                                           onTap: () {
                                             final preparedEncryptedMessage = _prepareEncrypredMessage(encryptedMessage);
 
                                             Share.share(preparedEncryptedMessage);
+
+                                            closeOverlay();
+                                          },
+                                        ),
+                                        const SizedBox(width: 2),
+                                        TextAction(
+                                          hasRightBorder: true,
+                                          label: '🔗',
+                                          onTap: () {
+                                            final link = FuzzyLinkGenerator.generateFuzzLink(
+                                              widget.message.chatId,
+                                              encryptedMessage,
+                                            );
+                                            final preparedEncryptedMessage = _prepareEncrypredMessage(encryptedMessage);
+                                            final shareable = FuzzyLinkGenerator.generateShareableContent(
+                                              link: link,
+                                              rawFuzz: preparedEncryptedMessage,
+                                              type: FuzzyLinkType.fuzz,
+                                            );
+                                            Share.share(shareable);
 
                                             closeOverlay();
                                           },

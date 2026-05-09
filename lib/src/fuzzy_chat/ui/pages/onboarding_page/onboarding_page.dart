@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:go_router/go_router.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -20,9 +21,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
       );
     } else {
       sl.get<PreferencesService>().setHasSeenOnboarding(true);
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const ChatListPage()),
-      );
+      context.go(AppRouter.home);
     }
   }
 

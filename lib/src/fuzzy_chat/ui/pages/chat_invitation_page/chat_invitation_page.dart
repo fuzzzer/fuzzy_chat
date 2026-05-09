@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:go_router/go_router.dart';
 
 export 'components/components.dart';
 export 'widgets/widgets.dart';
@@ -60,6 +61,10 @@ class _ProvidedChatInvitationPageState extends State<ProvidedChatInvitationPage>
           chatId: widget.payload.chatId,
         );
 
+    if (widget.payload.prefillAcceptanceContent != null) {
+      acceptanceTextController.text = widget.payload.prefillAcceptanceContent!;
+    }
+
     acceptanceTextController.addListener(() {
       setState(() {});
     });
@@ -94,13 +99,10 @@ class _ProvidedChatInvitationPageState extends State<ProvidedChatInvitationPage>
         BlocListener<HandshakeCubit, HandshakeState>(
           listener: (context, state) {
             if (state.status.isSuccess) {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (_) => ConnectedChatPage(
-                    payload: ConnectedChatPagePayload(
-                      chatGeneralData: state.chatData!,
-                    ),
-                  ),
+              context.go(
+                AppRouter.chatConnected,
+                extra: ConnectedChatPagePayload(
+                  chatGeneralData: state.chatData!,
                 ),
               );
             } else if (state.status.isFailed) {

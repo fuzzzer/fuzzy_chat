@@ -328,4 +328,55 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
 
   @override
   String get moderateSecurityDescription => 'მიღებული შეტყობინებები იკითხება და კოპირება შესაძლებელია გაფრთხილების გარეშე.';
+
+  @override
+  String get shareAsLink => 'ბმულით გაზიარება';
+
+  @override
+  String get shareAcceptance => 'მიღების გაზიარება';
+
+  @override
+  String get linkExpired => 'ამ ბმულის ვადა ამოიწურა.';
+
+  @override
+  String get linkShared => 'ბმული გაზიარებულია.';
+
+  @override
+  String get invalidLink => 'ეს ბმული არასწორია ან დაზიანებულია.';
+
+  @override
+  String get noMatchingChat => 'შესაბამისი ჩატი ვერ მოიძებნა.';
+
+  @override
+  String get alreadyConnected => 'უკვე დაკავშირებულია!';
+
+  @override
+  String get updateRequired => 'ამ ბმულს Fuzzy Chat-ის ახალი ვერსია სჭირდება.';
+
+  @override
+  String get cantAcceptOwnInvitation => 'თქვენი საკუთარი მოწვევის მიღება შეუძლებელია.';
+
+  @override
+  String get connectionComplete => 'კავშირი დამყარებულია!';
+
+  @override
+  String get incomingInvitation => 'შემომავალი მოწვევა აღმოჩენილია.';
+
+  @override
+  String get invitationLinkExpired => 'ამ მოწვევის ბმულის ვადა ამოიწურა.';
+
+  @override
+  String get acceptanceLinkExpired => 'ამ მიღების ბმულის ვადა ამოიწურა.';
+
+  @override
+  String get chatNotFoundForAcceptance => 'ამ მიღების ბმულისთვის ჩატი ვერ მოიძებნა.';
+
+  @override
+  String get failedToProcessAcceptance => 'მიღების ბმულის დამუშავება ვერ მოხერხდა.';
+
+  @override
+  String get chatNotFoundForMessage => 'ამ შეტყობინების ბმულისთვის ჩატი ვერ მოიძებნა.';
+
+  @override
+  String get failedToProcessMessage => 'შეტყობინების ბმულის დამუშავება ვერ მოხერხდა.';
 }

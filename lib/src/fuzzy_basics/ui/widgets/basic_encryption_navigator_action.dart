@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fuzzy_chat/src/fuzzy_basics/ui/pages/basic_encryption_page/basic_encryption_page.dart';
+import 'package:fuzzy_chat/lib.dart';
+import 'package:go_router/go_router.dart';
 
 class BasicEncryptionNavigatorAction extends StatelessWidget {
   const BasicEncryptionNavigatorAction({super.key});
@@ -8,11 +9,7 @@ class BasicEncryptionNavigatorAction extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => const BasicEncryptionPage(),
-          ),
-        );
+        context.push(AppRouter.basics);
       },
       icon: const Icon(Icons.key),
     );

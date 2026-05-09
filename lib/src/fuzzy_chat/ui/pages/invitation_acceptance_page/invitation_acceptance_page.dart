@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:go_router/go_router.dart';
 
 export 'components/components.dart';
 export 'widgets/widgets.dart';
 
 class InvitationAcceptancePage extends StatelessWidget {
-  const InvitationAcceptancePage({super.key});
+  final String? prefillInvitationContent;
+
+  const InvitationAcceptancePage({
+    super.key,
+    this.prefillInvitationContent,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,13 +21,20 @@ class InvitationAcceptancePage extends StatelessWidget {
         chatGeneralDataListRepository: sl.get<ChatGeneralDataListRepository>(),
         keyStorageRepository: sl.get<KeyStorageRepository>(),
       ),
-      child: const ProvidedInvitationAcceptancePage(),
+      child: ProvidedInvitationAcceptancePage(
+        prefillInvitationContent: prefillInvitationContent,
+      ),
     );
   }
 }
 
 class ProvidedInvitationAcceptancePage extends StatefulWidget {
-  const ProvidedInvitationAcceptancePage({super.key});
+  final String? prefillInvitationContent;
+
+  const ProvidedInvitationAcceptancePage({
+    super.key,
+    this.prefillInvitationContent,
+  });
 
   @override
   State<ProvidedInvitationAcceptancePage> createState() => _ProvidedInvitationAcceptancePageState();
@@ -33,6 +46,10 @@ class _ProvidedInvitationAcceptancePageState extends State<ProvidedInvitationAcc
 
   @override
   void initState() {
+    if (widget.prefillInvitationContent != null) {
+      _invitationTextController.text = widget.prefillInvitationContent!;
+    }
+
     _invitationTextController.addListener(() {
       setState(() {});
     });
@@ -73,15 +90,11 @@ class _ProvidedInvitationAcceptancePageState extends State<ProvidedInvitationAcc
     return BlocConsumer<InvitationAcceptanceCubit, InvitationAcceptanceState>(
       listener: (context, state) {
         if (state.status.isSuccess && state.generatedAcceptance != null) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AcceptanceExportPage(
-                payload: AcceptanceExportPagePayload(
-                  chatGeneralData: state.chatData!,
-                  hasBackButton: false,
-                ),
-              ),
+          context.go(
+            AppRouter.chatAcceptanceExport,
+            extra: AcceptanceExportPagePayload(
+              chatGeneralData: state.chatData!,
+              hasBackButton: false,
             ),
           );
         } else if (state.status.isFailed) {

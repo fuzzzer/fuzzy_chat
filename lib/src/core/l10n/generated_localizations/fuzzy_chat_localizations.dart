@@ -736,6 +736,108 @@ abstract class FuzzyChatLocalizations {
   /// In en, this message translates to:
   /// **'Received messages are selectable and can be copied directly without a warning.'**
   String get moderateSecurityDescription;
+
+  /// No description provided for @shareAsLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Share as Link'**
+  String get shareAsLink;
+
+  /// No description provided for @shareAcceptance.
+  ///
+  /// In en, this message translates to:
+  /// **'Share acceptance'**
+  String get shareAcceptance;
+
+  /// No description provided for @linkExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'This link has expired.'**
+  String get linkExpired;
+
+  /// No description provided for @linkShared.
+  ///
+  /// In en, this message translates to:
+  /// **'Link shared.'**
+  String get linkShared;
+
+  /// No description provided for @invalidLink.
+  ///
+  /// In en, this message translates to:
+  /// **'This link is invalid or corrupted.'**
+  String get invalidLink;
+
+  /// No description provided for @noMatchingChat.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching chat found.'**
+  String get noMatchingChat;
+
+  /// No description provided for @alreadyConnected.
+  ///
+  /// In en, this message translates to:
+  /// **'Already connected!'**
+  String get alreadyConnected;
+
+  /// No description provided for @updateRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'This link requires a newer version of Fuzzy Chat.'**
+  String get updateRequired;
+
+  /// No description provided for @cantAcceptOwnInvitation.
+  ///
+  /// In en, this message translates to:
+  /// **'You can\'t accept your own invitation.'**
+  String get cantAcceptOwnInvitation;
+
+  /// No description provided for @connectionComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection established!'**
+  String get connectionComplete;
+
+  /// No description provided for @incomingInvitation.
+  ///
+  /// In en, this message translates to:
+  /// **'Incoming invitation detected.'**
+  String get incomingInvitation;
+
+  /// No description provided for @invitationLinkExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'This invitation link has expired.'**
+  String get invitationLinkExpired;
+
+  /// No description provided for @acceptanceLinkExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'This acceptance link has expired.'**
+  String get acceptanceLinkExpired;
+
+  /// No description provided for @chatNotFoundForAcceptance.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat not found for this acceptance link.'**
+  String get chatNotFoundForAcceptance;
+
+  /// No description provided for @failedToProcessAcceptance.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to process acceptance link.'**
+  String get failedToProcessAcceptance;
+
+  /// No description provided for @chatNotFoundForMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat not found for this message link.'**
+  String get chatNotFoundForMessage;
+
+  /// No description provided for @failedToProcessMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to process message link.'**
+  String get failedToProcessMessage;
 }
 
 class _FuzzyChatLocalizationsDelegate extends LocalizationsDelegate<FuzzyChatLocalizations> {

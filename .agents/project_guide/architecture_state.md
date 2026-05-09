@@ -34,6 +34,16 @@
 - [x] **Global BLoC Providers** — `globals/global_bloc_providers.dart`
 - [x] **Global BLoC Listeners** — `globals/global_bloc_listeners.dart`
 - [x] **Bootstrap / AppBlocObserver** — `components/bootstrap.dart`
+- [x] **GoRouter Migration** — `app_router.dart` (all Navigator.push → GoRouter)
+- [x] **FuzzyLink Listener** — `components/fuzzy_link_listener.dart`
+
+### core/services/fuzzy_link/ (Deep Link Feature)
+- [x] **FuzzyLinkService** — `fuzzy_link_service.dart` (app_links wrapper)
+- [x] **FuzzyLinkParser** — `fuzzy_link_parser.dart` (URI → typed payload)
+- [x] **FuzzyLinkGenerator** — `fuzzy_link_generator.dart` (data → URI string)
+- [x] **FuzzyLinkHandler** — `fuzzy_link_handler.dart` (reception, validation, auth gating, routing)
+- [x] **FuzzyLinkPayload** — `components/fuzzy_link_payload.dart` (sealed payload classes)
+- [x] **FuzzyLinkType** — `components/fuzzy_link_type.dart` (type enum)
 
 ---
 
@@ -72,22 +82,29 @@
 
 ---
 
-## 4. Navigation (Current State)
+## 4. Navigation (GoRouter)
 
-The app currently uses **`Navigator`-based routing** via `MaterialApp` (not GoRouter).
+The app uses **GoRouter** via `MaterialApp.router`. All navigation uses `context.push/go/pop()`.
+Router instance is cached at `AppRouter.routerInstance` for access from non-widget code (e.g., `FuzzyLinkHandler`).
 
-| Page | Feature | Navigation Trigger |
-|------|---------|-------------------|
-| `OnboardingPage` | fuzzy_chat | Initial route (if `!hasSeenOnboarding`) |
-| `ChatListPage` | fuzzy_chat | Initial route (if `hasSeenOnboarding`) |
-| `ChatCreationPage` | fuzzy_chat | From ChatList |
-| `ChatInvitationPage` | fuzzy_chat | From ChatCreation |
-| `InvitationAcceptancePage` | fuzzy_chat | From ChatList (paste invite) |
-| `AcceptanceExportPage` | fuzzy_chat | After accepting invitation |
-| `ConnectedChatPage` | fuzzy_chat | From ChatList (tap chat) |
-| `SettingsPage` | fuzzy_chat | From ChatList |
-| `FuzzyUserAuthPage` | fuzzy_auth | Auth flow |
-| `BasicEncryptionPage` | fuzzy_basics | Standalone tool |
+| Route | Path | Page | Extra |
+|-------|------|------|-------|
+| `home` | `/` | `OnboardingPage` or `ChatListPage` | — |
+| `chatCreate` | `/chat/create` | `ChatCreationPage` | — |
+| `chatInvitation` | `/chat/invitation` | `ChatInvitationPage` | `ChatInvitationPagePayload` |
+| `chatAccept` | `/chat/accept` | `InvitationAcceptancePage` | `String?` (prefill) |
+| `chatAcceptanceExport` | `/chat/acceptance-export` | `AcceptanceExportPage` | `AcceptanceExportPagePayload` |
+| `chatConnected` | `/chat/connected` | `ConnectedChatPage` | `ConnectedChatPagePayload` |
+| `settings` | `/settings` | `SettingsPage` | — |
+| `auth` | `/auth` | `FuzzyUserAuthPage` | — |
+| `basics` | `/basics` | `BasicEncryptionPage` | — |
+
+### Deep Link Flow (FuzzyLink)
+1. `FuzzyLinkListener` wraps `MaterialApp.router`, initializes `FuzzyLinkHandler` on mount.
+2. Handler listens to `FuzzyLinkService.onLinkReceived` stream + checks initial link (cold start).
+3. On URI reception → `FuzzyLinkParser.parse()` → validates → auth gating → routes via `AppRouter.routerInstance.push()`.
+4. Auth gating: if app is locked, payload queued in `_pendingPayload`; processed after auth via `GlobalBlocListeners`.
+5. Security checks: self-invitation detection, duplicate acceptance detection, expiration validation.
 
 ---
 
@@ -103,7 +120,9 @@ The app currently uses **`Navigator`-based routing** via `MaterialApp` (not GoRo
 
 ## 6. Technical Debt & Known Issues
 
-- [ ] `go_router` is declared as a dependency but not used — app still uses `Navigator.push`. Consider migrating or removing the dependency.
+- [x] ~~`go_router` is declared as a dependency but not used~~ — **RESOLVED**: Full GoRouter migration completed.
 - [ ] `buildrunner.sh` uses `flutter pub run` (deprecated) — should use `dart run build_runner build --delete-conflicting-outputs`.
 - [ ] The general architecture guide references HTTP/API patterns that don't apply to this offline-only app. *(Addressed in project_context.md deviations table)*
 - [ ] UI Kit lives inside `lib/src/ui_kit/` rather than as a separate package in `packages/`. The `packages/` directory only contains `pointycastle`.
+- [ ] FuzzyLink message deduplication (timestamp/nonce) not yet implemented — recommended for V2.
+- [ ] FuzzyLink UX enhancements deferred to V2: QR codes, clipboard detection, self-destructing messages, re-keying.

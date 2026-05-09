@@ -328,4 +328,55 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
 
   @override
   String get moderateSecurityDescription => 'Received messages are selectable and can be copied directly without a warning.';
+
+  @override
+  String get shareAsLink => 'Share as Link';
+
+  @override
+  String get shareAcceptance => 'Share acceptance';
+
+  @override
+  String get linkExpired => 'This link has expired.';
+
+  @override
+  String get linkShared => 'Link shared.';
+
+  @override
+  String get invalidLink => 'This link is invalid or corrupted.';
+
+  @override
+  String get noMatchingChat => 'No matching chat found.';
+
+  @override
+  String get alreadyConnected => 'Already connected!';
+
+  @override
+  String get updateRequired => 'This link requires a newer version of Fuzzy Chat.';
+
+  @override
+  String get cantAcceptOwnInvitation => 'You can\'t accept your own invitation.';
+
+  @override
+  String get connectionComplete => 'Connection established!';
+
+  @override
+  String get incomingInvitation => 'Incoming invitation detected.';
+
+  @override
+  String get invitationLinkExpired => 'This invitation link has expired.';
+
+  @override
+  String get acceptanceLinkExpired => 'This acceptance link has expired.';
+
+  @override
+  String get chatNotFoundForAcceptance => 'Chat not found for this acceptance link.';
+
+  @override
+  String get failedToProcessAcceptance => 'Failed to process acceptance link.';
+
+  @override
+  String get chatNotFoundForMessage => 'Chat not found for this message link.';
+
+  @override
+  String get failedToProcessMessage => 'Failed to process message link.';
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fuzzy_chat/lib.dart';
 
+export 'app_router.dart';
 export 'components/components.dart';
 export 'globals/globals.dart';
 export 'initializer.dart';
@@ -21,15 +22,20 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return GlobalBlocProviders(
       child: GlobalBlocListeners(
-        child: MaterialApp(
-          scaffoldMessengerKey: scaffoldMessengerKey,
-          navigatorKey: navigatorKey,
-          theme: UiKitTheme.dark(),
-          localizationsDelegates: FuzzyChatLocalizations.localizationsDelegates,
-          supportedLocales: FuzzyChatLocalizations.supportedLocales,
-          home: sl.get<PreferencesService>().hasSeenOnboarding ? const ChatListPage() : const OnboardingPage(),
+        child: FuzzyLinkListener(
+          child: MaterialApp.router(
+            scaffoldMessengerKey: scaffoldMessengerKey,
+            theme: UiKitTheme.dark(),
+            localizationsDelegates: FuzzyChatLocalizations.localizationsDelegates,
+            supportedLocales: FuzzyChatLocalizations.supportedLocales,
+            routerConfig: AppRouter.router(
+              navigatorKey: navigatorKey,
+              scaffoldMessengerKey: scaffoldMessengerKey,
+            ),
+          ),
         ),
       ),
     );
   }
 }
+

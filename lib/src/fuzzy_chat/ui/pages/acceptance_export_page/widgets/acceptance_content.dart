@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:go_router/go_router.dart';
+import 'package:share_plus/share_plus.dart';
 
 class AcceptanceContent extends StatelessWidget {
   final String acceptanceContent;
@@ -21,6 +23,16 @@ class AcceptanceContent extends StatelessWidget {
     FuzzySnackbar.show(
       label: localizations.acceptanceCopiedToClipboard,
     );
+  }
+
+  void _shareAsLink() {
+    final link = FuzzyLinkGenerator.generateAcceptanceLink(acceptanceContent);
+    final shareable = FuzzyLinkGenerator.generateShareableContent(
+      link: link,
+      rawFuzz: acceptanceContent,
+      type: FuzzyLinkType.acceptance,
+    );
+    Share.share(shareable);
   }
 
   @override
@@ -57,6 +69,18 @@ class AcceptanceContent extends StatelessWidget {
                 icon: Icons.copy,
                 onTap: () => _copyAcceptance(context),
               ),
+              const SizedBox(height: 12),
+              FuzzyButton(
+                text: localizations.shareAcceptance,
+                icon: Icons.share,
+                onTap: () => Share.share(acceptanceContent),
+              ),
+              const SizedBox(height: 12),
+              FuzzyButton(
+                text: localizations.shareAsLink,
+                icon: Icons.link,
+                onTap: _shareAsLink,
+              ),
               const Spacer(),
               if (hasBackButton)
                 const FuzzyBackButton()
@@ -64,13 +88,10 @@ class AcceptanceContent extends StatelessWidget {
                 FuzzyButton(
                   text: localizations.goToChat,
                   onTap: () {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (_) => ConnectedChatPage(
-                          payload: ConnectedChatPagePayload(
-                            chatGeneralData: chatGeneralData,
-                          ),
-                        ),
+                    context.go(
+                      AppRouter.chatConnected,
+                      extra: ConnectedChatPagePayload(
+                        chatGeneralData: chatGeneralData,
                       ),
                     );
                   },

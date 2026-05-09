@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'fuzzy_icon_container_button.dart';
 
@@ -14,7 +15,7 @@ class FuzzyBackButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FuzzyIconContainerButton(
       icon: Icons.arrow_back,
-      onTap: onTap ?? () => Navigator.pop(context),
+      onTap: onTap ?? () => context.pop(),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:go_router/go_router.dart';
 
 export 'widgets/widgets.dart';
 
@@ -67,14 +68,11 @@ class _ProvidedChatCreationPageState extends State<ProvidedChatCreationPage> {
     return BlocConsumer<ChatCreationCubit, ChatCreationState>(
       listener: (context, state) {
         if (state.status.isSuccess && state.generatedChatInvitation != null) {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => ChatInvitationPage(
-                payload: ChatInvitationPagePayload(
-                  chatName: state.chatName!,
-                  chatId: state.chatId!,
-                ),
-              ),
+          context.go(
+            AppRouter.chatInvitation,
+            extra: ChatInvitationPagePayload(
+              chatName: state.chatName!,
+              chatId: state.chatId!,
             ),
           );
         } else if (state.status.isFailed) {

@@ -84,6 +84,22 @@ class _ChatInvitationContentState extends State<ChatInvitationContent> {
                   Share.share(widget.invitationContent);
                 },
               ),
+              const SizedBox(height: 12),
+              FuzzyButton(
+                text: localizations.shareAsLink,
+                icon: Icons.link,
+                onTap: () {
+                  final link = FuzzyLinkGenerator.generateInvitationLink(
+                    widget.invitationContent,
+                  );
+                  final shareable = FuzzyLinkGenerator.generateShareableContent(
+                    link: link,
+                    rawFuzz: widget.invitationContent,
+                    type: FuzzyLinkType.invitation,
+                  );
+                  Share.share(shareable);
+                },
+              ),
               const SizedBox(height: 32),
               Divider(
                 height: 20,
