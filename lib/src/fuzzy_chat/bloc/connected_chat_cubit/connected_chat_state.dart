@@ -32,7 +32,8 @@ class ConnectedChatState {
     return ConnectedChatState(
       status: status ?? this.status,
       messages: messages ?? this.messages,
-      hasFetchedAllMessages: hasFetchedAllMessages ?? this.hasFetchedAllMessages,
+      hasFetchedAllMessages:
+          hasFetchedAllMessages ?? this.hasFetchedAllMessages,
       failure: failure ?? this.failure,
       actionStatus: actionStatus ?? this.actionStatus,
       actionType: actionType ?? this.actionType,

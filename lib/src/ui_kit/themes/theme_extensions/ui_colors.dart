@@ -49,10 +49,14 @@ class UiColors extends ThemeExtension<UiColors> {
       focusColor: Color.lerp(focusColor, other.focusColor, t)!,
       secondaryColor: Color.lerp(secondaryColor, other.secondaryColor, t)!,
       errorColor: Color.lerp(errorColor, other.errorColor, t)!,
-      backgroundPrimaryColor: Color.lerp(backgroundPrimaryColor, other.backgroundPrimaryColor, t)!,
-      backgroundSecondaryColor: Color.lerp(backgroundSecondaryColor, other.backgroundSecondaryColor, t)!,
-      primaryTextColor: Color.lerp(primaryTextColor, other.primaryTextColor, t)!,
-      secondaryTextColor: Color.lerp(secondaryTextColor, other.secondaryTextColor, t)!,
+      backgroundPrimaryColor:
+          Color.lerp(backgroundPrimaryColor, other.backgroundPrimaryColor, t)!,
+      backgroundSecondaryColor: Color.lerp(
+          backgroundSecondaryColor, other.backgroundSecondaryColor, t)!,
+      primaryTextColor:
+          Color.lerp(primaryTextColor, other.primaryTextColor, t)!,
+      secondaryTextColor:
+          Color.lerp(secondaryTextColor, other.secondaryTextColor, t)!,
       diffColor: Color.lerp(diffColor, other.diffColor, t)!,
     );
   }
@@ -74,8 +78,10 @@ class UiColors extends ThemeExtension<UiColors> {
       focusColor: focusColor ?? this.focusColor,
       secondaryColor: secondaryColor ?? this.secondaryColor,
       errorColor: errorColor ?? this.errorColor,
-      backgroundPrimaryColor: backgroundPrimaryColor ?? this.backgroundPrimaryColor,
-      backgroundSecondaryColor: backgroundSecondaryColor ?? this.backgroundSecondaryColor,
+      backgroundPrimaryColor:
+          backgroundPrimaryColor ?? this.backgroundPrimaryColor,
+      backgroundSecondaryColor:
+          backgroundSecondaryColor ?? this.backgroundSecondaryColor,
       primaryTextColor: primaryTextColor ?? this.primaryTextColor,
       secondaryTextColor: secondaryTextColor ?? this.secondaryTextColor,
       diffColor: diffColor ?? this.diffColor,

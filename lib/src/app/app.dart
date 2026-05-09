@@ -7,7 +7,8 @@ export 'globals/globals.dart';
 export 'initializer.dart';
 export 'ui/ui.dart';
 
-final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class App extends StatelessWidget {
@@ -27,7 +28,8 @@ class App extends StatelessWidget {
           child: MaterialApp.router(
             scaffoldMessengerKey: scaffoldMessengerKey,
             theme: UiKitTheme.dark(),
-            localizationsDelegates: FuzzyChatLocalizations.localizationsDelegates,
+            localizationsDelegates:
+                FuzzyChatLocalizations.localizationsDelegates,
             supportedLocales: FuzzyChatLocalizations.supportedLocales,
             routerConfig: AppRouter.router(
               navigatorKey: navigatorKey,
@@ -39,4 +41,3 @@ class App extends StatelessWidget {
     );
   }
 }
-

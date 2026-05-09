@@ -5,7 +5,8 @@ export 'events/events.dart';
 class MessageDataRepository {
   final MessageDataLocalDataSource localDataSource;
 
-  Stream<NewMessageAdded> get newMessageUpdates => fuzzyHub.on<NewMessageAdded>();
+  Stream<NewMessageAdded> get newMessageUpdates =>
+      fuzzyHub.on<NewMessageAdded>();
 
   MessageDataRepository({required this.localDataSource});
 

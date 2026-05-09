@@ -34,6 +34,8 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
   late final TextEditingController _notesController;
 
   bool _isPasswordVisible = false;
+  bool _isSaving = false;
+  bool _isDeleting = false;
 
   List<int>? _pickedFileBytes;
   String? _pickedFileName;
@@ -176,14 +178,68 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
 
     final repo = sl.get<VaultRepository>();
 
-    if (widget.payload.existingItem == null) {
-      await repo.createItem(item, masterKey);
-    } else {
-      await repo.updateItem(item, masterKey);
-    }
+    setState(() => _isSaving = true);
 
-    if (context.mounted) {
-      Navigator.of(context).pop();
+    try {
+      if (widget.payload.existingItem == null) {
+        await repo.createItem(item, masterKey);
+      } else {
+        await repo.updateItem(item, masterKey);
+      }
+
+      if (context.mounted) {
+        Navigator.of(context).pop();
+      }
+    } finally {
+      if (mounted) setState(() => _isSaving = false);
+    }
+  }
+
+  Future<void> _onDelete(BuildContext context) async {
+    final bool? confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: context.uiColors.secondaryColor,
+          title: Text(
+            'Delete Item',
+            style: TextStyle(color: context.uiColors.primaryTextColor),
+          ),
+          content: Text(
+            'Are you sure you want to delete this item? This action cannot be undone.',
+            style: TextStyle(color: context.uiColors.primaryTextColor),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text(
+                currentContextLocalization.cancel,
+                style: TextStyle(color: context.uiColors.primaryTextColor),
+              ),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text('Delete', style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirm != true) return;
+
+    setState(() => _isDeleting = true);
+    try {
+      final masterKey = context.read<VaultAuthCubit>().state.masterKey;
+      if (masterKey == null) return;
+      final repo = sl.get<VaultRepository>();
+      await repo.deleteItem(widget.payload.existingItem!.metadata.id);
+
+      if (context.mounted) {
+        Navigator.of(context).pop();
+      }
+    } finally {
+      if (mounted) setState(() => _isDeleting = false);
     }
   }
 
@@ -213,6 +269,25 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
                               : currentContextLocalization.vaultFileLabel)
                       : currentContextLocalization.vaultEditItem,
                   leftAction: const FuzzyBackButton(),
+                  rightAction: widget.payload.existingItem != null
+                      ? _isDeleting
+                          ? const Padding(
+                              padding: EdgeInsets.only(right: 16),
+                              child: Center(
+                                child: SizedBox(
+                                  width: 24,
+                                  height: 24,
+                                  child:
+                                      CircularProgressIndicator(strokeWidth: 2),
+                                ),
+                              ),
+                            )
+                          : IconButton(
+                              icon: const Icon(Icons.delete_outline,
+                                  color: Colors.red),
+                              onPressed: () => _onDelete(context),
+                            )
+                      : null,
                 ),
                 Expanded(
                   child: SingleChildScrollView(
@@ -282,14 +357,18 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
                             labelText: _type == VaultItemType.password
                                 ? currentContextLocalization.vaultNotesOptional
                                 : currentContextLocalization.vaultSecureNote,
-                            maxLines: _type == VaultItemType.password ? 3 : 15,
+                            minLines: _type == VaultItemType.password ? 1 : 15,
+                            maxLines:
+                                _type == VaultItemType.password ? 3 : null,
                           ),
                         ],
                         const SizedBox(height: 40),
-                        FuzzyButton(
-                          text: currentContextLocalization.vaultSave,
-                          onTap: () => _onSave(context),
-                        ),
+                        _isSaving
+                            ? const Center(child: CircularProgressIndicator())
+                            : FuzzyButton(
+                                text: currentContextLocalization.vaultSave,
+                                onTap: () => _onSave(context),
+                              ),
                       ],
                     ),
                   ),

@@ -18,12 +18,14 @@ class ReceivePage extends StatefulWidget {
 }
 
 class _ReceivePageState extends State<ReceivePage> {
-  final TextEditingController _encryptedTextController = TextEditingController();
+  final TextEditingController _encryptedTextController =
+      TextEditingController();
   String _decryptedText = '';
 
   Future<void> _decrypt() async {
     final toBeDecryptedText = _encryptedTextController.text;
-    final newDecryptedText = await RSAService.decrypt(base64Decode(toBeDecryptedText), widget.privateKey);
+    final newDecryptedText = await RSAService.decrypt(
+        base64Decode(toBeDecryptedText), widget.privateKey);
     setState(() {
       _decryptedText = base64Encode(newDecryptedText);
     });

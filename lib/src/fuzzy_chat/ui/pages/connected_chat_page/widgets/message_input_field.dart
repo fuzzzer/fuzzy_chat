@@ -56,10 +56,14 @@ class MessageInputField extends StatelessWidget {
                   );
                 },
                 child: Text(
-                  isEncrypting ? localizations.encrypting : localizations.decrypting,
+                  isEncrypting
+                      ? localizations.encrypting
+                      : localizations.decrypting,
                   key: ValueKey<bool>(isEncrypting),
                   style: uiTextStyles.body16.copyWith(
-                    color: isEncrypting ? uiColors.diffColor : uiColors.secondaryColor,
+                    color: isEncrypting
+                        ? uiColors.diffColor
+                        : uiColors.secondaryColor,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -113,7 +117,9 @@ class MessageInputField extends StatelessWidget {
                     ),
                     child: Icon(
                       Icons.send,
-                      color: isEncrypting ? const Color(0xFF18181A) : uiColors.backgroundPrimaryColor,
+                      color: isEncrypting
+                          ? const Color(0xFF18181A)
+                          : uiColors.backgroundPrimaryColor,
                     ),
                   ),
                 ),

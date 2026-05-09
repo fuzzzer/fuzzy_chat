@@ -46,7 +46,8 @@ class ChatCreationCubit extends Cubit<ChatCreationState> {
       await keyStorageRepository.savePrivateKey(chatId, keyPair.privateKey);
       await keyStorageRepository.savePublicKey(chatId, keyPair.publicKey);
 
-      final invitation = await HandshakeService.generateInvitation(chatId, keyPair.publicKey);
+      final invitation =
+          await HandshakeService.generateInvitation(chatId, keyPair.publicKey);
 
       emit(
         state.copyWith(
@@ -70,7 +71,8 @@ class ChatCreationCubit extends Cubit<ChatCreationState> {
     }
   }
 
-  Future<ChatCreationFailureType?> checkChatNameRestrictions(String chatName) async {
+  Future<ChatCreationFailureType?> checkChatNameRestrictions(
+      String chatName) async {
     final name = await chatGeneralDataListRepository.getChatByName(chatName);
 
     if (name != null) {

@@ -16,14 +16,16 @@ class AcceptanceReaderCubit extends Cubit<AcceptanceReaderState> {
     emit(state.copyWith(status: StateStatus.loading));
 
     try {
-      final otherPartyPublicKey = await keyStorageRepository.getOtherPartyPublicKey(chatId);
+      final otherPartyPublicKey =
+          await keyStorageRepository.getOtherPartyPublicKey(chatId);
       final symmetricKey = await keyStorageRepository.getSymmetricKey(chatId);
 
       if (otherPartyPublicKey == null || symmetricKey == null) {
         emit(
           state.copyWith(
             status: StateStatus.failed,
-            failure: DefaultFailure(message: 'Public or symmetric key not found.'),
+            failure:
+                DefaultFailure(message: 'Public or symmetric key not found.'),
           ),
         );
         return;

@@ -70,7 +70,8 @@ class _SettingsPageState extends State<SettingsPage> {
                     icon: Icons.lock,
                     isSelected: isStrict,
                     color: uiColors.errorColor,
-                    onTap: () => _onSecurityLevelChanged(CopySecurityLevel.strict),
+                    onTap: () =>
+                        _onSecurityLevelChanged(CopySecurityLevel.strict),
                     uiColors: uiColors,
                     uiTextStyles: uiTextStyles,
                   ),
@@ -80,7 +81,8 @@ class _SettingsPageState extends State<SettingsPage> {
                     icon: Icons.lock_open,
                     isSelected: !isStrict,
                     color: uiColors.focusColor,
-                    onTap: () => _onSecurityLevelChanged(CopySecurityLevel.moderate),
+                    onTap: () =>
+                        _onSecurityLevelChanged(CopySecurityLevel.moderate),
                     uiColors: uiColors,
                     uiTextStyles: uiTextStyles,
                   ),
@@ -227,8 +229,7 @@ class _SecurityLevelTile extends StatelessWidget {
                 ),
               ),
             ),
-            if (isSelected)
-              Icon(Icons.check_circle, color: color, size: 20),
+            if (isSelected) Icon(Icons.check_circle, color: color, size: 20),
           ],
         ),
       ),

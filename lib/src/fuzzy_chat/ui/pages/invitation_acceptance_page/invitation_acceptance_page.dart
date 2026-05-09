@@ -37,11 +37,14 @@ class ProvidedInvitationAcceptancePage extends StatefulWidget {
   });
 
   @override
-  State<ProvidedInvitationAcceptancePage> createState() => _ProvidedInvitationAcceptancePageState();
+  State<ProvidedInvitationAcceptancePage> createState() =>
+      _ProvidedInvitationAcceptancePageState();
 }
 
-class _ProvidedInvitationAcceptancePageState extends State<ProvidedInvitationAcceptancePage> {
-  final TextEditingController _invitationTextController = TextEditingController();
+class _ProvidedInvitationAcceptancePageState
+    extends State<ProvidedInvitationAcceptancePage> {
+  final TextEditingController _invitationTextController =
+      TextEditingController();
   final TextEditingController _chatNameController = TextEditingController();
 
   @override
@@ -78,7 +81,9 @@ class _ProvidedInvitationAcceptancePageState extends State<ProvidedInvitationAcc
           );
     } else {
       FuzzySnackbar.show(
-        label: FuzzyChatLocalizations.of(context)?.pleaseProvideInvitationTextAndChatName ?? '',
+        label: FuzzyChatLocalizations.of(context)
+                ?.pleaseProvideInvitationTextAndChatName ??
+            '',
       );
     }
   }
@@ -101,7 +106,8 @@ class _ProvidedInvitationAcceptancePageState extends State<ProvidedInvitationAcc
           FuzzySnackbar.show(
             label: state.failure?.type.toUiMessage(
               localizations,
-              customUnknownMessage: FuzzyChatLocalizations.of(context)?.failedToAcceptInvitation,
+              customUnknownMessage:
+                  FuzzyChatLocalizations.of(context)?.failedToAcceptInvitation,
             ),
           );
         }

@@ -29,15 +29,23 @@ class InvitationAcceptanceForm extends StatelessWidget {
               ),
               const SizedBox(height: 32),
               Text(
-                localizations.stepPasteTheirInviteCode, // Note: We only have 'Paste Their Invite Code'
+                localizations
+                    .stepPasteTheirInviteCode, // Note: We only have 'Paste Their Invite Code'
                 textAlign: TextAlign.start,
-                style: Theme.of(context).extension<UiTextStyles>()!.body16.copyWith(fontWeight: FontWeight.bold, fontSize: 18),
+                style: Theme.of(context)
+                    .extension<UiTextStyles>()!
+                    .body16
+                    .copyWith(fontWeight: FontWeight.bold, fontSize: 18),
               ),
               const SizedBox(height: 8),
               Text(
-                localizations.askYourContactToShareTheirInviteCodeSecurelyAndPasteItBelow,
+                localizations
+                    .askYourContactToShareTheirInviteCodeSecurelyAndPasteItBelow,
                 textAlign: TextAlign.start,
-                style: Theme.of(context).extension<UiTextStyles>()!.body16.copyWith(
+                style: Theme.of(context)
+                    .extension<UiTextStyles>()!
+                    .body16
+                    .copyWith(
                       color: context.uiColors.secondaryTextColor,
                     ),
               ),
@@ -57,13 +65,19 @@ class InvitationAcceptanceForm extends StatelessWidget {
               Text(
                 localizations.stepNameThisChat,
                 textAlign: TextAlign.start,
-                style: Theme.of(context).extension<UiTextStyles>()!.body16.copyWith(fontWeight: FontWeight.bold, fontSize: 18),
+                style: Theme.of(context)
+                    .extension<UiTextStyles>()!
+                    .body16
+                    .copyWith(fontWeight: FontWeight.bold, fontSize: 18),
               ),
               const SizedBox(height: 8),
               Text(
                 localizations.chooseALocalNameForThisChatThisIsOnlyVisibleToYou,
                 textAlign: TextAlign.start,
-                style: Theme.of(context).extension<UiTextStyles>()!.body16.copyWith(
+                style: Theme.of(context)
+                    .extension<UiTextStyles>()!
+                    .body16
+                    .copyWith(
                       color: context.uiColors.secondaryTextColor,
                     ),
               ),
@@ -78,7 +92,8 @@ class InvitationAcceptanceForm extends StatelessWidget {
         ),
       ),
       actionsRow: FuzzyActionsRow(
-        isMainActionEnabled: chatNameController.text.isNotEmpty && invitationTextController.text.isNotEmpty,
+        isMainActionEnabled: chatNameController.text.isNotEmpty &&
+            invitationTextController.text.isNotEmpty,
         mainActionLabel: localizations.acceptInvitation,
         onMainActionPressed: onAccept,
       ),

@@ -24,5 +24,6 @@ class AcceptanceReaderState {
   }
 
   @override
-  String toString() => 'AcceptanceReaderState(status: $status, acceptance: $acceptance, failure: $failure)';
+  String toString() =>
+      'AcceptanceReaderState(status: $status, acceptance: $acceptance, failure: $failure)';
 }

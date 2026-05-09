@@ -25,20 +25,24 @@ class MainDrawer extends StatelessWidget {
               child: Text(
                 loc.menu,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: context.uiColors.primaryTextColor,
-                ),
+                      fontWeight: FontWeight.bold,
+                      color: context.uiColors.primaryTextColor,
+                    ),
               ),
             ),
             ListTile(
               leading: Icon(
                 Icons.chat_bubble_outline,
-                color: isChat ? context.uiColors.primaryColor : context.uiColors.secondaryTextColor,
+                color: isChat
+                    ? context.uiColors.primaryColor
+                    : context.uiColors.secondaryTextColor,
               ),
               title: Text(
                 loc.fuzzyChat,
                 style: TextStyle(
-                  color: isChat ? context.uiColors.primaryColor : context.uiColors.primaryTextColor,
+                  color: isChat
+                      ? context.uiColors.primaryColor
+                      : context.uiColors.primaryTextColor,
                   fontWeight: isChat ? FontWeight.bold : FontWeight.normal,
                 ),
               ),
@@ -51,18 +55,21 @@ class MainDrawer extends StatelessWidget {
             ListTile(
               leading: Icon(
                 Icons.lock_outline,
-                color: isVault ? context.uiColors.primaryColor : context.uiColors.secondaryTextColor,
+                color: isVault
+                    ? context.uiColors.primaryColor
+                    : context.uiColors.secondaryTextColor,
               ),
               title: Text(
                 loc.fuzzyVault,
                 style: TextStyle(
-                  color: isVault ? context.uiColors.primaryColor : context.uiColors.primaryTextColor,
+                  color: isVault
+                      ? context.uiColors.primaryColor
+                      : context.uiColors.primaryTextColor,
                   fontWeight: isVault ? FontWeight.bold : FontWeight.normal,
                 ),
               ),
               onTap: () {
                 Navigator.of(context).pop();
-                prefs.setLastSelectedTab('/vault');
                 context.go('/vault');
               },
             ),

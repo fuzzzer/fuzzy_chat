@@ -36,8 +36,10 @@ class _AESServiceImpl {
     }
 
     final salt = encryptedBytes.sublist(0, _saltByteLength);
-    final nonce = encryptedBytes.sublist(_saltByteLength, _saltByteLength + _nonceByteLength);
-    final ciphertext = encryptedBytes.sublist(_saltByteLength + _nonceByteLength);
+    final nonce = encryptedBytes.sublist(
+        _saltByteLength, _saltByteLength + _nonceByteLength);
+    final ciphertext =
+        encryptedBytes.sublist(_saltByteLength + _nonceByteLength);
 
     final ephemeralKey = _deriveEphemeralKey(mainKey: key, salt: salt);
     final decryptCipher = _initializeCipher(
@@ -218,7 +220,8 @@ class _AESServiceImpl {
         inputStream = inputFile.openRead();
       } else {
         // Input is encrypted file and to get full text size that needs to be decrypted skip the nonce and salt.
-        totalSizeToBeProcessed = totalInputFileSize - _saltByteLength - _nonceByteLength;
+        totalSizeToBeProcessed =
+            totalInputFileSize - _saltByteLength - _nonceByteLength;
         inputStream = inputFile.openRead(_saltByteLength + _nonceByteLength);
       }
 
@@ -230,14 +233,16 @@ class _AESServiceImpl {
         isCancelled: isCancelled,
         onInputChunkProcessed: (processedSize) {
           processedInputSize += processedSize;
-          progress = (processedInputSize / totalSizeToBeProcessed).clamp(0.0, 1.0);
+          progress =
+              (processedInputSize / totalSizeToBeProcessed).clamp(0.0, 1.0);
           controller.add(FileProcessingProgress(progress: progress));
         },
       );
     } catch (e) {
       logger.e('ERROR: while processing file $e');
 
-      failedFileProcessingProgress = FileProcessingProgress.completedWithFailure(
+      failedFileProcessingProgress =
+          FileProcessingProgress.completedWithFailure(
         message: 'Error while processing: $e',
         currentProgress: 1,
       );
@@ -284,7 +289,8 @@ class _AESServiceImpl {
       }
 
       final chunkBytes = Uint8List.fromList(chunk);
-      final outputSize = cipher.getOutputSize(chunkBytes.length) + (cipher.forEncryption ? 0 : cipher.blockSize);
+      final outputSize = cipher.getOutputSize(chunkBytes.length) +
+          (cipher.forEncryption ? 0 : cipher.blockSize);
       final outputBuffer = Uint8List(outputSize);
 
       final processedLength = cipher.processBytes(
@@ -296,7 +302,8 @@ class _AESServiceImpl {
       );
 
       if (processedLength > outputSize) {
-        throw StateError('Cipher produced more bytes than even over-allocated size.');
+        throw StateError(
+            'Cipher produced more bytes than even over-allocated size.');
       }
 
       if (processedLength > 0) {
@@ -309,8 +316,9 @@ class _AESServiceImpl {
 
     if (!isCancelled()) {
       final leftoverBytes = cipher.remainingInput.length;
-      final finalOutputSize =
-          cipher.getOutputSize(leftoverBytes) + cipher.blockSize + (cipher.forEncryption ? cipher.macSize : 0);
+      final finalOutputSize = cipher.getOutputSize(leftoverBytes) +
+          cipher.blockSize +
+          (cipher.forEncryption ? cipher.macSize : 0);
       final finalBuffer = Uint8List(finalOutputSize);
 
       final finalLength = cipher.doFinal(finalBuffer, 0);
@@ -324,7 +332,8 @@ class _AESServiceImpl {
     await outputSink.flush();
   }
 
-  static Future<(Uint8List salt, Uint8List nonce)> _readSaltAndNonce(RandomAccessFile raf) async {
+  static Future<(Uint8List salt, Uint8List nonce)> _readSaltAndNonce(
+      RandomAccessFile raf) async {
     const totalLength = _saltByteLength + _nonceByteLength;
 
     final saltAndNonceBuffer = Uint8List(totalLength);

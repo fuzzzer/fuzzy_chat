@@ -7,9 +7,11 @@ class FuzzyHub {
 
   StreamController<dynamic> get streamController => _streamController;
 
-  FuzzyHub({bool sync = false}) : _streamController = StreamController.broadcast(sync: sync);
+  FuzzyHub({bool sync = false})
+      : _streamController = StreamController.broadcast(sync: sync);
 
-  FuzzyHub.customController(StreamController<dynamic> controller) : _streamController = controller;
+  FuzzyHub.customController(StreamController<dynamic> controller)
+      : _streamController = controller;
 
   Stream<T> on<T>() {
     if (T == dynamic) {

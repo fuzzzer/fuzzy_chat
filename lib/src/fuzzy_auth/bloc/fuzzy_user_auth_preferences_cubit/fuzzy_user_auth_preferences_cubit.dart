@@ -3,7 +3,8 @@ import 'package:fuzzy_chat/lib.dart';
 
 part 'fuzzy_user_auth_preferences_state.dart';
 
-class FuzzyUserAuthPreferencesCubit extends Cubit<FuzzyUserAuthPreferencesState> {
+class FuzzyUserAuthPreferencesCubit
+    extends Cubit<FuzzyUserAuthPreferencesState> {
   final ChatAuthRepository _chatAuthRepository;
   final ChatGeneralDataListRepository _chatGeneralDataListRepository;
   final KeyStorageRepository _keyStorageRepository;
@@ -137,7 +138,8 @@ class FuzzyUserAuthPreferencesCubit extends Cubit<FuzzyUserAuthPreferencesState>
         return;
       }
 
-      await _biometricAuthRepository.enable(BiometricScope.chat, currentPassword);
+      await _biometricAuthRepository.enable(
+          BiometricScope.chat, currentPassword);
       await _fuzzyAuthStore.setBiometricEnabled(enabled: true);
       emit(state.copyWith(activationStatus: StateStatus.success));
     } catch (e) {

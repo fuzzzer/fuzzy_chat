@@ -14,8 +14,10 @@ class GlobalBlocListeners extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
-        BlocListener<FileProcessingCubit<FileEncryptionOption>, FileProcessingState>(
-          listenWhen: (previous, current) => previous.processedFiles.length != current.processedFiles.length,
+        BlocListener<FileProcessingCubit<FileEncryptionOption>,
+            FileProcessingState>(
+          listenWhen: (previous, current) =>
+              previous.processedFiles.length != current.processedFiles.length,
           listener: (context, state) {
             if (state.processedFiles.isNotEmpty == true) {
               final readProcessedFiles = state.processedFiles;
@@ -25,14 +27,18 @@ class GlobalBlocListeners extends StatelessWidget {
                     filesAreEncrypted: true,
                   );
 
-              context.read<FileProcessingCubit<FileEncryptionOption>>().markProcessedFilesAsReadAndClear(
+              context
+                  .read<FileProcessingCubit<FileEncryptionOption>>()
+                  .markProcessedFilesAsReadAndClear(
                     readProcessedFiles: readProcessedFiles,
                   );
             }
           },
         ),
-        BlocListener<FileProcessingCubit<FileDecryptionOption>, FileProcessingState>(
-          listenWhen: (previous, current) => previous.processedFiles.length != current.processedFiles.length,
+        BlocListener<FileProcessingCubit<FileDecryptionOption>,
+            FileProcessingState>(
+          listenWhen: (previous, current) =>
+              previous.processedFiles.length != current.processedFiles.length,
           listener: (context, state) {
             if (state.processedFiles.isNotEmpty == true) {
               final readProcessedFiles = state.processedFiles;
@@ -42,7 +48,9 @@ class GlobalBlocListeners extends StatelessWidget {
                     filesAreEncrypted: false,
                   );
 
-              context.read<FileProcessingCubit<FileDecryptionOption>>().markProcessedFilesAsReadAndClear(
+              context
+                  .read<FileProcessingCubit<FileDecryptionOption>>()
+                  .markProcessedFilesAsReadAndClear(
                     readProcessedFiles: readProcessedFiles,
                   );
             }
@@ -51,7 +59,8 @@ class GlobalBlocListeners extends StatelessWidget {
         BlocListener<ChatFileInjectorCubit, ChatFileInjectorState>(
           listenWhen: (previous, current) =>
               previous.failedToAddProcessedFiles != null &&
-              previous.failedToAddProcessedFiles?.length != current.failedToAddProcessedFiles?.length,
+              previous.failedToAddProcessedFiles?.length !=
+                  current.failedToAddProcessedFiles?.length,
           listener: (_, state) {
             final localizations = FuzzyChatLocalizations.of(
               navigatorKey.currentContext!,
@@ -72,11 +81,13 @@ class GlobalBlocListeners extends StatelessWidget {
           },
         ),
         BlocListener<FuzzyAuthStore, FuzzyAuthState>(
-          listenWhen: (previous, current) => !previous.status.hasAccess && current.status.hasAccess,
+          listenWhen: (previous, current) =>
+              !previous.status.hasAccess && current.status.hasAccess,
           listener: (context, __) {
             final router = AppRouter.routerInstance;
             if (router != null) {
-              final currentLocation = router.routerDelegate.currentConfiguration.uri.toString();
+              final currentLocation =
+                  router.routerDelegate.currentConfiguration.uri.toString();
               if (currentLocation == AppRouter.chatUnlock) {
                 router.go(AppRouter.home);
               }
@@ -89,7 +100,8 @@ class GlobalBlocListeners extends StatelessWidget {
           },
         ),
         BlocListener<FuzzyAuthStore, FuzzyAuthState>(
-          listenWhen: (previous, current) => !previous.status.isLocked && current.status.isLocked,
+          listenWhen: (previous, current) =>
+              !previous.status.isLocked && current.status.isLocked,
           listener: (context, __) {
             final router = AppRouter.routerInstance;
             if (router != null) {

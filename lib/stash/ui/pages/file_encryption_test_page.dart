@@ -7,9 +7,11 @@ class FileEncryptionTestPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FileProcessingCubit<FileEncryptionOption>, FileProcessingState>(
+    return BlocBuilder<FileProcessingCubit<FileEncryptionOption>,
+        FileProcessingState>(
       builder: (context, state) {
-        final fileEncryptionCubit = context.read<FileProcessingCubit<FileEncryptionOption>>();
+        final fileEncryptionCubit =
+            context.read<FileProcessingCubit<FileEncryptionOption>>();
 
         return Scaffold(
           appBar: AppBar(title: const Text('Encryption Example')),
@@ -51,11 +53,13 @@ class FileEncryptionTestPage extends StatelessWidget {
               Expanded(
                 child: ListView(
                   children: [
-                    Text('Queue: ${state.toBeProcessedFiles.length} file(s) are waiting or are in-progress.'),
+                    Text(
+                        'Queue: ${state.toBeProcessedFiles.length} file(s) are waiting or are in-progress.'),
                     ...state.toBeProcessedFiles.map(
                       (f) => ListTile(
                         title: Text(f.inputFilePath),
-                        subtitle: Text('Status: ${f.status}, progress: ${f.progress.toStringAsFixed(2)}'),
+                        subtitle: Text(
+                            'Status: ${f.status}, progress: ${f.progress.toStringAsFixed(2)}'),
                       ),
                     ),
                     Text(
@@ -65,7 +69,8 @@ class FileEncryptionTestPage extends StatelessWidget {
                       ),
                     ),
                     const Divider(),
-                    Text('Processed: ${state.processedFiles.length} file(s) are done or are canceled.'),
+                    Text(
+                        'Processed: ${state.processedFiles.length} file(s) are done or are canceled.'),
                     ...state.processedFiles.map(
                       (f) => ListTile(
                         title: Text(f.inputFilePath),

@@ -38,7 +38,8 @@ abstract class BaseAEADBlockCipher implements AEADBlockCipher {
   Uint8List? get aad => _initialAssociatedText;
 
   /// Any remaining input yet to be processed
-  Uint8List get remainingInput => Uint8List.view(_bufBlock!.buffer, _bufBlock!.offsetInBytes, _bufOff);
+  Uint8List get remainingInput =>
+      Uint8List.view(_bufBlock!.buffer, _bufBlock!.offsetInBytes, _bufOff);
 
   /// The length in bytes of the authentication tag
   int get macSize => _macSize;
@@ -126,7 +127,8 @@ abstract class BaseAEADBlockCipher implements AEADBlockCipher {
   }
 
   @override
-  int processBytes(Uint8List inp, int inpOff, int len, Uint8List out, int outOff) {
+  int processBytes(
+      Uint8List inp, int inpOff, int len, Uint8List out, int outOff) {
     if (len == 0) return 0;
 
     if (forEncryption) {
@@ -145,7 +147,8 @@ abstract class BaseAEADBlockCipher implements AEADBlockCipher {
       // process them and update the buffer
 
       var l = min(_lastMacSizeBytesOff, cipherLen);
-      resultLen += _processCipherBytes(_lastMacSizeBytes!, 0, min(_lastMacSizeBytesOff, cipherLen), out, outOff);
+      resultLen += _processCipherBytes(_lastMacSizeBytes!, 0,
+          min(_lastMacSizeBytesOff, cipherLen), out, outOff);
       outOff += resultLen;
       cipherLen -= l;
       _lastMacSizeBytes!.setRange(0, macSize - l, _lastMacSizeBytes!.skip(l));
@@ -157,14 +160,15 @@ abstract class BaseAEADBlockCipher implements AEADBlockCipher {
       resultLen += _processCipherBytes(inp, inpOff, cipherLen, out, outOff);
     }
 
-    _lastMacSizeBytes!
-        .setRange(_lastMacSizeBytesOff, _lastMacSizeBytesOff + len - cipherLen, inp.skip(inpOff + cipherLen));
+    _lastMacSizeBytes!.setRange(_lastMacSizeBytesOff,
+        _lastMacSizeBytesOff + len - cipherLen, inp.skip(inpOff + cipherLen));
     _lastMacSizeBytesOff += len - cipherLen;
 
     return resultLen;
   }
 
-  int _processCipherBytes(Uint8List inp, int inpOff, int len, Uint8List out, int outOff) {
+  int _processCipherBytes(
+      Uint8List inp, int inpOff, int len, Uint8List out, int outOff) {
     if (len == 0) return 0;
 
     var resultLen = 0;
@@ -213,5 +217,7 @@ abstract class BaseAEADBlockCipher implements AEADBlockCipher {
   }
 
   int getOutputSize(int length) =>
-      (length + (forEncryption ? macSize : -macSize) + blockSize - 1) ~/ blockSize * blockSize;
+      (length + (forEncryption ? macSize : -macSize) + blockSize - 1) ~/
+      blockSize *
+      blockSize;
 }

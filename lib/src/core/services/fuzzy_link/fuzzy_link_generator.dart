@@ -66,7 +66,8 @@ class FuzzyLinkGenerator {
   }
 
   static int _generateExpirationTimestamp() {
-    return DateTime.now().add(_expirationDuration).millisecondsSinceEpoch ~/ 1000;
+    return DateTime.now().add(_expirationDuration).millisecondsSinceEpoch ~/
+        1000;
   }
 
   static String _encodePayload(String json) {

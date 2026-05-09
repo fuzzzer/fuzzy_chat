@@ -13,7 +13,10 @@ class ChatSecurityDataLocalDataSource {
   }
 
   Future<StoredChatSecurityData?> getSecurityDataForChat(String chatId) async {
-    return await isar.storedChatSecurityDatas.filter().chatIdEqualTo(chatId).findFirst();
+    return await isar.storedChatSecurityDatas
+        .filter()
+        .chatIdEqualTo(chatId)
+        .findFirst();
   }
 
   Future<void> updateSecurityData(StoredChatSecurityData securityData) async {

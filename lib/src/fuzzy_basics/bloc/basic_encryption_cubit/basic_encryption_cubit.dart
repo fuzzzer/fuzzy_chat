@@ -8,7 +8,8 @@ import 'package:fuzzy_chat/lib.dart';
 part 'basic_encryption_state.dart';
 
 class BasicEncryptionCubit extends Cubit<BasicEncryptionState> {
-  BasicEncryptionCubit() : super(const BasicEncryptionState(status: StateStatus.initial));
+  BasicEncryptionCubit()
+      : super(const BasicEncryptionState(status: StateStatus.initial));
 
   Uint8List _createKeyFromString(String textKey) {
     final keyBytes = utf8.encode(textKey);
@@ -46,7 +47,8 @@ class BasicEncryptionCubit extends Cubit<BasicEncryptionState> {
     }
   }
 
-  Future<void> decryptText({required String encryptedText, required String key}) async {
+  Future<void> decryptText(
+      {required String encryptedText, required String key}) async {
     if (encryptedText.isEmpty || key.isEmpty) {
       emit(
         state.copyWith(
@@ -59,7 +61,8 @@ class BasicEncryptionCubit extends Cubit<BasicEncryptionState> {
     emit(state.copyWith(status: StateStatus.loading));
     try {
       final symmetricKey = _createKeyFromString(key);
-      final decryptedText = await AESService.decryptText(encryptedText, symmetricKey);
+      final decryptedText =
+          await AESService.decryptText(encryptedText, symmetricKey);
       emit(
         state.copyWith(
           status: StateStatus.success,
@@ -70,7 +73,8 @@ class BasicEncryptionCubit extends Cubit<BasicEncryptionState> {
       emit(
         state.copyWith(
           status: StateStatus.failed,
-          failure: DefaultFailure(message: 'decryptionFailedCheckYourKeyOrEncryptedText'),
+          failure: DefaultFailure(
+              message: 'decryptionFailedCheckYourKeyOrEncryptedText'),
         ),
       );
     }

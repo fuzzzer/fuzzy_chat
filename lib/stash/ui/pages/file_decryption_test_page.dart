@@ -7,7 +7,8 @@ class FileDecryptionTestPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FileProcessingCubit<FileDecryptionOption>, FileProcessingState>(
+    return BlocBuilder<FileProcessingCubit<FileDecryptionOption>,
+        FileProcessingState>(
       builder: (context, state) {
         final cubit = context.read<FileProcessingCubit<FileDecryptionOption>>();
 
@@ -55,11 +56,13 @@ class FileDecryptionTestPage extends StatelessWidget {
               Expanded(
                 child: ListView(
                   children: [
-                    Text('Queue: ${state.toBeProcessedFiles.length} file(s) are waiting or are in-progress.'),
+                    Text(
+                        'Queue: ${state.toBeProcessedFiles.length} file(s) are waiting or are in-progress.'),
                     ...state.toBeProcessedFiles.map(
                       (f) => ListTile(
                         title: Text(f.inputFilePath),
-                        subtitle: Text('Status: ${f.status}, progress: ${f.progress.toStringAsFixed(2)}'),
+                        subtitle: Text(
+                            'Status: ${f.status}, progress: ${f.progress.toStringAsFixed(2)}'),
                       ),
                     ),
                     const Divider(),

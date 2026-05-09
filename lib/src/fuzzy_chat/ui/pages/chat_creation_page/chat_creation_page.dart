@@ -24,7 +24,8 @@ class ProvidedChatCreationPage extends StatefulWidget {
   const ProvidedChatCreationPage({super.key});
 
   @override
-  State<ProvidedChatCreationPage> createState() => _ProvidedChatCreationPageState();
+  State<ProvidedChatCreationPage> createState() =>
+      _ProvidedChatCreationPageState();
 }
 
 class _ProvidedChatCreationPageState extends State<ProvidedChatCreationPage> {

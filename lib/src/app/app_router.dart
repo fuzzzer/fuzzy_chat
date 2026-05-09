@@ -41,7 +41,8 @@ class AppRouter {
       navigatorKey: navigatorKey,
       initialLocation: sl.get<PreferencesService>().lastSelectedTab,
       redirect: (context, state) {
-        final hasSeenOnboarding = sl.get<PreferencesService>().hasSeenOnboarding;
+        final hasSeenOnboarding =
+            sl.get<PreferencesService>().hasSeenOnboarding;
         final isOnboarding = state.matchedLocation == onboarding;
 
         if (!hasSeenOnboarding && !isOnboarding) return onboarding;

@@ -26,7 +26,8 @@ class ChatCreationState {
       status: status ?? this.status,
       chatName: chatName ?? this.chatName,
       chatId: chatId ?? this.chatId,
-      generatedChatInvitation: generatedChatInvitation ?? this.generatedChatInvitation,
+      generatedChatInvitation:
+          generatedChatInvitation ?? this.generatedChatInvitation,
       failure: failure ?? this.failure,
     );
   }

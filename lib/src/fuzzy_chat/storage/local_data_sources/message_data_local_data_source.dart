@@ -13,7 +13,11 @@ class MessageDataLocalDataSource {
   }
 
   Future<List<StoredMessageData>> getMessagesForChat(String chatId) async {
-    return await isar.storedMessageDatas.filter().chatIdEqualTo(chatId).sortBySentAt().findAll();
+    return await isar.storedMessageDatas
+        .filter()
+        .chatIdEqualTo(chatId)
+        .sortBySentAt()
+        .findAll();
   }
 
   Future<List<StoredMessageData>> getMessagesForChatPaginated(

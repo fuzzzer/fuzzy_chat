@@ -7,7 +7,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'share_helper.dart';
 
 class DeviceFileInteractor {
-  static Future<void> shareFile(String filePath, {BuildContext? context}) async {
+  static Future<void> shareFile(String filePath,
+      {BuildContext? context}) async {
     final file = File(filePath);
     final fileExists = await file.exists();
     if (!fileExists) {

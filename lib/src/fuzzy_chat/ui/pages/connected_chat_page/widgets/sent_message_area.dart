@@ -25,7 +25,8 @@ class _SentMessageAreaState extends State<SentMessageArea> {
   bool isExpandable = false;
   bool showEncrypted = true;
 
-  String _prepareEncrypredMessage(String encryptedMessage) => '$fuzzIdentificator$encryptedMessage';
+  String _prepareEncrypredMessage(String encryptedMessage) =>
+      '$fuzzIdentificator$encryptedMessage';
 
   @override
   void initState() {
@@ -176,11 +177,14 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                   child: Stack(
                     children: [
                       Padding(
-                        padding: isExpandable ? const EdgeInsets.only(bottom: 12) : EdgeInsets.zero,
+                        padding: isExpandable
+                            ? const EdgeInsets.only(bottom: 12)
+                            : EdgeInsets.zero,
                         child: FuzzyOverlaySpawner(
                           splashColor: uiColors.backgroundPrimaryColor,
                           splashRadius: borderRadius,
-                          offset: (!showEncrypted && widget.message.decryptedMessage.length < 10)
+                          offset: (!showEncrypted &&
+                                  widget.message.decryptedMessage.length < 10)
                               ? const Offset(-140, 8)
                               : const Offset(24, -24),
                           spawnedChildBuilder: (context, closeOverlay) {
@@ -198,7 +202,8 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                                           label: localizations.show,
                                           onTap: () {
                                             _openEncryptedFileDirectory(
-                                              encryptedMessage: encryptedMessage,
+                                              encryptedMessage:
+                                                  encryptedMessage,
                                             );
                                             closeOverlay();
                                           },
@@ -207,8 +212,12 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                                         TextAction(
                                           label: localizations.shareFile,
                                           onTap: () {
-                                            final filePath = encryptedMessage.replaceAll(fuzzIdentificator, '');
-                                            DeviceFileInteractor.shareFile(filePath, context: context);
+                                            final filePath =
+                                                encryptedMessage.replaceAll(
+                                                    fuzzIdentificator, '');
+                                            DeviceFileInteractor.shareFile(
+                                                filePath,
+                                                context: context);
                                             closeOverlay();
                                           },
                                         ),
@@ -216,9 +225,14 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                                         TextAction(
                                           label: localizations.copy,
                                           onTap: () {
-                                            final filePath = encryptedMessage.replaceAll(fuzzIdentificator, '');
-                                            Clipboard.setData(ClipboardData(text: filePath));
-                                            FuzzySnackbar.show(label: localizations.copiedToTheClipboard);
+                                            final filePath =
+                                                encryptedMessage.replaceAll(
+                                                    fuzzIdentificator, '');
+                                            Clipboard.setData(
+                                                ClipboardData(text: filePath));
+                                            FuzzySnackbar.show(
+                                                label: localizations
+                                                    .copiedToTheClipboard);
                                             closeOverlay();
                                           },
                                         ),
@@ -226,17 +240,22 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                                         TextAction(
                                           label: '🔗',
                                           onTap: () {
-                                            final link = FuzzyLinkGenerator.generateFuzzLink(
+                                            final link = FuzzyLinkGenerator
+                                                .generateFuzzLink(
                                               widget.message.chatId,
                                               encryptedMessage,
                                             );
-                                            final preparedEncryptedMessage = _prepareEncrypredMessage(encryptedMessage);
-                                            final shareable = FuzzyLinkGenerator.generateShareableContent(
+                                            final preparedEncryptedMessage =
+                                                _prepareEncrypredMessage(
+                                                    encryptedMessage);
+                                            final shareable = FuzzyLinkGenerator
+                                                .generateShareableContent(
                                               link: link,
                                               rawFuzz: preparedEncryptedMessage,
                                               type: FuzzyLinkType.fuzz,
                                             );
-                                            ShareHelper.share(shareable, context: context);
+                                            ShareHelper.share(shareable,
+                                                context: context);
                                             closeOverlay();
                                           },
                                         ),
@@ -245,12 +264,16 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                                           hasRightBorder: true,
                                           label: localizations.copyAsLink,
                                           onTap: () {
-                                            final link = FuzzyLinkGenerator.generateFuzzLink(
+                                            final link = FuzzyLinkGenerator
+                                                .generateFuzzLink(
                                               widget.message.chatId,
                                               encryptedMessage,
                                             );
-                                            Clipboard.setData(ClipboardData(text: link));
-                                            FuzzySnackbar.show(label: localizations.linkCopiedToClipboard);
+                                            Clipboard.setData(
+                                                ClipboardData(text: link));
+                                            FuzzySnackbar.show(
+                                                label: localizations
+                                                    .linkCopiedToClipboard);
                                             closeOverlay();
                                           },
                                         ),
@@ -261,7 +284,8 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                                           label: localizations.copyFuzz,
                                           onTap: () {
                                             _copyMessage(
-                                              encryptedMessage: encryptedMessage,
+                                              encryptedMessage:
+                                                  encryptedMessage,
                                               localizations: localizations,
                                             );
 
@@ -272,9 +296,13 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                                         TextAction(
                                           label: localizations.share,
                                           onTap: () {
-                                            final preparedEncryptedMessage = _prepareEncrypredMessage(encryptedMessage);
+                                            final preparedEncryptedMessage =
+                                                _prepareEncrypredMessage(
+                                                    encryptedMessage);
 
-                                            ShareHelper.share(preparedEncryptedMessage, context: context);
+                                            ShareHelper.share(
+                                                preparedEncryptedMessage,
+                                                context: context);
 
                                             closeOverlay();
                                           },
@@ -283,12 +311,16 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                                         TextAction(
                                           label: localizations.copyAsLink,
                                           onTap: () {
-                                            final link = FuzzyLinkGenerator.generateFuzzLink(
+                                            final link = FuzzyLinkGenerator
+                                                .generateFuzzLink(
                                               widget.message.chatId,
                                               encryptedMessage,
                                             );
-                                            Clipboard.setData(ClipboardData(text: link));
-                                            FuzzySnackbar.show(label: localizations.linkCopiedToClipboard);
+                                            Clipboard.setData(
+                                                ClipboardData(text: link));
+                                            FuzzySnackbar.show(
+                                                label: localizations
+                                                    .linkCopiedToClipboard);
                                             closeOverlay();
                                           },
                                         ),
@@ -297,17 +329,22 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                                           hasRightBorder: true,
                                           label: '🔗',
                                           onTap: () {
-                                            final link = FuzzyLinkGenerator.generateFuzzLink(
+                                            final link = FuzzyLinkGenerator
+                                                .generateFuzzLink(
                                               widget.message.chatId,
                                               encryptedMessage,
                                             );
-                                            final preparedEncryptedMessage = _prepareEncrypredMessage(encryptedMessage);
-                                            final shareable = FuzzyLinkGenerator.generateShareableContent(
+                                            final preparedEncryptedMessage =
+                                                _prepareEncrypredMessage(
+                                                    encryptedMessage);
+                                            final shareable = FuzzyLinkGenerator
+                                                .generateShareableContent(
                                               link: link,
                                               rawFuzz: preparedEncryptedMessage,
                                               type: FuzzyLinkType.fuzz,
                                             );
-                                            ShareHelper.share(shareable, context: context);
+                                            ShareHelper.share(shareable,
+                                                context: context);
                                             closeOverlay();
                                           },
                                         ),
@@ -323,7 +360,8 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                           },
                           child: Container(
                             constraints: BoxConstraints(
-                              maxWidth: MediaQuery.of(context).size.width * 0.75,
+                              maxWidth:
+                                  MediaQuery.of(context).size.width * 0.75,
                             ),
                             padding: const EdgeInsets.all(12),
                             child: AnimatedSize(
@@ -333,10 +371,16 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                               curve: Curves.easeIn,
                               child: Text(
                                 isEncryptedFile
-                                    ? (showEncrypted ? encryptedMessage : fileName)
-                                    : (showEncrypted ? encryptedMessage : widget.message.decryptedMessage),
+                                    ? (showEncrypted
+                                        ? encryptedMessage
+                                        : fileName)
+                                    : (showEncrypted
+                                        ? encryptedMessage
+                                        : widget.message.decryptedMessage),
                                 maxLines: isExpanded ? null : 4,
-                                overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
+                                overflow: isExpanded
+                                    ? TextOverflow.visible
+                                    : TextOverflow.ellipsis,
                                 style: uiTextStyles.body16.copyWith(
                                   color: uiColors.backgroundPrimaryColor,
                                 ),
@@ -360,7 +404,9 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                                   color: Colors.white.withOpacity(0),
                                 ),
                                 Icon(
-                                  isExpanded ? Icons.expand_less : Icons.expand_more,
+                                  isExpanded
+                                      ? Icons.expand_less
+                                      : Icons.expand_more,
                                   size: 24,
                                   color: uiColors.backgroundPrimaryColor,
                                 ),

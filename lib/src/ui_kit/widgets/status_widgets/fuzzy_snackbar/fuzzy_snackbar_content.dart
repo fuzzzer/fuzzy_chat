@@ -78,16 +78,19 @@ class _SnackBarContentState extends State<FuzzySnackBarContent> {
                   child: Container(
                     width: widget.snackbarData.width ?? 200,
                     decoration: BoxDecoration(
-                      color: widget.snackbarData.backgroundColor ?? uiColors.secondaryColor.withOpacity(0.7),
+                      color: widget.snackbarData.backgroundColor ??
+                          uiColors.secondaryColor.withOpacity(0.7),
                       borderRadius: BorderRadius.circular(_borderRadius),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 16),
                       child: Row(
                         children: [
                           if (widget.snackbarData.leading != null)
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
                               child: widget.snackbarData.leading,
                             ),
                           Column(

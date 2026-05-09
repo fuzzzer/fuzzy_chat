@@ -24,7 +24,8 @@ class _FuzzyUserAuthPageContent extends StatefulWidget {
   const _FuzzyUserAuthPageContent();
 
   @override
-  State<_FuzzyUserAuthPageContent> createState() => _FuzzyUserAuthPageContentState();
+  State<_FuzzyUserAuthPageContent> createState() =>
+      _FuzzyUserAuthPageContentState();
 }
 
 class _FuzzyUserAuthPageContentState extends State<_FuzzyUserAuthPageContent> {
@@ -103,7 +104,9 @@ class _FuzzyUserAuthPageContentState extends State<_FuzzyUserAuthPageContent> {
     final oldPassword = _oldPasswordController.text;
     if (oldPassword.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(currentContextLocalization.chatAuthBiometricDescription)),
+        SnackBar(
+            content:
+                Text(currentContextLocalization.chatAuthBiometricDescription)),
       );
       return;
     }
@@ -128,7 +131,8 @@ class _FuzzyUserAuthPageContentState extends State<_FuzzyUserAuthPageContent> {
       );
       return;
     }
-    final success = await context.read<VaultAuthCubit>().enableBiometric(password);
+    final success =
+        await context.read<VaultAuthCubit>().enableBiometric(password);
     if (!mounted) return;
     if (success) {
       _vaultPasswordController.clear();
@@ -154,7 +158,8 @@ class _FuzzyUserAuthPageContentState extends State<_FuzzyUserAuthPageContent> {
     final authStatus = context.watch<FuzzyAuthStore>().state.status;
     final isAuthEnabled = authStatus.isAuthenticated || authStatus.isLocked;
 
-    return BlocConsumer<FuzzyUserAuthPreferencesCubit, FuzzyUserAuthPreferencesState>(
+    return BlocConsumer<FuzzyUserAuthPreferencesCubit,
+        FuzzyUserAuthPreferencesState>(
       listener: (context, state) {
         if (state.activationStatus == StateStatus.success) {
           _clearFields();
@@ -184,7 +189,8 @@ class _FuzzyUserAuthPageContentState extends State<_FuzzyUserAuthPageContent> {
                   ),
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -198,11 +204,13 @@ class _FuzzyUserAuthPageContentState extends State<_FuzzyUserAuthPageContent> {
                           if (isAuthEnabled) ...[
                             _ChangePasswordSection(
                               passwordController: _passwordController,
-                              confirmPasswordController: _confirmPasswordController,
+                              confirmPasswordController:
+                                  _confirmPasswordController,
                               oldPasswordController: _oldPasswordController,
                               isPasswordVisible: _isPasswordVisible,
                               showMismatchError: _showMismatchError,
-                              onTogglePasswordVisibility: _togglePasswordVisibility,
+                              onTogglePasswordVisibility:
+                                  _togglePasswordVisibility,
                               onChangePassword: _onChangePassword,
                               onDisableAuth: _onDisableAuth,
                             ),
@@ -214,10 +222,12 @@ class _FuzzyUserAuthPageContentState extends State<_FuzzyUserAuthPageContent> {
                           ] else
                             _SetupPasswordSection(
                               passwordController: _passwordController,
-                              confirmPasswordController: _confirmPasswordController,
+                              confirmPasswordController:
+                                  _confirmPasswordController,
                               isPasswordVisible: _isPasswordVisible,
                               showMismatchError: _showMismatchError,
-                              onTogglePasswordVisibility: _togglePasswordVisibility,
+                              onTogglePasswordVisibility:
+                                  _togglePasswordVisibility,
                               onEnableAuth: _onEnableAuth,
                             ),
                           const SizedBox(height: 32),
@@ -241,7 +251,8 @@ class _FuzzyUserAuthPageContentState extends State<_FuzzyUserAuthPageContent> {
                           _VaultBiometricSection(
                             passwordController: _vaultPasswordController,
                             isPasswordVisible: _isVaultPasswordVisible,
-                            onTogglePasswordVisibility: _toggleVaultPasswordVisibility,
+                            onTogglePasswordVisibility:
+                                _toggleVaultPasswordVisibility,
                             onEnableBiometric: _onEnableVaultBiometric,
                             onDisableBiometric: _onDisableVaultBiometric,
                           ),
@@ -300,7 +311,8 @@ class _SetupPasswordSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizations = context.fuzzyChatLocalizations;
 
-    return BlocBuilder<FuzzyUserAuthPreferencesCubit, FuzzyUserAuthPreferencesState>(
+    return BlocBuilder<FuzzyUserAuthPreferencesCubit,
+        FuzzyUserAuthPreferencesState>(
       builder: (context, state) {
         final isLoading = state.activationStatus == StateStatus.loading;
 
@@ -371,7 +383,8 @@ class _ChangePasswordSection extends StatelessWidget {
     final uiTextStyles = theme.extension<UiTextStyles>()!;
     final localizations = context.fuzzyChatLocalizations;
 
-    return BlocBuilder<FuzzyUserAuthPreferencesCubit, FuzzyUserAuthPreferencesState>(
+    return BlocBuilder<FuzzyUserAuthPreferencesCubit,
+        FuzzyUserAuthPreferencesState>(
       builder: (context, state) {
         final isLoading = state.activationStatus == StateStatus.loading;
 
@@ -487,17 +500,20 @@ class _BiometricSectionState extends State<_BiometricSection> {
     final uiColors = theme.extension<UiColors>()!;
     final uiTextStyles = theme.extension<UiTextStyles>()!;
     final localizations = context.fuzzyChatLocalizations;
-    final biometricEnabled = context.watch<FuzzyAuthStore>().state.biometricEnabled;
+    final biometricEnabled =
+        context.watch<FuzzyAuthStore>().state.biometricEnabled;
     final canUse = _canUseBiometrics;
 
-    return BlocBuilder<FuzzyUserAuthPreferencesCubit, FuzzyUserAuthPreferencesState>(
+    return BlocBuilder<FuzzyUserAuthPreferencesCubit,
+        FuzzyUserAuthPreferencesState>(
       builder: (context, state) {
         final isLoading = state.activationStatus == StateStatus.loading;
 
         if (canUse == false) {
           return Text(
             localizations.chatAuthBiometricUnavailable,
-            style: theme.textTheme.bodySmall?.copyWith(color: uiColors.secondaryTextColor),
+            style: theme.textTheme.bodySmall
+                ?.copyWith(color: uiColors.secondaryTextColor),
           );
         }
 
@@ -523,7 +539,8 @@ class _BiometricSectionState extends State<_BiometricSection> {
             ] else ...[
               Text(
                 localizations.chatAuthBiometricDescription,
-                style: theme.textTheme.bodySmall?.copyWith(color: uiColors.secondaryTextColor),
+                style: theme.textTheme.bodySmall
+                    ?.copyWith(color: uiColors.secondaryTextColor),
               ),
               const SizedBox(height: 12),
               FuzzyButton(
@@ -588,7 +605,8 @@ class _VaultBiometricSectionState extends State<_VaultBiometricSection> {
     if (canUse == false) {
       return Text(
         localizations.vaultBiometricUnavailable,
-        style: theme.textTheme.bodySmall?.copyWith(color: uiColors.secondaryTextColor),
+        style: theme.textTheme.bodySmall
+            ?.copyWith(color: uiColors.secondaryTextColor),
       );
     }
 
@@ -599,7 +617,8 @@ class _VaultBiometricSectionState extends State<_VaultBiometricSection> {
     if (!hasVault) {
       return Text(
         localizations.vaultNotCreated,
-        style: theme.textTheme.bodySmall?.copyWith(color: uiColors.secondaryTextColor),
+        style: theme.textTheme.bodySmall
+            ?.copyWith(color: uiColors.secondaryTextColor),
       );
     }
 
@@ -620,7 +639,8 @@ class _VaultBiometricSectionState extends State<_VaultBiometricSection> {
         ] else ...[
           Text(
             localizations.vaultBiometricDescription,
-            style: theme.textTheme.bodySmall?.copyWith(color: uiColors.secondaryTextColor),
+            style: theme.textTheme.bodySmall
+                ?.copyWith(color: uiColors.secondaryTextColor),
           ),
           const SizedBox(height: 12),
           FuzzyTextField(

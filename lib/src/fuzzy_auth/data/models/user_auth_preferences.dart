@@ -17,7 +17,8 @@ class UserAuthPreferences {
     bool? isAuthenticationOnceEnabled,
   }) {
     return UserAuthPreferences(
-      isAuthenticationOnceEnabled: isAuthenticationOnceEnabled ?? this.isAuthenticationOnceEnabled,
+      isAuthenticationOnceEnabled:
+          isAuthenticationOnceEnabled ?? this.isAuthenticationOnceEnabled,
     );
   }
 }

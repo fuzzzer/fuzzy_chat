@@ -59,7 +59,8 @@ void main() {
 
     test('Performance test: Large data encryption/decryption', () async {
       // Generate large random data (e.g. 5MB)
-      final largeData = Uint8List.fromList(List<int>.generate(5 * 1024 * 1024, (i) => i % 256));
+      final largeData = Uint8List.fromList(
+          List<int>.generate(5 * 1024 * 1024, (i) => i % 256));
       final enc = await AESService.encrypt(largeData, key);
       expect(enc, isNotEmpty);
 

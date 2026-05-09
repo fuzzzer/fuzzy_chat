@@ -34,7 +34,10 @@ void main() {
 
     group('InvitationLinkPayload expiration', () {
       test('non-expired link returns false', () {
-        final futureExp = DateTime.now().add(const Duration(hours: 1)).millisecondsSinceEpoch ~/ 1000;
+        final futureExp = DateTime.now()
+                .add(const Duration(hours: 1))
+                .millisecondsSinceEpoch ~/
+            1000;
         final payload = InvitationLinkPayload(
           version: 1,
           rawInvitationContent: '{}',
@@ -44,7 +47,10 @@ void main() {
       });
 
       test('expired link returns true', () {
-        final pastExp = DateTime.now().subtract(const Duration(hours: 1)).millisecondsSinceEpoch ~/ 1000;
+        final pastExp = DateTime.now()
+                .subtract(const Duration(hours: 1))
+                .millisecondsSinceEpoch ~/
+            1000;
         final payload = InvitationLinkPayload(
           version: 1,
           rawInvitationContent: '{}',
@@ -65,7 +71,10 @@ void main() {
 
     group('AcceptanceLinkPayload expiration', () {
       test('non-expired link returns false', () {
-        final futureExp = DateTime.now().add(const Duration(hours: 1)).millisecondsSinceEpoch ~/ 1000;
+        final futureExp = DateTime.now()
+                .add(const Duration(hours: 1))
+                .millisecondsSinceEpoch ~/
+            1000;
         final payload = AcceptanceLinkPayload(
           version: 1,
           rawAcceptanceContent: '{}',
@@ -75,7 +84,10 @@ void main() {
       });
 
       test('expired link returns true', () {
-        final pastExp = DateTime.now().subtract(const Duration(hours: 1)).millisecondsSinceEpoch ~/ 1000;
+        final pastExp = DateTime.now()
+                .subtract(const Duration(hours: 1))
+                .millisecondsSinceEpoch ~/
+            1000;
         final payload = AcceptanceLinkPayload(
           version: 1,
           rawAcceptanceContent: '{}',
@@ -87,8 +99,10 @@ void main() {
 
     group('FuzzyLinkType', () {
       test('fromUriSegment resolves all types', () {
-        expect(FuzzyLinkType.fromUriSegment('invite'), FuzzyLinkType.invitation);
-        expect(FuzzyLinkType.fromUriSegment('accept'), FuzzyLinkType.acceptance);
+        expect(
+            FuzzyLinkType.fromUriSegment('invite'), FuzzyLinkType.invitation);
+        expect(
+            FuzzyLinkType.fromUriSegment('accept'), FuzzyLinkType.acceptance);
         expect(FuzzyLinkType.fromUriSegment('fuzz'), FuzzyLinkType.fuzz);
       });
 

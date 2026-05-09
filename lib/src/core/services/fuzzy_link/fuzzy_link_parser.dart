@@ -12,7 +12,8 @@ class FuzzyLinkParser {
       final type = FuzzyLinkType.fromUriSegment(uri.host);
       if (type == null) return null;
 
-      final encodedPayload = uri.pathSegments.isNotEmpty ? uri.pathSegments.first : null;
+      final encodedPayload =
+          uri.pathSegments.isNotEmpty ? uri.pathSegments.first : null;
       if (encodedPayload == null || encodedPayload.isEmpty) return null;
 
       final jsonString = _decodePayload(encodedPayload);
@@ -40,7 +41,8 @@ class FuzzyLinkParser {
     }
   }
 
-  static FuzzyLinkPayload? _parseInvitation(Map<String, dynamic> json, int version) {
+  static FuzzyLinkPayload? _parseInvitation(
+      Map<String, dynamic> json, int version) {
     final chatIdEncoded = json['I'] as String?;
     final publicKeyEncoded = json['P'] as String?;
     if (chatIdEncoded == null || publicKeyEncoded == null) return null;
@@ -59,11 +61,14 @@ class FuzzyLinkParser {
     );
   }
 
-  static FuzzyLinkPayload? _parseAcceptance(Map<String, dynamic> json, int version) {
+  static FuzzyLinkPayload? _parseAcceptance(
+      Map<String, dynamic> json, int version) {
     final chatIdEncoded = json['I'] as String?;
     final publicKeyEncoded = json['P'] as String?;
     final encryptedKeyEncoded = json['E'] as String?;
-    if (chatIdEncoded == null || publicKeyEncoded == null || encryptedKeyEncoded == null) {
+    if (chatIdEncoded == null ||
+        publicKeyEncoded == null ||
+        encryptedKeyEncoded == null) {
       return null;
     }
 

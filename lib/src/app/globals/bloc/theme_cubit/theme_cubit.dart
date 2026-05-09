@@ -66,16 +66,20 @@ class ThemeCubit extends Cubit<ThemeState> with WidgetsBindingObserver {
       return null;
     }
 
-    final brightnessPreferences = jsonDecode(rawBrightnessPreferences) as Map<String, dynamic>;
+    final brightnessPreferences =
+        jsonDecode(rawBrightnessPreferences) as Map<String, dynamic>;
 
-    final lastAppBrightness = _brightnessFromString((brightnessPreferences[_lastAppBrightnessKey] as String?) ?? '');
+    final lastAppBrightness = _brightnessFromString(
+        (brightnessPreferences[_lastAppBrightnessKey] as String?) ?? '');
 
     return lastAppBrightness;
   }
 
   ChosenBrightness? _brightnessFromString(String name) {
     try {
-      return ChosenBrightness.values.where((brightness) => brightness.name == name).first;
+      return ChosenBrightness.values
+          .where((brightness) => brightness.name == name)
+          .first;
     } catch (ex) {
       return null;
     }

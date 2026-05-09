@@ -11,7 +11,8 @@ class FuzzyOverlaySpawner<T> extends StatefulWidget {
     this.offset,
   });
 
-  final Widget Function(BuildContext context, VoidCallback closeOverlay) spawnedChildBuilder;
+  final Widget Function(BuildContext context, VoidCallback closeOverlay)
+      spawnedChildBuilder;
   final void Function()? onLongPress;
   final Widget child;
   final BorderRadius? splashRadius;

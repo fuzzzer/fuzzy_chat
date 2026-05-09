@@ -5,8 +5,8 @@ import 'package:fuzzy_chat/src/core/core.dart';
 import 'package:pointycastle/export.dart';
 import 'package:test/test.dart';
 
-Uint8List _randomBytes(int length) =>
-    Uint8List.fromList(List<int>.generate(length, (_) => Random.secure().nextInt(256)));
+Uint8List _randomBytes(int length) => Uint8List.fromList(
+    List<int>.generate(length, (_) => Random.secure().nextInt(256)));
 
 int _maxOaepLen(RSAPublicKey k, {int hashLen = 20 /* SHA‑1 default */}) {
   final keyBytes = (k.modulus!.bitLength + 7) >> 3;
@@ -38,7 +38,8 @@ void main() {
 
     test('gcd(e, φ(n)) == 1', () {
       final e = keyPair.publicKey.publicExponent;
-      final phi = (keyPair.privateKey.p! - BigInt.one) * (keyPair.privateKey.q! - BigInt.one);
+      final phi = (keyPair.privateKey.p! - BigInt.one) *
+          (keyPair.privateKey.q! - BigInt.one);
       expect(e?.gcd(phi), equals(BigInt.one));
     });
   });
@@ -84,7 +85,8 @@ void main() {
 
     test('encrypting message longer than OAEP limit throws', () async {
       final tooLong = _randomBytes(_maxOaepLen(pub) + 1);
-      expect(() => RSAService.encrypt(tooLong, pub), throwsA(isA<ArgumentError>()));
+      expect(() => RSAService.encrypt(tooLong, pub),
+          throwsA(isA<ArgumentError>()));
     });
 
     test('tampered ciphertext fails to decrypt', () async {
@@ -98,7 +100,9 @@ void main() {
       );
     });
 
-    test('identical plaintext encrypts to different ciphertexts (OAEP randomness)', () async {
+    test(
+        'identical plaintext encrypts to different ciphertexts (OAEP randomness)',
+        () async {
       final msg = _randomBytes(32);
       final ct1 = await RSAService.encrypt(msg, pub);
       final ct2 = await RSAService.encrypt(msg, pub);
@@ -152,7 +156,8 @@ void main() {
       final m = RSAService.transformRSAPrivateKeyToMap(keyPair.privateKey);
       final rebuilt = RSAService.transformMapToRSAPrivateKey(m);
       expect(rebuilt.n, equals(keyPair.privateKey.n));
-      expect(rebuilt.privateExponent, equals(keyPair.privateKey.privateExponent));
+      expect(
+          rebuilt.privateExponent, equals(keyPair.privateKey.privateExponent));
     });
 
     test('public key map round‑trips', () {
@@ -180,7 +185,8 @@ void main() {
     });
   });
   group('RSAManager – Advanced & Negative Scenarios', () {
-    test('random ciphertext (same length as modulus) fails to decrypt', () async {
+    test('random ciphertext (same length as modulus) fails to decrypt',
+        () async {
       final keyPair = await RSAService.generateRSAKeyPair();
       final priv = keyPair.privateKey;
       final modulusBytes = (priv.n!.bitLength + 7) >> 3;
@@ -193,7 +199,8 @@ void main() {
     });
 
     test('multiple key pairs have unique moduli', () async {
-      final pairs = await Future.wait(List.generate(5, (_) => RSAService.generateRSAKeyPair()));
+      final pairs = await Future.wait(
+          List.generate(5, (_) => RSAService.generateRSAKeyPair()));
       final moduli = pairs.map((kp) => kp.publicKey.n).toSet();
       expect(moduli.length, equals(5));
     });
@@ -224,7 +231,9 @@ void main() {
         runsSuccessfully = true;
       } catch (_) {}
 
-      expect(runsSuccessfully, false, reason: 'Decription should not have happened we used incorrect ranodm key');
+      expect(runsSuccessfully, false,
+          reason:
+              'Decription should not have happened we used incorrect ranodm key');
     });
   });
 }

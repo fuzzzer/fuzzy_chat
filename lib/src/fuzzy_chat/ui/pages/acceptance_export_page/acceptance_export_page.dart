@@ -42,7 +42,8 @@ class ProvidedAcceptanceExportPage extends StatelessWidget {
             chatGeneralData: payload.chatGeneralData,
           ),
           onFailure: () => FuzzyErrorPageBuilder(
-            message: state.failure?.message ?? localizations.failedToReadAcceptance,
+            message:
+                state.failure?.message ?? localizations.failedToReadAcceptance,
           ),
         );
       },

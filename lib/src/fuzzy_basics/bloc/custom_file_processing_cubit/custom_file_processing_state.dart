@@ -29,7 +29,8 @@ class CustomFileProcessingState {
   }) {
     return CustomFileProcessingState(
       progress: progress ?? this.progress,
-      currentProcessingFile: currentProcessingFile ?? this.currentProcessingFile,
+      currentProcessingFile:
+          currentProcessingFile ?? this.currentProcessingFile,
       toBeProcessedFiles: toBeProcessedFiles ?? this.toBeProcessedFiles,
       processedFiles: processedFiles ?? this.processedFiles,
     );

@@ -78,7 +78,8 @@ class PasswordStrengthService {
       kHasUppercase: password.contains(RegExp('[A-Z]')),
       kHasLowercase: password.contains(RegExp('[a-z]')),
       kHasNumbers: password.contains(RegExp('[0-9]')),
-      kHasSpecialChars: password.contains(RegExp(r'[!@#$%^&*()_+\-=\[\]{};:"|\\,.<>/?~`]')),
+      kHasSpecialChars:
+          password.contains(RegExp(r'[!@#$%^&*()_+\-=\[\]{};:"|\\,.<>/?~`]')),
     };
   }
 

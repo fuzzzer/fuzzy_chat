@@ -34,7 +34,8 @@ void main() {
       encrypted = await RSAService.encrypt(plaintext, keyPair.publicKey);
 
       expect(
-        () async => await RSAService.decrypt(encrypted, otherKeyPair.privateKey),
+        () async =>
+            await RSAService.decrypt(encrypted, otherKeyPair.privateKey),
         throwsA(anything),
       );
     });
@@ -43,7 +44,8 @@ void main() {
       final signature = await RSAService.sign(plaintext, keyPair.privateKey);
       expect(signature, isNotEmpty);
 
-      final isValid = await RSAService.verify(plaintext, signature, keyPair.publicKey);
+      final isValid =
+          await RSAService.verify(plaintext, signature, keyPair.publicKey);
       expect(isValid, isTrue);
     });
 
@@ -51,21 +53,28 @@ void main() {
       final signature = await RSAService.sign(plaintext, keyPair.privateKey);
       signature[0] = signature[0] ^ 0xFF;
 
-      final isValid = await RSAService.verify(plaintext, signature, keyPair.publicKey);
+      final isValid =
+          await RSAService.verify(plaintext, signature, keyPair.publicKey);
       expect(isValid, isFalse);
     });
 
     test('Transform keys to map and back', () {
-      final privateKeyMap = RSAService.transformRSAPrivateKeyToMap(keyPair.privateKey);
-      final publicKeyMap = RSAService.transformRSAPublicKeyToMap(keyPair.publicKey);
+      final privateKeyMap =
+          RSAService.transformRSAPrivateKeyToMap(keyPair.privateKey);
+      final publicKeyMap =
+          RSAService.transformRSAPublicKeyToMap(keyPair.publicKey);
 
-      final restoredPrivateKey = RSAService.transformMapToRSAPrivateKey(privateKeyMap);
-      final restoredPublicKey = RSAService.transformMapToRSAPublicKey(publicKeyMap);
+      final restoredPrivateKey =
+          RSAService.transformMapToRSAPrivateKey(privateKeyMap);
+      final restoredPublicKey =
+          RSAService.transformMapToRSAPublicKey(publicKeyMap);
 
       expect(restoredPrivateKey.n, equals(keyPair.privateKey.n));
-      expect(restoredPrivateKey.privateExponent, equals(keyPair.privateKey.privateExponent));
+      expect(restoredPrivateKey.privateExponent,
+          equals(keyPair.privateKey.privateExponent));
       expect(restoredPublicKey.n, equals(keyPair.publicKey.n));
-      expect(restoredPublicKey.publicExponent, equals(keyPair.publicKey.publicExponent));
+      expect(restoredPublicKey.publicExponent,
+          equals(keyPair.publicKey.publicExponent));
     });
 
     test('RSA with empty plaintext', () async {

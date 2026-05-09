@@ -19,7 +19,8 @@ class HandshakeCubit extends Cubit<HandshakeState> {
     emit(state.copyWith(status: StateStatus.loading));
 
     try {
-      final receivedAcceptance = await HandshakeService.parseAcceptance(acceptanceContent);
+      final receivedAcceptance =
+          await HandshakeService.parseAcceptance(acceptanceContent);
       final otherPartyPublicKey = receivedAcceptance.publicKey;
       final encryptedSymmetricKey = receivedAcceptance.encryptedSymmetricKey;
 
@@ -42,11 +43,13 @@ class HandshakeCubit extends Cubit<HandshakeState> {
       );
 
       await keyStorageRepository.saveSymmetricKey(chatId, symmetricKey);
-      await keyStorageRepository.saveOtherPartyPublicKey(chatId, otherPartyPublicKey);
+      await keyStorageRepository.saveOtherPartyPublicKey(
+          chatId, otherPartyPublicKey);
 
       final chatData = await chatGeneralDataListRepository.getChatById(chatId);
       if (chatData != null) {
-        final updatedChatData = chatData.copyWith(setupStatus: ChatSetupStatus.connected);
+        final updatedChatData =
+            chatData.copyWith(setupStatus: ChatSetupStatus.connected);
         await chatGeneralDataListRepository.updateChat(updatedChatData);
       }
 

@@ -55,7 +55,8 @@ class BiometricAuthRepository {
     logger.i('Biometric retrieve: scope=$scope');
     final storage = await _openStorage(scope);
     final value = await storage.read();
-    logger.i('Biometric retrieve done: scope=$scope, hasValue=${value != null}');
+    logger
+        .i('Biometric retrieve done: scope=$scope, hasValue=${value != null}');
     return value;
   }
 

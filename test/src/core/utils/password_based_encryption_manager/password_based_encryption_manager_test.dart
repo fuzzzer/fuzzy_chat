@@ -14,27 +14,33 @@ void main() {
     });
 
     test('Basic password-based encryption/decryption', () async {
-      encrypted = await PasswordBasedEncryptionSevice.encrypt(plaintext, password);
+      encrypted =
+          await PasswordBasedEncryptionSevice.encrypt(plaintext, password);
       expect(encrypted, isNotEmpty);
 
-      final decrypted = await PasswordBasedEncryptionSevice.decrypt(encrypted, password);
+      final decrypted =
+          await PasswordBasedEncryptionSevice.decrypt(encrypted, password);
       expect(decrypted, equals(plaintext));
     });
 
     test('Incorrect password should fail to decrypt', () async {
-      encrypted = await PasswordBasedEncryptionSevice.encrypt(plaintext, password);
+      encrypted =
+          await PasswordBasedEncryptionSevice.encrypt(plaintext, password);
       expect(
-        () async => await PasswordBasedEncryptionSevice.decrypt(encrypted, 'WrongPassword'),
+        () async => await PasswordBasedEncryptionSevice.decrypt(
+            encrypted, 'WrongPassword'),
         throwsA(anything),
       );
     });
 
     test('Tampering with encrypted bytes leads to failure', () async {
-      encrypted = await PasswordBasedEncryptionSevice.encrypt(plaintext, password);
+      encrypted =
+          await PasswordBasedEncryptionSevice.encrypt(plaintext, password);
       encrypted[20] = encrypted[20] ^ 0xAA;
 
       expect(
-        () async => await PasswordBasedEncryptionSevice.decrypt(encrypted, password),
+        () async =>
+            await PasswordBasedEncryptionSevice.decrypt(encrypted, password),
         throwsA(anything),
       );
     });

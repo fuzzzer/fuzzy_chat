@@ -10,7 +10,8 @@ export 'components/components.dart';
 
 part 'file_processing_state.dart';
 
-class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> extends Cubit<FileProcessingState> {
+class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption>
+    extends Cubit<FileProcessingState> {
   final KeyStorageRepository keyStorageRepository;
   final ActualProcessingOption processingOption;
 
@@ -110,7 +111,8 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
 
       FileProcessingHandler handler;
 
-      final symmetricKey = await keyStorageRepository.getSymmetricKey(fileData.chatId);
+      final symmetricKey =
+          await keyStorageRepository.getSymmetricKey(fileData.chatId);
 
       if (symmetricKey == null) {
         throw Exception('Symmetric key not found');
@@ -145,7 +147,8 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
           key: symmetricKey,
         );
       } else {
-        throw UnimplementedError('Unsupported FileProcessingOption: ${processingOption.runtimeType}');
+        throw UnimplementedError(
+            'Unsupported FileProcessingOption: ${processingOption.runtimeType}');
       }
 
       _activeFileProcessingHandler = handler;
@@ -256,9 +259,11 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
       isProcessed: true,
     );
 
-    final updatedState = _removeFromQueueAndAddToProcessed(fileProcessingData: updatedFile);
+    final updatedState =
+        _removeFromQueueAndAddToProcessed(fileProcessingData: updatedFile);
 
-    final isActive = updatedFile.inputFilePath == state.currentProcessingFile?.inputFilePath;
+    final isActive =
+        updatedFile.inputFilePath == state.currentProcessingFile?.inputFilePath;
 
     emit(
       updatedState.copyWith(
@@ -271,8 +276,9 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
   FileProcessingState _removeFromQueueAndAddToProcessed({
     required FileProcessingData fileProcessingData,
   }) {
-    final newToBeProcessed =
-        state.toBeProcessedFiles.where((e) => e.inputFilePath != fileProcessingData.inputFilePath).toList();
+    final newToBeProcessed = state.toBeProcessedFiles
+        .where((e) => e.inputFilePath != fileProcessingData.inputFilePath)
+        .toList();
     final newProcessed = [...state.processedFiles, fileProcessingData];
 
     return state.copyWith(
@@ -307,7 +313,8 @@ class FileProcessingCubit<ActualProcessingOption extends FileProcessingOption> e
       return item;
     }).toList();
 
-    final isActive = fileData.inputFilePath == state.currentProcessingFile?.inputFilePath;
+    final isActive =
+        fileData.inputFilePath == state.currentProcessingFile?.inputFilePath;
 
     emit(
       state.copyWith(
@@ -349,7 +356,8 @@ Future<String> _buildOutputPathInChatFolder({
     return path.join(chatIdFolder.path, '$fileName.$fuzzedFileIdentificator');
   } else {
     final defuzzedFileName = fileName.endsWith('.$fuzzedFileIdentificator')
-        ? fileName.substring(0, fileName.length - '.$fuzzedFileIdentificator'.length)
+        ? fileName.substring(
+            0, fileName.length - '.$fuzzedFileIdentificator'.length)
         : fileName;
     return path.join(chatIdFolder.path, defuzzedFileName);
   }

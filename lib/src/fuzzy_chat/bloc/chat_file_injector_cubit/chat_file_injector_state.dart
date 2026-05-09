@@ -15,7 +15,8 @@ class ChatFileInjectorState {
   }) {
     return ChatFileInjectorState(
       status: status ?? this.status,
-      failedToAddProcessedFiles: failedToAddProcessedFiles ?? this.failedToAddProcessedFiles,
+      failedToAddProcessedFiles:
+          failedToAddProcessedFiles ?? this.failedToAddProcessedFiles,
     );
   }
 

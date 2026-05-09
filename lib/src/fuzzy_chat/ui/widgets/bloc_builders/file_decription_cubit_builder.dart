@@ -12,7 +12,8 @@ class FileDecriptionCubitBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FileProcessingCubit<FileDecryptionOption>, FileProcessingState>(
+    return BlocBuilder<FileProcessingCubit<FileDecryptionOption>,
+        FileProcessingState>(
       builder: builder,
     );
   }

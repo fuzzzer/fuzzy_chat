@@ -37,7 +37,8 @@ class InvitationAcceptanceCubit extends Cubit<InvitationAcceptanceState> {
         return;
       }
 
-      final receivedInvitation = await HandshakeService.parseInvitation(invitationContent);
+      final receivedInvitation =
+          await HandshakeService.parseInvitation(invitationContent);
       final chatId = receivedInvitation.chatId;
       final otherPartyPublicKey = receivedInvitation.publicKey;
 
@@ -52,7 +53,8 @@ class InvitationAcceptanceCubit extends Cubit<InvitationAcceptanceState> {
       await keyStorageRepository.savePrivateKey(chatId, keyPair.privateKey);
       await keyStorageRepository.savePublicKey(chatId, keyPair.publicKey);
       await keyStorageRepository.saveSymmetricKey(chatId, symmetricKey);
-      await keyStorageRepository.saveOtherPartyPublicKey(chatId, otherPartyPublicKey);
+      await keyStorageRepository.saveOtherPartyPublicKey(
+          chatId, otherPartyPublicKey);
 
       final acceptance = await HandshakeService.generateAcceptance(
         chatId: chatId,
@@ -91,7 +93,8 @@ class InvitationAcceptanceCubit extends Cubit<InvitationAcceptanceState> {
     }
   }
 
-  Future<ChatCreationFailureType?> checkChatNameRestrictions(String chatName) async {
+  Future<ChatCreationFailureType?> checkChatNameRestrictions(
+      String chatName) async {
     final name = await chatGeneralDataListRepository.getChatByName(chatName);
 
     if (name != null) {

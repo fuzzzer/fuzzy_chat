@@ -19,7 +19,8 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
             messages: [],
           ),
         ) {
-    _newMessageUpdatesSubscription = messageDataRepository.newMessageUpdates.listen(addNewMessageInBackground);
+    _newMessageUpdatesSubscription = messageDataRepository.newMessageUpdates
+        .listen(addNewMessageInBackground);
   }
 
   late final StreamSubscription<NewMessageAdded> _newMessageUpdatesSubscription;
@@ -39,7 +40,8 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
     return super.close();
   }
 
-  Future<void> addNewMessageInBackground(NewMessageAdded newMessageAdded) async {
+  Future<void> addNewMessageInBackground(
+      NewMessageAdded newMessageAdded) async {
     emit(
       state.copyWith(
         messages: [
@@ -75,7 +77,8 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
     );
 
     try {
-      final paginatedMessages = await messageDataRepository.getMessagesForChatPaginated(
+      final paginatedMessages =
+          await messageDataRepository.getMessagesForChatPaginated(
         chatId,
         pageSize: messagesPerPage,
         pageIndex: currentPage,
@@ -91,7 +94,8 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
         return;
       }
 
-      chatSymmetricKey = chatSymmetricKey ?? await keyStorageRepository.getSymmetricKey(chatId);
+      chatSymmetricKey = chatSymmetricKey ??
+          await keyStorageRepository.getSymmetricKey(chatId);
 
       if (chatSymmetricKey == null) {
         throw Exception('Symmetric key not found');
@@ -150,7 +154,8 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
     );
 
     try {
-      chatSymmetricKey = chatSymmetricKey ?? await keyStorageRepository.getSymmetricKey(chatId);
+      chatSymmetricKey = chatSymmetricKey ??
+          await keyStorageRepository.getSymmetricKey(chatId);
 
       if (chatSymmetricKey == null) {
         throw Exception('Symmetric key not found');
@@ -211,7 +216,8 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
     );
 
     try {
-      chatSymmetricKey = chatSymmetricKey ?? await keyStorageRepository.getSymmetricKey(chatId);
+      chatSymmetricKey = chatSymmetricKey ??
+          await keyStorageRepository.getSymmetricKey(chatId);
 
       if (chatSymmetricKey == null) {
         throw Exception('Symmetric key not found');
@@ -219,7 +225,8 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
 
       final symmetricKey = chatSymmetricKey!;
 
-      final decryptedMessage = await AESService.decryptText(encryptedText, symmetricKey);
+      final decryptedMessage =
+          await AESService.decryptText(encryptedText, symmetricKey);
 
       final message = MessageData(
         id: 0,
@@ -274,7 +281,8 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
     try {
       await messageDataRepository.deleteMessage(messageId);
 
-      final updatedMessages = state.messages.where((message) => message.id != messageId).toList();
+      final updatedMessages =
+          state.messages.where((message) => message.id != messageId).toList();
       emit(
         state.copyWith(
           messages: updatedMessages,

@@ -28,7 +28,8 @@ class ChatInvitationPage extends StatelessWidget {
         BlocProvider<HandshakeCubit>(
           create: (context) => HandshakeCubit(
             keyStorageRepository: sl.get<KeyStorageRepository>(),
-            chatGeneralDataListRepository: sl.get<ChatGeneralDataListRepository>(),
+            chatGeneralDataListRepository:
+                sl.get<ChatGeneralDataListRepository>(),
           ),
         ),
       ],
@@ -48,11 +49,14 @@ class ProvidedChatInvitationPage extends StatefulWidget {
   });
 
   @override
-  State<ProvidedChatInvitationPage> createState() => _ProvidedChatInvitationPageState();
+  State<ProvidedChatInvitationPage> createState() =>
+      _ProvidedChatInvitationPageState();
 }
 
-class _ProvidedChatInvitationPageState extends State<ProvidedChatInvitationPage> {
-  final TextEditingController acceptanceTextController = TextEditingController();
+class _ProvidedChatInvitationPageState
+    extends State<ProvidedChatInvitationPage> {
+  final TextEditingController acceptanceTextController =
+      TextEditingController();
 
   @override
   void initState() {
@@ -85,7 +89,9 @@ class _ProvidedChatInvitationPageState extends State<ProvidedChatInvitationPage>
           );
     } else {
       FuzzySnackbar.show(
-        label: FuzzyChatLocalizations.of(context)?.pleasePasteTheAcceptanceContent ?? '',
+        label: FuzzyChatLocalizations.of(context)
+                ?.pleasePasteTheAcceptanceContent ??
+            '',
       );
     }
   }
@@ -107,7 +113,8 @@ class _ProvidedChatInvitationPageState extends State<ProvidedChatInvitationPage>
               );
             } else if (state.status.isFailed) {
               FuzzySnackbar.show(
-                label: state.failure?.message ?? localizations.failedToCompleteHandshake,
+                label: state.failure?.message ??
+                    localizations.failedToCompleteHandshake,
               );
             }
           },
@@ -126,7 +133,8 @@ class _ProvidedChatInvitationPageState extends State<ProvidedChatInvitationPage>
               onAccept: _importAcceptanceFromText,
             ),
             onFailure: () => FuzzyErrorPageBuilder(
-              message: invitationState.failure?.message ?? localizations.failedToGenerateInvitation,
+              message: invitationState.failure?.message ??
+                  localizations.failedToGenerateInvitation,
             ),
           );
         },

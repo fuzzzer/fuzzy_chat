@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:fuzzy_chat/lib.dart';
 import 'package:go_router/go_router.dart';
 
-
 class AcceptanceContent extends StatelessWidget {
   final String acceptanceContent;
   final bool hasBackButton;
@@ -82,7 +81,8 @@ class AcceptanceContent extends StatelessWidget {
               FuzzyButton(
                 text: localizations.shareAcceptance,
                 icon: Icons.share,
-                onTap: () => ShareHelper.share(acceptanceContent, context: context),
+                onTap: () =>
+                    ShareHelper.share(acceptanceContent, context: context),
               ),
               const SizedBox(height: 12),
               FuzzyButton(

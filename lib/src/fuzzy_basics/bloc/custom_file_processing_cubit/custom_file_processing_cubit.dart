@@ -12,7 +12,8 @@ import 'package:path/path.dart' as path;
 
 part 'custom_file_processing_state.dart';
 
-class CustomFileProcessingCubit<ActualProcessingOption extends FileProcessingOption>
+class CustomFileProcessingCubit<
+        ActualProcessingOption extends FileProcessingOption>
     extends Cubit<CustomFileProcessingState> {
   final ActualProcessingOption processingOption;
 
@@ -151,7 +152,8 @@ class CustomFileProcessingCubit<ActualProcessingOption extends FileProcessingOpt
           key: symmetricKey,
         );
       } else {
-        throw UnimplementedError('Unsupported FileProcessingOption: ${processingOption.runtimeType}');
+        throw UnimplementedError(
+            'Unsupported FileProcessingOption: ${processingOption.runtimeType}');
       }
 
       _activeFileProcessingHandler = handler;
@@ -270,9 +272,11 @@ class CustomFileProcessingCubit<ActualProcessingOption extends FileProcessingOpt
       isProcessed: true,
     );
 
-    final updatedState = _removeFromQueueAndAddToProcessed(fileProcessingData: updatedFile);
+    final updatedState =
+        _removeFromQueueAndAddToProcessed(fileProcessingData: updatedFile);
 
-    final isActive = updatedFile.inputFilePath == state.currentProcessingFile?.inputFilePath;
+    final isActive =
+        updatedFile.inputFilePath == state.currentProcessingFile?.inputFilePath;
 
     emit(
       updatedState.copyWith(
@@ -285,8 +289,9 @@ class CustomFileProcessingCubit<ActualProcessingOption extends FileProcessingOpt
   CustomFileProcessingState _removeFromQueueAndAddToProcessed({
     required FileProcessingData fileProcessingData,
   }) {
-    final newToBeProcessed =
-        state.toBeProcessedFiles.where((e) => e.inputFilePath != fileProcessingData.inputFilePath).toList();
+    final newToBeProcessed = state.toBeProcessedFiles
+        .where((e) => e.inputFilePath != fileProcessingData.inputFilePath)
+        .toList();
     final newProcessed = [...state.processedFiles, fileProcessingData];
 
     return state.copyWith(
@@ -323,7 +328,8 @@ class CustomFileProcessingCubit<ActualProcessingOption extends FileProcessingOpt
       return item;
     }).toList();
 
-    final isActive = fileData.inputFilePath == state.currentProcessingFile?.inputFilePath;
+    final isActive =
+        fileData.inputFilePath == state.currentProcessingFile?.inputFilePath;
 
     emit(
       state.copyWith(
@@ -365,7 +371,8 @@ Future<String> _buildOutputPathInChatFolder({
     return path.join(chatIdFolder.path, '$fileName.$fuzzedFileIdentificator');
   } else {
     final defuzzedFileName = fileName.endsWith('.$fuzzedFileIdentificator')
-        ? fileName.substring(0, fileName.length - '.$fuzzedFileIdentificator'.length)
+        ? fileName.substring(
+            0, fileName.length - '.$fuzzedFileIdentificator'.length)
         : fileName;
     return path.join(chatIdFolder.path, defuzzedFileName);
   }

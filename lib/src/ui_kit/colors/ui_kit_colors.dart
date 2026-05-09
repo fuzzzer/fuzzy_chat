@@ -18,7 +18,8 @@ class UiKitColors {
   static const secondaryColorDark = Color(0xFFA1A1AA);
   static const errorColorDark = Color(0xFFFF453A);
   static const backgroundPrimaryColorDark = Color(0xFF000000); // AMOLED Black
-  static const backgroundSecondaryColorDark = Color(0xFF141416); // Deep charcoal
+  static const backgroundSecondaryColorDark =
+      Color(0xFF141416); // Deep charcoal
   static const primaryTextColorDark = Color(0xFFFFFFFF);
   static const secondaryTextColorDark = Color(0xFFA1A1AA);
   static const diffColorDark = Color(0xFF5C5C5C); // Neutral grey

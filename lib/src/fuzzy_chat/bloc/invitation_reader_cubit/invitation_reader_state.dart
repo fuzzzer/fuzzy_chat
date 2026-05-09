@@ -24,5 +24,6 @@ class InvitationReaderState {
   }
 
   @override
-  String toString() => 'InvitationReaderState(status: $status, invitation: $invitation, failure: $failure)';
+  String toString() =>
+      'InvitationReaderState(status: $status, invitation: $invitation, failure: $failure)';
 }

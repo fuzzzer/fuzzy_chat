@@ -29,8 +29,10 @@ class _PasswordBasedEncryptionServiceImpl {
     }
 
     final salt = encryptedInputBytes.sublist(0, _saltByteLength);
-    final nonce = encryptedInputBytes.sublist(_saltByteLength, _saltByteLength + _nonceByteLength);
-    final encryptedData = encryptedInputBytes.sublist(_saltByteLength + _nonceByteLength);
+    final nonce = encryptedInputBytes.sublist(
+        _saltByteLength, _saltByteLength + _nonceByteLength);
+    final encryptedData =
+        encryptedInputBytes.sublist(_saltByteLength + _nonceByteLength);
 
     final key = deriveKey(password, salt);
 

@@ -40,7 +40,8 @@ class _SendPageState extends State<SendPage> {
       return;
     }
     final plainText = _plainTextController.text;
-    final encryptedText = await RSAService.encrypt(base64Decode(plainText), publicKey!);
+    final encryptedText =
+        await RSAService.encrypt(base64Decode(plainText), publicKey!);
     setState(() {
       _encryptedText = base64Encode(encryptedText);
     });
@@ -50,8 +51,10 @@ class _SendPageState extends State<SendPage> {
     try {
       final bytes = await _controller.getFileData(event);
       final jsonString = utf8.decode(bytes);
-      final publicKeyMap = castMapToAllStringMap(json.decode(jsonString) as Map<String, dynamic>);
-      final importedPublicKey = RSAService.transformMapToRSAPublicKey(publicKeyMap);
+      final publicKeyMap = castMapToAllStringMap(
+          json.decode(jsonString) as Map<String, dynamic>);
+      final importedPublicKey =
+          RSAService.transformMapToRSAPublicKey(publicKeyMap);
       setState(() {
         publicKey = importedPublicKey;
       });

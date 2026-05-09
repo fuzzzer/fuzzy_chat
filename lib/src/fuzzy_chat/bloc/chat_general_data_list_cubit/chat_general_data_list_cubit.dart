@@ -22,7 +22,8 @@ class ChatGeneralDataListCubit extends Cubit<ChatGeneralDataListState> {
   final KeyStorageRepository keyStorageRepository;
 
   final ChatGeneralDataListRepository chatRepository;
-  late final StreamSubscription<ChatGeneralDataListUpdated> _chatListUpdatesSubscription;
+  late final StreamSubscription<ChatGeneralDataListUpdated>
+      _chatListUpdatesSubscription;
 
   @override
   Future<void> close() {
@@ -85,7 +86,8 @@ class ChatGeneralDataListCubit extends Cubit<ChatGeneralDataListState> {
       await chatRepository.deleteChat(chatId);
       await keyStorageRepository.clearAllKeysForChat(chatId);
 
-      final updatedChats = state.chatList?.where((chat) => chat.chatId != chatId).toList();
+      final updatedChats =
+          state.chatList?.where((chat) => chat.chatId != chatId).toList();
 
       emit(
         state.copyWith(

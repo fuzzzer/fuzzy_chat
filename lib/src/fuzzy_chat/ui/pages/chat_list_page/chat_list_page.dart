@@ -39,7 +39,8 @@ class _ProvidedChatListPageState extends State<ProvidedChatListPage> {
             ),
             onFailure: () => FuzzyErrorPageBuilder(
               hasAutomaticBackButton: false,
-              message: state.failure?.message ?? localizations.failedToLoadChats,
+              message:
+                  state.failure?.message ?? localizations.failedToLoadChats,
             ),
           );
         },

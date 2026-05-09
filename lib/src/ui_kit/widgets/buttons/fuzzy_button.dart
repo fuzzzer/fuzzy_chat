@@ -39,7 +39,10 @@ class FuzzyButton extends StatelessWidget {
         height: 60,
         width: double.maxFinite,
         decoration: BoxDecoration(
-          color: backgroundColor ?? (isEnabled ? uiColors.focusColor : uiColors.focusColor.withOpacity(0.4)),
+          color: backgroundColor ??
+              (isEnabled
+                  ? uiColors.focusColor
+                  : uiColors.focusColor.withOpacity(0.4)),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Center(

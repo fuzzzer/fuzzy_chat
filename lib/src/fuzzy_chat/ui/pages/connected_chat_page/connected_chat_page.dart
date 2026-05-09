@@ -35,7 +35,8 @@ class ProvidedConnectedChatPage extends StatefulWidget {
   });
 
   @override
-  State<ProvidedConnectedChatPage> createState() => _ProvidedConnectedChatPageState();
+  State<ProvidedConnectedChatPage> createState() =>
+      _ProvidedConnectedChatPageState();
 }
 
 class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
@@ -58,7 +59,8 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
     // Pre-fill encrypted message from deep link.
     if (widget.payload.prefillEncryptedMessage != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        _messageController.text = '$fuzzIdentificator${widget.payload.prefillEncryptedMessage}';
+        _messageController.text =
+            '$fuzzIdentificator${widget.payload.prefillEncryptedMessage}';
       });
     }
   }
@@ -71,7 +73,8 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
 
   void initializePagination() {
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 20) {
+      if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent - 20) {
         loadOlderMessages();
       }
     });
@@ -103,8 +106,10 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
   }
 
   void _sendFiles() {
-    final fileEncryptionCubit = context.read<FileProcessingCubit<FileEncryptionOption>>();
-    final fileDecryptionCubit = context.read<FileProcessingCubit<FileDecryptionOption>>();
+    final fileEncryptionCubit =
+        context.read<FileProcessingCubit<FileEncryptionOption>>();
+    final fileDecryptionCubit =
+        context.read<FileProcessingCubit<FileDecryptionOption>>();
 
     if (selectedFilePaths?.isNotEmpty == true) {
       for (final filePath in selectedFilePaths!) {
@@ -241,7 +246,9 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      if (_showTutorial) _buildTutorialBanner(context, context.fuzzyChatLocalizations),
+                      if (_showTutorial)
+                        _buildTutorialBanner(
+                            context, context.fuzzyChatLocalizations),
                       FileDecryptionProgressDisplay(
                         chatId: chatId,
                       ),
@@ -268,7 +275,8 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
     );
   }
 
-  Widget _buildTutorialBanner(BuildContext context, FuzzyChatLocalizations localizations) {
+  Widget _buildTutorialBanner(
+      BuildContext context, FuzzyChatLocalizations localizations) {
     final theme = Theme.of(context);
     final uiColors = theme.extension<UiColors>()!;
 
@@ -306,7 +314,8 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
           ),
           const SizedBox(height: 8),
           Text(
-            localizations.typeAMessageAndPressSendItWillBeEncryptedLocallyAndYouCanThenCopyTheSecureFuzzedText,
+            localizations
+                .typeAMessageAndPressSendItWillBeEncryptedLocallyAndYouCanThenCopyTheSecureFuzzedText,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: uiColors.secondaryTextColor,
             ),

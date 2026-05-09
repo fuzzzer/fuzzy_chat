@@ -9,14 +9,15 @@ class CopyGuard {
   }) async {
     final prefs = sl.get<PreferencesService>();
     final localizations = context.fuzzyChatLocalizations;
-    
+
     if (prefs.copySecurityLevel == CopySecurityLevel.strict) {
       final confirm = await showDialog<bool>(
         context: context,
         builder: (context) {
           return AlertDialog(
             title: Text(localizations.securityWarning),
-            content: Text(localizations.areYouSureYouWantToCopyUnencryptedDataToYourClipboardThisCouldCompromiseYourSecureChat),
+            content: Text(localizations
+                .areYouSureYouWantToCopyUnencryptedDataToYourClipboardThisCouldCompromiseYourSecureChat),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(false),

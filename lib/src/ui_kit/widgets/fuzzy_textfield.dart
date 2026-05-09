@@ -15,6 +15,8 @@ class FuzzyTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final void Function(String)? onSubmitted;
   final TextInputAction? textInputAction;
+  final int? minLines;
+  final bool expands;
 
   const FuzzyTextField({
     required this.labelText,
@@ -31,6 +33,8 @@ class FuzzyTextField extends StatelessWidget {
     this.suffixIcon,
     this.onSubmitted,
     this.textInputAction,
+    this.minLines,
+    this.expands = false,
   });
 
   @override
@@ -48,6 +52,8 @@ class FuzzyTextField extends StatelessWidget {
       textInputAction: textInputAction,
       scrollPadding: scrollPadding,
       maxLines: maxLines,
+      minLines: minLines,
+      expands: expands,
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,

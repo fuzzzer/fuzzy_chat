@@ -10,7 +10,8 @@ class ChatUnlockPage extends StatefulWidget {
   State<ChatUnlockPage> createState() => _ChatUnlockPageState();
 }
 
-class _ChatUnlockPageState extends State<ChatUnlockPage> with SingleTickerProviderStateMixin {
+class _ChatUnlockPageState extends State<ChatUnlockPage>
+    with SingleTickerProviderStateMixin {
   final _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
   bool _autoBiometricAttempted = false;
@@ -80,26 +81,31 @@ class _ChatUnlockPageState extends State<ChatUnlockPage> with SingleTickerProvid
                       const SizedBox(height: 24),
                       Text(
                         currentContextLocalization.chatUnlockTitle,
-                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: context.uiColors.primaryTextColor,
-                        ),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium
+                            ?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: context.uiColors.primaryTextColor,
+                            ),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 12),
                       Text(
                         currentContextLocalization.chatUnlockSubtitle,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: context.uiColors.secondaryTextColor,
-                        ),
+                              color: context.uiColors.secondaryTextColor,
+                            ),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 40),
                       AnimatedBuilder(
                         animation: _shakeController,
                         builder: (context, child) {
-                          final sineValue =
-                              math.sin(4 * 3.14159265 * _shakeController.value) * 8 * (1 - _shakeController.value);
+                          final sineValue = math.sin(
+                                  4 * 3.14159265 * _shakeController.value) *
+                              8 *
+                              (1 - _shakeController.value);
                           return Transform.translate(
                             offset: Offset(sineValue, 0),
                             child: child,
@@ -107,15 +113,19 @@ class _ChatUnlockPageState extends State<ChatUnlockPage> with SingleTickerProvid
                         },
                         child: FuzzyTextField(
                           controller: _passwordController,
-                          labelText: currentContextLocalization.chatAuthPassword,
+                          labelText:
+                              currentContextLocalization.chatAuthPassword,
                           obscureText: !_isPasswordVisible,
                           onSubmitted: (_) => _onUnlock(),
                           suffixIcon: IconButton(
                             icon: Icon(
-                              _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                              _isPasswordVisible
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
                               color: context.uiColors.secondaryTextColor,
                             ),
-                            onPressed: () => setState(() => _isPasswordVisible = !_isPasswordVisible),
+                            onPressed: () => setState(
+                                () => _isPasswordVisible = !_isPasswordVisible),
                           ),
                         ),
                       ),
@@ -130,8 +140,11 @@ class _ChatUnlockPageState extends State<ChatUnlockPage> with SingleTickerProvid
                       const SizedBox(height: 40),
                       FuzzyButton(
                         text: currentContextLocalization.chatAuthUnlock,
-                        isEnabled: _passwordController.text.isNotEmpty && !isLoading,
-                        onTap: _passwordController.text.isNotEmpty && !isLoading ? _onUnlock : () {},
+                        isEnabled:
+                            _passwordController.text.isNotEmpty && !isLoading,
+                        onTap: _passwordController.text.isNotEmpty && !isLoading
+                            ? _onUnlock
+                            : () {},
                       ),
                       if (state.biometricEnabled) ...[
                         const SizedBox(height: 24),
@@ -149,10 +162,15 @@ class _ChatUnlockPageState extends State<ChatUnlockPage> with SingleTickerProvid
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
-                                  currentContextLocalization.chatAuthBiometricUnlock,
-                                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    color: context.uiColors.secondaryTextColor,
-                                  ),
+                                  currentContextLocalization
+                                      .chatAuthBiometricUnlock,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(
+                                        color:
+                                            context.uiColors.secondaryTextColor,
+                                      ),
                                 ),
                               ],
                             ),
@@ -163,8 +181,8 @@ class _ChatUnlockPageState extends State<ChatUnlockPage> with SingleTickerProvid
                       Text(
                         currentContextLocalization.chatAuthForgotPassword,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: context.uiColors.secondaryTextColor,
-                        ),
+                              color: context.uiColors.secondaryTextColor,
+                            ),
                         textAlign: TextAlign.center,
                       ),
                     ],

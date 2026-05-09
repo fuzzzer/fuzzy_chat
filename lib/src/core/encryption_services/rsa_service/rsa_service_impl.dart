@@ -8,8 +8,10 @@ class _RSAServiceImpl {
   // for example for certainty 100 the chance that algorithm messes up is 1 / (2^100) ≈ (can )
   static const _certainty = 100;
 
-  static AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> generateRSAKeyPairSync() {
-    final keyParams = RSAKeyGeneratorParameters(_publicExponent, _bitStrength, _certainty);
+  static AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey>
+      generateRSAKeyPairSync() {
+    final keyParams =
+        RSAKeyGeneratorParameters(_publicExponent, _bitStrength, _certainty);
 
     final keyGenerator = RSAKeyGenerator()
       ..init(
@@ -66,7 +68,8 @@ class _RSAServiceImpl {
     return signature.bytes;
   }
 
-  static bool syncVerify(Uint8List value, Uint8List signature, RSAPublicKey publicKey) {
+  static bool syncVerify(
+      Uint8List value, Uint8List signature, RSAPublicKey publicKey) {
     final verifier = RSASigner(SHA256Digest(), _sha256DigestIdentifierHex)
       ..init(false, PublicKeyParameter<RSAPublicKey>(publicKey));
 
@@ -79,7 +82,8 @@ class _RSAServiceImpl {
 
   static const _sha256DigestIdentifierHex = '0609608648016503040201';
 
-  static Map<String, String> transformRSAPrivateKeyToMap(RSAPrivateKey privateKey) {
+  static Map<String, String> transformRSAPrivateKeyToMap(
+      RSAPrivateKey privateKey) {
     return {
       'modulus': privateKey.n.toString(),
       'privateExponent': privateKey.privateExponent.toString(),
@@ -93,12 +97,17 @@ class _RSAServiceImpl {
     return RSAPrivateKey(
       BigInt.parse(map['modulus']!),
       BigInt.parse(map['privateExponent']!),
-      (map['p'] == '' || map['p'] == null || map['p'] == 'null') ? null : BigInt.parse(map['p']!),
-      (map['q'] == '' || map['q'] == null || map['q'] == 'null') ? null : BigInt.parse(map['q']!),
+      (map['p'] == '' || map['p'] == null || map['p'] == 'null')
+          ? null
+          : BigInt.parse(map['p']!),
+      (map['q'] == '' || map['q'] == null || map['q'] == 'null')
+          ? null
+          : BigInt.parse(map['q']!),
     );
   }
 
-  static Map<String, String> transformRSAPublicKeyToMap(RSAPublicKey publicKey) {
+  static Map<String, String> transformRSAPublicKeyToMap(
+      RSAPublicKey publicKey) {
     return {
       'modulus': publicKey.n.toString(),
       'publicExponent': publicKey.publicExponent.toString(),

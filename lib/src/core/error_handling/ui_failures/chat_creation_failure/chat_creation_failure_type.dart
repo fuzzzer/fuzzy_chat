@@ -9,8 +9,10 @@ enum ChatCreationFailureType {
     String? customUnknownMessage,
   }) {
     return switch (this) {
-      ChatCreationFailureType.existingName => localizations.chatWithIndicatedNameAlreadyExists,
-      ChatCreationFailureType.unknown => customUnknownMessage ?? localizations.failedToCreateChat,
+      ChatCreationFailureType.existingName =>
+        localizations.chatWithIndicatedNameAlreadyExists,
+      ChatCreationFailureType.unknown =>
+        customUnknownMessage ?? localizations.failedToCreateChat,
     };
   }
 }

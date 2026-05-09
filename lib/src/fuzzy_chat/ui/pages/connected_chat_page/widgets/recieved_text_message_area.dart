@@ -15,7 +15,8 @@ class ReceivedTextMessageArea extends StatelessWidget {
     final uiColors = theme.extension<UiColors>()!;
     final uiTextStyles = theme.extension<UiTextStyles>()!;
 
-    final isStrict = sl.get<PreferencesService>().copySecurityLevel == CopySecurityLevel.strict;
+    final isStrict = sl.get<PreferencesService>().copySecurityLevel ==
+        CopySecurityLevel.strict;
 
     final textStyle = uiTextStyles.body16.copyWith(
       color: uiColors.primaryTextColor,

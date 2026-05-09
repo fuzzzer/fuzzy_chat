@@ -15,7 +15,8 @@ class FloatingToolbox extends StatefulWidget {
   State<FloatingToolbox> createState() => _FloatingToolboxState();
 }
 
-class _FloatingToolboxState extends State<FloatingToolbox> with SingleTickerProviderStateMixin {
+class _FloatingToolboxState extends State<FloatingToolbox>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 

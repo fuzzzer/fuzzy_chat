@@ -29,7 +29,8 @@ class MainShellPage extends StatelessWidget {
         builder: (context, state) {
           if (state.authState == VaultAuthEnum.unlocked) {
             return IconButton(
-              icon: Icon(Icons.lock_outline, color: context.uiColors.primaryTextColor),
+              icon: Icon(Icons.lock_outline,
+                  color: context.uiColors.primaryTextColor),
               onPressed: () {
                 context.read<VaultAuthCubit>().lock();
               },
@@ -52,7 +53,8 @@ class MainShellPage extends StatelessWidget {
               builder: (context) {
                 return IconButton(
                   padding: EdgeInsets.zero,
-                  icon: Icon(Icons.menu, color: context.uiColors.primaryTextColor),
+                  icon: Icon(Icons.menu,
+                      color: context.uiColors.primaryTextColor),
                   onPressed: () {
                     Scaffold.of(context).openDrawer();
                   },

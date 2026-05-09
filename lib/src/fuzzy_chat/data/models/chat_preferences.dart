@@ -39,5 +39,6 @@ class ChatPreferences {
   }
 
   @override
-  String toString() => 'ChatPreferences(theme: $theme, showTimestamps: $showTimestamps, lastUpdated: $lastUpdated)';
+  String toString() =>
+      'ChatPreferences(theme: $theme, showTimestamps: $showTimestamps, lastUpdated: $lastUpdated)';
 }

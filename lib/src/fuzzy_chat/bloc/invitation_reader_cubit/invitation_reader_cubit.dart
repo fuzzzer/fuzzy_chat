@@ -27,7 +27,8 @@ class InvitationReaderCubit extends Cubit<InvitationReaderState> {
         return;
       }
 
-      final invitation = await HandshakeService.generateInvitation(chatId, publicKey);
+      final invitation =
+          await HandshakeService.generateInvitation(chatId, publicKey);
 
       emit(
         state.copyWith(

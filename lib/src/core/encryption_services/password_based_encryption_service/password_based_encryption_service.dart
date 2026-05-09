@@ -9,14 +9,18 @@ part 'password_based_encryption_service_impl.dart';
 
 class PasswordBasedEncryptionSevice {
   static Future<Uint8List> encrypt(Uint8List bytes, String password) async {
-    return Isolate.run(() => _PasswordBasedEncryptionServiceImpl.syncEncrypt(bytes, password));
+    return Isolate.run(
+        () => _PasswordBasedEncryptionServiceImpl.syncEncrypt(bytes, password));
   }
 
-  static Future<Uint8List> decrypt(Uint8List encryptedBytes, String password) async {
-    return Isolate.run(() => _PasswordBasedEncryptionServiceImpl.syncDecrypt(encryptedBytes, password));
+  static Future<Uint8List> decrypt(
+      Uint8List encryptedBytes, String password) async {
+    return Isolate.run(() => _PasswordBasedEncryptionServiceImpl.syncDecrypt(
+        encryptedBytes, password));
   }
 
   static Future<Uint8List> deriveKey(String password, Uint8List salt) async {
-    return Isolate.run(() => _PasswordBasedEncryptionServiceImpl.deriveKey(password, salt));
+    return Isolate.run(
+        () => _PasswordBasedEncryptionServiceImpl.deriveKey(password, salt));
   }
 }

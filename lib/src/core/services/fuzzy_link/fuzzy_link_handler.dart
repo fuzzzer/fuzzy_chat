@@ -22,7 +22,8 @@ class FuzzyLinkHandler {
 
   bool get hasPendingPayload => _pendingPayload != null;
 
-  FuzzyChatLocalizations get _l10n => FuzzyChatLocalizations.of(navigatorKey.currentContext!)!;
+  FuzzyChatLocalizations get _l10n =>
+      FuzzyChatLocalizations.of(navigatorKey.currentContext!)!;
 
   Future<void> initialize() async {
     if (_isInitialized) return;
@@ -90,10 +91,13 @@ class FuzzyLinkHandler {
     }
   }
 
-  Future<void> _handleInvitation(GoRouter router, InvitationLinkPayload payload) async {
+  Future<void> _handleInvitation(
+      GoRouter router, InvitationLinkPayload payload) async {
     try {
-      final receivedInvitation = await HandshakeService.parseInvitation(payload.rawInvitationContent);
-      final existingChat = await _chatRepository.getChatById(receivedInvitation.chatId);
+      final receivedInvitation =
+          await HandshakeService.parseInvitation(payload.rawInvitationContent);
+      final existingChat =
+          await _chatRepository.getChatById(receivedInvitation.chatId);
 
       if (existingChat != null) {
         FuzzySnackbar.show(label: _l10n.cantAcceptOwnInvitation);
@@ -110,9 +114,11 @@ class FuzzyLinkHandler {
     );
   }
 
-  Future<void> _handleAcceptance(GoRouter router, AcceptanceLinkPayload payload) async {
+  Future<void> _handleAcceptance(
+      GoRouter router, AcceptanceLinkPayload payload) async {
     try {
-      final acceptance = await HandshakeService.parseAcceptance(payload.rawAcceptanceContent);
+      final acceptance =
+          await HandshakeService.parseAcceptance(payload.rawAcceptanceContent);
       final chatId = acceptance.chatId;
       final chat = await _chatRepository.getChatById(chatId);
 
@@ -140,7 +146,8 @@ class FuzzyLinkHandler {
     }
   }
 
-  Future<void> _handleFuzzMessage(GoRouter router, FuzzMessageLinkPayload payload) async {
+  Future<void> _handleFuzzMessage(
+      GoRouter router, FuzzMessageLinkPayload payload) async {
     try {
       final chat = await _chatRepository.getChatById(payload.chatId);
 

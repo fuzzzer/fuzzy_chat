@@ -24,14 +24,16 @@ void main() {
 
     group('type validation', () {
       test('rejects unknown host/type segment', () {
-        final payload = _encodePayload({'v': 1, 't': 'inv', 'I': 'test', 'P': 'test'});
+        final payload =
+            _encodePayload({'v': 1, 't': 'inv', 'I': 'test', 'P': 'test'});
         final uri = Uri.parse('fuzzylink://unknown/$payload');
         expect(FuzzyLinkParser.parse(uri), isNull);
       });
 
       test('rejects mismatched host and payload type', () {
         // Host says "invite" but payload type says "acc"
-        final payload = _encodePayload({'v': 1, 't': 'acc', 'I': 'test', 'P': 'test'});
+        final payload =
+            _encodePayload({'v': 1, 't': 'acc', 'I': 'test', 'P': 'test'});
         final uri = Uri.parse('fuzzylink://invite/$payload');
         expect(FuzzyLinkParser.parse(uri), isNull);
       });
@@ -45,7 +47,8 @@ void main() {
       });
 
       test('rejects payload with future version', () {
-        final payload = _encodePayload({'v': 999, 't': 'inv', 'I': 'test', 'P': 'test'});
+        final payload =
+            _encodePayload({'v': 999, 't': 'inv', 'I': 'test', 'P': 'test'});
         final uri = Uri.parse('fuzzylink://invite/$payload');
         expect(FuzzyLinkParser.parse(uri), isNull);
       });
@@ -55,7 +58,10 @@ void main() {
       test('parses valid invitation link', () {
         final chatId = base64.encode(utf8.encode('test-chat-id'));
         final publicKey = base64.encode(utf8.encode('{"n":"abc","e":"def"}'));
-        final exp = DateTime.now().add(const Duration(hours: 24)).millisecondsSinceEpoch ~/ 1000;
+        final exp = DateTime.now()
+                .add(const Duration(hours: 24))
+                .millisecondsSinceEpoch ~/
+            1000;
 
         final payload = _encodePayload({
           'v': 1,
@@ -81,7 +87,10 @@ void main() {
         final chatId = base64.encode(utf8.encode('test-chat-id'));
         final publicKey = base64.encode(utf8.encode('{"n":"abc","e":"def"}'));
         // Expired 1 hour ago
-        final exp = DateTime.now().subtract(const Duration(hours: 1)).millisecondsSinceEpoch ~/ 1000;
+        final exp = DateTime.now()
+                .subtract(const Duration(hours: 1))
+                .millisecondsSinceEpoch ~/
+            1000;
 
         final payload = _encodePayload({
           'v': 1,
@@ -117,7 +126,10 @@ void main() {
         final chatId = base64.encode(utf8.encode('test-chat-id'));
         final publicKey = base64.encode(utf8.encode('{"n":"abc","e":"def"}'));
         final encryptedKey = base64.encode(utf8.encode('encrypted-key-data'));
-        final exp = DateTime.now().add(const Duration(hours: 24)).millisecondsSinceEpoch ~/ 1000;
+        final exp = DateTime.now()
+                .add(const Duration(hours: 24))
+                .millisecondsSinceEpoch ~/
+            1000;
 
         final payload = _encodePayload({
           'v': 1,
@@ -143,7 +155,10 @@ void main() {
         final chatId = base64.encode(utf8.encode('test-chat-id'));
         final publicKey = base64.encode(utf8.encode('{"n":"abc","e":"def"}'));
         final encryptedKey = base64.encode(utf8.encode('encrypted-key-data'));
-        final exp = DateTime.now().subtract(const Duration(hours: 1)).millisecondsSinceEpoch ~/ 1000;
+        final exp = DateTime.now()
+                .subtract(const Duration(hours: 1))
+                .millisecondsSinceEpoch ~/
+            1000;
 
         final payload = _encodePayload({
           'v': 1,

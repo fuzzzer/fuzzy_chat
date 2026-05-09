@@ -14,7 +14,9 @@ class FileEncryptionProgressesDisplaylaceholder extends StatelessWidget {
     return FileEncriptionCubitBuilder(
       builder: (context, state) {
         return SizedBox(
-          height: state.currentProcessingFile?.chatId == chatId ? FileEncryptionProgressDisplay.height : 0,
+          height: state.currentProcessingFile?.chatId == chatId
+              ? FileEncryptionProgressDisplay.height
+              : 0,
         );
       },
     );

@@ -40,7 +40,10 @@ class FileDecryptionProgressDisplay extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    state.getToBeProcessedFilesByChatId(chatId).length.toString(),
+                    state
+                        .getToBeProcessedFilesByChatId(chatId)
+                        .length
+                        .toString(),
                     style: uiTextStyles.bodyLargeBold20.copyWith(
                       color: uiColors.secondaryColor,
                     ),

@@ -24,7 +24,8 @@ class FileSelectorWidget extends StatefulWidget {
 class _FileSelectorWidgetState extends State<FileSelectorWidget> {
   bool _isRequesting = false;
 
-  bool get hasSelectedFiles => widget.selectedFilePaths != null && widget.selectedFilePaths!.isNotEmpty;
+  bool get hasSelectedFiles =>
+      widget.selectedFilePaths != null && widget.selectedFilePaths!.isNotEmpty;
 
   Future<bool> _requestStoragePermissionByPlatform() async {
     bool isGranted = true;

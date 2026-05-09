@@ -5,7 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 part 'localization_state.dart';
 
-class LocalizationCubit extends Cubit<LocalizationState> with WidgetsBindingObserver {
+class LocalizationCubit extends Cubit<LocalizationState>
+    with WidgetsBindingObserver {
   LocalizationCubit()
       : super(
           LocalizationState(
@@ -34,7 +35,8 @@ class LocalizationCubit extends Cubit<LocalizationState> with WidgetsBindingObse
   }
 
   bool shouldApplyLocale(Locale locale) {
-    return SupportedLocales.supportedLocales.any((element) => element.languageCode == locale.languageCode);
+    return SupportedLocales.supportedLocales
+        .any((element) => element.languageCode == locale.languageCode);
   }
 
   Future<void> changeLocale(

@@ -25,10 +25,12 @@ class ChatAuthRepository {
 
   Future<void> setupPassword(String password) async {
     final salt = generateRandomSecureBytes(24);
-    final masterKey = await PasswordBasedEncryptionSevice.deriveKey(password, salt);
+    final masterKey =
+        await PasswordBasedEncryptionSevice.deriveKey(password, salt);
 
     final verificationTokenBytes = generateRandomSecureBytes(32);
-    final encryptedToken = await AESService.encrypt(verificationTokenBytes, masterKey);
+    final encryptedToken =
+        await AESService.encrypt(verificationTokenBytes, masterKey);
 
     await _secureStorage.write(key: _saltKey, value: base64Encode(salt));
     await _secureStorage.write(
@@ -48,7 +50,8 @@ class ChatAuthRepository {
     if (saltBase64 == null || tokenBase64 == null) return false;
 
     final salt = base64Decode(saltBase64);
-    final masterKey = await PasswordBasedEncryptionSevice.deriveKey(password, salt);
+    final masterKey =
+        await PasswordBasedEncryptionSevice.deriveKey(password, salt);
     final encryptedToken = base64Decode(tokenBase64);
 
     try {

@@ -24,5 +24,6 @@ class HandshakeState {
   }
 
   @override
-  String toString() => 'HandshakeState(status: $status, chatData: $chatData, failure: $failure)';
+  String toString() =>
+      'HandshakeState(status: $status, chatData: $chatData, failure: $failure)';
 }

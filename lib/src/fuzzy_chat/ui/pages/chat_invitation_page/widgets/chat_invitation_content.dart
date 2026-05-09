@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fuzzy_chat/lib.dart';
 
-
 class ChatInvitationContent extends StatefulWidget {
   final String chatName;
   final String invitationContent;
@@ -52,13 +51,16 @@ class _ChatInvitationContentState extends State<ChatInvitationContent> {
               Text(
                 localizations.stepSendYourInviteCode,
                 textAlign: TextAlign.start,
-                style: uiTextStyles.body16.copyWith(fontWeight: FontWeight.bold, fontSize: 18),
+                style: uiTextStyles.body16
+                    .copyWith(fontWeight: FontWeight.bold, fontSize: 18),
               ),
               const SizedBox(height: 8),
               Text(
-                localizations.sendThisCodeToThePersonYouWantToChatWithUsingAnySecureChannel,
+                localizations
+                    .sendThisCodeToThePersonYouWantToChatWithUsingAnySecureChannel,
                 textAlign: TextAlign.start,
-                style: uiTextStyles.body16.copyWith(color: uiColors.secondaryTextColor),
+                style: uiTextStyles.body16
+                    .copyWith(color: uiColors.secondaryTextColor),
               ),
               const SizedBox(height: 20),
               FuzzyButton(
@@ -127,13 +129,16 @@ class _ChatInvitationContentState extends State<ChatInvitationContent> {
               Text(
                 localizations.stepPasteTheirAcceptanceCode,
                 textAlign: TextAlign.start,
-                style: uiTextStyles.body16.copyWith(fontWeight: FontWeight.bold, fontSize: 18),
+                style: uiTextStyles.body16
+                    .copyWith(fontWeight: FontWeight.bold, fontSize: 18),
               ),
               const SizedBox(height: 8),
               Text(
-                localizations.onceTheyAcceptYourInviteTheyWillSendACodeBackPasteItBelow,
+                localizations
+                    .onceTheyAcceptYourInviteTheyWillSendACodeBackPasteItBelow,
                 textAlign: TextAlign.start,
-                style: uiTextStyles.body16.copyWith(color: uiColors.secondaryTextColor),
+                style: uiTextStyles.body16
+                    .copyWith(color: uiColors.secondaryTextColor),
               ),
               const SizedBox(height: 16),
               FuzzyTextField(

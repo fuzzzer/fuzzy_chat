@@ -35,10 +35,12 @@ class _ProvidedBasicEncryptionPage extends StatefulWidget {
   const _ProvidedBasicEncryptionPage();
 
   @override
-  State<_ProvidedBasicEncryptionPage> createState() => _ProvidedBasicEncryptionPageState();
+  State<_ProvidedBasicEncryptionPage> createState() =>
+      _ProvidedBasicEncryptionPageState();
 }
 
-class _ProvidedBasicEncryptionPageState extends State<_ProvidedBasicEncryptionPage> {
+class _ProvidedBasicEncryptionPageState
+    extends State<_ProvidedBasicEncryptionPage> {
   final TextEditingController _keyController = TextEditingController();
   final TextEditingController _textController = TextEditingController();
 
@@ -72,15 +74,22 @@ class _ProvidedBasicEncryptionPageState extends State<_ProvidedBasicEncryptionPa
       return;
     }
     if (_selectedFilePaths?.isNotEmpty != true) {
-      FuzzySnackbar.show(label: context.fuzzyChatLocalizations.pleaseSelectFilesToProcess);
+      FuzzySnackbar.show(
+          label: context.fuzzyChatLocalizations.pleaseSelectFilesToProcess);
       return;
     }
 
-    final encryptionCubit = context.read<CustomFileProcessingCubit<FileEncryptionOption>>();
-    final decryptionCubit = context.read<CustomFileProcessingCubit<FileDecryptionOption>>();
+    final encryptionCubit =
+        context.read<CustomFileProcessingCubit<FileEncryptionOption>>();
+    final decryptionCubit =
+        context.read<CustomFileProcessingCubit<FileDecryptionOption>>();
 
-    final filesToEncrypt = _selectedFilePaths!.where((path) => !path.endsWith(fuzzedFileIdentificator)).toList();
-    final filesToDecrypt = _selectedFilePaths!.where((path) => path.endsWith(fuzzedFileIdentificator)).toList();
+    final filesToEncrypt = _selectedFilePaths!
+        .where((path) => !path.endsWith(fuzzedFileIdentificator))
+        .toList();
+    final filesToDecrypt = _selectedFilePaths!
+        .where((path) => path.endsWith(fuzzedFileIdentificator))
+        .toList();
 
     if (filesToEncrypt.isNotEmpty) {
       encryptionCubit.addFilesToProcess(
@@ -101,13 +110,20 @@ class _ProvidedBasicEncryptionPageState extends State<_ProvidedBasicEncryptionPa
   }
 
   String _localizeFailureMessage(BuildContext context, String? message) {
-    if (message == null) return context.fuzzyChatLocalizations.anUnknownErrorOccurred;
+    if (message == null)
+      return context.fuzzyChatLocalizations.anUnknownErrorOccurred;
     switch (message) {
-      case 'textAndKeyCannotBeEmpty': return context.fuzzyChatLocalizations.textAndKeyCannotBeEmpty;
-      case 'encryptionFailed': return context.fuzzyChatLocalizations.encryptionFailed;
-      case 'encryptedTextAndKeyCannotBeEmpty': return context.fuzzyChatLocalizations.encryptedTextAndKeyCannotBeEmpty;
-      case 'decryptionFailedCheckYourKeyOrEncryptedText': return context.fuzzyChatLocalizations.decryptionFailedCheckYourKeyOrEncryptedText;
-      default: return message;
+      case 'textAndKeyCannotBeEmpty':
+        return context.fuzzyChatLocalizations.textAndKeyCannotBeEmpty;
+      case 'encryptionFailed':
+        return context.fuzzyChatLocalizations.encryptionFailed;
+      case 'encryptedTextAndKeyCannotBeEmpty':
+        return context.fuzzyChatLocalizations.encryptedTextAndKeyCannotBeEmpty;
+      case 'decryptionFailedCheckYourKeyOrEncryptedText':
+        return context
+            .fuzzyChatLocalizations.decryptionFailedCheckYourKeyOrEncryptedText;
+      default:
+        return message;
     }
   }
 
@@ -122,16 +138,20 @@ class _ProvidedBasicEncryptionPageState extends State<_ProvidedBasicEncryptionPa
                 _resultText = state.result ?? '';
               });
             } else if (state.status.isFailed) {
-              FuzzySnackbar.show(label: _localizeFailureMessage(context, state.failure?.message));
+              FuzzySnackbar.show(
+                  label:
+                      _localizeFailureMessage(context, state.failure?.message));
             }
           },
         ),
-        BlocListener<CustomFileProcessingCubit<FileEncryptionOption>, CustomFileProcessingState>(
+        BlocListener<CustomFileProcessingCubit<FileEncryptionOption>,
+            CustomFileProcessingState>(
           listener: (context, state) {
             // print encryption $state
           },
         ),
-        BlocListener<CustomFileProcessingCubit<FileDecryptionOption>, CustomFileProcessingState>(
+        BlocListener<CustomFileProcessingCubit<FileDecryptionOption>,
+            CustomFileProcessingState>(
           listener: (context, state) {
             // print decritpion $state
           },

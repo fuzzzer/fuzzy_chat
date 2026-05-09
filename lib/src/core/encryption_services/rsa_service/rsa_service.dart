@@ -7,7 +7,8 @@ import 'package:pointycastle/export.dart';
 part 'rsa_service_impl.dart';
 
 class RSAService {
-  static Future<AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey>> generateRSAKeyPair() {
+  static Future<AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey>>
+      generateRSAKeyPair() {
     return Isolate.run(_RSAServiceImpl.generateRSAKeyPairSync);
   }
 
@@ -23,11 +24,14 @@ class RSAService {
     return Isolate.run(() => _RSAServiceImpl.syncSign(value, privateKey));
   }
 
-  static Future<bool> verify(Uint8List value, Uint8List signature, RSAPublicKey publicKey) {
-    return Isolate.run(() => _RSAServiceImpl.syncVerify(value, signature, publicKey));
+  static Future<bool> verify(
+      Uint8List value, Uint8List signature, RSAPublicKey publicKey) {
+    return Isolate.run(
+        () => _RSAServiceImpl.syncVerify(value, signature, publicKey));
   }
 
-  static Map<String, String> transformRSAPrivateKeyToMap(RSAPrivateKey privateKey) {
+  static Map<String, String> transformRSAPrivateKeyToMap(
+      RSAPrivateKey privateKey) {
     return _RSAServiceImpl.transformRSAPrivateKeyToMap(privateKey);
   }
 
@@ -35,7 +39,8 @@ class RSAService {
     return _RSAServiceImpl.transformMapToRSAPrivateKey(map);
   }
 
-  static Map<String, String> transformRSAPublicKeyToMap(RSAPublicKey publicKey) {
+  static Map<String, String> transformRSAPublicKeyToMap(
+      RSAPublicKey publicKey) {
     return _RSAServiceImpl.transformRSAPublicKeyToMap(publicKey);
   }
 

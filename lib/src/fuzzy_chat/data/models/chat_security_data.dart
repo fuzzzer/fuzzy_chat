@@ -37,7 +37,8 @@ class ChatSecurityData {
       createdAt: createdAt ?? this.createdAt,
       invitationFilePath: invitationFilePath ?? this.invitationFilePath,
       acceptanceFilePath: acceptanceFilePath ?? this.acceptanceFilePath,
-      encryptedSymmetricKey: encryptedSymmetricKey ?? this.encryptedSymmetricKey,
+      encryptedSymmetricKey:
+          encryptedSymmetricKey ?? this.encryptedSymmetricKey,
     );
   }
 

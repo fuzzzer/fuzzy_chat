@@ -11,7 +11,8 @@ class ReceivedFileMessageArea extends StatefulWidget {
   });
 
   @override
-  State<ReceivedFileMessageArea> createState() => _ReceivedFileMessageAreaState();
+  State<ReceivedFileMessageArea> createState() =>
+      _ReceivedFileMessageAreaState();
 }
 
 class _ReceivedFileMessageAreaState extends State<ReceivedFileMessageArea> {
@@ -101,8 +102,10 @@ class _ReceivedFileMessageAreaState extends State<ReceivedFileMessageArea> {
                       TextAction(
                         label: localizations.shareFile,
                         onTap: () {
-                          final filePath = widget.message.encryptedMessage.replaceAll(fuzzIdentificator, '');
-                          DeviceFileInteractor.shareFile(filePath, context: context);
+                          final filePath = widget.message.encryptedMessage
+                              .replaceAll(fuzzIdentificator, '');
+                          DeviceFileInteractor.shareFile(filePath,
+                              context: context);
                           closeOverlay();
                         },
                       ),
@@ -114,8 +117,10 @@ class _ReceivedFileMessageAreaState extends State<ReceivedFileMessageArea> {
                             widget.message.chatId,
                             widget.message.encryptedMessage,
                           );
-                          final preparedFuzz = '$fuzzIdentificator${widget.message.encryptedMessage}';
-                          final shareable = FuzzyLinkGenerator.generateShareableContent(
+                          final preparedFuzz =
+                              '$fuzzIdentificator${widget.message.encryptedMessage}';
+                          final shareable =
+                              FuzzyLinkGenerator.generateShareableContent(
                             link: link,
                             rawFuzz: preparedFuzz,
                             type: FuzzyLinkType.fuzz,
@@ -133,7 +138,8 @@ class _ReceivedFileMessageAreaState extends State<ReceivedFileMessageArea> {
                             widget.message.encryptedMessage,
                           );
                           Clipboard.setData(ClipboardData(text: link));
-                          FuzzySnackbar.show(label: localizations.linkCopiedToClipboard);
+                          FuzzySnackbar.show(
+                              label: localizations.linkCopiedToClipboard);
                           closeOverlay();
                         },
                       ),
@@ -142,9 +148,11 @@ class _ReceivedFileMessageAreaState extends State<ReceivedFileMessageArea> {
                         hasRightBorder: true,
                         label: localizations.copy,
                         onTap: () {
-                          final filePath = widget.message.encryptedMessage.replaceAll(fuzzIdentificator, '');
+                          final filePath = widget.message.encryptedMessage
+                              .replaceAll(fuzzIdentificator, '');
                           Clipboard.setData(ClipboardData(text: filePath));
-                          FuzzySnackbar.show(label: localizations.copiedToTheClipboard);
+                          FuzzySnackbar.show(
+                              label: localizations.copiedToTheClipboard);
                           closeOverlay();
                         },
                       ),

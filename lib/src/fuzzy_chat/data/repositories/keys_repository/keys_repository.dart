@@ -21,13 +21,15 @@ class KeysRepository {
     return file.readAsString();
   }
 
-  static Future<void> savePrivateKeyToFile(RSAPrivateKey privateKey, String fileName) async {
+  static Future<void> savePrivateKeyToFile(
+      RSAPrivateKey privateKey, String fileName) async {
     final privateKeyMap = RSAService.transformRSAPrivateKeyToMap(privateKey);
     final privateKeyJson = json.encode(privateKeyMap);
     await saveKeyToFile(privateKeyJson, fileName);
   }
 
-  static Future<void> savePublicKeyToFile(RSAPublicKey publicKey, String fileName) async {
+  static Future<void> savePublicKeyToFile(
+      RSAPublicKey publicKey, String fileName) async {
     final publicKeyMap = RSAService.transformRSAPublicKeyToMap(publicKey);
     final publicKeyJson = json.encode(publicKeyMap);
     await saveKeyToFile(publicKeyJson, fileName);
@@ -35,14 +37,16 @@ class KeysRepository {
 
   static Future<RSAPrivateKey> loadPrivateKeyFromFile(String fileName) async {
     final privateKeyJson = await loadKeyFromFile(fileName);
-    final privateKeyMap = castMapToAllStringMap(json.decode(privateKeyJson) as Map<String, dynamic>);
+    final privateKeyMap = castMapToAllStringMap(
+        json.decode(privateKeyJson) as Map<String, dynamic>);
 
     return RSAService.transformMapToRSAPrivateKey(privateKeyMap);
   }
 
   static Future<RSAPublicKey> loadPublicKeyFromFile(String fileName) async {
     final publicKeyJson = await loadKeyFromFile(fileName);
-    final publicKeyMap = castMapToAllStringMap(json.decode(publicKeyJson) as Map<String, dynamic>);
+    final publicKeyMap = castMapToAllStringMap(
+        json.decode(publicKeyJson) as Map<String, dynamic>);
 
     return RSAService.transformMapToRSAPublicKey(publicKeyMap);
   }

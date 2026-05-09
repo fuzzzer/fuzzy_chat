@@ -30,7 +30,8 @@ class BasicEncryptionContent extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              FuzzyHeader(title: context.fuzzyChatLocalizations.basicEncryption),
+              FuzzyHeader(
+                  title: context.fuzzyChatLocalizations.basicEncryption),
               const SizedBox(height: 24),
               AnimatedBuilder(
                 animation: keyController,
@@ -40,7 +41,8 @@ class BasicEncryptionContent extends StatelessWidget {
                   if (text.isNotEmpty) {
                     if (text.length < 6) {
                       helper = currentContextLocalization.keyStrengthWeak;
-                    } else if (!RegExp('[a-zA-Z]').hasMatch(text) || !RegExp('[0-9]').hasMatch(text)) {
+                    } else if (!RegExp('[a-zA-Z]').hasMatch(text) ||
+                        !RegExp('[0-9]').hasMatch(text)) {
                       helper = currentContextLocalization.keyStrengthModerate;
                     } else if (text.length > 12) {
                       helper = currentContextLocalization.keyStrengthStrong;
@@ -122,11 +124,15 @@ class BasicEncryptionContent extends StatelessWidget {
                   onTap: onProcessFiles,
                 ),
               const SizedBox(height: 16),
-              BlocBuilder<CustomFileProcessingCubit<FileEncryptionOption>, CustomFileProcessingState>(
-                builder: (context, state) => _buildProcessedFilesList(state, context),
+              BlocBuilder<CustomFileProcessingCubit<FileEncryptionOption>,
+                  CustomFileProcessingState>(
+                builder: (context, state) =>
+                    _buildProcessedFilesList(state, context),
               ),
-              BlocBuilder<CustomFileProcessingCubit<FileDecryptionOption>, CustomFileProcessingState>(
-                builder: (context, state) => _buildProcessedFilesList(state, context),
+              BlocBuilder<CustomFileProcessingCubit<FileDecryptionOption>,
+                  CustomFileProcessingState>(
+                builder: (context, state) =>
+                    _buildProcessedFilesList(state, context),
               ),
               const SizedBox(height: 120),
             ],
@@ -136,7 +142,8 @@ class BasicEncryptionContent extends StatelessWidget {
     );
   }
 
-  Widget _buildProcessedFilesList(CustomFileProcessingState state, BuildContext context) {
+  Widget _buildProcessedFilesList(
+      CustomFileProcessingState state, BuildContext context) {
     if (state.processedFiles.isEmpty && state.currentProcessingFile == null) {
       return const SizedBox.shrink();
     }
@@ -147,13 +154,19 @@ class BasicEncryptionContent extends StatelessWidget {
         if (state.currentProcessingFile != null)
           Padding(
             padding: const EdgeInsets.only(bottom: 8),
-            child: Text(currentContextLocalization.processingFile(state.currentProcessingFile!.inputFilePath.split('/').last, (state.progress * 100).toStringAsFixed(1))),
+            child: Text(currentContextLocalization.processingFile(
+                state.currentProcessingFile!.inputFilePath.split('/').last,
+                (state.progress * 100).toStringAsFixed(1))),
           ),
         ...state.processedFiles.map((file) {
           return ListTile(
             contentPadding: EdgeInsets.zero,
-            title: Text(file.inputFilePath.split('/').last, maxLines: 1, overflow: TextOverflow.ellipsis),
-            subtitle: Text(file.outputFilePath ?? currentContextLocalization.processingFailed, maxLines: 2),
+            title: Text(file.inputFilePath.split('/').last,
+                maxLines: 1, overflow: TextOverflow.ellipsis),
+            subtitle: Text(
+                file.outputFilePath ??
+                    currentContextLocalization.processingFailed,
+                maxLines: 2),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -161,14 +174,16 @@ class BasicEncryptionContent extends StatelessWidget {
                   IconButton(
                     icon: const Icon(Icons.folder_open),
                     onPressed: () {
-                      final dirPath = file.outputFilePath!.substring(0, file.outputFilePath!.lastIndexOf('/'));
+                      final dirPath = file.outputFilePath!
+                          .substring(0, file.outputFilePath!.lastIndexOf('/'));
                       launchUrl(Uri.parse('file://$dirPath'));
                     },
                   ),
                   IconButton(
                     icon: const Icon(Icons.share),
                     onPressed: () {
-                      ShareHelper.shareXFiles([XFile(file.outputFilePath!)], context: context);
+                      ShareHelper.shareXFiles([XFile(file.outputFilePath!)],
+                          context: context);
                     },
                   ),
                 ],
@@ -180,4 +195,3 @@ class BasicEncryptionContent extends StatelessWidget {
     );
   }
 }
-

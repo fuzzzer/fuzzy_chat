@@ -42,7 +42,8 @@ void main() {
     test('Deterministic for same mainKey and nonce', () {
       final key1 = testDeriveEphemeralKey(mainKey: mainKey, nonce: nonce);
       final key2 = testDeriveEphemeralKey(mainKey: mainKey, nonce: nonce);
-      expect(key1, equals(key2), reason: 'Ephemeral keys should be identical for same input');
+      expect(key1, equals(key2),
+          reason: 'Ephemeral keys should be identical for same input');
     });
 
     test('Different nonce leads to different ephemeral keys', () {
@@ -51,9 +52,11 @@ void main() {
       final modifiedNonce = Uint8List.fromList(nonce);
       modifiedNonce[0] ^= 0xFF;
 
-      final key2 = testDeriveEphemeralKey(mainKey: mainKey, nonce: modifiedNonce);
+      final key2 =
+          testDeriveEphemeralKey(mainKey: mainKey, nonce: modifiedNonce);
 
-      expect(key1, isNot(equals(key2)), reason: 'Different nonce should lead to different ephemeral key');
+      expect(key1, isNot(equals(key2)),
+          reason: 'Different nonce should lead to different ephemeral key');
     });
 
     test('Performance test for key derivation', () {
@@ -61,14 +64,17 @@ void main() {
       const iterations = 10000;
       final stopwatch = Stopwatch()..start();
       for (var i = 0; i < iterations; i++) {
-        final randomNonce = Uint8List.fromList(List<int>.generate(12, (_) => rng.nextInt(256)));
+        final randomNonce =
+            Uint8List.fromList(List<int>.generate(12, (_) => rng.nextInt(256)));
         testDeriveEphemeralKey(mainKey: mainKey, nonce: randomNonce);
       }
       stopwatch.stop();
       final elapsedMs = stopwatch.elapsedMilliseconds;
       final avgTimePerKey = elapsedMs / iterations;
-      print('Derived $iterations ephemeral keys in $elapsedMs ms ($avgTimePerKey ms/key)');
-      expect(avgTimePerKey < 1, isTrue, reason: 'Ephemeral key derivation should be extremely fast');
+      print(
+          'Derived $iterations ephemeral keys in $elapsedMs ms ($avgTimePerKey ms/key)');
+      expect(avgTimePerKey < 1, isTrue,
+          reason: 'Ephemeral key derivation should be extremely fast');
     });
 
     test('Unique keys for random nonces (statistical check)', () {
@@ -77,13 +83,16 @@ void main() {
       final keysSet = <String>{}; // store keys as hex strings for comparison
 
       for (var i = 0; i < count; i++) {
-        final randomNonce = Uint8List.fromList(List<int>.generate(12, (_) => rng.nextInt(256)));
-        final derivedKey = testDeriveEphemeralKey(mainKey: mainKey, nonce: randomNonce);
+        final randomNonce =
+            Uint8List.fromList(List<int>.generate(12, (_) => rng.nextInt(256)));
+        final derivedKey =
+            testDeriveEphemeralKey(mainKey: mainKey, nonce: randomNonce);
         keysSet.add(_toHex(derivedKey));
       }
 
       // Expect that all keys are unique (very high probability with a good RNG).
-      expect(keysSet.length, equals(count), reason: 'All ephemeral keys should be unique with random nonces');
+      expect(keysSet.length, equals(count),
+          reason: 'All ephemeral keys should be unique with random nonces');
     });
   });
 }

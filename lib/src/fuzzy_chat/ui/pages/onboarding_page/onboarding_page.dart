@@ -80,7 +80,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         height: 8,
                         width: _currentPage == index ? 24 : 8,
                         decoration: BoxDecoration(
-                          color: _currentPage == index ? colors.diffColor : colors.secondaryColor,
+                          color: _currentPage == index
+                              ? colors.diffColor
+                              : colors.secondaryColor,
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),
@@ -101,7 +103,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       child: Text(
                         _currentPage == 2 ? l10n.getStarted : l10n.next,
                         style: theme.textTheme.titleMedium?.copyWith(
-                          color: const Color(0xFF18181A), // Dark text on diffColor
+                          color:
+                              const Color(0xFF18181A), // Dark text on diffColor
                           fontWeight: FontWeight.bold,
                         ),
                       ),

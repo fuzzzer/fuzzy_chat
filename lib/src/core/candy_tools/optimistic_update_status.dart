@@ -34,7 +34,8 @@ class OptimisticStatusBuilder {
       return onSuccess();
     }
 
-    if (status == OptimisticStateStatus.failedAndReverted && onFailure != null) {
+    if (status == OptimisticStateStatus.failedAndReverted &&
+        onFailure != null) {
       return onFailure();
     }
 

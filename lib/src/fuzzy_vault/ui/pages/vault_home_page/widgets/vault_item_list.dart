@@ -116,21 +116,28 @@ class _EmptyState extends StatelessWidget {
   }
 }
 
-class VaultItemCard extends StatelessWidget {
+class VaultItemCard extends StatefulWidget {
   final VaultItemMetadata itemMetadata;
 
   const VaultItemCard({super.key, required this.itemMetadata});
 
   @override
+  State<VaultItemCard> createState() => _VaultItemCardState();
+}
+
+class _VaultItemCardState extends State<VaultItemCard> {
+  bool _isLoading = false;
+
+  @override
   Widget build(BuildContext context) {
-    final isPassword = itemMetadata.type == VaultItemType.password;
-    final isFile = itemMetadata.type == VaultItemType.file;
+    final isPassword = widget.itemMetadata.type == VaultItemType.password;
+    final isFile = widget.itemMetadata.type == VaultItemType.file;
     final icon = isPassword
         ? Icons.key_rounded
         : isFile
             ? Icons.file_present_rounded
             : Icons.notes_rounded;
-    final title = itemMetadata.title;
+    final title = widget.itemMetadata.title;
 
     return Container(
       decoration: BoxDecoration(
@@ -154,46 +161,63 @@ class VaultItemCard extends StatelessWidget {
                   : currentContextLocalization.vaultNoteLabel,
           style: TextStyle(color: context.uiColors.secondaryTextColor),
         ),
-        trailing: IconButton(
-          icon: Icon(Icons.copy, color: context.uiColors.secondaryTextColor),
-          onPressed: () {
-            // Need to fetch full item and decrypt to copy. For now just placeholder
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  currentContextLocalization.vaultCopyingNotImplemented,
-                ),
+        trailing: _isLoading
+            ? const SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              )
+            : IconButton(
+                icon: Icon(Icons.copy,
+                    color: context.uiColors.secondaryTextColor),
+                onPressed: () {
+                  // Need to fetch full item and decrypt to copy. For now just placeholder
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        currentContextLocalization.vaultCopyingNotImplemented,
+                      ),
+                    ),
+                  );
+                },
               ),
-            );
-          },
-        ),
-        onTap: () async {
-          // Fetch the full item using the repository, then pass to editor
-          final masterKey = context.read<VaultAuthCubit>().state.masterKey;
-          if (masterKey == null) return;
+        onTap: _isLoading
+            ? null
+            : () async {
+                setState(() => _isLoading = true);
+                try {
+                  // Fetch the full item using the repository, then pass to editor
+                  final masterKey =
+                      context.read<VaultAuthCubit>().state.masterKey;
+                  if (masterKey == null) return;
 
-          final repo = sl.get<VaultRepository>();
-          final res = await repo.getItem(itemMetadata.id, masterKey);
+                  final repo = sl.get<VaultRepository>();
+                  final res =
+                      await repo.getItem(widget.itemMetadata.id, masterKey);
 
-          if (res is VaultSuccess && context.mounted) {
-            await context.push(
-              AppRouter.vaultItemEditor,
-              extra: VaultItemEditorPagePayload(
-                type: itemMetadata.type,
-                existingItem: (res as VaultSuccess<VaultItem>).data,
-              ),
-            );
-            if (context.mounted) {
-              await context.read<VaultItemsCubit>().loadItems();
-            }
-          } else if (context.mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(currentContextLocalization.vaultFailedToLoadItem),
-              ),
-            );
-          }
-        },
+                  if (res is VaultSuccess && context.mounted) {
+                    await context.push(
+                      AppRouter.vaultItemEditor,
+                      extra: VaultItemEditorPagePayload(
+                        type: widget.itemMetadata.type,
+                        existingItem: (res as VaultSuccess<VaultItem>).data,
+                      ),
+                    );
+                    if (context.mounted) {
+                      await context.read<VaultItemsCubit>().loadItems();
+                    }
+                  } else if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                            currentContextLocalization.vaultFailedToLoadItem),
+                      ),
+                    );
+                  }
+                } finally {
+                  if (mounted) setState(() => _isLoading = false);
+                }
+              },
       ),
     );
   }

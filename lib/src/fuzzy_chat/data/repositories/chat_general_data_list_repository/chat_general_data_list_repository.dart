@@ -5,7 +5,8 @@ export 'events/events.dart';
 class ChatGeneralDataListRepository {
   final ChatGeneralDataLocalDataSource localDataSource;
 
-  Stream<ChatGeneralDataListUpdated> get chatListUpdates => fuzzyHub.on<ChatGeneralDataListUpdated>();
+  Stream<ChatGeneralDataListUpdated> get chatListUpdates =>
+      fuzzyHub.on<ChatGeneralDataListUpdated>();
 
   ChatGeneralDataListRepository({required this.localDataSource});
 
@@ -48,7 +49,8 @@ class ChatGeneralDataListRepository {
   }
 
   Future<void> updateChat(ChatGeneralData chat) async {
-    final storedGeneralChatData = await localDataSource.getChatById(chat.chatId);
+    final storedGeneralChatData =
+        await localDataSource.getChatById(chat.chatId);
 
     if (storedGeneralChatData != null) {
       storedGeneralChatData

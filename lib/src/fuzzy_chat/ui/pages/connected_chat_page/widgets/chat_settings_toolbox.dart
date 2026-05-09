@@ -27,10 +27,13 @@ class _SettingsToolboxState extends State<SettingsToolbox> {
       keyStorageRepository: sl.get<KeyStorageRepository>(),
     );
 
-    acceptanceReaderCubit.generateAcceptance(chatId: widget.chatGeneralData.chatId).then((_) {
+    acceptanceReaderCubit
+        .generateAcceptance(chatId: widget.chatGeneralData.chatId)
+        .then((_) {
       if (acceptanceReaderCubit.state.status.isSuccess) {
         _copyAcceptance(
-          acceptanceContent: acceptanceReaderCubit.state.acceptance?.acceptanceContent ?? '',
+          acceptanceContent:
+              acceptanceReaderCubit.state.acceptance?.acceptanceContent ?? '',
           localizations: localizations,
         );
       } else {

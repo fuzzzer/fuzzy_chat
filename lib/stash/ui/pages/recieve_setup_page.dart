@@ -37,8 +37,10 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
     });
 
     try {
-      final publicKey = await KeysRepository.loadPublicKeyFromFile('public_key.json');
-      final privateKey = await KeysRepository.loadPrivateKeyFromFile('private_key.json');
+      final publicKey =
+          await KeysRepository.loadPublicKeyFromFile('public_key.json');
+      final privateKey =
+          await KeysRepository.loadPrivateKeyFromFile('private_key.json');
       setState(() {
         _keyPair = pointy.AsymmetricKeyPair(publicKey, privateKey);
       });
@@ -64,8 +66,10 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
 
     setState(() {
       _keyPair = newKeyPair;
-      KeysRepository.savePublicKeyToFile(newKeyPair.publicKey, 'public_key.json');
-      KeysRepository.savePrivateKeyToFile(newKeyPair.privateKey, 'private_key.json');
+      KeysRepository.savePublicKeyToFile(
+          newKeyPair.publicKey, 'public_key.json');
+      KeysRepository.savePrivateKeyToFile(
+          newKeyPair.privateKey, 'private_key.json');
     });
 
     FuzzySnackbar.show(label: 'Generated New Keys');
@@ -78,7 +82,8 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
     try {
       final bytes = await _controller.getFileData(event);
       final jsonString = utf8.decode(bytes);
-      final keyMap = castMapToAllStringMap(json.decode(jsonString) as Map<String, dynamic>);
+      final keyMap = castMapToAllStringMap(
+          json.decode(jsonString) as Map<String, dynamic>);
       _parseAndImportKeys(keyMap);
     } catch (e) {
       FuzzySnackbar.show(label: 'Failed to import keys');
@@ -93,7 +98,8 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
 
         final originalString = base64Decode(fileContent);
         final jsonString = utf8.decode(originalString);
-        final keyMap = castMapToAllStringMap(json.decode(jsonString) as Map<String, dynamic>);
+        final keyMap = castMapToAllStringMap(
+            json.decode(jsonString) as Map<String, dynamic>);
         _parseAndImportKeys(keyMap);
       }
     } catch (e) {
@@ -123,13 +129,15 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
       );
 
       setState(() {
-        _keyPair = pointy.AsymmetricKeyPair(importedPublicKey!, importedPrivateKey);
+        _keyPair =
+            pointy.AsymmetricKeyPair(importedPublicKey!, importedPrivateKey);
       });
 
       isPrivateKeyLoaded = true;
 
       KeysRepository.savePublicKeyToFile(importedPublicKey, 'public_key.json');
-      KeysRepository.savePrivateKeyToFile(importedPrivateKey, 'private_key.json');
+      KeysRepository.savePrivateKeyToFile(
+          importedPrivateKey, 'private_key.json');
     } catch (e) {
       FuzzySnackbar.show(label: 'Could Not Import Private Key');
     }
@@ -140,17 +148,24 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
   }
 
   Future<void> _showKeysCustomizedDialog([bool readsLocalFile = false]) async {
-    var publicKeyMap = _keyPair == null ? '' : RSAService.transformRSAPublicKeyToMap(_keyPair!.publicKey);
-    var privateKeyMap = _keyPair == null ? '' : RSAService.transformRSAPrivateKeyToMap(_keyPair!.privateKey);
+    var publicKeyMap = _keyPair == null
+        ? ''
+        : RSAService.transformRSAPublicKeyToMap(_keyPair!.publicKey);
+    var privateKeyMap = _keyPair == null
+        ? ''
+        : RSAService.transformRSAPrivateKeyToMap(_keyPair!.privateKey);
 
     if (readsLocalFile) {
       await Future.wait([
         (() async => KeysRepository.loadPublicKeyFromFile('public_key.json'))(),
-        (() async => KeysRepository.loadPrivateKeyFromFile('private_key.json'))(),
+        (() async =>
+            KeysRepository.loadPrivateKeyFromFile('private_key.json'))(),
       ]).then((value) {
         setState(() {
-          publicKeyMap = RSAService.transformRSAPublicKeyToMap(value[0] as RSAPublicKey);
-          privateKeyMap = RSAService.transformRSAPrivateKeyToMap(value[1] as RSAPrivateKey);
+          publicKeyMap =
+              RSAService.transformRSAPublicKeyToMap(value[0] as RSAPublicKey);
+          privateKeyMap =
+              RSAService.transformRSAPrivateKeyToMap(value[1] as RSAPrivateKey);
         });
         showKeysDialog(
           publicKeyMap: publicKeyMap,
@@ -172,8 +187,10 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
     showDialog<void>(
       context: context,
       builder: (context) {
-        final base64Public = base64Encode(utf8.encode(json.encode(publicKeyMap)));
-        final base64Private = base64Encode(utf8.encode(json.encode(privateKeyMap)));
+        final base64Public =
+            base64Encode(utf8.encode(json.encode(publicKeyMap)));
+        final base64Private =
+            base64Encode(utf8.encode(json.encode(privateKeyMap)));
 
         return AlertDialog(
           title: const Text('Keys'),
@@ -193,7 +210,8 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
                 ElevatedButton(
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: base64Private));
-                    FuzzySnackbar.show(label: 'Private key copied to clipboard');
+                    FuzzySnackbar.show(
+                        label: 'Private key copied to clipboard');
                   },
                   child: const Text('Copy Private Key'),
                 ),
@@ -231,7 +249,9 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
     );
   }
 
-  Future<void> exportKeys(pointy.AsymmetricKeyPair<pointy.RSAPublicKey, pointy.RSAPrivateKey> keyPair) async {
+  Future<void> exportKeys(
+      pointy.AsymmetricKeyPair<pointy.RSAPublicKey, pointy.RSAPrivateKey>
+          keyPair) async {
     try {
       final resultPrivate = await FilePicker.platform.saveFile(
         dialogTitle: 'Save Private Key',
@@ -240,8 +260,10 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
 
       if (resultPrivate != null) {
         final privateKeyFile = File(resultPrivate);
-        final privateKeyMap = RSAService.transformRSAPrivateKeyToMap(keyPair.privateKey);
-        await privateKeyFile.writeAsString(base64Encode(utf8.encode(json.encode(privateKeyMap))));
+        final privateKeyMap =
+            RSAService.transformRSAPrivateKeyToMap(keyPair.privateKey);
+        await privateKeyFile.writeAsString(
+            base64Encode(utf8.encode(json.encode(privateKeyMap))));
 
         FuzzySnackbar.show(label: 'Private key exported successfully');
       }
@@ -261,7 +283,8 @@ class _ReceiveSetupPageState extends State<ReceiveSetupPage> {
       if (result != null) {
         final publicKeyFile = File(result);
         final publicKeyMap = RSAService.transformRSAPublicKeyToMap(publicKey);
-        await publicKeyFile.writeAsString(base64Encode(utf8.encode(json.encode(publicKeyMap))));
+        await publicKeyFile.writeAsString(
+            base64Encode(utf8.encode(json.encode(publicKeyMap))));
 
         FuzzySnackbar.show(label: 'Public key exported successfully');
       }

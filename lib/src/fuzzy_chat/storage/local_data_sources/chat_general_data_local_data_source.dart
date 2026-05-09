@@ -17,11 +17,17 @@ class ChatGeneralDataLocalDataSource {
   }
 
   Future<StoredChatGeneralData?> getChatById(String chatId) async {
-    return await isar.storedChatGeneralDatas.filter().chatIdEqualTo(chatId).findFirst();
+    return await isar.storedChatGeneralDatas
+        .filter()
+        .chatIdEqualTo(chatId)
+        .findFirst();
   }
 
   Future<StoredChatGeneralData?> getChatByName(String name) async {
-    return await isar.storedChatGeneralDatas.filter().chatNameEqualTo(name).findFirst();
+    return await isar.storedChatGeneralDatas
+        .filter()
+        .chatNameEqualTo(name)
+        .findFirst();
   }
 
   Future<void> updateChat(StoredChatGeneralData storedChatGeneralData) async {

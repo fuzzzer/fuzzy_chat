@@ -14,7 +14,8 @@ class AESService {
   static Future<Uint8List> encrypt(Uint8List bytes, Uint8List key) async =>
       Isolate.run(() => _AESServiceImpl.syncEncrypt(bytes, key));
 
-  static Future<Uint8List> decrypt(Uint8List encryptedBytes, Uint8List key) async =>
+  static Future<Uint8List> decrypt(
+          Uint8List encryptedBytes, Uint8List key) async =>
       Isolate.run(() => _AESServiceImpl.syncDecrypt(encryptedBytes, key));
 
   static Future<String> encryptText(String text, Uint8List key) async {
@@ -23,13 +24,15 @@ class AESService {
     return base64Encode(encryptedTextBytes);
   }
 
-  static Future<String> decryptText(String base64EncryptedText, Uint8List key) async {
+  static Future<String> decryptText(
+      String base64EncryptedText, Uint8List key) async {
     final encryptedTextBytes = base64Decode(base64EncryptedText);
     final decryptedTextBytes = await decrypt(encryptedTextBytes, key);
     return utf8.decode(decryptedTextBytes);
   }
 
-  static Future<Uint8List> generateKey() async => Isolate.run(_AESServiceImpl.generateKey);
+  static Future<Uint8List> generateKey() async =>
+      Isolate.run(_AESServiceImpl.generateKey);
 
   static Future<FileProcessingHandler> encryptFile({
     required String inputPath,
@@ -60,7 +63,9 @@ class AESService {
       if (message is FileProcessingProgress) {
         controller.add(message);
 
-        if (message.isComplete || message.isCancelled || message.errorMessage != null) {
+        if (message.isComplete ||
+            message.isCancelled ||
+            message.errorMessage != null) {
           controller.close();
           isolate.kill(priority: Isolate.immediate);
         }
@@ -114,7 +119,9 @@ class AESService {
       if (message is FileProcessingProgress) {
         controller.add(message);
 
-        if (message.isComplete || message.isCancelled || message.errorMessage != null) {
+        if (message.isComplete ||
+            message.isCancelled ||
+            message.errorMessage != null) {
           controller.close();
           isolate.kill(priority: Isolate.immediate);
         }
@@ -145,7 +152,8 @@ class AESService {
   }
 }
 
-Future<void> fileEncryptionIsolateEntry(FileEncryptionIsolateArguments args) async {
+Future<void> fileEncryptionIsolateEntry(
+    FileEncryptionIsolateArguments args) async {
   final commandReceivePort = ReceivePort();
 
   args.commandPortSendPort.send(commandReceivePort.sendPort);

@@ -89,7 +89,8 @@ class UiTextStyles extends ThemeExtension<UiTextStyles> {
   }
 
   @override
-  ThemeExtension<UiTextStyles> lerp(ThemeExtension<UiTextStyles>? other, double t) {
+  ThemeExtension<UiTextStyles> lerp(
+      ThemeExtension<UiTextStyles>? other, double t) {
     if (other is! UiTextStyles) {
       return this;
     }
@@ -97,15 +98,18 @@ class UiTextStyles extends ThemeExtension<UiTextStyles> {
     return UiTextStyles(
       maxBold72: TextStyle.lerp(maxBold72, other.maxBold72, t)!,
       max72: TextStyle.lerp(max72, other.max72, t)!,
-      largeDisplayBold32: TextStyle.lerp(largeDisplayBold32, other.largeDisplayBold32, t)!,
+      largeDisplayBold32:
+          TextStyle.lerp(largeDisplayBold32, other.largeDisplayBold32, t)!,
       largeDisplay32: TextStyle.lerp(largeDisplay32, other.largeDisplay32, t)!,
       displayBold28: TextStyle.lerp(displayBold28, other.displayBold28, t)!,
       display28: TextStyle.lerp(display28, other.display28, t)!,
-      bodyLargeBold20: TextStyle.lerp(bodyLargeBold20, other.bodyLargeBold20, t)!,
+      bodyLargeBold20:
+          TextStyle.lerp(bodyLargeBold20, other.bodyLargeBold20, t)!,
       bodyLarge20: TextStyle.lerp(bodyLarge20, other.bodyLarge20, t)!,
       bodyBold16: TextStyle.lerp(bodyBold16, other.bodyBold16, t)!,
       body16: TextStyle.lerp(body16, other.body16, t)!,
-      bodySmallBold12: TextStyle.lerp(bodySmallBold12, other.bodySmallBold12, t)!,
+      bodySmallBold12:
+          TextStyle.lerp(bodySmallBold12, other.bodySmallBold12, t)!,
       bodySmall12: TextStyle.lerp(bodySmall12, other.bodySmall12, t)!,
     );
   }

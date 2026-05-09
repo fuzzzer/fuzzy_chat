@@ -40,7 +40,9 @@ class ChatHeader extends StatelessWidget {
               padding: const EdgeInsets.only(right: 16),
               child: FuzzyOverlaySpawner(
                 //TODO find better fix, so that offest is dynamically deduced
-                offset: chatGeneralData.didAcceptInvitation ? const Offset(-200, 0) : const Offset(-150, 0),
+                offset: chatGeneralData.didAcceptInvitation
+                    ? const Offset(-200, 0)
+                    : const Offset(-150, 0),
                 spawnedChildBuilder: (_, closeOverlay) => SettingsToolbox(
                   chatGeneralData: chatGeneralData,
                   onActionPressed: () {

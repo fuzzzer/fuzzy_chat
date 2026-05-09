@@ -16,7 +16,6 @@ class ChatListContent extends StatelessWidget {
 
     return CustomScrollView(
       slivers: [
-
         if (chatGeneralDataList.isEmpty)
           SliverFillRemaining(
             hasScrollBody: false,
@@ -41,7 +40,8 @@ class ChatListContent extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    localizations.tapTheButtonBelowToCreateANewSecureHandshakeOrAcceptAnInvitation,
+                    localizations
+                        .tapTheButtonBelowToCreateANewSecureHandshakeOrAcceptAnInvitation,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: context.uiColors.secondaryTextColor,
                         ),
