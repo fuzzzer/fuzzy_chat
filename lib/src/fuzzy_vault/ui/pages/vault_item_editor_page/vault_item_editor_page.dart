@@ -258,6 +258,14 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
       }
 
       if (context.mounted) {
+        if (_type == VaultItemType.file) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(currentContextLocalization.vaultFileSaveWarning),
+              duration: const Duration(seconds: 5),
+            ),
+          );
+        }
         context.pop();
       }
     } finally {

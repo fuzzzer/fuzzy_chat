@@ -1,3 +1,5 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'fuzzy_chat_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -46,7 +48,8 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get pleaseEnterAChatName => 'Please enter a chat name.';
 
   @override
-  String get pleasePasteTheAcceptanceContent => 'Please paste the acceptance content.';
+  String get pleasePasteTheAcceptanceContent =>
+      'Please paste the acceptance content.';
 
   @override
   String get failedToCompleteHandshake => 'Failed to complete handshake.';
@@ -70,22 +73,26 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get accept => 'Accept';
 
   @override
-  String get unexpectedFailureOccuredPleaseContactUs => 'Unexpected failure occurred, please contact us.';
+  String get unexpectedFailureOccuredPleaseContactUs =>
+      'Unexpected failure occurred, please contact us.';
 
   @override
   String get failedToGenerateInvitation => 'Failed to generate invitation.';
 
   @override
-  String get inOrderToStartFuzzyChatWithSomeoneFirstTheyNeedToImportTheInvitationAndProvideAcceptanceFileOrTextGeneratedOnTheirChatSoTheyCanAlsoSendAndUnlockMessages => 'To start a Fuzzy Chat with someone, they must first import the invitation and provide the acceptance text generated in their chat. This will allow them to send and unlock messages.';
+  String get inOrderToStartFuzzyChatWithSomeoneFirstTheyNeedToImportTheInvitationAndProvideAcceptanceFileOrTextGeneratedOnTheirChatSoTheyCanAlsoSendAndUnlockMessages =>
+      'To start a Fuzzy Chat with someone, they must first import the invitation and provide the acceptance text generated in their chat. This will allow them to send and unlock messages.';
 
   @override
-  String get theAcceptanceThatYouGetFromInvitedPersonShouldBePastedHere => 'The acceptance that you get from the invited person should be pasted here:';
+  String get theAcceptanceThatYouGetFromInvitedPersonShouldBePastedHere =>
+      'The acceptance that you get from the invited person should be pasted here:';
 
   @override
   String get failedToAcceptInvitation => 'Failed to accept invitation.';
 
   @override
-  String get pleaseProvideInvitationTextAndChatName => 'Please provide invitation text and chat name.';
+  String get pleaseProvideInvitationTextAndChatName =>
+      'Please provide invitation text and chat name.';
 
   @override
   String get acceptChatInvitation => 'Accept Chat Invitation';
@@ -106,7 +113,8 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get copyAcceptance => 'Copy Acceptance';
 
   @override
-  String get yourAcceptanceHasBeenGeneratedSuccessfully => 'Your acceptance has been generated successfully.';
+  String get yourAcceptanceHasBeenGeneratedSuccessfully =>
+      'Your acceptance has been generated successfully.';
 
   @override
   String get exportAcceptance => 'Export Acceptance';
@@ -124,7 +132,8 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get deleteChat => 'Delete Chat';
 
   @override
-  String get areYouSureYouWantToDeleteThisChat => 'Are you sure you want to delete this chat?';
+  String get areYouSureYouWantToDeleteThisChat =>
+      'Are you sure you want to delete this chat?';
 
   @override
   String get cancel => 'Cancel';
@@ -177,7 +186,8 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get failedToProcessFiles => 'Failed to process files';
 
   @override
-  String get chatWithIndicatedNameAlreadyExists => 'Chat with indicated name already exists';
+  String get chatWithIndicatedNameAlreadyExists =>
+      'Chat with indicated name already exists';
 
   @override
   String get reveal => 'Reveal';
@@ -231,16 +241,19 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get anUnknownErrorOccurred => 'დაფიქსირდა უცნობი შეცდომა';
 
   @override
-  String get textAndKeyCannotBeEmpty => 'ტექსტი და გასაღები ცარიელი არ უნდა იყოს';
+  String get textAndKeyCannotBeEmpty =>
+      'ტექსტი და გასაღები ცარიელი არ უნდა იყოს';
 
   @override
   String get encryptionFailed => 'დაშიფრვა ვერ მოხერხდა';
 
   @override
-  String get encryptedTextAndKeyCannotBeEmpty => 'დაშიფრული ტექსტი და გასაღები ცარიელი არ უნდა იყოს';
+  String get encryptedTextAndKeyCannotBeEmpty =>
+      'დაშიფრული ტექსტი და გასაღები ცარიელი არ უნდა იყოს';
 
   @override
-  String get decryptionFailedCheckYourKeyOrEncryptedText => 'გაშიფრვა ვერ მოხერხდა შეამოწმეთ გასაღები ან დაშიფრული ტექსტი';
+  String get decryptionFailedCheckYourKeyOrEncryptedText =>
+      'გაშიფრვა ვერ მოხერხდა შეამოწმეთ გასაღები ან დაშიფრული ტექსტი';
 
   @override
   String get welcomeToFuzzyChat => 'მოგესალმებით Fuzzy Chat-ში';
@@ -249,13 +262,15 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get offlineEncryptedClipboard => 'ოფლაინ დაშიფრული ბუფერი';
 
   @override
-  String get yourDataNeverLeavesYourDeviceNoServersNoTracking => 'თქვენი მონაცემები არასდროს ტოვებს თქვენს მოწყობილობას. არანაირი სერვერი, არანაირი თვალთვალი.';
+  String get yourDataNeverLeavesYourDeviceNoServersNoTracking =>
+      'თქვენი მონაცემები არასდროს ტოვებს თქვენს მოწყობილობას. არანაირი სერვერი, არანაირი თვალთვალი.';
 
   @override
   String get secureHandshake => 'უსაფრთხო ხელის ჩამორთმევა';
 
   @override
-  String get connectWithOthersUsingASecureOfflineCodeExchange => 'დაუკავშირდით სხვებს უსაფრთხო, ოფლაინ კოდების გაცვლის გამოყენებით.';
+  String get connectWithOthersUsingASecureOfflineCodeExchange =>
+      'დაუკავშირდით სხვებს უსაფრთხო, ოფლაინ კოდების გაცვლის გამოყენებით.';
 
   @override
   String get getStarted => 'დაწყება';
@@ -267,37 +282,45 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get noOngoingChats => 'მიმდინარე ჩატები არ არის';
 
   @override
-  String get tapTheButtonBelowToCreateANewSecureHandshakeOrAcceptAnInvitation => 'დააჭირეთ ღილაკს ქვემოთ, რომ შექმნათ ახალი უსაფრთხო ხელის ჩამორთმევა ან მიიღოთ მოწვევა.';
+  String get tapTheButtonBelowToCreateANewSecureHandshakeOrAcceptAnInvitation =>
+      'დააჭირეთ ღილაკს ქვემოთ, რომ შექმნათ ახალი უსაფრთხო ხელის ჩამორთმევა ან მიიღოთ მოწვევა.';
 
   @override
-  String get stepSendYourInviteCode => 'ნაბიჯი 1: გაგზავნეთ თქვენი მოწვევის კოდი';
+  String get stepSendYourInviteCode =>
+      'ნაბიჯი 1: გაგზავნეთ თქვენი მოწვევის კოდი';
 
   @override
-  String get sendThisCodeToThePersonYouWantToChatWithUsingAnySecureChannel => 'გაუგზავნეთ ეს კოდი იმ ადამიანს, ვისთანაც გსურთ საუბარი, ნებისმიერი უსაფრთხო არხის გამოყენებით.';
+  String get sendThisCodeToThePersonYouWantToChatWithUsingAnySecureChannel =>
+      'გაუგზავნეთ ეს კოდი იმ ადამიანს, ვისთანაც გსურთ საუბარი, ნებისმიერი უსაფრთხო არხის გამოყენებით.';
 
   @override
-  String get stepPasteTheirAcceptanceCode => 'ნაბიჯი 2: ჩასვით მათი მიღების კოდი';
+  String get stepPasteTheirAcceptanceCode =>
+      'ნაბიჯი 2: ჩასვით მათი მიღების კოდი';
 
   @override
-  String get onceTheyAcceptYourInviteTheyWillSendACodeBackPasteItBelow => 'როგორც კი მიიღებენ თქვენს მოწვევას, ისინი გამოგიგზავნიან კოდს უკან. ჩასვით ის ქვემოთ.';
+  String get onceTheyAcceptYourInviteTheyWillSendACodeBackPasteItBelow =>
+      'როგორც კი მიიღებენ თქვენს მოწვევას, ისინი გამოგიგზავნიან კოდს უკან. ჩასვით ის ქვემოთ.';
 
   @override
   String get stepPasteTheirInviteCode => 'ნაბიჯი 1: ჩასვით მათი მოწვევის კოდი';
 
   @override
-  String get askYourContactToShareTheirInviteCodeSecurelyAndPasteItBelow => 'სთხოვეთ თქვენს კონტაქტს უსაფრთხოდ გაგიზიარონ მოწვევის კოდი და ჩასვით ის ქვემოთ.';
+  String get askYourContactToShareTheirInviteCodeSecurelyAndPasteItBelow =>
+      'სთხოვეთ თქვენს კონტაქტს უსაფრთხოდ გაგიზიარონ მოწვევის კოდი და ჩასვით ის ქვემოთ.';
 
   @override
   String get stepNameThisChat => 'ნაბიჯი 2: დაარქვით სახელი ამ საუბარს';
 
   @override
-  String get chooseALocalNameForThisChatThisIsOnlyVisibleToYou => 'აირჩიეთ ლოკალური სახელი ამ საუბრისთვის. ეს მხოლოდ თქვენთვის იქნება ხილული.';
+  String get chooseALocalNameForThisChatThisIsOnlyVisibleToYou =>
+      'აირჩიეთ ლოკალური სახელი ამ საუბრისთვის. ეს მხოლოდ თქვენთვის იქნება ხილული.';
 
   @override
   String get securityWarning => 'უსაფრთხოების გაფრთხილება';
 
   @override
-  String get areYouSureYouWantToCopyUnencryptedDataToYourClipboardThisCouldCompromiseYourSecureChat => 'დარწმუნებული ხართ, რომ გსურთ დაუშიფრავი მონაცემების ბუფერში კოპირება? ამან შეიძლება საფრთხე შეუქმნას თქვენს უსაფრთხო ჩატს.';
+  String get areYouSureYouWantToCopyUnencryptedDataToYourClipboardThisCouldCompromiseYourSecureChat =>
+      'დარწმუნებული ხართ, რომ გსურთ დაუშიფრავი მონაცემების ბუფერში კოპირება? ამან შეიძლება საფრთხე შეუქმნას თქვენს უსაფრთხო ჩატს.';
 
   @override
   String get copyFuzz => 'Fuzz-ის კოპირება';
@@ -309,7 +332,8 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get firstEncryption => 'პირველი დაშიფვრა';
 
   @override
-  String get typeAMessageAndPressSendItWillBeEncryptedLocallyAndYouCanThenCopyTheSecureFuzzedText => 'აკრიფეთ მესიჯი და დააჭირეთ გაგზავნას. ის ლოკალურად დაშიფრდება, რის შემდეგაც შეგეძლებათ უსაფრთხო, დაშიფრული ტექსტის კოპირება.';
+  String get typeAMessageAndPressSendItWillBeEncryptedLocallyAndYouCanThenCopyTheSecureFuzzedText =>
+      'აკრიფეთ მესიჯი და დააჭირეთ გაგზავნას. ის ლოკალურად დაშიფრდება, რის შემდეგაც შეგეძლებათ უსაფრთხო, დაშიფრული ტექსტის კოპირება.';
 
   @override
   String get settings => 'პარამეტრები';
@@ -324,10 +348,12 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get moderate => 'ზომიერი';
 
   @override
-  String get strictSecurityDescription => 'ნებისმიერი გაშიფრული ტექსტის კოპირებამდე გამოჩნდება დადასტურების დიალოგი. რეკომენდებულია მაქსიმალური კონფიდენციალურობისთვის.';
+  String get strictSecurityDescription =>
+      'ნებისმიერი გაშიფრული ტექსტის კოპირებამდე გამოჩნდება დადასტურების დიალოგი. რეკომენდებულია მაქსიმალური კონფიდენციალურობისთვის.';
 
   @override
-  String get moderateSecurityDescription => 'მიღებული შეტყობინებები იკითხება და კოპირება შესაძლებელია გაფრთხილების გარეშე.';
+  String get moderateSecurityDescription =>
+      'მიღებული შეტყობინებები იკითხება და კოპირება შესაძლებელია გაფრთხილების გარეშე.';
 
   @override
   String get shareAsLink => 'ბმულით გაზიარება';
@@ -360,7 +386,8 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get updateRequired => 'ამ ბმულს Fuzzy Chat-ის ახალი ვერსია სჭირდება.';
 
   @override
-  String get cantAcceptOwnInvitation => 'თქვენი საკუთარი მოწვევის მიღება შეუძლებელია.';
+  String get cantAcceptOwnInvitation =>
+      'თქვენი საკუთარი მოწვევის მიღება შეუძლებელია.';
 
   @override
   String get connectionComplete => 'კავშირი დამყარებულია!';
@@ -375,16 +402,20 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get acceptanceLinkExpired => 'ამ მიღების ბმულის ვადა ამოიწურა.';
 
   @override
-  String get chatNotFoundForAcceptance => 'ამ მიღების ბმულისთვის ჩატი ვერ მოიძებნა.';
+  String get chatNotFoundForAcceptance =>
+      'ამ მიღების ბმულისთვის ჩატი ვერ მოიძებნა.';
 
   @override
-  String get failedToProcessAcceptance => 'მიღების ბმულის დამუშავება ვერ მოხერხდა.';
+  String get failedToProcessAcceptance =>
+      'მიღების ბმულის დამუშავება ვერ მოხერხდა.';
 
   @override
-  String get chatNotFoundForMessage => 'ამ შეტყობინების ბმულისთვის ჩატი ვერ მოიძებნა.';
+  String get chatNotFoundForMessage =>
+      'ამ შეტყობინების ბმულისთვის ჩატი ვერ მოიძებნა.';
 
   @override
-  String get failedToProcessMessage => 'შეტყობინების ბმულის დამუშავება ვერ მოხერხდა.';
+  String get failedToProcessMessage =>
+      'შეტყობინების ბმულის დამუშავება ვერ მოხერხდა.';
 
   @override
   String get shareFile => 'ფაილის გაზიარება';
@@ -456,10 +487,12 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get vaultNoResultsFound => 'შედეგები ვერ მოიძებნა.';
 
   @override
-  String get vaultNoPasswordsYet => 'პაროლები ჯერ არ არის.\nდასამატებლად დააჭირეთ +.';
+  String get vaultNoPasswordsYet =>
+      'პაროლები ჯერ არ არის.\nდასამატებლად დააჭირეთ +.';
 
   @override
-  String get vaultNoNotesYet => 'ჩანაწერები ჯერ არ არის.\nდასამატებლად დააჭირეთ +.';
+  String get vaultNoNotesYet =>
+      'ჩანაწერები ჯერ არ არის.\nდასამატებლად დააჭირეთ +.';
 
   @override
   String get vaultIsEmpty => 'საცავი ცარიელია.\nდაამატეთ პაროლი ან ჩანაწერი.';
@@ -471,7 +504,8 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get vaultNoteLabel => 'ჩანაწერი';
 
   @override
-  String get vaultCopyingNotImplemented => 'კოპირება ჯერ სრულად არ არის განხორციელებული.';
+  String get vaultCopyingNotImplemented =>
+      'კოპირება ჯერ სრულად არ არის განხორციელებული.';
 
   @override
   String get vaultFailedToLoadItem => 'ელემენტის ჩატვირთვა ვერ მოხერხდა';
@@ -483,7 +517,8 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get vaultCreateYourVault => 'შექმენით თქვენი საცავი';
 
   @override
-  String get vaultCreateDescription => 'თქვენი საცავი ყველა პაროლსა და ჩანაწერს ლოკალურად შიფრავს თქვენს მოწყობილობაზე.\nაირჩიეთ ძლიერი მთავარი პაროლი.';
+  String get vaultCreateDescription =>
+      'თქვენი საცავი ყველა პაროლსა და ჩანაწერს ლოკალურად შიფრავს თქვენს მოწყობილობაზე.\nაირჩიეთ ძლიერი მთავარი პაროლი.';
 
   @override
   String get vaultPassword => 'ვოლტის პაროლი';
@@ -495,7 +530,8 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get vaultPasswordsDoNotMatch => 'პაროლები არ ემთხვევა';
 
   @override
-  String get vaultPasswordCannotBeReset => 'ეს პაროლი აღდგენადი არ არის. თუ დაგავიწყდათ, თქვენი მონაცემები სამუდამოდ დაიკარგება.';
+  String get vaultPasswordCannotBeReset =>
+      'ეს პაროლი აღდგენადი არ არის. თუ დაგავიწყდათ, თქვენი მონაცემები სამუდამოდ დაიკარგება.';
 
   @override
   String get vaultCreateVault => 'საცავის შექმნა';
@@ -515,7 +551,8 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get vaultUnlock => 'განბლოკვა';
 
   @override
-  String get vaultForgotPassword => 'დაგავიწყდათ პაროლი? თქვენი მონაცემები დაშიფრულია და აღდგენა შეუძლებელია.';
+  String get vaultForgotPassword =>
+      'დაგავიწყდათ პაროლი? თქვენი მონაცემები დაშიფრულია და აღდგენა შეუძლებელია.';
 
   @override
   String vaultUnlockFailed(Object failureType) {
@@ -543,7 +580,8 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get unknownError => 'უცნობი შეცდომა';
 
   @override
-  String get noDataFoundPleaseSetYourData => 'მონაცემები ვერ მოიძებნა. გთხოვთ დააყენოთ თქვენი მონაცემები.';
+  String get noDataFoundPleaseSetYourData =>
+      'მონაცემები ვერ მოიძებნა. გთხოვთ დააყენოთ თქვენი მონაცემები.';
 
   @override
   String get lastUpdated => 'ბოლო განახლება:';
@@ -552,7 +590,8 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get keyStrengthWeak => 'სუსტი (ძალიან მოკლე)';
 
   @override
-  String get keyStrengthModerate => 'საშუალო (გაითვალისწინეთ ციფრების ან ასოების დამატება)';
+  String get keyStrengthModerate =>
+      'საშუალო (გაითვალისწინეთ ციფრების ან ასოების დამატება)';
 
   @override
   String get keyStrengthStrong => 'ძლიერი';
@@ -584,13 +623,15 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get chatAuthUnlock => 'განბლოკვა';
 
   @override
-  String get chatAuthForgotPassword => 'დაგავიწყდათ პაროლი? თქვენი დაშიფრული მონაცემების აღდგენა მის გარეშე შეუძლებელია.';
+  String get chatAuthForgotPassword =>
+      'დაგავიწყდათ პაროლი? თქვენი დაშიფრული მონაცემების აღდგენა მის გარეშე შეუძლებელია.';
 
   @override
   String get chatAuthSetupTitle => 'ჩატების დაცვა';
 
   @override
-  String get chatAuthSetupDescription => 'დააყენეთ პაროლი ჩატის გასაღებების დასაშიფრად. ეს თქვენს საუბრებს დამატებით დაცვას მისცემს.';
+  String get chatAuthSetupDescription =>
+      'დააყენეთ პაროლი ჩატის გასაღებების დასაშიფრად. ეს თქვენს საუბრებს დამატებით დაცვას მისცემს.';
 
   @override
   String get chatAuthSetPassword => 'პაროლის დაყენება';
@@ -614,7 +655,8 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get chatAuthDisableProtection => 'ჩატის დაცვის გამორთვა';
 
   @override
-  String get chatAuthProtectionDescription => 'ჩართვის შემთხვევაში, ჩატებზე წვდომისთვის პაროლის შეყვანა მოგეთხოვებათ. თქვენი გასაღებები ამ პაროლით იქნება დაშიფრული.';
+  String get chatAuthProtectionDescription =>
+      'ჩართვის შემთხვევაში, ჩატებზე წვდომისთვის პაროლის შეყვანა მოგეთხოვებათ. თქვენი გასაღებები ამ პაროლით იქნება დაშიფრული.';
 
   @override
   String get chatAuthMigratingKeys => 'გასაღებების დაშიფვრა...';
@@ -638,16 +680,20 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get chatAuthBiometricEnabled => 'ბიომეტრიული განბლოკვა ჩართულია';
 
   @override
-  String get chatAuthBiometricDescription => 'შეიყვანეთ პაროლი დასტურისთვის, შემდეგ განბლოკეთ თითის ანაბეჭდით ან Face ID-ით.';
+  String get chatAuthBiometricDescription =>
+      'შეიყვანეთ პაროლი დასტურისთვის, შემდეგ განბლოკეთ თითის ანაბეჭდით ან Face ID-ით.';
 
   @override
-  String get chatAuthBiometricUnavailable => 'ბიომეტრიული ავთენტიფიკაცია ამ მოწყობილობაზე მიუწვდომელია.';
+  String get chatAuthBiometricUnavailable =>
+      'ბიომეტრიული ავთენტიფიკაცია ამ მოწყობილობაზე მიუწვდომელია.';
 
   @override
-  String get chatAuthBiometricFailed => 'ბიომეტრიული ავთენტიფიკაცია ვერ მოხერხდა.';
+  String get chatAuthBiometricFailed =>
+      'ბიომეტრიული ავთენტიფიკაცია ვერ მოხერხდა.';
 
   @override
-  String get chatAuthBiometricInvalidated => 'თქვენი ბიომეტრიული მონაცემები შეიცვალა. ბიომეტრიული განბლოკვა გამოირთო. გთხოვთ ხელახლა ჩართოთ პარამეტრებიდან.';
+  String get chatAuthBiometricInvalidated =>
+      'თქვენი ბიომეტრიული მონაცემები შეიცვალა. ბიომეტრიული განბლოკვა გამოირთო. გთხოვთ ხელახლა ჩართოთ პარამეტრებიდან.';
 
   @override
   String get vaultBiometricUnlock => 'განბლოკვა ბიომეტრიით';
@@ -662,10 +708,12 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get vaultBiometricEnabled => 'ბიომეტრიული განბლოკვა ჩართულია';
 
   @override
-  String get vaultBiometricDescription => 'ბიომეტრიული განბლოკვის ჩასართავად დაადასტურეთ მთავარი პაროლი.';
+  String get vaultBiometricDescription =>
+      'ბიომეტრიული განბლოკვის ჩასართავად დაადასტურეთ მთავარი პაროლი.';
 
   @override
-  String get vaultBiometricUnavailable => 'ბიომეტრიული ავთენტიფიკაცია ამ მოწყობილობაზე მიუწვდომელია.';
+  String get vaultBiometricUnavailable =>
+      'ბიომეტრიული ავთენტიფიკაცია ამ მოწყობილობაზე მიუწვდომელია.';
 
   @override
   String get vaultBiometricSettings => 'ბიომეტრიის პარამეტრები';
@@ -674,16 +722,19 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get vaultBiometricInvalidPassword => 'არასწორი ვოლტის პაროლი.';
 
   @override
-  String get vaultBiometricInvalidated => 'თქვენი ბიომეტრიული მონაცემები შეიცვალა. ბიომეტრიული განბლოკვა გამოირთო. გთხოვთ ხელახლა ჩართოთ პარამეტრებიდან.';
+  String get vaultBiometricInvalidated =>
+      'თქვენი ბიომეტრიული მონაცემები შეიცვალა. ბიომეტრიული განბლოკვა გამოირთო. გთხოვთ ხელახლა ჩართოთ პარამეტრებიდან.';
 
   @override
   String get vaultAuthentication => 'ვოლტის ავთენტიფიკაცია';
 
   @override
-  String get vaultAuthenticationDescription => 'ვოლტის ბიომეტრიული განბლოკვის მართვა';
+  String get vaultAuthenticationDescription =>
+      'ვოლტის ბიომეტრიული განბლოკვის მართვა';
 
   @override
-  String get vaultNotCreated => 'ბიომეტრიული განბლოკვისთვის ჯერ შექმენით ვოლტი.';
+  String get vaultNotCreated =>
+      'ბიომეტრიული განბლოკვისთვის ჯერ შექმენით ვოლტი.';
 
   @override
   String get vaultLockVault => 'საცავის დაბლოკვა';
@@ -696,4 +747,8 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
 
   @override
   String get chatAuthEnterPassword => 'გთხოვთ შეიყვანოთ მიმდინარე პაროლი';
+
+  @override
+  String get vaultFileSaveWarning =>
+      '⚠️ ორიგინალი ფაილი არ იშლება ავტომატურად. შენახვის შემდეგ ფაილი რჩება მოწყობილობაზე. გთხოვთ წაშალოთ ის უსაფრთხოების მიზნით.';
 }

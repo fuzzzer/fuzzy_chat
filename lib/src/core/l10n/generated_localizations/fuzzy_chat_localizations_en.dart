@@ -1,3 +1,5 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'fuzzy_chat_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -46,7 +48,8 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get pleaseEnterAChatName => 'Please enter a chat name.';
 
   @override
-  String get pleasePasteTheAcceptanceContent => 'Please paste the acceptance content.';
+  String get pleasePasteTheAcceptanceContent =>
+      'Please paste the acceptance content.';
 
   @override
   String get failedToCompleteHandshake => 'Failed to complete handshake.';
@@ -70,22 +73,26 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get accept => 'Accept';
 
   @override
-  String get unexpectedFailureOccuredPleaseContactUs => 'Unexpected failure occurred, please contact us.';
+  String get unexpectedFailureOccuredPleaseContactUs =>
+      'Unexpected failure occurred, please contact us.';
 
   @override
   String get failedToGenerateInvitation => 'Failed to generate invitation.';
 
   @override
-  String get inOrderToStartFuzzyChatWithSomeoneFirstTheyNeedToImportTheInvitationAndProvideAcceptanceFileOrTextGeneratedOnTheirChatSoTheyCanAlsoSendAndUnlockMessages => 'To start a Fuzzy Chat with someone, they must first import the invitation and provide the acceptance text generated in their chat. This will allow them to send and unlock messages.';
+  String get inOrderToStartFuzzyChatWithSomeoneFirstTheyNeedToImportTheInvitationAndProvideAcceptanceFileOrTextGeneratedOnTheirChatSoTheyCanAlsoSendAndUnlockMessages =>
+      'To start a Fuzzy Chat with someone, they must first import the invitation and provide the acceptance text generated in their chat. This will allow them to send and unlock messages.';
 
   @override
-  String get theAcceptanceThatYouGetFromInvitedPersonShouldBePastedHere => 'The acceptance that you get from the invited person should be pasted here:';
+  String get theAcceptanceThatYouGetFromInvitedPersonShouldBePastedHere =>
+      'The acceptance that you get from the invited person should be pasted here:';
 
   @override
   String get failedToAcceptInvitation => 'Failed to accept invitation.';
 
   @override
-  String get pleaseProvideInvitationTextAndChatName => 'Please provide invitation text and chat name.';
+  String get pleaseProvideInvitationTextAndChatName =>
+      'Please provide invitation text and chat name.';
 
   @override
   String get acceptChatInvitation => 'Accept Chat Invitation';
@@ -106,7 +113,8 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get copyAcceptance => 'Copy Acceptance';
 
   @override
-  String get yourAcceptanceHasBeenGeneratedSuccessfully => 'Your acceptance has been generated successfully.';
+  String get yourAcceptanceHasBeenGeneratedSuccessfully =>
+      'Your acceptance has been generated successfully.';
 
   @override
   String get exportAcceptance => 'Export Acceptance';
@@ -124,7 +132,8 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get deleteChat => 'Delete Chat';
 
   @override
-  String get areYouSureYouWantToDeleteThisChat => 'Are you sure you want to delete this chat?';
+  String get areYouSureYouWantToDeleteThisChat =>
+      'Are you sure you want to delete this chat?';
 
   @override
   String get cancel => 'Cancel';
@@ -177,7 +186,8 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get failedToProcessFiles => 'Failed to process files';
 
   @override
-  String get chatWithIndicatedNameAlreadyExists => 'Chat with indicated name already exists';
+  String get chatWithIndicatedNameAlreadyExists =>
+      'Chat with indicated name already exists';
 
   @override
   String get reveal => 'Reveal';
@@ -237,10 +247,12 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get encryptionFailed => 'Encryption failed';
 
   @override
-  String get encryptedTextAndKeyCannotBeEmpty => 'Encrypted text and key cannot be empty';
+  String get encryptedTextAndKeyCannotBeEmpty =>
+      'Encrypted text and key cannot be empty';
 
   @override
-  String get decryptionFailedCheckYourKeyOrEncryptedText => 'Decryption failed check your key or encrypted text';
+  String get decryptionFailedCheckYourKeyOrEncryptedText =>
+      'Decryption failed check your key or encrypted text';
 
   @override
   String get welcomeToFuzzyChat => 'Welcome to Fuzzy Chat';
@@ -249,13 +261,15 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get offlineEncryptedClipboard => 'Offline Encrypted Clipboard';
 
   @override
-  String get yourDataNeverLeavesYourDeviceNoServersNoTracking => 'Your data never leaves your device. No servers, no tracking.';
+  String get yourDataNeverLeavesYourDeviceNoServersNoTracking =>
+      'Your data never leaves your device. No servers, no tracking.';
 
   @override
   String get secureHandshake => 'Secure Handshake';
 
   @override
-  String get connectWithOthersUsingASecureOfflineCodeExchange => 'Connect with others using a secure, offline code exchange.';
+  String get connectWithOthersUsingASecureOfflineCodeExchange =>
+      'Connect with others using a secure, offline code exchange.';
 
   @override
   String get getStarted => 'Get Started';
@@ -267,37 +281,44 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get noOngoingChats => 'No Ongoing Chats';
 
   @override
-  String get tapTheButtonBelowToCreateANewSecureHandshakeOrAcceptAnInvitation => 'Tap the button below to create a new secure handshake or accept an invitation.';
+  String get tapTheButtonBelowToCreateANewSecureHandshakeOrAcceptAnInvitation =>
+      'Tap the button below to create a new secure handshake or accept an invitation.';
 
   @override
   String get stepSendYourInviteCode => 'Step 1: Send Your Invite Code';
 
   @override
-  String get sendThisCodeToThePersonYouWantToChatWithUsingAnySecureChannel => 'Send this code to the person you want to chat with using any secure channel.';
+  String get sendThisCodeToThePersonYouWantToChatWithUsingAnySecureChannel =>
+      'Send this code to the person you want to chat with using any secure channel.';
 
   @override
-  String get stepPasteTheirAcceptanceCode => 'Step 2: Paste Their Acceptance Code';
+  String get stepPasteTheirAcceptanceCode =>
+      'Step 2: Paste Their Acceptance Code';
 
   @override
-  String get onceTheyAcceptYourInviteTheyWillSendACodeBackPasteItBelow => 'Once they accept your invite, they will send a code back. Paste it below.';
+  String get onceTheyAcceptYourInviteTheyWillSendACodeBackPasteItBelow =>
+      'Once they accept your invite, they will send a code back. Paste it below.';
 
   @override
   String get stepPasteTheirInviteCode => 'Step 1: Paste Their Invite Code';
 
   @override
-  String get askYourContactToShareTheirInviteCodeSecurelyAndPasteItBelow => 'Ask your contact to share their invite code securely and paste it below.';
+  String get askYourContactToShareTheirInviteCodeSecurelyAndPasteItBelow =>
+      'Ask your contact to share their invite code securely and paste it below.';
 
   @override
   String get stepNameThisChat => 'Step 2: Name This Chat';
 
   @override
-  String get chooseALocalNameForThisChatThisIsOnlyVisibleToYou => 'Choose a local name for this chat. This is only visible to you.';
+  String get chooseALocalNameForThisChatThisIsOnlyVisibleToYou =>
+      'Choose a local name for this chat. This is only visible to you.';
 
   @override
   String get securityWarning => 'Security Warning';
 
   @override
-  String get areYouSureYouWantToCopyUnencryptedDataToYourClipboardThisCouldCompromiseYourSecureChat => 'Are you sure you want to copy unencrypted data to your clipboard? This could compromise your secure chat.';
+  String get areYouSureYouWantToCopyUnencryptedDataToYourClipboardThisCouldCompromiseYourSecureChat =>
+      'Are you sure you want to copy unencrypted data to your clipboard? This could compromise your secure chat.';
 
   @override
   String get copyFuzz => 'Copy Fuzz';
@@ -309,7 +330,8 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get firstEncryption => 'First Encryption';
 
   @override
-  String get typeAMessageAndPressSendItWillBeEncryptedLocallyAndYouCanThenCopyTheSecureFuzzedText => 'Type a message and press send. It will be encrypted locally, and you can then copy the secure fuzzed text.';
+  String get typeAMessageAndPressSendItWillBeEncryptedLocallyAndYouCanThenCopyTheSecureFuzzedText =>
+      'Type a message and press send. It will be encrypted locally, and you can then copy the secure fuzzed text.';
 
   @override
   String get settings => 'Settings';
@@ -324,10 +346,12 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get moderate => 'Moderate';
 
   @override
-  String get strictSecurityDescription => 'Shows a confirmation dialog before copying any decrypted text. Recommended for maximum privacy.';
+  String get strictSecurityDescription =>
+      'Shows a confirmation dialog before copying any decrypted text. Recommended for maximum privacy.';
 
   @override
-  String get moderateSecurityDescription => 'Received messages are selectable and can be copied directly without a warning.';
+  String get moderateSecurityDescription =>
+      'Received messages are selectable and can be copied directly without a warning.';
 
   @override
   String get shareAsLink => 'Share as Link';
@@ -357,10 +381,12 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get alreadyConnected => 'Already connected!';
 
   @override
-  String get updateRequired => 'This link requires a newer version of Fuzzy Chat.';
+  String get updateRequired =>
+      'This link requires a newer version of Fuzzy Chat.';
 
   @override
-  String get cantAcceptOwnInvitation => 'You can\'t accept your own invitation.';
+  String get cantAcceptOwnInvitation =>
+      'You can\'t accept your own invitation.';
 
   @override
   String get connectionComplete => 'Connection established!';
@@ -375,7 +401,8 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get acceptanceLinkExpired => 'This acceptance link has expired.';
 
   @override
-  String get chatNotFoundForAcceptance => 'Chat not found for this acceptance link.';
+  String get chatNotFoundForAcceptance =>
+      'Chat not found for this acceptance link.';
 
   @override
   String get failedToProcessAcceptance => 'Failed to process acceptance link.';
@@ -483,7 +510,8 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get vaultCreateYourVault => 'Create Your Vault';
 
   @override
-  String get vaultCreateDescription => 'Your vault encrypts all passwords and notes locally on your device.\nChoose a strong master password.';
+  String get vaultCreateDescription =>
+      'Your vault encrypts all passwords and notes locally on your device.\nChoose a strong master password.';
 
   @override
   String get vaultPassword => 'Vault Password';
@@ -495,7 +523,8 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get vaultPasswordsDoNotMatch => 'Passwords do not match';
 
   @override
-  String get vaultPasswordCannotBeReset => 'This password cannot be reset. If you forget it, your data will be permanently lost.';
+  String get vaultPasswordCannotBeReset =>
+      'This password cannot be reset. If you forget it, your data will be permanently lost.';
 
   @override
   String get vaultCreateVault => 'Create Vault';
@@ -515,7 +544,8 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get vaultUnlock => 'Unlock';
 
   @override
-  String get vaultForgotPassword => 'Forgot password? Your data is encrypted and cannot be recovered.';
+  String get vaultForgotPassword =>
+      'Forgot password? Your data is encrypted and cannot be recovered.';
 
   @override
   String vaultUnlockFailed(Object failureType) {
@@ -543,7 +573,8 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get unknownError => 'Unknown error';
 
   @override
-  String get noDataFoundPleaseSetYourData => 'No data found. Please set your data.';
+  String get noDataFoundPleaseSetYourData =>
+      'No data found. Please set your data.';
 
   @override
   String get lastUpdated => 'Last Updated:';
@@ -552,7 +583,8 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get keyStrengthWeak => 'Weak (Too short)';
 
   @override
-  String get keyStrengthModerate => 'Moderate (Consider adding numbers or letters)';
+  String get keyStrengthModerate =>
+      'Moderate (Consider adding numbers or letters)';
 
   @override
   String get keyStrengthStrong => 'Strong';
@@ -584,13 +616,15 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get chatAuthUnlock => 'Unlock';
 
   @override
-  String get chatAuthForgotPassword => 'Forgot password? Your encrypted data cannot be recovered without it.';
+  String get chatAuthForgotPassword =>
+      'Forgot password? Your encrypted data cannot be recovered without it.';
 
   @override
   String get chatAuthSetupTitle => 'Protect Your Chats';
 
   @override
-  String get chatAuthSetupDescription => 'Set a password to encrypt your chat keys. This adds an extra layer of security to your conversations.';
+  String get chatAuthSetupDescription =>
+      'Set a password to encrypt your chat keys. This adds an extra layer of security to your conversations.';
 
   @override
   String get chatAuthSetPassword => 'Set Password';
@@ -614,7 +648,8 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get chatAuthDisableProtection => 'Disable Chat Protection';
 
   @override
-  String get chatAuthProtectionDescription => 'When enabled, you must enter a password to access your chats. Your keys will be encrypted with this password.';
+  String get chatAuthProtectionDescription =>
+      'When enabled, you must enter a password to access your chats. Your keys will be encrypted with this password.';
 
   @override
   String get chatAuthMigratingKeys => 'Encrypting your keys...';
@@ -638,16 +673,19 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get chatAuthBiometricEnabled => 'Biometric Unlock Enabled';
 
   @override
-  String get chatAuthBiometricDescription => 'Enter your password to confirm, then unlock with fingerprint or Face ID.';
+  String get chatAuthBiometricDescription =>
+      'Enter your password to confirm, then unlock with fingerprint or Face ID.';
 
   @override
-  String get chatAuthBiometricUnavailable => 'Biometric authentication is not available on this device.';
+  String get chatAuthBiometricUnavailable =>
+      'Biometric authentication is not available on this device.';
 
   @override
   String get chatAuthBiometricFailed => 'Biometric authentication failed.';
 
   @override
-  String get chatAuthBiometricInvalidated => 'Your biometrics have changed. Biometric unlock has been disabled. Please re-enable it from settings.';
+  String get chatAuthBiometricInvalidated =>
+      'Your biometrics have changed. Biometric unlock has been disabled. Please re-enable it from settings.';
 
   @override
   String get vaultBiometricUnlock => 'Unlock with biometrics';
@@ -662,10 +700,12 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get vaultBiometricEnabled => 'Biometric Unlock Enabled';
 
   @override
-  String get vaultBiometricDescription => 'Confirm with your master password to enable biometric unlock for this vault.';
+  String get vaultBiometricDescription =>
+      'Confirm with your master password to enable biometric unlock for this vault.';
 
   @override
-  String get vaultBiometricUnavailable => 'Biometric authentication is not available on this device.';
+  String get vaultBiometricUnavailable =>
+      'Biometric authentication is not available on this device.';
 
   @override
   String get vaultBiometricSettings => 'Biometric Settings';
@@ -674,7 +714,8 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get vaultBiometricInvalidPassword => 'Incorrect vault password.';
 
   @override
-  String get vaultBiometricInvalidated => 'Your biometrics have changed. Biometric unlock has been disabled. Please re-enable it from settings.';
+  String get vaultBiometricInvalidated =>
+      'Your biometrics have changed. Biometric unlock has been disabled. Please re-enable it from settings.';
 
   @override
   String get vaultAuthentication => 'Vault Authentication';
@@ -683,7 +724,8 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get vaultAuthenticationDescription => 'Manage vault biometric unlock';
 
   @override
-  String get vaultNotCreated => 'Create a vault first to enable biometric unlock.';
+  String get vaultNotCreated =>
+      'Create a vault first to enable biometric unlock.';
 
   @override
   String get vaultLockVault => 'Lock Vault';
@@ -696,4 +738,8 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
 
   @override
   String get chatAuthEnterPassword => 'Please enter your current password';
+
+  @override
+  String get vaultFileSaveWarning =>
+      '⚠️ The original file is NOT auto-deleted. After a successful save, the user\'s source file remains on disk untouched. The app currently doesn\'t warn about this.';
 }

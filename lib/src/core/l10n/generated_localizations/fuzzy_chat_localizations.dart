@@ -62,15 +62,18 @@ import 'fuzzy_chat_localizations_ka.dart';
 /// be consistent with the languages listed in the FuzzyChatLocalizations.supportedLocales
 /// property.
 abstract class FuzzyChatLocalizations {
-  FuzzyChatLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  FuzzyChatLocalizations(String locale)
+      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
   static FuzzyChatLocalizations? of(BuildContext context) {
-    return Localizations.of<FuzzyChatLocalizations>(context, FuzzyChatLocalizations);
+    return Localizations.of<FuzzyChatLocalizations>(
+        context, FuzzyChatLocalizations);
   }
 
-  static const LocalizationsDelegate<FuzzyChatLocalizations> delegate = _FuzzyChatLocalizationsDelegate();
+  static const LocalizationsDelegate<FuzzyChatLocalizations> delegate =
+      _FuzzyChatLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -82,7 +85,8 @@ abstract class FuzzyChatLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -237,7 +241,8 @@ abstract class FuzzyChatLocalizations {
   ///
   /// In en, this message translates to:
   /// **'To start a Fuzzy Chat with someone, they must first import the invitation and provide the acceptance text generated in their chat. This will allow them to send and unlock messages.'**
-  String get inOrderToStartFuzzyChatWithSomeoneFirstTheyNeedToImportTheInvitationAndProvideAcceptanceFileOrTextGeneratedOnTheirChatSoTheyCanAlsoSendAndUnlockMessages;
+  String
+      get inOrderToStartFuzzyChatWithSomeoneFirstTheyNeedToImportTheInvitationAndProvideAcceptanceFileOrTextGeneratedOnTheirChatSoTheyCanAlsoSendAndUnlockMessages;
 
   /// No description provided for @theAcceptanceThatYouGetFromInvitedPersonShouldBePastedHere.
   ///
@@ -675,7 +680,8 @@ abstract class FuzzyChatLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Are you sure you want to copy unencrypted data to your clipboard? This could compromise your secure chat.'**
-  String get areYouSureYouWantToCopyUnencryptedDataToYourClipboardThisCouldCompromiseYourSecureChat;
+  String
+      get areYouSureYouWantToCopyUnencryptedDataToYourClipboardThisCouldCompromiseYourSecureChat;
 
   /// No description provided for @copyFuzz.
   ///
@@ -699,7 +705,8 @@ abstract class FuzzyChatLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Type a message and press send. It will be encrypted locally, and you can then copy the secure fuzzed text.'**
-  String get typeAMessageAndPressSendItWillBeEncryptedLocallyAndYouCanThenCopyTheSecureFuzzedText;
+  String
+      get typeAMessageAndPressSendItWillBeEncryptedLocallyAndYouCanThenCopyTheSecureFuzzedText;
 
   /// No description provided for @settings.
   ///
@@ -1456,36 +1463,44 @@ abstract class FuzzyChatLocalizations {
   /// In en, this message translates to:
   /// **'Please enter your current password'**
   String get chatAuthEnterPassword;
+
+  /// No description provided for @vaultFileSaveWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'⚠️ The original file is NOT auto-deleted. After a successful save, the user\'s source file remains on disk untouched. The app currently doesn\'t warn about this.'**
+  String get vaultFileSaveWarning;
 }
 
-class _FuzzyChatLocalizationsDelegate extends LocalizationsDelegate<FuzzyChatLocalizations> {
+class _FuzzyChatLocalizationsDelegate
+    extends LocalizationsDelegate<FuzzyChatLocalizations> {
   const _FuzzyChatLocalizationsDelegate();
 
   @override
   Future<FuzzyChatLocalizations> load(Locale locale) {
-    return SynchronousFuture<FuzzyChatLocalizations>(lookupFuzzyChatLocalizations(locale));
+    return SynchronousFuture<FuzzyChatLocalizations>(
+        lookupFuzzyChatLocalizations(locale));
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en', 'ka'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['en', 'ka'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_FuzzyChatLocalizationsDelegate old) => false;
 }
 
 FuzzyChatLocalizations lookupFuzzyChatLocalizations(Locale locale) {
-
-
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en': return FuzzyChatLocalizationsEn();
-    case 'ka': return FuzzyChatLocalizationsKa();
+    case 'en':
+      return FuzzyChatLocalizationsEn();
+    case 'ka':
+      return FuzzyChatLocalizationsKa();
   }
 
   throw FlutterError(
-    'FuzzyChatLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-    'an issue with the localizations generation tool. Please file an issue '
-    'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
-  );
+      'FuzzyChatLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+      'an issue with the localizations generation tool. Please file an issue '
+      'on GitHub with a reproducible sample app and the gen-l10n configuration '
+      'that was used.');
 }
