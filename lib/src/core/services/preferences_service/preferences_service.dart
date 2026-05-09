@@ -35,4 +35,8 @@ class PreferencesService {
   static const _lastSelectedTabKey = 'last_selected_tab';
   String get lastSelectedTab => _prefs.getString(_lastSelectedTabKey) ?? '/';
   Future<void> setLastSelectedTab(String path) => _prefs.setString(_lastSelectedTabKey, path);
+
+  static const _vaultLastSelectedTabIndexKey = 'vault_last_selected_tab_index';
+  int get vaultLastSelectedTabIndex => _prefs.getInt(_vaultLastSelectedTabIndexKey) ?? 0;
+  Future<void> setVaultLastSelectedTabIndex(int index) => _prefs.setInt(_vaultLastSelectedTabIndexKey, index);
 }

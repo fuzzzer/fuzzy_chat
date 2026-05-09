@@ -21,7 +21,12 @@ class _VaultHomePageState extends State<VaultHomePage> with SingleTickerProvider
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    final initialIndex = sl.get<PreferencesService>().vaultLastSelectedTabIndex;
+    _tabController = TabController(
+      length: 2,
+      vsync: this,
+      initialIndex: initialIndex.clamp(0, 1),
+    );
     _tabController.addListener(_onTabChanged);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -32,6 +37,7 @@ class _VaultHomePageState extends State<VaultHomePage> with SingleTickerProvider
 
   void _onTabChanged() {
     if (_tabController.indexIsChanging) return;
+    sl.get<PreferencesService>().setVaultLastSelectedTabIndex(_tabController.index);
     setState(() {});
   }
 
