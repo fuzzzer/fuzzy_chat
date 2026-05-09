@@ -346,5 +346,41 @@
     }
   },
   "vaultPasswordStrength": "Password Strength",
-  "@vaultPasswordStrength": {}
+  "@vaultPasswordStrength": {},
+
+  "fuzzyVault": "Fuzzy Vault",
+  "@fuzzyVault": {},
+  "menu": "Menu",
+  "@menu": {},
+  "fuzzyUserAuth": "Fuzzy User Auth",
+  "@fuzzyUserAuth": {},
+  "authError": "Error: {errorMessage}",
+  "@authError": {
+    "placeholders": {
+      "errorMessage": {}
+    }
+  },
+  "unknownError": "Unknown error",
+  "@unknownError": {},
+  "noDataFoundPleaseSetYourData": "No data found. Please set your data.",
+  "@noDataFoundPleaseSetYourData": {},
+  "lastUpdated": "Last Updated:",
+  "@lastUpdated": {},
+  "keyStrengthWeak": "Weak (Too short)",
+  "@keyStrengthWeak": {},
+  "keyStrengthModerate": "Moderate (Consider adding numbers or letters)",
+  "@keyStrengthModerate": {},
+  "keyStrengthStrong": "Strong",
+  "@keyStrengthStrong": {},
+  "keyStrengthGood": "Good",
+  "@keyStrengthGood": {},
+  "processingFile": "Processing: {fileName} -> {progress}%",
+  "@processingFile": {
+    "placeholders": {
+      "fileName": {},
+      "progress": {}
+    }
+  },
+  "processingFailed": "Processing Failed",
+  "@processingFailed": {}
 }

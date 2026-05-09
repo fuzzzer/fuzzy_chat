@@ -24,7 +24,7 @@ class MainShellPage extends StatelessWidget {
       title = loc.fuzzyChat;
       rightAction = const BasicEncryptionNavigatorAction();
     } else if (isVault) {
-      title = 'Fuzzy Vault';
+      title = loc.fuzzyVault;
       rightAction = BlocBuilder<VaultAuthCubit, VaultAuthState>(
         builder: (context, state) {
           if (state.authState == VaultAuthEnum.unlocked) {

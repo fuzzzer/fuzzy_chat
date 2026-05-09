@@ -1096,6 +1096,84 @@ abstract class FuzzyChatLocalizations {
   /// In en, this message translates to:
   /// **'Password Strength'**
   String get vaultPasswordStrength;
+
+  /// No description provided for @fuzzyVault.
+  ///
+  /// In en, this message translates to:
+  /// **'Fuzzy Vault'**
+  String get fuzzyVault;
+
+  /// No description provided for @menu.
+  ///
+  /// In en, this message translates to:
+  /// **'Menu'**
+  String get menu;
+
+  /// No description provided for @fuzzyUserAuth.
+  ///
+  /// In en, this message translates to:
+  /// **'Fuzzy User Auth'**
+  String get fuzzyUserAuth;
+
+  /// No description provided for @authError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {errorMessage}'**
+  String authError(Object errorMessage);
+
+  /// No description provided for @unknownError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown error'**
+  String get unknownError;
+
+  /// No description provided for @noDataFoundPleaseSetYourData.
+  ///
+  /// In en, this message translates to:
+  /// **'No data found. Please set your data.'**
+  String get noDataFoundPleaseSetYourData;
+
+  /// No description provided for @lastUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Updated:'**
+  String get lastUpdated;
+
+  /// No description provided for @keyStrengthWeak.
+  ///
+  /// In en, this message translates to:
+  /// **'Weak (Too short)'**
+  String get keyStrengthWeak;
+
+  /// No description provided for @keyStrengthModerate.
+  ///
+  /// In en, this message translates to:
+  /// **'Moderate (Consider adding numbers or letters)'**
+  String get keyStrengthModerate;
+
+  /// No description provided for @keyStrengthStrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Strong'**
+  String get keyStrengthStrong;
+
+  /// No description provided for @keyStrengthGood.
+  ///
+  /// In en, this message translates to:
+  /// **'Good'**
+  String get keyStrengthGood;
+
+  /// No description provided for @processingFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Processing: {fileName} -> {progress}%'**
+  String processingFile(Object fileName, Object progress);
+
+  /// No description provided for @processingFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Processing Failed'**
+  String get processingFailed;
 }
 
 class _FuzzyChatLocalizationsDelegate extends LocalizationsDelegate<FuzzyChatLocalizations> {

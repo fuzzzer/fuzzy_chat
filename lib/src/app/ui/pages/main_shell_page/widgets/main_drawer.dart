@@ -23,7 +23,7 @@ class MainDrawer extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(24),
               child: Text(
-                'Menu',
+                loc.menu,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: context.uiColors.primaryTextColor,
@@ -54,7 +54,7 @@ class MainDrawer extends StatelessWidget {
                 color: isVault ? context.uiColors.primaryColor : context.uiColors.secondaryTextColor,
               ),
               title: Text(
-                'Fuzzy Vault',
+                loc.fuzzyVault,
                 style: TextStyle(
                   color: isVault ? context.uiColors.primaryColor : context.uiColors.primaryTextColor,
                   fontWeight: isVault ? FontWeight.bold : FontWeight.normal,

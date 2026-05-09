@@ -512,4 +512,47 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
 
   @override
   String get vaultPasswordStrength => 'პაროლის სიძლიერე';
+
+  @override
+  String get fuzzyVault => 'Fuzzy Vault';
+
+  @override
+  String get menu => 'მენიუ';
+
+  @override
+  String get fuzzyUserAuth => 'მომხმარებლის ავთენტიფიკაცია';
+
+  @override
+  String authError(Object errorMessage) {
+    return 'შეცდომა: $errorMessage';
+  }
+
+  @override
+  String get unknownError => 'უცნობი შეცდომა';
+
+  @override
+  String get noDataFoundPleaseSetYourData => 'მონაცემები ვერ მოიძებნა. გთხოვთ დააყენოთ თქვენი მონაცემები.';
+
+  @override
+  String get lastUpdated => 'ბოლო განახლება:';
+
+  @override
+  String get keyStrengthWeak => 'სუსტი (ძალიან მოკლე)';
+
+  @override
+  String get keyStrengthModerate => 'საშუალო (გაითვალისწინეთ ციფრების ან ასოების დამატება)';
+
+  @override
+  String get keyStrengthStrong => 'ძლიერი';
+
+  @override
+  String get keyStrengthGood => 'კარგი';
+
+  @override
+  String processingFile(Object fileName, Object progress) {
+    return 'მუშავდება: $fileName -> $progress%';
+  }
+
+  @override
+  String get processingFailed => 'დამუშავება ვერ მოხერხდა';
 }

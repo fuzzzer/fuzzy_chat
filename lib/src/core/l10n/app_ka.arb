@@ -346,5 +346,41 @@
     }
   },
   "vaultPasswordStrength": "პაროლის სიძლიერე",
-  "@vaultPasswordStrength": {}
+  "@vaultPasswordStrength": {},
+
+  "fuzzyVault": "Fuzzy Vault",
+  "@fuzzyVault": {},
+  "menu": "მენიუ",
+  "@menu": {},
+  "fuzzyUserAuth": "მომხმარებლის ავთენტიფიკაცია",
+  "@fuzzyUserAuth": {},
+  "authError": "შეცდომა: {errorMessage}",
+  "@authError": {
+    "placeholders": {
+      "errorMessage": {}
+    }
+  },
+  "unknownError": "უცნობი შეცდომა",
+  "@unknownError": {},
+  "noDataFoundPleaseSetYourData": "მონაცემები ვერ მოიძებნა. გთხოვთ დააყენოთ თქვენი მონაცემები.",
+  "@noDataFoundPleaseSetYourData": {},
+  "lastUpdated": "ბოლო განახლება:",
+  "@lastUpdated": {},
+  "keyStrengthWeak": "სუსტი (ძალიან მოკლე)",
+  "@keyStrengthWeak": {},
+  "keyStrengthModerate": "საშუალო (გაითვალისწინეთ ციფრების ან ასოების დამატება)",
+  "@keyStrengthModerate": {},
+  "keyStrengthStrong": "ძლიერი",
+  "@keyStrengthStrong": {},
+  "keyStrengthGood": "კარგი",
+  "@keyStrengthGood": {},
+  "processingFile": "მუშავდება: {fileName} -> {progress}%",
+  "@processingFile": {
+    "placeholders": {
+      "fileName": {},
+      "progress": {}
+    }
+  },
+  "processingFailed": "დამუშავება ვერ მოხერხდა",
+  "@processingFailed": {}
 }

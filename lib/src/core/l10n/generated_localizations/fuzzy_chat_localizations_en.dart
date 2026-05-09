@@ -512,4 +512,47 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
 
   @override
   String get vaultPasswordStrength => 'Password Strength';
+
+  @override
+  String get fuzzyVault => 'Fuzzy Vault';
+
+  @override
+  String get menu => 'Menu';
+
+  @override
+  String get fuzzyUserAuth => 'Fuzzy User Auth';
+
+  @override
+  String authError(Object errorMessage) {
+    return 'Error: $errorMessage';
+  }
+
+  @override
+  String get unknownError => 'Unknown error';
+
+  @override
+  String get noDataFoundPleaseSetYourData => 'No data found. Please set your data.';
+
+  @override
+  String get lastUpdated => 'Last Updated:';
+
+  @override
+  String get keyStrengthWeak => 'Weak (Too short)';
+
+  @override
+  String get keyStrengthModerate => 'Moderate (Consider adding numbers or letters)';
+
+  @override
+  String get keyStrengthStrong => 'Strong';
+
+  @override
+  String get keyStrengthGood => 'Good';
+
+  @override
+  String processingFile(Object fileName, Object progress) {
+    return 'Processing: $fileName -> $progress%';
+  }
+
+  @override
+  String get processingFailed => 'Processing Failed';
 }

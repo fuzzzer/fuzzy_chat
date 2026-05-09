@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fuzzy_chat/lib.dart';
 
 class FuzzyUserAuthEmptyContent extends StatelessWidget {
   const FuzzyUserAuthEmptyContent({super.key});
@@ -6,8 +7,8 @@ class FuzzyUserAuthEmptyContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //TODO implement your empty display
-    return const Center(
-      child: Text('No data found. Please set your data.'),
+    return Center(
+      child: Text(currentContextLocalization.noDataFoundPleaseSetYourData),
     );
   }
 }

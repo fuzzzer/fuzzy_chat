@@ -15,7 +15,7 @@ class FuzzyUserAuthLoadedContent extends StatelessWidget {
     return ListTile(
       // TODO: Display your model's data
       title: Text(item.isAuthenticationOnceEnabled.toString()),
-      subtitle: const Text('Last Updated:'),
+      subtitle: Text(currentContextLocalization.lastUpdated),
     );
   }
 }

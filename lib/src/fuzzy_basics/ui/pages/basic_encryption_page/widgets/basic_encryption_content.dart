@@ -39,13 +39,13 @@ class BasicEncryptionContent extends StatelessWidget {
                   final text = keyController.text;
                   if (text.isNotEmpty) {
                     if (text.length < 6) {
-                      helper = 'Weak (Too short)';
+                      helper = currentContextLocalization.keyStrengthWeak;
                     } else if (!RegExp('[a-zA-Z]').hasMatch(text) || !RegExp('[0-9]').hasMatch(text)) {
-                      helper = 'Moderate (Consider adding numbers or letters)';
+                      helper = currentContextLocalization.keyStrengthModerate;
                     } else if (text.length > 12) {
-                      helper = 'Strong';
+                      helper = currentContextLocalization.keyStrengthStrong;
                     } else {
-                      helper = 'Good';
+                      helper = currentContextLocalization.keyStrengthGood;
                     }
                   }
                   return FuzzyTextField(
@@ -147,13 +147,13 @@ class BasicEncryptionContent extends StatelessWidget {
         if (state.currentProcessingFile != null)
           Padding(
             padding: const EdgeInsets.only(bottom: 8),
-            child: Text('Processing: ${state.currentProcessingFile!.inputFilePath.split('/').last} -> ${(state.progress * 100).toStringAsFixed(1)}%'),
+            child: Text(currentContextLocalization.processingFile(state.currentProcessingFile!.inputFilePath.split('/').last, (state.progress * 100).toStringAsFixed(1))),
           ),
         ...state.processedFiles.map((file) {
           return ListTile(
             contentPadding: EdgeInsets.zero,
             title: Text(file.inputFilePath.split('/').last, maxLines: 1, overflow: TextOverflow.ellipsis),
-            subtitle: Text(file.outputFilePath ?? 'Processing Failed', maxLines: 2),
+            subtitle: Text(file.outputFilePath ?? currentContextLocalization.processingFailed, maxLines: 2),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [

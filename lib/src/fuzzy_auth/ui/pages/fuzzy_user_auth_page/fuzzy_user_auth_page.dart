@@ -27,7 +27,7 @@ class _ProvidedFuzzyUserAuthPage extends StatelessWidget {
     // TODO: Replace with your actual UI components like FuzzyScaffold
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Fuzzy User Auth'),
+        title: Text(currentContextLocalization.fuzzyUserAuth),
       ),
       body: BlocBuilder<FuzzyUserAuthPreferencesCubit, FuzzyUserAuthPreferencesState>(
         builder: (context, state) {
@@ -45,7 +45,7 @@ class _ProvidedFuzzyUserAuthPage extends StatelessWidget {
             },
             onFailure: () => Center(
               child: Text(
-                'Error: ${state.checkCurrentAuthPreferencesFailure?.message ?? 'Unknown error'}',
+                currentContextLocalization.authError(state.checkCurrentAuthPreferencesFailure?.message ?? currentContextLocalization.unknownError),
               ),
             ),
           );
