@@ -426,6 +426,15 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get vaultNotes => 'ჩანაწერები';
 
   @override
+  String get vaultFiles => 'ფაილები';
+
+  @override
+  String get vaultNoFilesYet => 'ფაილები არ არის';
+
+  @override
+  String get vaultFileLabel => 'ფაილი';
+
+  @override
   String get vaultAll => 'ყველა';
 
   @override

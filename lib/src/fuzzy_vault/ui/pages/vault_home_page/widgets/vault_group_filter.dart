@@ -23,7 +23,8 @@ class VaultGroupFilter extends StatelessWidget {
                   _GroupChip(
                     title: currentContextLocalization.vaultAll,
                     isSelected: selectedGroupId == null,
-                    onTap: () => context.read<VaultItemsCubit>().filterByGroup(null),
+                    onTap: () =>
+                        context.read<VaultItemsCubit>().filterByGroup(null),
                   ),
                   const SizedBox(width: 8),
                   ...groupsState.groups.map((g) {
@@ -33,7 +34,8 @@ class VaultGroupFilter extends StatelessWidget {
                         title: g.name,
                         icon: _getIconForGroup(g.name),
                         isSelected: selectedGroupId == g.id,
-                        onTap: () => context.read<VaultItemsCubit>().filterByGroup(g.id),
+                        onTap: () =>
+                            context.read<VaultItemsCubit>().filterByGroup(g.id),
                       ),
                     );
                   }),
@@ -72,13 +74,15 @@ class VaultGroupFilter extends StatelessWidget {
               hintText: currentContextLocalization.vaultGroupName,
               hintStyle: TextStyle(color: context.uiColors.secondaryTextColor),
               enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: context.uiColors.secondaryTextColor),
+                borderSide:
+                    BorderSide(color: context.uiColors.secondaryTextColor),
               ),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: context.uiColors.primaryColor),
               ),
             ),
-            onSubmitted: (_) => _submitGroup(context, dialogContext, nameController),
+            onSubmitted: (_) =>
+                _submitGroup(context, dialogContext, nameController),
           ),
           actions: [
             TextButton(
@@ -89,7 +93,8 @@ class VaultGroupFilter extends StatelessWidget {
               child: Text(currentContextLocalization.cancel),
             ),
             TextButton(
-              onPressed: () => _submitGroup(context, dialogContext, nameController),
+              onPressed: () =>
+                  _submitGroup(context, dialogContext, nameController),
               style: TextButton.styleFrom(
                 foregroundColor: context.uiColors.primaryColor,
               ),
@@ -129,11 +134,12 @@ class VaultGroupFilter extends StatelessWidget {
     final n = name.toLowerCase();
     if (n.contains('work')) return Icons.work_outline;
     if (n.contains('home')) return Icons.home_outlined;
-    if (n.contains('bank') || n.contains('finance')) return Icons.account_balance_outlined;
+    if (n.contains('bank') || n.contains('finance')) {
+      return Icons.account_balance_outlined;
+    }
     return Icons.folder_outlined;
   }
 }
-
 
 class _GroupChip extends StatelessWidget {
   final String title;
@@ -154,7 +160,9 @@ class _GroupChip extends StatelessWidget {
       label: Text(
         title,
         style: TextStyle(
-          color: isSelected ? context.uiColors.backgroundPrimaryColor : context.uiColors.primaryTextColor,
+          color: isSelected
+              ? context.uiColors.backgroundPrimaryColor
+              : context.uiColors.primaryTextColor,
           fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
         ),
       ),
@@ -162,10 +170,14 @@ class _GroupChip extends StatelessWidget {
           ? Icon(
               icon,
               size: 16,
-              color: isSelected ? context.uiColors.backgroundPrimaryColor : context.uiColors.primaryTextColor,
+              color: isSelected
+                  ? context.uiColors.backgroundPrimaryColor
+                  : context.uiColors.primaryTextColor,
             )
           : null,
-      backgroundColor: isSelected ? context.uiColors.primaryColor : context.uiColors.secondaryColor,
+      backgroundColor: isSelected
+          ? context.uiColors.primaryColor
+          : context.uiColors.secondaryColor,
       onPressed: onTap,
     );
   }

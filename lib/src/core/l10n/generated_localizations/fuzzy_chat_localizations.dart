@@ -929,6 +929,24 @@ abstract class FuzzyChatLocalizations {
   /// **'Notes'**
   String get vaultNotes;
 
+  /// No description provided for @vaultFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Files'**
+  String get vaultFiles;
+
+  /// No description provided for @vaultNoFilesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No files yet'**
+  String get vaultNoFilesYet;
+
+  /// No description provided for @vaultFileLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'File'**
+  String get vaultFileLabel;
+
   /// No description provided for @vaultAll.
   ///
   /// In en, this message translates to:

@@ -21,17 +21,21 @@ class VaultSearchCubit extends Cubit<VaultSearchState> {
     _searchDebouncer.run(() async {
       emit(state.copyWith(status: StateStatus.loading));
       final res = await vaultRepository.searchItems(query.trim());
-      
+
       if (res is VaultSuccess) {
-        emit(state.copyWith(
-          status: StateStatus.success,
-          results: (res as VaultSuccess<List<VaultItemMetadata>>).data,
-        ),);
+        emit(
+          state.copyWith(
+            status: StateStatus.success,
+            results: (res as VaultSuccess<List<VaultItemMetadata>>).data,
+          ),
+        );
       } else {
-        emit(state.copyWith(
-          status: StateStatus.failed,
-          failureType: (res as VaultFailure).type,
-        ),);
+        emit(
+          state.copyWith(
+            status: StateStatus.failed,
+            failureType: (res as VaultFailure).type,
+          ),
+        );
       }
     });
   }

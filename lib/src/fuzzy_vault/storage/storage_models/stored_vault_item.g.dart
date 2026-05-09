@@ -219,10 +219,12 @@ P _storedVaultItemDeserializeProp<P>(
 const _StoredVaultItemtypeEnumValueMap = {
   'password': 0,
   'note': 1,
+  'file': 2,
 };
 const _StoredVaultItemtypeValueEnumMap = {
   0: VaultItemType.password,
   1: VaultItemType.note,
+  2: VaultItemType.file,
 };
 
 Id _storedVaultItemGetId(StoredVaultItem object) {

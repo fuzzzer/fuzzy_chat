@@ -23,42 +23,72 @@ class VaultItemsCubit extends Cubit<VaultItemsState> {
     emit(state.copyWith(status: StateStatus.loading));
     final res = await vaultRepository.getAllItems();
     if (res is VaultFailure) {
-      emit(state.copyWith(
-        status: StateStatus.failed,
-        failureType: (res as VaultFailure).type,
-      ),);
+      emit(
+        state.copyWith(
+          status: StateStatus.failed,
+          failureType: (res as VaultFailure).type,
+        ),
+      );
       return;
     }
-    
+
     final items = (res as VaultSuccess<List<VaultItemMetadata>>).data;
-    emit(state.copyWith(
-      status: StateStatus.success,
-      items: items,
-    ),);
+    emit(
+      state.copyWith(
+        status: StateStatus.success,
+        items: items,
+      ),
+    );
   }
 
   void filterByGroup(String? groupId) {
     emit(state.copyWith(selectedGroupId: groupId));
   }
 
-  Future<VaultResponse<VaultItem>> createItem(VaultItem item, Uint8List masterKey, {String? customPassword}) async {
+  Future<VaultResponse<VaultItem>> createItem(
+    VaultItem item,
+    Uint8List masterKey, {
+    String? customPassword,
+  }) async {
     emit(state.copyWith(status: StateStatus.loading));
-    final res = await vaultRepository.createItem(item, masterKey, customPassword: customPassword);
+    final res = await vaultRepository.createItem(
+      item,
+      masterKey,
+      customPassword: customPassword,
+    );
     if (res is VaultSuccess) {
       await loadItems();
     } else {
-      emit(state.copyWith(status: StateStatus.failed, failureType: (res as VaultFailure).type));
+      emit(
+        state.copyWith(
+          status: StateStatus.failed,
+          failureType: (res as VaultFailure).type,
+        ),
+      );
     }
     return res;
   }
 
-  Future<VaultResponse<VaultItem>> updateItem(VaultItem item, Uint8List masterKey, {String? customPassword}) async {
+  Future<VaultResponse<VaultItem>> updateItem(
+    VaultItem item,
+    Uint8List masterKey, {
+    String? customPassword,
+  }) async {
     emit(state.copyWith(status: StateStatus.loading));
-    final res = await vaultRepository.updateItem(item, masterKey, customPassword: customPassword);
+    final res = await vaultRepository.updateItem(
+      item,
+      masterKey,
+      customPassword: customPassword,
+    );
     if (res is VaultSuccess) {
       await loadItems();
     } else {
-      emit(state.copyWith(status: StateStatus.failed, failureType: (res as VaultFailure).type));
+      emit(
+        state.copyWith(
+          status: StateStatus.failed,
+          failureType: (res as VaultFailure).type,
+        ),
+      );
     }
     return res;
   }
@@ -69,16 +99,25 @@ class VaultItemsCubit extends Cubit<VaultItemsState> {
     if (res is VaultSuccess) {
       await loadItems();
     } else {
-      emit(state.copyWith(status: StateStatus.failed, failureType: (res as VaultFailure).type));
+      emit(
+        state.copyWith(
+          status: StateStatus.failed,
+          failureType: (res as VaultFailure).type,
+        ),
+      );
     }
   }
 
-  Future<void> copyToClipboard(String text, {int clearAfterSeconds = 45}) async {
+  Future<void> copyToClipboard(
+    String text, {
+    int clearAfterSeconds = 45,
+  }) async {
     await Clipboard.setData(ClipboardData(text: text));
-    
+
     _clipboardClearTimer?.cancel();
     if (clearAfterSeconds > 0) {
-      _clipboardClearTimer = Timer(Duration(seconds: clearAfterSeconds), () async {
+      _clipboardClearTimer =
+          Timer(Duration(seconds: clearAfterSeconds), () async {
         final data = await Clipboard.getData(Clipboard.kTextPlain);
         if (data?.text == text) {
           await Clipboard.setData(const ClipboardData(text: ''));
@@ -87,13 +126,25 @@ class VaultItemsCubit extends Cubit<VaultItemsState> {
     }
   }
 
-  void autoSaveNote(VaultItem item, Uint8List masterKey, {String? customPassword}) {
+  void autoSaveNote(
+    VaultItem item,
+    Uint8List masterKey, {
+    String? customPassword,
+  }) {
     _autoSaveDebouncer.run(() async {
-      final res = await vaultRepository.updateItem(item, masterKey, customPassword: customPassword);
+      final res = await vaultRepository.updateItem(
+        item,
+        masterKey,
+        customPassword: customPassword,
+      );
       if (res is VaultSuccess) {
         final itemsRes = await vaultRepository.getAllItems();
         if (itemsRes is VaultSuccess) {
-          emit(state.copyWith(items: (itemsRes as VaultSuccess<List<VaultItemMetadata>>).data));
+          emit(
+            state.copyWith(
+              items: (itemsRes as VaultSuccess<List<VaultItemMetadata>>).data,
+            ),
+          );
         }
       }
     });

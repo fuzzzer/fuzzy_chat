@@ -21,19 +21,23 @@ class VaultExportRepository {
   ) async {
     try {
       final encoder = ZipFileEncoder();
-      final zipPath = '$destinationDirectoryPath/fuzzy_vault_export_${DateTime.now().millisecondsSinceEpoch}.fvault';
+      final zipPath =
+          '$destinationDirectoryPath/fuzzy_vault_export_${DateTime.now().millisecondsSinceEpoch}.fvault';
       encoder.create(zipPath);
 
-      final tempDir = Directory('${fileDataSource.vaultDirectoryPath}/.tmp_export');
+      final tempDir =
+          Directory('${fileDataSource.vaultDirectoryPath}/.tmp_export');
       if (await tempDir.exists()) await tempDir.delete(recursive: true);
       await tempDir.create();
 
-      // We won't decrypt the items, we just bundle the encrypted blobs along with 
-      // the metadata DB and vault.meta, OR we create a totally new vault structure 
+      // We won't decrypt the items, we just bundle the encrypted blobs along with
+      // the metadata DB and vault.meta, OR we create a totally new vault structure
       // using the exportPassword. This is complex. For now, we return failure to be implemented.
       // Or we can just encrypt everything in a new json.
-      return const VaultFailure(VaultFailureType.exportFailed, message: 'Not fully implemented yet');
-
+      return const VaultFailure(
+        VaultFailureType.exportFailed,
+        message: 'Not fully implemented yet',
+      );
     } catch (e) {
       return VaultFailure(VaultFailureType.exportFailed, message: e.toString());
     }

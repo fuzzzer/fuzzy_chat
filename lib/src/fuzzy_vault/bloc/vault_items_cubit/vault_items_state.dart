@@ -23,7 +23,8 @@ class VaultItemsState {
       status: status ?? this.status,
       items: items ?? this.items,
       selectedGroupId: selectedGroupId ?? this.selectedGroupId,
-      failureType: failureType ?? (status == StateStatus.success ? null : this.failureType),
+      failureType: failureType ??
+          (status == StateStatus.success ? null : this.failureType),
     );
   }
 }

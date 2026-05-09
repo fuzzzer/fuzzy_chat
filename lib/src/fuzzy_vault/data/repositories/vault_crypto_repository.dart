@@ -17,10 +17,12 @@ class VaultCryptoRepository {
       }
 
       final salt = generateRandomSecureBytes(24);
-      final masterKey = await PasswordBasedEncryptionSevice.deriveKey(password, salt);
+      final masterKey =
+          await PasswordBasedEncryptionSevice.deriveKey(password, salt);
 
       final verificationTokenBytes = generateRandomSecureBytes(32);
-      final encryptedToken = await AESService.encrypt(verificationTokenBytes, masterKey);
+      final encryptedToken =
+          await AESService.encrypt(verificationTokenBytes, masterKey);
 
       final metadata = VaultMetadata(
         vaultId: generateId(),
@@ -37,10 +39,14 @@ class VaultCryptoRepository {
     }
   }
 
-  Future<VaultResponse<Uint8List>> verifyAndDeriveKey(String password, VaultMetadata metadata) async {
+  Future<VaultResponse<Uint8List>> verifyAndDeriveKey(
+    String password,
+    VaultMetadata metadata,
+  ) async {
     try {
       final salt = base64Decode(metadata.masterSalt);
-      final masterKey = await PasswordBasedEncryptionSevice.deriveKey(password, salt);
+      final masterKey =
+          await PasswordBasedEncryptionSevice.deriveKey(password, salt);
 
       final encryptedToken = base64Decode(metadata.verificationToken);
       try {
@@ -66,14 +72,23 @@ class VaultCryptoRepository {
         bytesToEncrypt = utf8.encode(jsonEncode(content.toJson()));
       } else if (content is VaultNoteContent) {
         bytesToEncrypt = utf8.encode(jsonEncode(content.toJson()));
+      } else if (content is VaultFileContent) {
+        bytesToEncrypt = utf8.encode(jsonEncode(content.toJson()));
       } else {
-        return const VaultFailure(VaultFailureType.unknown, message: 'Unsupported content type');
+        return const VaultFailure(
+          VaultFailureType.unknown,
+          message: 'Unsupported content type',
+        );
       }
 
-      Uint8List encryptedBytes = await AESService.encrypt(bytesToEncrypt, masterKey);
+      Uint8List encryptedBytes =
+          await AESService.encrypt(bytesToEncrypt, masterKey);
 
       if (customPassword != null && customPassword.isNotEmpty) {
-        encryptedBytes = await PasswordBasedEncryptionSevice.encrypt(encryptedBytes, customPassword);
+        encryptedBytes = await PasswordBasedEncryptionSevice.encrypt(
+          encryptedBytes,
+          customPassword,
+        );
       }
 
       return VaultSuccess(encryptedBytes);
@@ -93,7 +108,10 @@ class VaultCryptoRepository {
 
       if (customPassword != null && customPassword.isNotEmpty) {
         try {
-          bytesToDecrypt = await PasswordBasedEncryptionSevice.decrypt(bytesToDecrypt, customPassword);
+          bytesToDecrypt = await PasswordBasedEncryptionSevice.decrypt(
+            bytesToDecrypt,
+            customPassword,
+          );
         } catch (_) {
           return const VaultFailure(VaultFailureType.incorrectCustomPassword);
         }
@@ -113,8 +131,13 @@ class VaultCryptoRepository {
         return VaultSuccess(VaultPasswordContent.fromJson(jsonMap));
       } else if (type == VaultItemType.note) {
         return VaultSuccess(VaultNoteContent.fromJson(jsonMap));
+      } else if (type == VaultItemType.file) {
+        return VaultSuccess(VaultFileContent.fromJson(jsonMap));
       } else {
-        return const VaultFailure(VaultFailureType.unknown, message: 'Unsupported content type');
+        return const VaultFailure(
+          VaultFailureType.unknown,
+          message: 'Unsupported content type',
+        );
       }
     } catch (e) {
       return VaultFailure(VaultFailureType.unknown, message: e.toString());
@@ -130,7 +153,8 @@ class VaultCryptoRepository {
       final newItems = <String, Uint8List>{};
       for (final entry in items.entries) {
         final decryptedBytes = await AESService.decrypt(entry.value, oldKey);
-        final newEncryptedBytes = await AESService.encrypt(decryptedBytes, newKey);
+        final newEncryptedBytes =
+            await AESService.encrypt(decryptedBytes, newKey);
         newItems[entry.key] = newEncryptedBytes;
       }
       return VaultSuccess(newItems);

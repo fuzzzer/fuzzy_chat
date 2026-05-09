@@ -37,7 +37,8 @@ class _VaultCreatePageState extends State<VaultCreatePage> {
 
     final service = sl.get<PasswordStrengthService>();
     final strength = service.assess(password);
-    return strength.level == PasswordStrengthLevel.good || strength.level == PasswordStrengthLevel.strong;
+    return strength.level == PasswordStrengthLevel.good ||
+        strength.level == PasswordStrengthLevel.strong;
   }
 
   void _onCreate() {
@@ -51,13 +52,19 @@ class _VaultCreatePageState extends State<VaultCreatePage> {
       listener: (context, state) {
         if (state.failureType != null) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(currentContextLocalization.vaultFailedToCreate(state.failureType!.name))),
+            SnackBar(
+              content: Text(
+                currentContextLocalization
+                    .vaultFailedToCreate(state.failureType!.name),
+              ),
+            ),
           );
         }
       },
       builder: (context, state) {
-        final isLoading =
-            state.authState == VaultAuthEnum.unlocking; // We use unlocking state during create too in Cubit
+        final isLoading = state.authState ==
+            VaultAuthEnum
+                .unlocking; // We use unlocking state during create too in Cubit
         // Wait, does createVault emit unlocking? Let's check.
 
         return Stack(
@@ -97,15 +104,21 @@ class _VaultCreatePageState extends State<VaultCreatePage> {
                     obscureText: !_isPasswordVisible,
                     suffixIcon: IconButton(
                       icon: Icon(
-                        _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                        _isPasswordVisible
+                            ? Icons.visibility_off
+                            : Icons.visibility,
                         color: context.uiColors.secondaryTextColor,
                       ),
-                      onPressed: () => setState(() => _isPasswordVisible = !_isPasswordVisible),
+                      onPressed: () => setState(
+                        () => _isPasswordVisible = !_isPasswordVisible,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 24),
                   if (_passwordController.text.isNotEmpty) ...[
-                    PasswordStrengthIndicator(password: _passwordController.text),
+                    PasswordStrengthIndicator(
+                      password: _passwordController.text,
+                    ),
                     const SizedBox(height: 24),
                   ],
                   FuzzyTextField(
@@ -114,13 +127,18 @@ class _VaultCreatePageState extends State<VaultCreatePage> {
                     obscureText: !_isConfirmVisible,
                     suffixIcon: IconButton(
                       icon: Icon(
-                        _isConfirmVisible ? Icons.visibility_off : Icons.visibility,
+                        _isConfirmVisible
+                            ? Icons.visibility_off
+                            : Icons.visibility,
                         color: context.uiColors.secondaryTextColor,
                       ),
-                      onPressed: () => setState(() => _isConfirmVisible = !_isConfirmVisible),
+                      onPressed: () => setState(
+                        () => _isConfirmVisible = !_isConfirmVisible,
+                      ),
                     ),
                   ),
-                  if (_confirmController.text.isNotEmpty && _passwordController.text != _confirmController.text) ...[
+                  if (_confirmController.text.isNotEmpty &&
+                      _passwordController.text != _confirmController.text) ...[
                     const SizedBox(height: 8),
                     Text(
                       currentContextLocalization.vaultPasswordsDoNotMatch,
@@ -137,14 +155,19 @@ class _VaultCreatePageState extends State<VaultCreatePage> {
                     ),
                     child: Row(
                       children: [
-                        const Icon(Icons.warning_amber_rounded, color: Colors.red),
+                        const Icon(
+                          Icons.warning_amber_rounded,
+                          color: Colors.red,
+                        ),
                         const SizedBox(width: 16),
                         Expanded(
                           child: Text(
-                            currentContextLocalization.vaultPasswordCannotBeReset,
-                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  color: Colors.red,
-                                ),
+                            currentContextLocalization
+                                .vaultPasswordCannotBeReset,
+                            style:
+                                Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      color: Colors.red,
+                                    ),
                           ),
                         ),
                       ],

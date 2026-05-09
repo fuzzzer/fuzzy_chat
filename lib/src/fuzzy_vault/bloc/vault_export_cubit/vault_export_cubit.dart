@@ -17,15 +17,18 @@ class VaultExportCubit extends Cubit<VaultExportState> {
     String password,
   ) async {
     emit(state.copyWith(status: StateStatus.loading));
-    final res = await exportRepository.exportVault(items, groups, directory, password);
-    
+    final res =
+        await exportRepository.exportVault(items, groups, directory, password);
+
     if (res is VaultSuccess) {
       emit(state.copyWith(status: StateStatus.success));
     } else {
-      emit(state.copyWith(
-        status: StateStatus.failed,
-        failureType: (res as VaultFailure).type,
-      ),);
+      emit(
+        state.copyWith(
+          status: StateStatus.failed,
+          failureType: (res as VaultFailure).type,
+        ),
+      );
     }
   }
 }

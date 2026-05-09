@@ -10,10 +10,13 @@ class VaultFileDataSource {
   Directory get _tmpDir => Directory(path.join(vaultDirectoryPath, '.tmp'));
   File get _metaFile => File(path.join(vaultDirectoryPath, 'vault.meta'));
 
-  Directory get _stagingDir => Directory(path.join(vaultDirectoryPath, '.staging'));
-  Directory get _stagingItemsDir => Directory(path.join(_stagingDir.path, 'items'));
+  Directory get _stagingDir =>
+      Directory(path.join(vaultDirectoryPath, '.staging'));
+  Directory get _stagingItemsDir =>
+      Directory(path.join(_stagingDir.path, 'items'));
   File get _stagingMetaFile => File(path.join(_stagingDir.path, 'vault.meta'));
-  File get _stagingCommitMarker => File(path.join(_stagingDir.path, '.committed'));
+  File get _stagingCommitMarker =>
+      File(path.join(_stagingDir.path, '.committed'));
 
   Future<void> initDirectories() async {
     if (!await _vaultDir.exists()) await _vaultDir.create(recursive: true);

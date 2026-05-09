@@ -15,7 +15,8 @@ class VaultRepository {
   final VaultFileDataSource fileDataSource;
   final VaultCryptoRepository cryptoRepository;
 
-  Stream<VaultDataUpdated> get vaultDataUpdates => fuzzyHub.on<VaultDataUpdated>();
+  Stream<VaultDataUpdated> get vaultDataUpdates =>
+      fuzzyHub.on<VaultDataUpdated>();
 
   Future<VaultResponse<VaultMetadata>> getMetadata() async {
     try {
@@ -38,7 +39,10 @@ class VaultRepository {
         ),
       );
     } catch (e) {
-      return VaultFailure(VaultFailureType.storageReadError, message: e.toString());
+      return VaultFailure(
+        VaultFailureType.storageReadError,
+        message: e.toString(),
+      );
     }
   }
 
@@ -57,13 +61,17 @@ class VaultRepository {
       await fileDataSource.writeMetaAtomic(bytes);
       return const VaultSuccess(null);
     } catch (e) {
-      return VaultFailure(VaultFailureType.storageWriteError, message: e.toString());
+      return VaultFailure(
+        VaultFailureType.storageWriteError,
+        message: e.toString(),
+      );
     }
   }
 
   Future<VaultResponse<VaultGroupData>> ensureGeneralGroup() async {
     try {
-      var generalGroup = await groupDataSource.getGroup(VaultGroupData.generalGroupId);
+      var generalGroup =
+          await groupDataSource.getGroup(VaultGroupData.generalGroupId);
       if (generalGroup == null) {
         generalGroup = StoredVaultGroup()
           ..groupId = VaultGroupData.generalGroupId
@@ -78,7 +86,10 @@ class VaultRepository {
       }
       return VaultSuccess(VaultGroupData.fromStored(generalGroup));
     } catch (e) {
-      return VaultFailure(VaultFailureType.storageWriteError, message: e.toString());
+      return VaultFailure(
+        VaultFailureType.storageWriteError,
+        message: e.toString(),
+      );
     }
   }
 
@@ -90,7 +101,11 @@ class VaultRepository {
     try {
       await ensureGeneralGroup();
 
-      final content = item.metadata.type == VaultItemType.password ? item.passwordContent : item.noteContent;
+      final content = item.metadata.type == VaultItemType.password
+          ? item.passwordContent
+          : item.metadata.type == VaultItemType.note
+              ? item.noteContent
+              : item.fileContent;
 
       final encryptedRes = await cryptoRepository.encryptContent(
         content,
@@ -123,7 +138,10 @@ class VaultRepository {
       fuzzyHub.sendSignal(const VaultDataUpdated());
       return VaultSuccess(item);
     } catch (e) {
-      return VaultFailure(VaultFailureType.storageWriteError, message: e.toString());
+      return VaultFailure(
+        VaultFailureType.storageWriteError,
+        message: e.toString(),
+      );
     }
   }
 
@@ -140,7 +158,10 @@ class VaultRepository {
 
       final encryptedBytes = await fileDataSource.readItem(itemId);
       if (encryptedBytes == null) {
-        return const VaultFailure(VaultFailureType.fileCorrupted, message: 'Encrypted blob missing');
+        return const VaultFailure(
+          VaultFailureType.fileCorrupted,
+          message: 'Encrypted blob missing',
+        );
       }
 
       final metadata = VaultItemMetadata.fromStored(storedItem);
@@ -165,16 +186,26 @@ class VaultRepository {
             passwordContent: content as VaultPasswordContent,
           ),
         );
-      } else {
+      } else if (metadata.type == VaultItemType.note) {
         return VaultSuccess(
           VaultItem(
             metadata: metadata,
             noteContent: content as VaultNoteContent,
           ),
         );
+      } else {
+        return VaultSuccess(
+          VaultItem(
+            metadata: metadata,
+            fileContent: content as VaultFileContent,
+          ),
+        );
       }
     } catch (e) {
-      return VaultFailure(VaultFailureType.storageReadError, message: e.toString());
+      return VaultFailure(
+        VaultFailureType.storageReadError,
+        message: e.toString(),
+      );
     }
   }
 
@@ -194,7 +225,11 @@ class VaultRepository {
         contentVersion: item.metadata.contentVersion + 1,
       );
 
-      final content = updatedMetadata.type == VaultItemType.password ? item.passwordContent : item.noteContent;
+      final content = updatedMetadata.type == VaultItemType.password
+          ? item.passwordContent
+          : updatedMetadata.type == VaultItemType.note
+              ? item.noteContent
+              : item.fileContent;
 
       final encryptedRes = await cryptoRepository.encryptContent(
         content,
@@ -226,7 +261,10 @@ class VaultRepository {
 
       return VaultSuccess(item.copyWith(metadata: updatedMetadata));
     } catch (e) {
-      return VaultFailure(VaultFailureType.storageWriteError, message: e.toString());
+      return VaultFailure(
+        VaultFailureType.storageWriteError,
+        message: e.toString(),
+      );
     }
   }
 
@@ -238,7 +276,10 @@ class VaultRepository {
       fuzzyHub.sendSignal(const VaultDataUpdated());
       return const VaultSuccess(null);
     } catch (e) {
-      return VaultFailure(VaultFailureType.storageWriteError, message: e.toString());
+      return VaultFailure(
+        VaultFailureType.storageWriteError,
+        message: e.toString(),
+      );
     }
   }
 
@@ -247,36 +288,52 @@ class VaultRepository {
       final items = await itemDataSource.getAllItems();
       return VaultSuccess(items.map(VaultItemMetadata.fromStored).toList());
     } catch (e) {
-      return VaultFailure(VaultFailureType.storageReadError, message: e.toString());
+      return VaultFailure(
+        VaultFailureType.storageReadError,
+        message: e.toString(),
+      );
     }
   }
 
-  Future<VaultResponse<List<VaultItemMetadata>>> getItemsByGroup(String groupId) async {
+  Future<VaultResponse<List<VaultItemMetadata>>> getItemsByGroup(
+    String groupId,
+  ) async {
     try {
       final items = await itemDataSource.getItemsByGroup(groupId);
       return VaultSuccess(items.map(VaultItemMetadata.fromStored).toList());
     } catch (e) {
-      return VaultFailure(VaultFailureType.storageReadError, message: e.toString());
+      return VaultFailure(
+        VaultFailureType.storageReadError,
+        message: e.toString(),
+      );
     }
   }
 
-  Future<VaultResponse<List<VaultItemMetadata>>> searchItems(String query) async {
+  Future<VaultResponse<List<VaultItemMetadata>>> searchItems(
+    String query,
+  ) async {
     try {
       final items = await itemDataSource.getAllItems();
       final q = query.toLowerCase();
       final filtered = items
           .where((i) {
-            return i.title.toLowerCase().contains(q) || i.tags.any((t) => t.toLowerCase().contains(q));
+            return i.title.toLowerCase().contains(q) ||
+                i.tags.any((t) => t.toLowerCase().contains(q));
           })
           .map(VaultItemMetadata.fromStored)
           .toList();
       return VaultSuccess(filtered);
     } catch (e) {
-      return VaultFailure(VaultFailureType.storageReadError, message: e.toString());
+      return VaultFailure(
+        VaultFailureType.storageReadError,
+        message: e.toString(),
+      );
     }
   }
 
-  Future<VaultResponse<VaultGroupData>> createGroup(VaultGroupData group) async {
+  Future<VaultResponse<VaultGroupData>> createGroup(
+    VaultGroupData group,
+  ) async {
     try {
       final storedGroup = StoredVaultGroup()
         ..groupId = group.id
@@ -291,7 +348,10 @@ class VaultRepository {
       await groupDataSource.saveGroup(storedGroup);
       return VaultSuccess(group);
     } catch (e) {
-      return VaultFailure(VaultFailureType.storageWriteError, message: e.toString());
+      return VaultFailure(
+        VaultFailureType.storageWriteError,
+        message: e.toString(),
+      );
     }
   }
 
@@ -301,11 +361,16 @@ class VaultRepository {
       final groups = await groupDataSource.getAllGroups();
       return VaultSuccess(groups.map(VaultGroupData.fromStored).toList());
     } catch (e) {
-      return VaultFailure(VaultFailureType.storageReadError, message: e.toString());
+      return VaultFailure(
+        VaultFailureType.storageReadError,
+        message: e.toString(),
+      );
     }
   }
 
-  Future<VaultResponse<VaultGroupData>> updateGroup(VaultGroupData group) async {
+  Future<VaultResponse<VaultGroupData>> updateGroup(
+    VaultGroupData group,
+  ) async {
     try {
       final storedGroup = await groupDataSource.getGroup(group.id);
       if (storedGroup == null) {
@@ -323,7 +388,10 @@ class VaultRepository {
       await groupDataSource.saveGroup(storedGroup);
       return VaultSuccess(VaultGroupData.fromStored(storedGroup));
     } catch (e) {
-      return VaultFailure(VaultFailureType.storageWriteError, message: e.toString());
+      return VaultFailure(
+        VaultFailureType.storageWriteError,
+        message: e.toString(),
+      );
     }
   }
 
@@ -342,21 +410,34 @@ class VaultRepository {
       await groupDataSource.deleteGroup(groupId);
       return const VaultSuccess(null);
     } catch (e) {
-      return VaultFailure(VaultFailureType.storageWriteError, message: e.toString());
+      return VaultFailure(
+        VaultFailureType.storageWriteError,
+        message: e.toString(),
+      );
     }
   }
 
-  Future<VaultResponse<void>> changeMasterPassword(String oldPassword, String newPassword) async {
+  Future<VaultResponse<void>> changeMasterPassword(
+    String oldPassword,
+    String newPassword,
+  ) async {
     try {
       final metaRes = await getMetadata();
       if (metaRes is VaultFailure) {
-        return VaultFailure((metaRes as VaultFailure).type, message: (metaRes as VaultFailure).message);
+        return VaultFailure(
+          (metaRes as VaultFailure).type,
+          message: (metaRes as VaultFailure).message,
+        );
       }
       final oldMetadata = (metaRes as VaultSuccess<VaultMetadata>).data;
 
-      final deriveRes = await cryptoRepository.verifyAndDeriveKey(oldPassword, oldMetadata);
+      final deriveRes =
+          await cryptoRepository.verifyAndDeriveKey(oldPassword, oldMetadata);
       if (deriveRes is VaultFailure) {
-        return VaultFailure((deriveRes as VaultFailure).type, message: (deriveRes as VaultFailure).message);
+        return VaultFailure(
+          (deriveRes as VaultFailure).type,
+          message: (deriveRes as VaultFailure).message,
+        );
       }
       final oldKey = (deriveRes as VaultSuccess<Uint8List>).data;
 
@@ -365,26 +446,40 @@ class VaultRepository {
       final encryptedItems = <String, Uint8List>{};
       for (final item in itemsData) {
         final bytes = await fileDataSource.readItem(item.itemId);
-        if (bytes != null) encryptedItems[item.itemId] = Uint8List.fromList(bytes);
+        if (bytes != null) {
+          encryptedItems[item.itemId] = Uint8List.fromList(bytes);
+        }
       }
 
       final newInitRes = await cryptoRepository.initializeVault(newPassword);
       if (newInitRes is VaultFailure) {
-        return VaultFailure((newInitRes as VaultFailure).type, message: (newInitRes as VaultFailure).message);
+        return VaultFailure(
+          (newInitRes as VaultFailure).type,
+          message: (newInitRes as VaultFailure).message,
+        );
       }
       final newMetadata = (newInitRes as VaultSuccess<VaultMetadata>).data;
 
-      final newKeyRes = await cryptoRepository.verifyAndDeriveKey(newPassword, newMetadata);
+      final newKeyRes =
+          await cryptoRepository.verifyAndDeriveKey(newPassword, newMetadata);
       if (newKeyRes is VaultFailure) {
-        return VaultFailure((newKeyRes as VaultFailure).type, message: (newKeyRes as VaultFailure).message);
+        return VaultFailure(
+          (newKeyRes as VaultFailure).type,
+          message: (newKeyRes as VaultFailure).message,
+        );
       }
       final newKey = (newKeyRes as VaultSuccess<Uint8List>).data;
 
-      final reencryptRes = await cryptoRepository.reencryptAll(encryptedItems, oldKey, newKey);
+      final reencryptRes =
+          await cryptoRepository.reencryptAll(encryptedItems, oldKey, newKey);
       if (reencryptRes is VaultFailure) {
-        return VaultFailure((reencryptRes as VaultFailure).type, message: (reencryptRes as VaultFailure).message);
+        return VaultFailure(
+          (reencryptRes as VaultFailure).type,
+          message: (reencryptRes as VaultFailure).message,
+        );
       }
-      final newlyEncryptedItems = (reencryptRes as VaultSuccess<Map<String, Uint8List>>).data;
+      final newlyEncryptedItems =
+          (reencryptRes as VaultSuccess<Map<String, Uint8List>>).data;
 
       for (final entry in newlyEncryptedItems.entries) {
         await fileDataSource.writeItemToStaging(entry.key, entry.value);
@@ -399,7 +494,8 @@ class VaultRepository {
         'autoLockMinutes': newMetadata.autoLockMinutes,
         'customDirectoryPath': newMetadata.customDirectoryPath,
       };
-      await fileDataSource.writeMetaToStaging(utf8.encode(jsonEncode(newMetaJson)));
+      await fileDataSource
+          .writeMetaToStaging(utf8.encode(jsonEncode(newMetaJson)));
 
       // --- Mark committed (crash after here → recovery finishes commit) ---
       await fileDataSource.markStagingCommitted();
@@ -411,7 +507,10 @@ class VaultRepository {
     } catch (e) {
       // Best-effort rollback: clean up any partial staging data.
       await fileDataSource.cleanupStaging();
-      return VaultFailure(VaultFailureType.storageWriteError, message: e.toString());
+      return VaultFailure(
+        VaultFailureType.storageWriteError,
+        message: e.toString(),
+      );
     }
   }
 }

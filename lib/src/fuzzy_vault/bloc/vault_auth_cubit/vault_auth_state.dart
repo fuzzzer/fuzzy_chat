@@ -28,7 +28,8 @@ class VaultAuthState {
       status: status ?? this.status,
       authState: authState ?? this.authState,
       masterKey: masterKey ?? this.masterKey,
-      failureType: failureType ?? (status == StateStatus.success ? null : this.failureType),
+      failureType: failureType ??
+          (status == StateStatus.success ? null : this.failureType),
       biometricEnabled: biometricEnabled ?? this.biometricEnabled,
     );
   }

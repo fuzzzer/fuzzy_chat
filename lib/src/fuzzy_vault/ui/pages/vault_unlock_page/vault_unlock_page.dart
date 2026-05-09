@@ -10,7 +10,8 @@ class VaultUnlockPage extends StatefulWidget {
   State<VaultUnlockPage> createState() => _VaultUnlockPageState();
 }
 
-class _VaultUnlockPageState extends State<VaultUnlockPage> with SingleTickerProviderStateMixin {
+class _VaultUnlockPageState extends State<VaultUnlockPage>
+    with SingleTickerProviderStateMixin {
   final _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
   bool _autoBiometricAttempted = false;
@@ -27,7 +28,8 @@ class _VaultUnlockPageState extends State<VaultUnlockPage> with SingleTickerProv
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted || _autoBiometricAttempted) return;
       final cubit = context.read<VaultAuthCubit>();
-      if (cubit.state.biometricEnabled && cubit.state.authState == VaultAuthEnum.locked) {
+      if (cubit.state.biometricEnabled &&
+          cubit.state.authState == VaultAuthEnum.locked) {
         _autoBiometricAttempted = true;
         cubit.unlockWithBiometrics();
       }
@@ -57,7 +59,12 @@ class _VaultUnlockPageState extends State<VaultUnlockPage> with SingleTickerProv
         if (state.failureType != null) {
           _shakeController.forward(from: 0);
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(currentContextLocalization.vaultUnlockFailed(state.failureType!.name))),
+            SnackBar(
+              content: Text(
+                currentContextLocalization
+                    .vaultUnlockFailed(state.failureType!.name),
+              ),
+            ),
           );
         }
       },
@@ -81,17 +88,19 @@ class _VaultUnlockPageState extends State<VaultUnlockPage> with SingleTickerProv
                   Text(
                     currentContextLocalization.vaultUnlockVault,
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: context.uiColors.primaryTextColor,
-                    ),
+                          fontWeight: FontWeight.bold,
+                          color: context.uiColors.primaryTextColor,
+                        ),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 40),
                   AnimatedBuilder(
                     animation: _shakeController,
                     builder: (context, child) {
-                      final sineValue = 
-                          math.sin(4 * 3.14159265 * _shakeController.value) * 8 * (1 - _shakeController.value);
+                      final sineValue =
+                          math.sin(4 * 3.14159265 * _shakeController.value) *
+                              8 *
+                              (1 - _shakeController.value);
                       return Transform.translate(
                         offset: Offset(sineValue, 0),
                         child: child,
@@ -104,10 +113,14 @@ class _VaultUnlockPageState extends State<VaultUnlockPage> with SingleTickerProv
                       onSubmitted: (_) => _onUnlock(),
                       suffixIcon: IconButton(
                         icon: Icon(
-                          _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                          _isPasswordVisible
+                              ? Icons.visibility_off
+                              : Icons.visibility,
                           color: context.uiColors.secondaryTextColor,
                         ),
-                        onPressed: () => setState(() => _isPasswordVisible = !_isPasswordVisible),
+                        onPressed: () => setState(
+                          () => _isPasswordVisible = !_isPasswordVisible,
+                        ),
                       ),
                     ),
                   ),
@@ -122,8 +135,11 @@ class _VaultUnlockPageState extends State<VaultUnlockPage> with SingleTickerProv
                   const SizedBox(height: 40),
                   FuzzyButton(
                     text: currentContextLocalization.vaultUnlock,
-                    isEnabled: _passwordController.text.isNotEmpty && !isLoading,
-                    onTap: _passwordController.text.isNotEmpty && !isLoading ? _onUnlock : () {},
+                    isEnabled:
+                        _passwordController.text.isNotEmpty && !isLoading,
+                    onTap: _passwordController.text.isNotEmpty && !isLoading
+                        ? _onUnlock
+                        : () {},
                   ),
                   if (state.biometricEnabled) ...[
                     const SizedBox(height: 24),
@@ -142,9 +158,12 @@ class _VaultUnlockPageState extends State<VaultUnlockPage> with SingleTickerProv
                             const SizedBox(height: 8),
                             Text(
                               currentContextLocalization.vaultBiometricUnlock,
-                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: context.uiColors.secondaryTextColor,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                    color: context.uiColors.secondaryTextColor,
+                                  ),
                             ),
                           ],
                         ),
@@ -155,8 +174,8 @@ class _VaultUnlockPageState extends State<VaultUnlockPage> with SingleTickerProv
                   Text(
                     currentContextLocalization.vaultForgotPassword,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: context.uiColors.secondaryTextColor,
-                    ),
+                          color: context.uiColors.secondaryTextColor,
+                        ),
                     textAlign: TextAlign.center,
                   ),
                 ],

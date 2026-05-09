@@ -15,44 +15,56 @@ class VaultGroupsCubit extends Cubit<VaultGroupsState> {
     final res = await vaultRepository.getAllGroups();
 
     if (res is VaultSuccess) {
-      emit(state.copyWith(
-        status: StateStatus.success,
-        groups: (res as VaultSuccess<List<VaultGroupData>>).data,
-      ),);
+      emit(
+        state.copyWith(
+          status: StateStatus.success,
+          groups: (res as VaultSuccess<List<VaultGroupData>>).data,
+        ),
+      );
     } else {
-      emit(state.copyWith(
-        status: StateStatus.failed,
-        failureType: (res as VaultFailure).type,
-      ),);
+      emit(
+        state.copyWith(
+          status: StateStatus.failed,
+          failureType: (res as VaultFailure).type,
+        ),
+      );
     }
   }
 
-  Future<VaultResponse<VaultGroupData>> createGroup(VaultGroupData group) async {
+  Future<VaultResponse<VaultGroupData>> createGroup(
+    VaultGroupData group,
+  ) async {
     emit(state.copyWith(status: StateStatus.loading));
     final res = await vaultRepository.createGroup(group);
 
     if (res is VaultSuccess) {
       await loadGroups();
     } else {
-      emit(state.copyWith(
-        status: StateStatus.failed,
-        failureType: (res as VaultFailure).type,
-      ),);
+      emit(
+        state.copyWith(
+          status: StateStatus.failed,
+          failureType: (res as VaultFailure).type,
+        ),
+      );
     }
     return res;
   }
 
-  Future<VaultResponse<VaultGroupData>> updateGroup(VaultGroupData group) async {
+  Future<VaultResponse<VaultGroupData>> updateGroup(
+    VaultGroupData group,
+  ) async {
     emit(state.copyWith(status: StateStatus.loading));
     final res = await vaultRepository.updateGroup(group);
 
     if (res is VaultSuccess) {
       await loadGroups();
     } else {
-      emit(state.copyWith(
-        status: StateStatus.failed,
-        failureType: (res as VaultFailure).type,
-      ),);
+      emit(
+        state.copyWith(
+          status: StateStatus.failed,
+          failureType: (res as VaultFailure).type,
+        ),
+      );
     }
     return res;
   }
@@ -64,10 +76,12 @@ class VaultGroupsCubit extends Cubit<VaultGroupsState> {
     if (res is VaultSuccess) {
       await loadGroups();
     } else {
-      emit(state.copyWith(
-        status: StateStatus.failed,
-        failureType: (res as VaultFailure).type,
-      ),);
+      emit(
+        state.copyWith(
+          status: StateStatus.failed,
+          failureType: (res as VaultFailure).type,
+        ),
+      );
     }
   }
 }

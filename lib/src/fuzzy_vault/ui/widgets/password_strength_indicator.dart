@@ -10,7 +10,7 @@ class PasswordStrengthIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     final service = sl.get<PasswordStrengthService>();
     final strength = service.assess(password);
-    
+
     Color getLevelColor() {
       switch (strength.level) {
         case PasswordStrengthLevel.weak:
@@ -35,15 +35,15 @@ class PasswordStrengthIndicator extends StatelessWidget {
             Text(
               currentContextLocalization.vaultPasswordStrength,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: context.uiColors.secondaryTextColor,
-              ),
+                    color: context.uiColors.secondaryTextColor,
+                  ),
             ),
             Text(
               '${strength.level.name.toUpperCase()} ${strength.score}%',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: color,
-                fontWeight: FontWeight.bold,
-              ),
+                    color: color,
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
           ],
         ),

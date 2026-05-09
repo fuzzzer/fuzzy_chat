@@ -15,7 +15,8 @@ class VaultHomePage extends StatefulWidget {
   State<VaultHomePage> createState() => _VaultHomePageState();
 }
 
-class _VaultHomePageState extends State<VaultHomePage> with SingleTickerProviderStateMixin {
+class _VaultHomePageState extends State<VaultHomePage>
+    with SingleTickerProviderStateMixin {
   late final TabController _tabController;
 
   @override
@@ -23,9 +24,9 @@ class _VaultHomePageState extends State<VaultHomePage> with SingleTickerProvider
     super.initState();
     final initialIndex = sl.get<PreferencesService>().vaultLastSelectedTabIndex;
     _tabController = TabController(
-      length: 2,
+      length: 3,
       vsync: this,
-      initialIndex: initialIndex.clamp(0, 1),
+      initialIndex: initialIndex.clamp(0, 2),
     );
     _tabController.addListener(_onTabChanged);
 
@@ -37,7 +38,9 @@ class _VaultHomePageState extends State<VaultHomePage> with SingleTickerProvider
 
   void _onTabChanged() {
     if (_tabController.indexIsChanging) return;
-    sl.get<PreferencesService>().setVaultLastSelectedTabIndex(_tabController.index);
+    sl
+        .get<PreferencesService>()
+        .setVaultLastSelectedTabIndex(_tabController.index);
     setState(() {});
   }
 
@@ -48,7 +51,11 @@ class _VaultHomePageState extends State<VaultHomePage> with SingleTickerProvider
     super.dispose();
   }
 
-  VaultItemType get _activeType => _tabController.index == 0 ? VaultItemType.password : VaultItemType.note;
+  VaultItemType get _activeType {
+    if (_tabController.index == 0) return VaultItemType.password;
+    if (_tabController.index == 1) return VaultItemType.note;
+    return VaultItemType.file;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +73,7 @@ class _VaultHomePageState extends State<VaultHomePage> with SingleTickerProvider
               children: const [
                 VaultItemList(filterType: VaultItemType.password),
                 VaultItemList(filterType: VaultItemType.note),
+                VaultItemList(filterType: VaultItemType.file),
               ],
             ),
           ),
@@ -112,7 +120,8 @@ class _VaultTabBar extends StatelessWidget {
         labelColor: context.uiColors.backgroundPrimaryColor,
         unselectedLabelColor: context.uiColors.secondaryTextColor,
         labelStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
-        unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.normal, fontSize: 14),
+        unselectedLabelStyle:
+            const TextStyle(fontWeight: FontWeight.normal, fontSize: 14),
         splashBorderRadius: BorderRadius.circular(10),
         padding: const EdgeInsets.all(4),
         tabs: [
@@ -135,6 +144,17 @@ class _VaultTabBar extends StatelessWidget {
                 const Icon(Icons.notes_rounded, size: 16),
                 const SizedBox(width: 6),
                 Text(currentContextLocalization.vaultNotes),
+              ],
+            ),
+          ),
+          Tab(
+            height: 36,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.file_present_rounded, size: 16),
+                const SizedBox(width: 6),
+                Text(currentContextLocalization.vaultFiles),
               ],
             ),
           ),

@@ -15,7 +15,8 @@ class VaultExportState {
   }) {
     return VaultExportState(
       status: status ?? this.status,
-      failureType: failureType ?? (status == StateStatus.success ? null : this.failureType),
+      failureType: failureType ??
+          (status == StateStatus.success ? null : this.failureType),
     );
   }
 }

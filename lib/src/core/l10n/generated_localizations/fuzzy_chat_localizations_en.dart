@@ -426,6 +426,15 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get vaultNotes => 'Notes';
 
   @override
+  String get vaultFiles => 'Files';
+
+  @override
+  String get vaultNoFilesYet => 'No files yet';
+
+  @override
+  String get vaultFileLabel => 'File';
+
+  @override
   String get vaultAll => 'All';
 
   @override

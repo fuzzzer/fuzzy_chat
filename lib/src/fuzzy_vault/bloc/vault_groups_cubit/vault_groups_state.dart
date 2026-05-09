@@ -19,7 +19,8 @@ class VaultGroupsState {
     return VaultGroupsState(
       status: status ?? this.status,
       groups: groups ?? this.groups,
-      failureType: failureType ?? (status == StateStatus.success ? null : this.failureType),
+      failureType: failureType ??
+          (status == StateStatus.success ? null : this.failureType),
     );
   }
 }

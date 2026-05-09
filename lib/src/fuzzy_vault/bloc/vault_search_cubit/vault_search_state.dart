@@ -23,7 +23,8 @@ class VaultSearchState {
       status: status ?? this.status,
       query: query ?? this.query,
       results: results ?? this.results,
-      failureType: failureType ?? (status == StateStatus.success ? null : this.failureType),
+      failureType: failureType ??
+          (status == StateStatus.success ? null : this.failureType),
     );
   }
 }

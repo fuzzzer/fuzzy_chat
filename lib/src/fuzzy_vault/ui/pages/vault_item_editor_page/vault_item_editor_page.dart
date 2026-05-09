@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,26 +32,37 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
   late final TextEditingController _passwordController;
   late final TextEditingController _urlController;
   late final TextEditingController _notesController;
-  
+
   bool _isPasswordVisible = false;
+
+  List<int>? _pickedFileBytes;
+  String? _pickedFileName;
 
   @override
   void initState() {
     super.initState();
     _type = widget.payload.type;
-    
+
     final item = widget.payload.existingItem;
     _titleController = TextEditingController(text: item?.metadata.title ?? '');
-    
-    _usernameController = TextEditingController(text: item?.passwordContent?.username ?? '');
-    _passwordController = TextEditingController(text: item?.passwordContent?.password ?? '');
-    _urlController = TextEditingController(text: item?.passwordContent?.url ?? '');
-    
+
+    _usernameController =
+        TextEditingController(text: item?.passwordContent?.username ?? '');
+    _passwordController =
+        TextEditingController(text: item?.passwordContent?.password ?? '');
+    _urlController =
+        TextEditingController(text: item?.passwordContent?.url ?? '');
+
     // Use notesController for both Password's small notes and Note's full content
-    final noteText = _type == VaultItemType.password 
-      ? item?.passwordContent?.notes ?? ''
-      : item?.noteContent?.plainText ?? '';
+    final noteText = _type == VaultItemType.password
+        ? item?.passwordContent?.notes ?? ''
+        : item?.noteContent?.plainText ?? '';
     _notesController = TextEditingController(text: noteText);
+
+    if (_type == VaultItemType.file && item?.fileContent != null) {
+      _pickedFileName = item!.fileContent!.fileName;
+      _pickedFileBytes = item.fileContent!.fileBytes;
+    }
   }
 
   @override
@@ -62,13 +75,30 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
     super.dispose();
   }
 
+  Future<void> _pickFile() async {
+    final result = await FilePicker.platform.pickFiles();
+    if (result != null && result.files.single.path != null) {
+      final file = File(result.files.single.path!);
+      final bytes = await file.readAsBytes();
+      setState(() {
+        _pickedFileName = result.files.single.name;
+        _pickedFileBytes = bytes;
+        if (_titleController.text.isEmpty ||
+            _titleController.text == currentContextLocalization.vaultUntitled) {
+          _titleController.text = _pickedFileName!;
+        }
+      });
+    }
+  }
+
   Future<void> _onSave(BuildContext context) async {
     String finalTitle = _titleController.text.trim();
     if (_type == VaultItemType.password) {
       if (_usernameController.text.trim().isNotEmpty) {
         finalTitle = _usernameController.text.trim();
       } else {
-        finalTitle = widget.payload.existingItem?.metadata.title ?? currentContextLocalization.vaultUntitled;
+        finalTitle = widget.payload.existingItem?.metadata.title ??
+            currentContextLocalization.vaultUntitled;
         if (finalTitle.isEmpty) {
           finalTitle = currentContextLocalization.vaultUntitled;
         }
@@ -81,36 +111,56 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
 
     final now = DateTime.now();
     final metadata = widget.payload.existingItem?.metadata.copyWith(
-      title: finalTitle,
-      updatedAt: now,
-      contentVersion: (widget.payload.existingItem?.metadata.contentVersion ?? 0) + 1,
-    ) ?? VaultItemMetadata(
-      id: const Uuid().v4(),
-      title: finalTitle,
-      type: _type,
-      groupId: 'general', // Default for now
-      tags: [],
-      isFavorite: false,
-      hasCustomPassword: false,
-      createdAt: now,
-      updatedAt: now,
-      contentVersion: 1,
-    );
+          title: finalTitle,
+          updatedAt: now,
+          contentVersion:
+              (widget.payload.existingItem?.metadata.contentVersion ?? 0) + 1,
+        ) ??
+        VaultItemMetadata(
+          id: const Uuid().v4(),
+          title: finalTitle,
+          type: _type,
+          groupId: 'general', // Default for now
+          tags: [],
+          isFavorite: false,
+          hasCustomPassword: false,
+          createdAt: now,
+          updatedAt: now,
+          contentVersion: 1,
+        );
 
     VaultPasswordContent? pwdContent;
     VaultNoteContent? noteContent;
+    VaultFileContent? fileContent;
 
     if (_type == VaultItemType.password) {
       pwdContent = VaultPasswordContent(
         username: _usernameController.text.trim(),
         password: _passwordController.text.trim(),
-        url: _urlController.text.trim().isEmpty ? null : _urlController.text.trim(),
-        notes: _notesController.text.trim().isEmpty ? null : _notesController.text.trim(),
+        url: _urlController.text.trim().isEmpty
+            ? null
+            : _urlController.text.trim(),
+        notes: _notesController.text.trim().isEmpty
+            ? null
+            : _notesController.text.trim(),
       );
-    } else {
+    } else if (_type == VaultItemType.note) {
       noteContent = VaultNoteContent(
         delta: [],
         plainText: _notesController.text.trim(),
+      );
+    } else if (_type == VaultItemType.file) {
+      if (_pickedFileName == null || _pickedFileBytes == null) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Please select a file first')),
+          );
+        }
+        return;
+      }
+      fileContent = VaultFileContent(
+        fileName: _pickedFileName!,
+        fileBytes: _pickedFileBytes!,
       );
     }
 
@@ -118,6 +168,7 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
       metadata: metadata,
       passwordContent: pwdContent,
       noteContent: noteContent,
+      fileContent: fileContent,
     );
 
     final masterKey = context.read<VaultAuthCubit>().state.masterKey;
@@ -140,8 +191,10 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
   Widget build(BuildContext context) {
     return CallbackShortcuts(
       bindings: {
-        const SingleActivator(LogicalKeyboardKey.keyS, meta: true): () => _onSave(context),
-        const SingleActivator(LogicalKeyboardKey.keyS, control: true): () => _onSave(context),
+        const SingleActivator(LogicalKeyboardKey.keyS, meta: true): () =>
+            _onSave(context),
+        const SingleActivator(LogicalKeyboardKey.keyS, control: true): () =>
+            _onSave(context),
       },
       child: Focus(
         autofocus: true,
@@ -152,66 +205,95 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 FuzzyHeader(
-                  title: widget.payload.existingItem == null 
-                      ? (_type == VaultItemType.password ? currentContextLocalization.vaultNewPassword : currentContextLocalization.vaultNewNote)
+                  title: widget.payload.existingItem == null
+                      ? (_type == VaultItemType.password
+                          ? currentContextLocalization.vaultNewPassword
+                          : _type == VaultItemType.note
+                              ? currentContextLocalization.vaultNewNote
+                              : currentContextLocalization.vaultFileLabel)
                       : currentContextLocalization.vaultEditItem,
                   leftAction: const FuzzyBackButton(),
                 ),
                 Expanded(
                   child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                if (_type != VaultItemType.password) ...[
-                  FuzzyTextField(
-                    controller: _titleController,
-                    labelText: currentContextLocalization.vaultTitle,
-                  ),
-                  const SizedBox(height: 16),
-                ],
-                
-                if (_type == VaultItemType.password) ...[
-                  FuzzyTextField(
-                    controller: _usernameController,
-                    labelText: currentContextLocalization.vaultUsernameEmail,
-                  ),
-                  const SizedBox(height: 16),
-                  FuzzyTextField(
-                    controller: _passwordController,
-                    labelText: currentContextLocalization.vaultPasswordLabel,
-                    obscureText: !_isPasswordVisible,
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
-                        color: context.uiColors.secondaryTextColor,
-                      ),
-                      onPressed: () => setState(() => _isPasswordVisible = !_isPasswordVisible),
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        if (_type != VaultItemType.password) ...[
+                          FuzzyTextField(
+                            controller: _titleController,
+                            labelText: currentContextLocalization.vaultTitle,
+                          ),
+                          const SizedBox(height: 16),
+                        ],
+                        if (_type == VaultItemType.password) ...[
+                          FuzzyTextField(
+                            controller: _usernameController,
+                            labelText:
+                                currentContextLocalization.vaultUsernameEmail,
+                          ),
+                          const SizedBox(height: 16),
+                          FuzzyTextField(
+                            controller: _passwordController,
+                            labelText:
+                                currentContextLocalization.vaultPasswordLabel,
+                            obscureText: !_isPasswordVisible,
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _isPasswordVisible
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                                color: context.uiColors.secondaryTextColor,
+                              ),
+                              onPressed: () => setState(
+                                () => _isPasswordVisible = !_isPasswordVisible,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          FuzzyTextField(
+                            controller: _urlController,
+                            labelText:
+                                currentContextLocalization.vaultUrlWebsite,
+                          ),
+                          const SizedBox(height: 16),
+                        ],
+                        if (_type == VaultItemType.file) ...[
+                          if (_pickedFileName != null)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 16),
+                              child: Text(
+                                'Selected: $_pickedFileName',
+                                style: TextStyle(
+                                  color: context.uiColors.primaryTextColor,
+                                ),
+                              ),
+                            ),
+                          FuzzyButton(
+                            text: 'Select File',
+                            onTap: _pickFile,
+                          ),
+                          const SizedBox(height: 16),
+                        ],
+                        if (_type != VaultItemType.file) ...[
+                          FuzzyTextField(
+                            controller: _notesController,
+                            labelText: _type == VaultItemType.password
+                                ? currentContextLocalization.vaultNotesOptional
+                                : currentContextLocalization.vaultSecureNote,
+                            maxLines: _type == VaultItemType.password ? 3 : 15,
+                          ),
+                        ],
+                        const SizedBox(height: 40),
+                        FuzzyButton(
+                          text: currentContextLocalization.vaultSave,
+                          onTap: () => _onSave(context),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  FuzzyTextField(
-                    controller: _urlController,
-                    labelText: currentContextLocalization.vaultUrlWebsite,
-                  ),
-                  const SizedBox(height: 16),
-                ],
-                
-                FuzzyTextField(
-                  controller: _notesController,
-                  labelText: _type == VaultItemType.password ? currentContextLocalization.vaultNotesOptional : currentContextLocalization.vaultSecureNote,
-                  maxLines: _type == VaultItemType.password ? 3 : 15,
                 ),
-                
-                const SizedBox(height: 40),
-                FuzzyButton(
-                  text: currentContextLocalization.vaultSave,
-                  onTap: () => _onSave(context),
-                ),
-              ],
-            ),
-          ),
-        ),
               ],
             ),
           ),
@@ -220,4 +302,3 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
     );
   }
 }
-

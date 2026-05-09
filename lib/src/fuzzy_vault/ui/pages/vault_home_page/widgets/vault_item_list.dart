@@ -47,7 +47,9 @@ class VaultItemList extends StatelessWidget {
               items = items.where((i) => i.type == filterType).toList();
             }
             if (itemsState.selectedGroupId != null) {
-              items = items.where((i) => i.groupId == itemsState.selectedGroupId).toList();
+              items = items
+                  .where((i) => i.groupId == itemsState.selectedGroupId)
+                  .toList();
             }
 
             if (items.isEmpty) {
@@ -89,6 +91,9 @@ class _EmptyState extends StatelessWidget {
     } else if (filterType == VaultItemType.note) {
       message = currentContextLocalization.vaultNoNotesYet;
       icon = Icons.note_outlined;
+    } else if (filterType == VaultItemType.file) {
+      message = currentContextLocalization.vaultNoFilesYet;
+      icon = Icons.file_copy_outlined;
     } else {
       message = currentContextLocalization.vaultIsEmpty;
       icon = Icons.lock_outline;
@@ -119,7 +124,12 @@ class VaultItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isPassword = itemMetadata.type == VaultItemType.password;
-    final icon = isPassword ? Icons.key_rounded : Icons.notes_rounded;
+    final isFile = itemMetadata.type == VaultItemType.file;
+    final icon = isPassword
+        ? Icons.key_rounded
+        : isFile
+            ? Icons.file_present_rounded
+            : Icons.notes_rounded;
     final title = itemMetadata.title;
 
     return Container(
@@ -137,7 +147,11 @@ class VaultItemCard extends StatelessWidget {
           ),
         ),
         subtitle: Text(
-          isPassword ? currentContextLocalization.vaultPasswordLabel : currentContextLocalization.vaultNoteLabel,
+          isPassword
+              ? currentContextLocalization.vaultPasswordLabel
+              : isFile
+                  ? currentContextLocalization.vaultFileLabel
+                  : currentContextLocalization.vaultNoteLabel,
           style: TextStyle(color: context.uiColors.secondaryTextColor),
         ),
         trailing: IconButton(
@@ -145,7 +159,11 @@ class VaultItemCard extends StatelessWidget {
           onPressed: () {
             // Need to fetch full item and decrypt to copy. For now just placeholder
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(currentContextLocalization.vaultCopyingNotImplemented)),
+              SnackBar(
+                content: Text(
+                  currentContextLocalization.vaultCopyingNotImplemented,
+                ),
+              ),
             );
           },
         ),
@@ -153,10 +171,10 @@ class VaultItemCard extends StatelessWidget {
           // Fetch the full item using the repository, then pass to editor
           final masterKey = context.read<VaultAuthCubit>().state.masterKey;
           if (masterKey == null) return;
-          
+
           final repo = sl.get<VaultRepository>();
           final res = await repo.getItem(itemMetadata.id, masterKey);
-          
+
           if (res is VaultSuccess && context.mounted) {
             await context.push(
               AppRouter.vaultItemEditor,
@@ -165,10 +183,14 @@ class VaultItemCard extends StatelessWidget {
                 existingItem: (res as VaultSuccess<VaultItem>).data,
               ),
             );
-            if (context.mounted) await context.read<VaultItemsCubit>().loadItems();
+            if (context.mounted) {
+              await context.read<VaultItemsCubit>().loadItems();
+            }
           } else if (context.mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(currentContextLocalization.vaultFailedToLoadItem)),
+              SnackBar(
+                content: Text(currentContextLocalization.vaultFailedToLoadItem),
+              ),
             );
           }
         },
