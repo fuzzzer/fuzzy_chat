@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fuzzy_chat/lib.dart';
-import 'package:go_router/go_router.dart';
 
 class ChatHeader extends StatelessWidget {
   final ChatGeneralData chatGeneralData;
@@ -47,9 +46,7 @@ class ChatHeader extends StatelessWidget {
                   onActionPressed: () {
                     closeOverlay();
                   },
-                  onChatDeleted: () {
-                    context.pop();
-                  },
+                  onChatDeleted: () => context.goBack(),
                 ),
                 child: const Icon(
                   Icons.settings,

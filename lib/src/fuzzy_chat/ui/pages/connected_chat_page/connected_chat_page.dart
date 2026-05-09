@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/lib.dart';
-import 'package:go_router/go_router.dart';
 
 export 'components/components.dart';
 export 'widgets/widgets.dart';
@@ -234,7 +233,7 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
                   alignment: Alignment.topCenter,
                   child: ChatHeader(
                     chatGeneralData: widget.payload.chatGeneralData,
-                    onBackPressed: () => context.pop(),
+                    onBackPressed: () => context.goBack(),
                   ),
                 ),
                 Align(
@@ -242,8 +241,7 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      if (_showTutorial)
-                        _buildTutorialBanner(context, context.fuzzyChatLocalizations),
+                      if (_showTutorial) _buildTutorialBanner(context, context.fuzzyChatLocalizations),
                       FileDecryptionProgressDisplay(
                         chatId: chatId,
                       ),
@@ -273,7 +271,7 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
   Widget _buildTutorialBanner(BuildContext context, FuzzyChatLocalizations localizations) {
     final theme = Theme.of(context);
     final uiColors = theme.extension<UiColors>()!;
-    
+
     return Container(
       margin: const EdgeInsets.all(8),
       padding: const EdgeInsets.all(16),
@@ -318,4 +316,3 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
     );
   }
 }
-
