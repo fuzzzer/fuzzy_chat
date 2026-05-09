@@ -248,7 +248,7 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
                     children: [
                       if (_showTutorial)
                         _buildTutorialBanner(
-                            context, context.fuzzyChatLocalizations),
+                            context, context.fuzzyChatLocalizations,),
                       FileDecryptionProgressDisplay(
                         chatId: chatId,
                       ),
@@ -276,7 +276,7 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
   }
 
   Widget _buildTutorialBanner(
-      BuildContext context, FuzzyChatLocalizations localizations) {
+      BuildContext context, FuzzyChatLocalizations localizations,) {
     final theme = Theme.of(context);
     final uiColors = theme.extension<UiColors>()!;
 

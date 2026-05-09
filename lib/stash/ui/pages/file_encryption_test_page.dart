@@ -54,12 +54,12 @@ class FileEncryptionTestPage extends StatelessWidget {
                 child: ListView(
                   children: [
                     Text(
-                        'Queue: ${state.toBeProcessedFiles.length} file(s) are waiting or are in-progress.'),
+                        'Queue: ${state.toBeProcessedFiles.length} file(s) are waiting or are in-progress.',),
                     ...state.toBeProcessedFiles.map(
                       (f) => ListTile(
                         title: Text(f.inputFilePath),
                         subtitle: Text(
-                            'Status: ${f.status}, progress: ${f.progress.toStringAsFixed(2)}'),
+                            'Status: ${f.status}, progress: ${f.progress.toStringAsFixed(2)}',),
                       ),
                     ),
                     Text(
@@ -70,7 +70,7 @@ class FileEncryptionTestPage extends StatelessWidget {
                     ),
                     const Divider(),
                     Text(
-                        'Processed: ${state.processedFiles.length} file(s) are done or are canceled.'),
+                        'Processed: ${state.processedFiles.length} file(s) are done or are canceled.',),
                     ...state.processedFiles.map(
                       (f) => ListTile(
                         title: Text(f.inputFilePath),

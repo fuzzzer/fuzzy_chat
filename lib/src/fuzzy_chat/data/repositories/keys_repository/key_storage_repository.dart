@@ -19,13 +19,13 @@ class KeyStorageRepository {
     final encryptedPrivateKeyBase64 = base64Encode(encryptedPrivateKey);
 
     await _secureStorage.write(
-        key: 'privateKey_$chatId', value: encryptedPrivateKeyBase64);
+        key: 'privateKey_$chatId', value: encryptedPrivateKeyBase64,);
   }
 
   Future<void> savePublicKey(String chatId, RSAPublicKey publicKey) async {
     final publicKeyMap = RSAService.transformRSAPublicKeyToMap(publicKey);
     await _secureStorage.write(
-        key: 'publicKey_$chatId', value: jsonEncode(publicKeyMap));
+        key: 'publicKey_$chatId', value: jsonEncode(publicKeyMap),);
   }
 
   Future<RSAPrivateKey?> getPrivateKey(String chatId) async {
@@ -40,7 +40,7 @@ class KeyStorageRepository {
       } else {
         final encryptedPrivateKey = base64Decode(privateKeyData);
         final decryptedBytes = await PasswordBasedEncryptionSevice.decrypt(
-            encryptedPrivateKey, password);
+            encryptedPrivateKey, password,);
         final privateKeyJson = utf8.decode(decryptedBytes);
 
         return RSAService.transformMapToRSAPrivateKey(
@@ -70,7 +70,7 @@ class KeyStorageRepository {
     final encryptedSymmetricKeyBase64 = base64Encode(encryptedSymmetricKey);
 
     await _secureStorage.write(
-        key: 'symmetricKey_$chatId', value: encryptedSymmetricKeyBase64);
+        key: 'symmetricKey_$chatId', value: encryptedSymmetricKeyBase64,);
   }
 
   Future<Uint8List?> getSymmetricKey(String chatId) async {
@@ -81,7 +81,7 @@ class KeyStorageRepository {
     if (encryptedSymmetricKeyBase64 != null) {
       final encryptedSymmetricKey = base64Decode(encryptedSymmetricKeyBase64);
       final symmetricKey = await PasswordBasedEncryptionSevice.decrypt(
-          encryptedSymmetricKey, password);
+          encryptedSymmetricKey, password,);
 
       return symmetricKey;
     }
@@ -90,10 +90,10 @@ class KeyStorageRepository {
   }
 
   Future<void> saveOtherPartyPublicKey(
-      String chatId, RSAPublicKey publicKey) async {
+      String chatId, RSAPublicKey publicKey,) async {
     final publicKeyMap = RSAService.transformRSAPublicKeyToMap(publicKey);
     await _secureStorage.write(
-        key: 'otherPartyPublicKey_$chatId', value: jsonEncode(publicKeyMap));
+        key: 'otherPartyPublicKey_$chatId', value: jsonEncode(publicKeyMap),);
   }
 
   Future<RSAPublicKey?> getOtherPartyPublicKey(String chatId) async {
@@ -158,7 +158,7 @@ class KeyStorageRepository {
       plaintext = Uint8List.fromList(utf8.encode(raw));
     } else {
       plaintext = await PasswordBasedEncryptionSevice.decrypt(
-          base64Decode(raw), oldPassword);
+          base64Decode(raw), oldPassword,);
     }
 
     final reencrypted =
@@ -194,14 +194,14 @@ class KeyStorageRepository {
           await _secureStorage.read(key: 'staged_privateKey_$chatId');
       if (stagedPrivate != null) {
         await _secureStorage.write(
-            key: 'privateKey_$chatId', value: stagedPrivate);
+            key: 'privateKey_$chatId', value: stagedPrivate,);
       }
 
       final stagedSymmetric =
           await _secureStorage.read(key: 'staged_symmetricKey_$chatId');
       if (stagedSymmetric != null) {
         await _secureStorage.write(
-            key: 'symmetricKey_$chatId', value: stagedSymmetric);
+            key: 'symmetricKey_$chatId', value: stagedSymmetric,);
       }
     }
 

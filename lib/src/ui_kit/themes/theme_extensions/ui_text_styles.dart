@@ -90,7 +90,7 @@ class UiTextStyles extends ThemeExtension<UiTextStyles> {
 
   @override
   ThemeExtension<UiTextStyles> lerp(
-      ThemeExtension<UiTextStyles>? other, double t) {
+      ThemeExtension<UiTextStyles>? other, double t,) {
     if (other is! UiTextStyles) {
       return this;
     }

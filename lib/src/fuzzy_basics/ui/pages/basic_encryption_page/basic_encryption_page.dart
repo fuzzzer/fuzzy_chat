@@ -75,7 +75,7 @@ class _ProvidedBasicEncryptionPageState
     }
     if (_selectedFilePaths?.isNotEmpty != true) {
       FuzzySnackbar.show(
-          label: context.fuzzyChatLocalizations.pleaseSelectFilesToProcess);
+          label: context.fuzzyChatLocalizations.pleaseSelectFilesToProcess,);
       return;
     }
 
@@ -110,8 +110,9 @@ class _ProvidedBasicEncryptionPageState
   }
 
   String _localizeFailureMessage(BuildContext context, String? message) {
-    if (message == null)
+    if (message == null) {
       return context.fuzzyChatLocalizations.anUnknownErrorOccurred;
+    }
     switch (message) {
       case 'textAndKeyCannotBeEmpty':
         return context.fuzzyChatLocalizations.textAndKeyCannotBeEmpty;
@@ -140,7 +141,7 @@ class _ProvidedBasicEncryptionPageState
             } else if (state.status.isFailed) {
               FuzzySnackbar.show(
                   label:
-                      _localizeFailureMessage(context, state.failure?.message));
+                      _localizeFailureMessage(context, state.failure?.message),);
             }
           },
         ),

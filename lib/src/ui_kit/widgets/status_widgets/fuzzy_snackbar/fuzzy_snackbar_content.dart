@@ -84,7 +84,7 @@ class _SnackBarContentState extends State<FuzzySnackBarContent> {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 16),
+                          horizontal: 8, vertical: 16,),
                       child: Row(
                         children: [
                           if (widget.snackbarData.leading != null)

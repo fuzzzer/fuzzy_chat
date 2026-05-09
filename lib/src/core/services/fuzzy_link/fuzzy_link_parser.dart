@@ -42,7 +42,7 @@ class FuzzyLinkParser {
   }
 
   static FuzzyLinkPayload? _parseInvitation(
-      Map<String, dynamic> json, int version) {
+      Map<String, dynamic> json, int version,) {
     final chatIdEncoded = json['I'] as String?;
     final publicKeyEncoded = json['P'] as String?;
     if (chatIdEncoded == null || publicKeyEncoded == null) return null;
@@ -62,7 +62,7 @@ class FuzzyLinkParser {
   }
 
   static FuzzyLinkPayload? _parseAcceptance(
-      Map<String, dynamic> json, int version) {
+      Map<String, dynamic> json, int version,) {
     final chatIdEncoded = json['I'] as String?;
     final publicKeyEncoded = json['P'] as String?;
     final encryptedKeyEncoded = json['E'] as String?;

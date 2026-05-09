@@ -25,13 +25,13 @@ class RSAService {
   }
 
   static Future<bool> verify(
-      Uint8List value, Uint8List signature, RSAPublicKey publicKey) {
+      Uint8List value, Uint8List signature, RSAPublicKey publicKey,) {
     return Isolate.run(
-        () => _RSAServiceImpl.syncVerify(value, signature, publicKey));
+        () => _RSAServiceImpl.syncVerify(value, signature, publicKey),);
   }
 
   static Map<String, String> transformRSAPrivateKeyToMap(
-      RSAPrivateKey privateKey) {
+      RSAPrivateKey privateKey,) {
     return _RSAServiceImpl.transformRSAPrivateKeyToMap(privateKey);
   }
 
@@ -40,7 +40,7 @@ class RSAService {
   }
 
   static Map<String, String> transformRSAPublicKeyToMap(
-      RSAPublicKey publicKey) {
+      RSAPublicKey publicKey,) {
     return _RSAServiceImpl.transformRSAPublicKeyToMap(publicKey);
   }
 

@@ -8,7 +8,7 @@ import 'share_helper.dart';
 
 class DeviceFileInteractor {
   static Future<void> shareFile(String filePath,
-      {BuildContext? context}) async {
+      {BuildContext? context,}) async {
     final file = File(filePath);
     final fileExists = await file.exists();
     if (!fileExists) {

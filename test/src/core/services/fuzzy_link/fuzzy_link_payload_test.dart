@@ -100,9 +100,9 @@ void main() {
     group('FuzzyLinkType', () {
       test('fromUriSegment resolves all types', () {
         expect(
-            FuzzyLinkType.fromUriSegment('invite'), FuzzyLinkType.invitation);
+            FuzzyLinkType.fromUriSegment('invite'), FuzzyLinkType.invitation,);
         expect(
-            FuzzyLinkType.fromUriSegment('accept'), FuzzyLinkType.acceptance);
+            FuzzyLinkType.fromUriSegment('accept'), FuzzyLinkType.acceptance,);
         expect(FuzzyLinkType.fromUriSegment('fuzz'), FuzzyLinkType.fuzz);
       });
 

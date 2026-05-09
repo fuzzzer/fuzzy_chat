@@ -971,6 +971,18 @@ abstract class FuzzyChatLocalizations {
   /// **'Group name'**
   String get vaultGroupName;
 
+  /// No description provided for @vaultMoveToGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to Group'**
+  String get vaultMoveToGroup;
+
+  /// No description provided for @vaultNoOtherGroups.
+  ///
+  /// In en, this message translates to:
+  /// **'No other groups available'**
+  String get vaultNoOtherGroups;
+
   /// No description provided for @vaultNoResultsFound.
   ///
   /// In en, this message translates to:

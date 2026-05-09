@@ -92,7 +92,7 @@ class FuzzyLinkHandler {
   }
 
   Future<void> _handleInvitation(
-      GoRouter router, InvitationLinkPayload payload) async {
+      GoRouter router, InvitationLinkPayload payload,) async {
     try {
       final receivedInvitation =
           await HandshakeService.parseInvitation(payload.rawInvitationContent);
@@ -115,7 +115,7 @@ class FuzzyLinkHandler {
   }
 
   Future<void> _handleAcceptance(
-      GoRouter router, AcceptanceLinkPayload payload) async {
+      GoRouter router, AcceptanceLinkPayload payload,) async {
     try {
       final acceptance =
           await HandshakeService.parseAcceptance(payload.rawAcceptanceContent);
@@ -147,7 +147,7 @@ class FuzzyLinkHandler {
   }
 
   Future<void> _handleFuzzMessage(
-      GoRouter router, FuzzMessageLinkPayload payload) async {
+      GoRouter router, FuzzMessageLinkPayload payload,) async {
     try {
       final chat = await _chatRepository.getChatById(payload.chatId);
 

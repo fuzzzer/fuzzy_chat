@@ -28,14 +28,14 @@ class _SendSetupPageState extends State<SendSetupPage> {
       final originalStringBytes = base64Decode(utf8.decode(bytes));
       final jsonString = utf8.decode(originalStringBytes);
       final publicKeyMap = castMapToAllStringMap(
-          json.decode(jsonString) as Map<String, dynamic>);
+          json.decode(jsonString) as Map<String, dynamic>,);
       final importedPublicKey =
           RSAService.transformMapToRSAPublicKey(publicKeyMap);
       setState(() {
         _publicKey = importedPublicKey;
       });
       await KeysRepository.savePublicKeyToFile(
-          importedPublicKey, 'public_key.json');
+          importedPublicKey, 'public_key.json',);
       FuzzySnackbar.show(label: 'Public key imported successfully');
       _showPublicKeyDialog(importedPublicKey);
     } catch (e) {
@@ -52,14 +52,14 @@ class _SendSetupPageState extends State<SendSetupPage> {
         final originalString = base64Decode(fileContent);
         final jsonString = utf8.decode(originalString);
         final publicKeyMap = castMapToAllStringMap(
-            json.decode(jsonString) as Map<String, dynamic>);
+            json.decode(jsonString) as Map<String, dynamic>,);
         final importedPublicKey =
             RSAService.transformMapToRSAPublicKey(publicKeyMap);
         setState(() {
           _publicKey = importedPublicKey;
         });
         await KeysRepository.savePublicKeyToFile(
-            importedPublicKey, 'public_key.json');
+            importedPublicKey, 'public_key.json',);
         FuzzySnackbar.show(label: 'Public key imported successfully');
       }
     } catch (e) {
@@ -72,7 +72,7 @@ class _SendSetupPageState extends State<SendSetupPage> {
       final originalString = base64Decode(publicKeyString);
       final jsonString = utf8.decode(originalString);
       final publicKeyMap = castMapToAllStringMap(
-          json.decode(jsonString) as Map<String, dynamic>);
+          json.decode(jsonString) as Map<String, dynamic>,);
       final importedPublicKey =
           RSAService.transformMapToRSAPublicKey(publicKeyMap);
 
@@ -80,7 +80,7 @@ class _SendSetupPageState extends State<SendSetupPage> {
         _publicKey = importedPublicKey;
       });
       await KeysRepository.savePublicKeyToFile(
-          importedPublicKey, 'public_key.json');
+          importedPublicKey, 'public_key.json',);
       FuzzySnackbar.show(label: 'Public key imported successfully');
       _showPublicKeyDialog(importedPublicKey);
     } catch (e) {

@@ -71,10 +71,10 @@ void main() {
 
       expect(restoredPrivateKey.n, equals(keyPair.privateKey.n));
       expect(restoredPrivateKey.privateExponent,
-          equals(keyPair.privateKey.privateExponent));
+          equals(keyPair.privateKey.privateExponent),);
       expect(restoredPublicKey.n, equals(keyPair.publicKey.n));
       expect(restoredPublicKey.publicExponent,
-          equals(keyPair.publicKey.publicExponent));
+          equals(keyPair.publicKey.publicExponent),);
     });
 
     test('RSA with empty plaintext', () async {

@@ -283,6 +283,32 @@ class VaultRepository {
     }
   }
 
+  Future<VaultResponse<VaultItemMetadata>> moveItemToGroup(
+    String itemId,
+    String newGroupId,
+  ) async {
+    try {
+      final storedItem = await itemDataSource.getItem(itemId);
+      if (storedItem == null) {
+        return const VaultFailure(VaultFailureType.itemNotFound);
+      }
+
+      storedItem.groupId = newGroupId;
+      storedItem.updatedAt = DateTime.now();
+
+      await itemDataSource.saveItem(storedItem);
+
+      fuzzyHub.sendSignal(const VaultDataUpdated());
+
+      return VaultSuccess(VaultItemMetadata.fromStored(storedItem));
+    } catch (e) {
+      return VaultFailure(
+        VaultFailureType.storageWriteError,
+        message: e.toString(),
+      );
+    }
+  }
+
   Future<VaultResponse<List<VaultItemMetadata>>> getAllItems() async {
     try {
       final items = await itemDataSource.getAllItems();

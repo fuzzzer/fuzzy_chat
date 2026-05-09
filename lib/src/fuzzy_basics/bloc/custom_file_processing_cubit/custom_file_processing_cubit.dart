@@ -153,7 +153,7 @@ class CustomFileProcessingCubit<
         );
       } else {
         throw UnimplementedError(
-            'Unsupported FileProcessingOption: ${processingOption.runtimeType}');
+            'Unsupported FileProcessingOption: ${processingOption.runtimeType}',);
       }
 
       _activeFileProcessingHandler = handler;
@@ -372,7 +372,7 @@ Future<String> _buildOutputPathInChatFolder({
   } else {
     final defuzzedFileName = fileName.endsWith('.$fuzzedFileIdentificator')
         ? fileName.substring(
-            0, fileName.length - '.$fuzzedFileIdentificator'.length)
+            0, fileName.length - '.$fuzzedFileIdentificator'.length,)
         : fileName;
     return path.join(chatIdFolder.path, defuzzedFileName);
   }

@@ -41,7 +41,7 @@ class ConnectedChatCubit extends Cubit<ConnectedChatState> {
   }
 
   Future<void> addNewMessageInBackground(
-      NewMessageAdded newMessageAdded) async {
+      NewMessageAdded newMessageAdded,) async {
     emit(
       state.copyWith(
         messages: [

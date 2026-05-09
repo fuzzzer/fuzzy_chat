@@ -25,7 +25,7 @@ class _ReceivePageState extends State<ReceivePage> {
   Future<void> _decrypt() async {
     final toBeDecryptedText = _encryptedTextController.text;
     final newDecryptedText = await RSAService.decrypt(
-        base64Decode(toBeDecryptedText), widget.privateKey);
+        base64Decode(toBeDecryptedText), widget.privateKey,);
     setState(() {
       _decryptedText = base64Encode(newDecryptedText);
     });

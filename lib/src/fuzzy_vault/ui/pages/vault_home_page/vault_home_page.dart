@@ -88,9 +88,14 @@ class _VaultHomePageState extends State<VaultHomePage>
   }
 
   Future<void> _createItem(BuildContext context) async {
+    final selectedGroupId =
+        context.read<VaultItemsCubit>().state.selectedGroupId ?? 'general';
     await context.push(
       AppRouter.vaultItemEditor,
-      extra: VaultItemEditorPagePayload(type: _activeType),
+      extra: VaultItemEditorPagePayload(
+        type: _activeType,
+        groupId: selectedGroupId,
+      ),
     );
     if (context.mounted) await context.read<VaultItemsCubit>().loadItems();
   }

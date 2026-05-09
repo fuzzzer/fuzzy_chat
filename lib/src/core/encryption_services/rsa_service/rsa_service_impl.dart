@@ -69,7 +69,7 @@ class _RSAServiceImpl {
   }
 
   static bool syncVerify(
-      Uint8List value, Uint8List signature, RSAPublicKey publicKey) {
+      Uint8List value, Uint8List signature, RSAPublicKey publicKey,) {
     final verifier = RSASigner(SHA256Digest(), _sha256DigestIdentifierHex)
       ..init(false, PublicKeyParameter<RSAPublicKey>(publicKey));
 
@@ -83,7 +83,7 @@ class _RSAServiceImpl {
   static const _sha256DigestIdentifierHex = '0609608648016503040201';
 
   static Map<String, String> transformRSAPrivateKeyToMap(
-      RSAPrivateKey privateKey) {
+      RSAPrivateKey privateKey,) {
     return {
       'modulus': privateKey.n.toString(),
       'privateExponent': privateKey.privateExponent.toString(),
@@ -107,7 +107,7 @@ class _RSAServiceImpl {
   }
 
   static Map<String, String> transformRSAPublicKeyToMap(
-      RSAPublicKey publicKey) {
+      RSAPublicKey publicKey,) {
     return {
       'modulus': publicKey.n.toString(),
       'publicExponent': publicKey.publicExponent.toString(),

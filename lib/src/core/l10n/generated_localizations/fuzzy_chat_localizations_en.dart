@@ -447,6 +447,12 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get vaultGroupName => 'Group name';
 
   @override
+  String get vaultMoveToGroup => 'Move to Group';
+
+  @override
+  String get vaultNoOtherGroups => 'No other groups available';
+
+  @override
   String get vaultNoResultsFound => 'No results found.';
 
   @override

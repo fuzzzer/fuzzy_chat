@@ -52,7 +52,7 @@ class UiColors extends ThemeExtension<UiColors> {
       backgroundPrimaryColor:
           Color.lerp(backgroundPrimaryColor, other.backgroundPrimaryColor, t)!,
       backgroundSecondaryColor: Color.lerp(
-          backgroundSecondaryColor, other.backgroundSecondaryColor, t)!,
+          backgroundSecondaryColor, other.backgroundSecondaryColor, t,)!,
       primaryTextColor:
           Color.lerp(primaryTextColor, other.primaryTextColor, t)!,
       secondaryTextColor:

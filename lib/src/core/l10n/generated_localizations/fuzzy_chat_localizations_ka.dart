@@ -447,6 +447,12 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get vaultGroupName => 'ჯგუფის სახელი';
 
   @override
+  String get vaultMoveToGroup => 'ჯგუფში გადატანა';
+
+  @override
+  String get vaultNoOtherGroups => 'სხვა ჯგუფები არ არის';
+
+  @override
   String get vaultNoResultsFound => 'შედეგები ვერ მოიძებნა.';
 
   @override

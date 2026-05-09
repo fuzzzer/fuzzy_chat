@@ -52,7 +52,7 @@ class _SendPageState extends State<SendPage> {
       final bytes = await _controller.getFileData(event);
       final jsonString = utf8.decode(bytes);
       final publicKeyMap = castMapToAllStringMap(
-          json.decode(jsonString) as Map<String, dynamic>);
+          json.decode(jsonString) as Map<String, dynamic>,);
       final importedPublicKey =
           RSAService.transformMapToRSAPublicKey(publicKeyMap);
       setState(() {

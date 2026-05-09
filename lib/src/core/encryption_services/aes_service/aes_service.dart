@@ -15,7 +15,7 @@ class AESService {
       Isolate.run(() => _AESServiceImpl.syncEncrypt(bytes, key));
 
   static Future<Uint8List> decrypt(
-          Uint8List encryptedBytes, Uint8List key) async =>
+          Uint8List encryptedBytes, Uint8List key,) async =>
       Isolate.run(() => _AESServiceImpl.syncDecrypt(encryptedBytes, key));
 
   static Future<String> encryptText(String text, Uint8List key) async {
@@ -25,7 +25,7 @@ class AESService {
   }
 
   static Future<String> decryptText(
-      String base64EncryptedText, Uint8List key) async {
+      String base64EncryptedText, Uint8List key,) async {
     final encryptedTextBytes = base64Decode(base64EncryptedText);
     final decryptedTextBytes = await decrypt(encryptedTextBytes, key);
     return utf8.decode(decryptedTextBytes);
@@ -153,7 +153,7 @@ class AESService {
 }
 
 Future<void> fileEncryptionIsolateEntry(
-    FileEncryptionIsolateArguments args) async {
+    FileEncryptionIsolateArguments args,) async {
   final commandReceivePort = ReceivePort();
 
   args.commandPortSendPort.send(commandReceivePort.sendPort);

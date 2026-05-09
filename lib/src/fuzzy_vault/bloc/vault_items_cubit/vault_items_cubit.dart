@@ -108,6 +108,21 @@ class VaultItemsCubit extends Cubit<VaultItemsState> {
     }
   }
 
+  Future<void> moveItemToGroup(String itemId, String newGroupId) async {
+    emit(state.copyWith(status: StateStatus.loading));
+    final res = await vaultRepository.moveItemToGroup(itemId, newGroupId);
+    if (res is VaultSuccess) {
+      await loadItems();
+    } else {
+      emit(
+        state.copyWith(
+          status: StateStatus.failed,
+          failureType: (res as VaultFailure).type,
+        ),
+      );
+    }
+  }
+
   Future<void> copyToClipboard(
     String text, {
     int clearAfterSeconds = 45,

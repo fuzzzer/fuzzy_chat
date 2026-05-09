@@ -221,7 +221,83 @@ class _VaultItemCardState extends State<VaultItemCard> {
                   if (mounted) setState(() => _isLoading = false);
                 }
               },
+        onLongPress: _isLoading
+            ? null
+            : () => _showMoveToGroupSheet(context),
       ),
+    );
+  }
+
+  void _showMoveToGroupSheet(BuildContext context) {
+    final groups = context.read<VaultGroupsCubit>().state.groups;
+    final currentGroupId = widget.itemMetadata.groupId;
+    final localizations = context.fuzzyChatLocalizations;
+    final uiColors = context.uiColors;
+    final titleStyle = context.uiTextStyles.bodyLargeBold20.copyWith(
+      color: uiColors.primaryTextColor,
+    );
+
+    final otherGroups =
+        groups.where((g) => g.id != currentGroupId).toList();
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: uiColors.backgroundSecondaryColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (bottomSheetContext) {
+        final children = <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Text(
+              localizations.vaultMoveToGroup,
+              style: titleStyle,
+            ),
+          ),
+        ];
+
+        if (otherGroups.isEmpty) {
+          children.add(
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Text(
+                localizations.vaultNoOtherGroups,
+                style: TextStyle(color: uiColors.secondaryTextColor),
+              ),
+            ),
+          );
+        } else {
+          for (final group in otherGroups) {
+            children.add(
+              ListTile(
+                leading: Icon(
+                  Icons.folder_outlined,
+                  color: uiColors.primaryColor,
+                ),
+                title: Text(
+                  group.name,
+                  style: TextStyle(color: uiColors.primaryTextColor),
+                ),
+                onTap: () {
+                  Navigator.pop(bottomSheetContext);
+                  context.read<VaultItemsCubit>().moveItemToGroup(
+                        widget.itemMetadata.id,
+                        group.id,
+                      );
+                },
+              ),
+            );
+          }
+        }
+
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: children,
+          ),
+        );
+      },
     );
   }
 }

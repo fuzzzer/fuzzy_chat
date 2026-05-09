@@ -42,7 +42,7 @@ class FuzzyUserAuthPreferencesCubit
       emit(state.copyWith(
         activationStatus: StateStatus.success,
         lastAction: AuthPreferencesAction.enable,
-      ));
+      ),);
     } catch (e) {
       emit(
         state.copyWith(
@@ -71,7 +71,7 @@ class FuzzyUserAuthPreferencesCubit
         emit(state.copyWith(
           activationStatus: StateStatus.success,
           lastAction: AuthPreferencesAction.changePassword,
-        ));
+        ),);
       } else {
         emit(
           state.copyWith(
@@ -120,7 +120,7 @@ class FuzzyUserAuthPreferencesCubit
       emit(state.copyWith(
         activationStatus: StateStatus.success,
         lastAction: AuthPreferencesAction.disable,
-      ));
+      ),);
     } catch (e) {
       emit(
         state.copyWith(
@@ -148,12 +148,12 @@ class FuzzyUserAuthPreferencesCubit
       }
 
       await _biometricAuthRepository.enable(
-          BiometricScope.chat, currentPassword);
+          BiometricScope.chat, currentPassword,);
       await _fuzzyAuthStore.setBiometricEnabled(enabled: true);
       emit(state.copyWith(
         activationStatus: StateStatus.success,
         lastAction: AuthPreferencesAction.enableBiometric,
-      ));
+      ),);
     } catch (e) {
       emit(
         state.copyWith(
@@ -172,7 +172,7 @@ class FuzzyUserAuthPreferencesCubit
       emit(state.copyWith(
         activationStatus: StateStatus.success,
         lastAction: AuthPreferencesAction.disableBiometric,
-      ));
+      ),);
     } catch (e) {
       emit(
         state.copyWith(

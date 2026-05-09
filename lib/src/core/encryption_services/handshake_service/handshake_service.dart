@@ -11,7 +11,7 @@ class HandshakeService {
   static const encryptedSymmetricKeyKey = 'E';
 
   static Future<ToBeSentInvitation> generateInvitation(
-      String chatId, RSAPublicKey publicKey) async {
+      String chatId, RSAPublicKey publicKey,) async {
     final publicKeyMap = RSAService.transformRSAPublicKeyToMap(publicKey);
 
     final encodedData = {
@@ -22,7 +22,7 @@ class HandshakeService {
     final invitationJson = jsonEncode(encodedData);
 
     return ToBeSentInvitation(
-        chatId: chatId, invitationContent: invitationJson);
+        chatId: chatId, invitationContent: invitationJson,);
   }
 
   static Future<ReceivedInvitation> parseInvitation(String content) async {

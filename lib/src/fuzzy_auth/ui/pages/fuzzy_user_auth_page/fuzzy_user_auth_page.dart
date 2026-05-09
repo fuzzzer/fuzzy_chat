@@ -113,7 +113,7 @@ class _FuzzyUserAuthPageContentState extends State<_FuzzyUserAuthPageContent> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content:
-                Text(currentContextLocalization.chatAuthBiometricDescription)),
+                Text(currentContextLocalization.chatAuthBiometricDescription),),
       );
       return;
     }
@@ -212,7 +212,7 @@ class _FuzzyUserAuthPageContentState extends State<_FuzzyUserAuthPageContent> {
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
+                          horizontal: 16, vertical: 8,),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

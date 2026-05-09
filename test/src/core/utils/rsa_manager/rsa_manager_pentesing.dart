@@ -6,7 +6,7 @@ import 'package:pointycastle/export.dart';
 import 'package:test/test.dart';
 
 Uint8List _randomBytes(int length) => Uint8List.fromList(
-    List<int>.generate(length, (_) => Random.secure().nextInt(256)));
+    List<int>.generate(length, (_) => Random.secure().nextInt(256)),);
 
 int _maxOaepLen(RSAPublicKey k, {int hashLen = 20 /* SHA‑1 default */}) {
   final keyBytes = (k.modulus!.bitLength + 7) >> 3;
@@ -86,7 +86,7 @@ void main() {
     test('encrypting message longer than OAEP limit throws', () async {
       final tooLong = _randomBytes(_maxOaepLen(pub) + 1);
       expect(() => RSAService.encrypt(tooLong, pub),
-          throwsA(isA<ArgumentError>()));
+          throwsA(isA<ArgumentError>()),);
     });
 
     test('tampered ciphertext fails to decrypt', () async {
@@ -157,7 +157,7 @@ void main() {
       final rebuilt = RSAService.transformMapToRSAPrivateKey(m);
       expect(rebuilt.n, equals(keyPair.privateKey.n));
       expect(
-          rebuilt.privateExponent, equals(keyPair.privateKey.privateExponent));
+          rebuilt.privateExponent, equals(keyPair.privateKey.privateExponent),);
     });
 
     test('public key map round‑trips', () {
@@ -200,7 +200,7 @@ void main() {
 
     test('multiple key pairs have unique moduli', () async {
       final pairs = await Future.wait(
-          List.generate(5, (_) => RSAService.generateRSAKeyPair()));
+          List.generate(5, (_) => RSAService.generateRSAKeyPair()),);
       final moduli = pairs.map((kp) => kp.publicKey.n).toSet();
       expect(moduli.length, equals(5));
     });
@@ -233,7 +233,7 @@ void main() {
 
       expect(runsSuccessfully, false,
           reason:
-              'Decription should not have happened we used incorrect ranodm key');
+              'Decription should not have happened we used incorrect ranodm key',);
     });
   });
 }

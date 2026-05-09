@@ -44,7 +44,7 @@ class HandshakeCubit extends Cubit<HandshakeState> {
 
       await keyStorageRepository.saveSymmetricKey(chatId, symmetricKey);
       await keyStorageRepository.saveOtherPartyPublicKey(
-          chatId, otherPartyPublicKey);
+          chatId, otherPartyPublicKey,);
 
       final chatData = await chatGeneralDataListRepository.getChatById(chatId);
       if (chatData != null) {

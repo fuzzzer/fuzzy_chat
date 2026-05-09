@@ -31,7 +31,7 @@ class BasicEncryptionContent extends StatelessWidget {
           child: Column(
             children: [
               FuzzyHeader(
-                  title: context.fuzzyChatLocalizations.basicEncryption),
+                  title: context.fuzzyChatLocalizations.basicEncryption,),
               const SizedBox(height: 24),
               AnimatedBuilder(
                 animation: keyController,
@@ -143,7 +143,7 @@ class BasicEncryptionContent extends StatelessWidget {
   }
 
   Widget _buildProcessedFilesList(
-      CustomFileProcessingState state, BuildContext context) {
+      CustomFileProcessingState state, BuildContext context,) {
     if (state.processedFiles.isEmpty && state.currentProcessingFile == null) {
       return const SizedBox.shrink();
     }
@@ -156,17 +156,17 @@ class BasicEncryptionContent extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 8),
             child: Text(currentContextLocalization.processingFile(
                 state.currentProcessingFile!.inputFilePath.split('/').last,
-                (state.progress * 100).toStringAsFixed(1))),
+                (state.progress * 100).toStringAsFixed(1),),),
           ),
         ...state.processedFiles.map((file) {
           return ListTile(
             contentPadding: EdgeInsets.zero,
             title: Text(file.inputFilePath.split('/').last,
-                maxLines: 1, overflow: TextOverflow.ellipsis),
+                maxLines: 1, overflow: TextOverflow.ellipsis,),
             subtitle: Text(
                 file.outputFilePath ??
                     currentContextLocalization.processingFailed,
-                maxLines: 2),
+                maxLines: 2,),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -183,7 +183,7 @@ class BasicEncryptionContent extends StatelessWidget {
                     icon: const Icon(Icons.share),
                     onPressed: () {
                       ShareHelper.shareXFiles([XFile(file.outputFilePath!)],
-                          context: context);
+                          context: context,);
                     },
                   ),
                 ],

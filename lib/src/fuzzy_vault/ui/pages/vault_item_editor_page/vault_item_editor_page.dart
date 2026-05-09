@@ -4,16 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:go_router/go_router.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
 class VaultItemEditorPagePayload {
   final VaultItemType type;
   final VaultItem? existingItem; // null if creating a new item
+  final String groupId;
 
   const VaultItemEditorPagePayload({
     required this.type,
     this.existingItem,
+    this.groupId = 'general',
   });
 }
 
@@ -40,6 +43,7 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
 
   List<int>? _pickedFileBytes;
   String? _pickedFileName;
+  final List<File> _tempFiles = [];
 
   @override
   void initState() {
@@ -75,6 +79,19 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
     _passwordController.dispose();
     _urlController.dispose();
     _notesController.dispose();
+
+    // Clean up any unencrypted temp files created for viewing/sharing
+    for (final file in _tempFiles) {
+      if (file.existsSync()) {
+        try {
+          file.deleteSync();
+        } catch (_) {}
+      }
+    }
+    
+    // Clear the FilePicker cache to ensure picked files are removed
+    FilePicker.platform.clearTemporaryFiles();
+
     super.dispose();
   }
 
@@ -82,6 +99,7 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
     final dir = await getTemporaryDirectory();
     final tempFile = File('${dir.path}/$_pickedFileName');
     await tempFile.writeAsBytes(Uint8List.fromList(_pickedFileBytes!));
+    _tempFiles.add(tempFile);
     return tempFile;
   }
 
@@ -174,7 +192,7 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
           id: const Uuid().v4(),
           title: finalTitle,
           type: _type,
-          groupId: 'general', // Default for now
+          groupId: widget.payload.groupId,
           tags: [],
           isFavorite: false,
           hasCustomPassword: false,
@@ -240,7 +258,7 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
       }
 
       if (context.mounted) {
-        Navigator.of(context).pop();
+        context.pop();
       }
     } finally {
       if (mounted) setState(() => _isSaving = false);
@@ -283,13 +301,11 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
     setState(() => _isDeleting = true);
     try {
       if (!context.mounted) return;
-      final masterKey = context.read<VaultAuthCubit>().state.masterKey;
-      if (masterKey == null) return;
       final repo = sl.get<VaultRepository>();
       await repo.deleteItem(widget.payload.existingItem!.metadata.id);
 
       if (context.mounted) {
-        Navigator.of(context).pop();
+        context.pop();
       }
     } finally {
       if (mounted) setState(() => _isDeleting = false);

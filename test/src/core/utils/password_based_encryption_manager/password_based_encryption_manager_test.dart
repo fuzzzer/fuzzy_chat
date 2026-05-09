@@ -28,7 +28,7 @@ void main() {
           await PasswordBasedEncryptionSevice.encrypt(plaintext, password);
       expect(
         () async => await PasswordBasedEncryptionSevice.decrypt(
-            encrypted, 'WrongPassword'),
+            encrypted, 'WrongPassword',),
         throwsA(anything),
       );
     });

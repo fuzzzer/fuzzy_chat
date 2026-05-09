@@ -105,7 +105,7 @@ class _ReceivedFileMessageAreaState extends State<ReceivedFileMessageArea> {
                           final filePath = widget.message.encryptedMessage
                               .replaceAll(fuzzIdentificator, '');
                           DeviceFileInteractor.shareFile(filePath,
-                              context: context);
+                              context: context,);
                           closeOverlay();
                         },
                       ),
@@ -139,7 +139,7 @@ class _ReceivedFileMessageAreaState extends State<ReceivedFileMessageArea> {
                           );
                           Clipboard.setData(ClipboardData(text: link));
                           FuzzySnackbar.show(
-                              label: localizations.linkCopiedToClipboard);
+                              label: localizations.linkCopiedToClipboard,);
                           closeOverlay();
                         },
                       ),
@@ -152,7 +152,7 @@ class _ReceivedFileMessageAreaState extends State<ReceivedFileMessageArea> {
                               .replaceAll(fuzzIdentificator, '');
                           Clipboard.setData(ClipboardData(text: filePath));
                           FuzzySnackbar.show(
-                              label: localizations.copiedToTheClipboard);
+                              label: localizations.copiedToTheClipboard,);
                           closeOverlay();
                         },
                       ),

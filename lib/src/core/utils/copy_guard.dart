@@ -17,7 +17,7 @@ class CopyGuard {
           return AlertDialog(
             title: Text(localizations.securityWarning),
             content: Text(localizations
-                .areYouSureYouWantToCopyUnencryptedDataToYourClipboardThisCouldCompromiseYourSecureChat),
+                .areYouSureYouWantToCopyUnencryptedDataToYourClipboardThisCouldCompromiseYourSecureChat,),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(false),

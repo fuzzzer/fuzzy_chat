@@ -113,7 +113,7 @@ class _ChatUnlockPageState extends State<ChatUnlockPage>
                         animation: _shakeController,
                         builder: (context, child) {
                           final sineValue = math.sin(
-                                  4 * 3.14159265 * _shakeController.value) *
+                                  4 * 3.14159265 * _shakeController.value,) *
                               8 *
                               (1 - _shakeController.value);
                           return Transform.translate(
@@ -135,7 +135,7 @@ class _ChatUnlockPageState extends State<ChatUnlockPage>
                               color: context.uiColors.secondaryTextColor,
                             ),
                             onPressed: () => setState(
-                                () => _isPasswordVisible = !_isPasswordVisible),
+                                () => _isPasswordVisible = !_isPasswordVisible,),
                           ),
                         ),
                       ),
