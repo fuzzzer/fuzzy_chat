@@ -46,6 +46,10 @@ class GlobalBlocProviders extends StatelessWidget {
             messageDataRepository: sl.get<MessageDataRepository>(),
           ),
         ),
+        BlocProvider<VaultAuthCubit>(
+          create: (context) => sl.get<VaultAuthCubit>()..checkVaultStatus(),
+          lazy: false,
+        ),
       ],
       child: child,
     );

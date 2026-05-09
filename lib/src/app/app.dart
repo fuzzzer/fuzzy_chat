@@ -5,6 +5,7 @@ export 'app_router.dart';
 export 'components/components.dart';
 export 'globals/globals.dart';
 export 'initializer.dart';
+export 'ui/ui.dart';
 
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

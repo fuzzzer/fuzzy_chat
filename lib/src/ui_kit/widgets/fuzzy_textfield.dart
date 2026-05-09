@@ -12,6 +12,9 @@ class FuzzyTextField extends StatelessWidget {
   final bool obscureText;
   final int? maxLines;
   final String? helperText;
+  final Widget? suffixIcon;
+  final void Function(String)? onSubmitted;
+  final TextInputAction? textInputAction;
 
   const FuzzyTextField({
     required this.labelText,
@@ -23,8 +26,11 @@ class FuzzyTextField extends StatelessWidget {
     this.focusNode,
     this.keyboardType = TextInputType.text,
     this.obscureText = false,
-    this.maxLines,
+    this.maxLines = 1,
     this.helperText,
+    this.suffixIcon,
+    this.onSubmitted,
+    this.textInputAction,
   });
 
   @override
@@ -38,12 +44,15 @@ class FuzzyTextField extends StatelessWidget {
       keyboardType: keyboardType,
       obscureText: obscureText,
       onChanged: onChanged,
+      onSubmitted: onSubmitted,
+      textInputAction: textInputAction,
       scrollPadding: scrollPadding,
       maxLines: maxLines,
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,
         helperText: helperText,
+        suffixIcon: suffixIcon,
         fillColor: uiColors.secondaryColor,
         focusColor: uiColors.focusColor,
         border: OutlineInputBorder(

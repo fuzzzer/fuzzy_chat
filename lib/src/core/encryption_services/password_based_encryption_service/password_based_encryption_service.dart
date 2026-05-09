@@ -15,4 +15,8 @@ class PasswordBasedEncryptionSevice {
   static Future<Uint8List> decrypt(Uint8List encryptedBytes, String password) async {
     return Isolate.run(() => _PasswordBasedEncryptionServiceImpl.syncDecrypt(encryptedBytes, password));
   }
+
+  static Future<Uint8List> deriveKey(String password, Uint8List salt) async {
+    return Isolate.run(() => _PasswordBasedEncryptionServiceImpl.deriveKey(password, salt));
+  }
 }

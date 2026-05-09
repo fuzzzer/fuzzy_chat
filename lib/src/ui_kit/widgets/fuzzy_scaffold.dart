@@ -13,6 +13,7 @@ class FuzzyScaffold extends StatelessWidget {
     this.backgroundColor,
     this.actionsRow,
     this.hasAutomaticBackButton = true,
+    this.drawer,
   });
 
   final PreferredSizeWidget? appBar;
@@ -24,6 +25,7 @@ class FuzzyScaffold extends StatelessWidget {
   final Color? backgroundColor;
   final Widget? actionsRow;
   final bool hasAutomaticBackButton;
+  final Widget? drawer;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +33,7 @@ class FuzzyScaffold extends StatelessWidget {
 
     return Scaffold(
       appBar: appBar,
+      drawer: drawer,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       backgroundColor: backgroundColor ?? uiColors.backgroundPrimaryColor,
       body: Stack(

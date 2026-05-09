@@ -31,4 +31,8 @@ class PreferencesService {
   }
 
   Future<void> setCopySecurityLevel(CopySecurityLevel level) => _prefs.setString(_copySecurityLevelKey, level.name);
+
+  static const _lastSelectedTabKey = 'last_selected_tab';
+  String get lastSelectedTab => _prefs.getString(_lastSelectedTabKey) ?? '/';
+  Future<void> setLastSelectedTab(String path) => _prefs.setString(_lastSelectedTabKey, path);
 }

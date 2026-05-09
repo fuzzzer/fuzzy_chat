@@ -39,6 +39,9 @@ class DependencyInjection {
         StoredChatSecurityDataSchema,
         StoredMessageDataSchema,
         StoredUserAuthPreferencesSchema,
+        StoredVaultItemSchema,
+        StoredVaultGroupSchema,
+        StoredVaultMetadataSchema,
       ],
       directory: supportDirectory.path,
     );
@@ -69,6 +72,76 @@ class DependencyInjection {
         chatRepository: sl.get<ChatGeneralDataListRepository>(),
         authStore: sl.get<FuzzyAuthStore>(),
         userAuthPreferencesRepository: sl.get<UserAuthPreferencesRepository>(),
+      ),
+    );
+
+    // Vault Dependencies
+    sl.safeRegisterSingleton<PasswordStrengthService>(PasswordStrengthService());
+
+    sl.safeRegisterSingleton<VaultFileDataSource>(
+      VaultFileDataSource(vaultDirectoryPath: sl.get<AppDocumentsDirectory>().directory.path),
+    );
+
+    sl.safeRegisterSingleton<VaultItemLocalDataSource>(
+      VaultItemLocalDataSource(isar: sl.get<Isar>()),
+    );
+
+    sl.safeRegisterSingleton<VaultGroupLocalDataSource>(
+      VaultGroupLocalDataSource(isar: sl.get<Isar>()),
+    );
+
+    sl.safeRegisterSingleton<VaultCryptoRepository>(
+      VaultCryptoRepository(
+        passwordStrengthService: sl.get<PasswordStrengthService>(),
+      ),
+    );
+
+    sl.safeRegisterSingleton<VaultRepository>(
+      VaultRepository(
+        itemDataSource: sl.get<VaultItemLocalDataSource>(),
+        groupDataSource: sl.get<VaultGroupLocalDataSource>(),
+        fileDataSource: sl.get<VaultFileDataSource>(),
+        cryptoRepository: sl.get<VaultCryptoRepository>(),
+      ),
+    );
+
+    sl.safeRegisterSingleton<VaultExportRepository>(
+      VaultExportRepository(
+        fileDataSource: sl.get<VaultFileDataSource>(),
+        itemDataSource: sl.get<VaultItemLocalDataSource>(),
+        groupDataSource: sl.get<VaultGroupLocalDataSource>(),
+      ),
+    );
+
+    // Vault Cubits
+    sl.safeRegisterSingleton<VaultAuthCubit>(
+      VaultAuthCubit(
+        vaultRepository: sl.get<VaultRepository>(),
+        cryptoRepository: sl.get<VaultCryptoRepository>(),
+      ),
+    );
+
+    sl.registerFactory<VaultItemsCubit>(
+      () => VaultItemsCubit(
+        vaultRepository: sl.get<VaultRepository>(),
+      ),
+    );
+
+    sl.registerFactory<VaultGroupsCubit>(
+      () => VaultGroupsCubit(
+        vaultRepository: sl.get<VaultRepository>(),
+      ),
+    );
+
+    sl.registerFactory<VaultSearchCubit>(
+      () => VaultSearchCubit(
+        vaultRepository: sl.get<VaultRepository>(),
+      ),
+    );
+
+    sl.registerFactory<VaultExportCubit>(
+      () => VaultExportCubit(
+        exportRepository: sl.get<VaultExportRepository>(),
       ),
     );
   }

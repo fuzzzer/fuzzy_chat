@@ -16,23 +16,7 @@ class ChatListContent extends StatelessWidget {
 
     return CustomScrollView(
       slivers: [
-        SliverToBoxAdapter(
-          child: FuzzyHeader(
-            title: localizations.fuzzyChat,
-            //(NOTE:) enable copy own raw messages if needed
-            // leftAction: GestureDetector(
-            //   onTap: () => Navigator.of(context).push(
-            //     MaterialPageRoute(builder: (_) => const SettingsPage()),
-            //   ),
-            //   child: Icon(
-            //     Icons.settings_outlined,
-            //     size: 22,
-            //     color: context.uiColors.secondaryTextColor,
-            //   ),
-            // ),
-            rightAction: const BasicEncryptionNavigatorAction(),
-          ),
-        ),
+
         if (chatGeneralDataList.isEmpty)
           SliverFillRemaining(
             hasScrollBody: false,

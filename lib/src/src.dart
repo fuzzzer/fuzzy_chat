@@ -7,4 +7,5 @@ export 'fuzzy_chat/data/data.dart';
 export 'fuzzy_chat/fuzzy_chat.dart';
 export 'fuzzy_chat/storage/storage.dart';
 export 'fuzzy_chat/ui/ui.dart';
+export 'fuzzy_vault/fuzzy_vault.dart';
 export 'ui_kit/ui_kit.dart';

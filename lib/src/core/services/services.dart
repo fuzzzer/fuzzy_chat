@@ -3,5 +3,6 @@ export '../utils/logger.dart';
 export 'directory_assets/directory_assets.dart';
 export 'fuzzy_hub/fuzzy_hub.dart';
 export 'fuzzy_link/fuzzy_link.dart';
+export 'password_strength_service/password_strength_service.dart';
 export 'preferences_service/preferences_service.dart';
 export 'service_locator/service_locator.dart';

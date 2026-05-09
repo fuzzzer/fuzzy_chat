@@ -1,0 +1,3 @@
+class VaultDataUpdated {
+  const VaultDataUpdated();
+}
