@@ -455,5 +455,7 @@
   "vaultAuthenticationDescription": "Manage vault biometric unlock",
   "@vaultAuthenticationDescription": {},
   "vaultNotCreated": "Create a vault first to enable biometric unlock.",
-  "@vaultNotCreated": {}
+  "@vaultNotCreated": {},
+  "vaultLockVault": "Lock Vault",
+  "@vaultLockVault": {}
 }

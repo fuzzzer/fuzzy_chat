@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
 class VaultItemEditorPagePayload {
@@ -77,6 +78,13 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
     super.dispose();
   }
 
+  Future<File> _writeTempFile() async {
+    final dir = await getTemporaryDirectory();
+    final tempFile = File('${dir.path}/$_pickedFileName');
+    await tempFile.writeAsBytes(Uint8List.fromList(_pickedFileBytes!));
+    return tempFile;
+  }
+
   Future<void> _pickFile() async {
     final result = await FilePicker.platform.pickFiles();
     if (result != null && result.files.single.path != null) {
@@ -90,6 +98,50 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
           _titleController.text = _pickedFileName!;
         }
       });
+    }
+  }
+
+  Future<void> _openFile(BuildContext context) async {
+    if (_pickedFileBytes == null || _pickedFileName == null) return;
+    try {
+      final tempFile = await _writeTempFile();
+      await DeviceFileInteractor.openFile(tempFile.path);
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Could not open file: $e')),
+        );
+      }
+    }
+  }
+
+  Future<void> _shareFile(BuildContext context) async {
+    if (_pickedFileBytes == null || _pickedFileName == null) return;
+    try {
+      final tempFile = await _writeTempFile();
+      if (context.mounted) {
+        await DeviceFileInteractor.shareFile(tempFile.path, context: context);
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Could not share file: $e')),
+        );
+      }
+    }
+  }
+
+  Future<void> _revealFile(BuildContext context) async {
+    if (_pickedFileBytes == null || _pickedFileName == null) return;
+    try {
+      final tempFile = await _writeTempFile();
+      await DeviceFileInteractor.revealFile(tempFile.path);
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Could not reveal file: $e')),
+        );
+      }
     }
   }
 
@@ -230,6 +282,7 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
 
     setState(() => _isDeleting = true);
     try {
+      if (!context.mounted) return;
       final masterKey = context.read<VaultAuthCubit>().state.masterKey;
       if (masterKey == null) return;
       final repo = sl.get<VaultRepository>();
@@ -283,8 +336,10 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
                               ),
                             )
                           : IconButton(
-                              icon: const Icon(Icons.delete_outline,
-                                  color: Colors.red),
+                              icon: const Icon(
+                                Icons.delete_outline,
+                                color: Colors.red,
+                              ),
                               onPressed: () => _onDelete(context),
                             )
                       : null,
@@ -335,18 +390,96 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
                           const SizedBox(height: 16),
                         ],
                         if (_type == VaultItemType.file) ...[
-                          if (_pickedFileName != null)
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 16),
-                              child: Text(
-                                'Selected: $_pickedFileName',
-                                style: TextStyle(
-                                  color: context.uiColors.primaryTextColor,
-                                ),
+                          if (_pickedFileName != null) ...[
+                            Container(
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: context.uiColors.secondaryColor,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.file_present_rounded,
+                                        color: context.uiColors.primaryColor,
+                                        size: 32,
+                                      ),
+                                      const SizedBox(width: 12),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              _pickedFileName!,
+                                              style: TextStyle(
+                                                color: context
+                                                    .uiColors.primaryTextColor,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            if (_pickedFileBytes != null)
+                                              Text(
+                                                _formatFileSize(
+                                                  _pickedFileBytes!.length,
+                                                ),
+                                                style: TextStyle(
+                                                  color: context.uiColors
+                                                      .secondaryTextColor,
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  if (widget.payload.existingItem != null) ...[
+                                    const SizedBox(height: 16),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: _FileActionButton(
+                                            icon: Icons.open_in_new_rounded,
+                                            label:
+                                                currentContextLocalization.open,
+                                            onTap: () => _openFile(context),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Expanded(
+                                          child: _FileActionButton(
+                                            icon: Icons.share_rounded,
+                                            label: currentContextLocalization
+                                                .shareFile,
+                                            onTap: () => _shareFile(context),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Expanded(
+                                          child: _FileActionButton(
+                                            icon: Icons.folder_open_rounded,
+                                            label:
+                                                currentContextLocalization.show,
+                                            onTap: () => _revealFile(context),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ],
                               ),
                             ),
+                            const SizedBox(height: 16),
+                          ],
                           FuzzyButton(
-                            text: 'Select File',
+                            text: _pickedFileName != null
+                                ? currentContextLocalization.vaultEditItem
+                                : 'Select File',
                             onTap: _pickFile,
                           ),
                           const SizedBox(height: 16),
@@ -363,18 +496,71 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
                           ),
                         ],
                         const SizedBox(height: 40),
-                        _isSaving
-                            ? const Center(child: CircularProgressIndicator())
-                            : FuzzyButton(
-                                text: currentContextLocalization.vaultSave,
-                                onTap: () => _onSave(context),
-                              ),
+                        if (_isSaving)
+                          const Center(child: CircularProgressIndicator())
+                        else
+                          FuzzyButton(
+                            text: currentContextLocalization.vaultSave,
+                            onTap: () => _onSave(context),
+                          ),
                       ],
                     ),
                   ),
                 ),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  String _formatFileSize(int bytes) {
+    if (bytes < 1024) return '$bytes B';
+    if (bytes < 1024 * 1024) return '${(bytes / 1024).toStringAsFixed(1)} KB';
+    if (bytes < 1024 * 1024 * 1024) {
+      return '${(bytes / (1024 * 1024)).toStringAsFixed(1)} MB';
+    }
+    return '${(bytes / (1024 * 1024 * 1024)).toStringAsFixed(1)} GB';
+  }
+}
+
+class _FileActionButton extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  const _FileActionButton({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: context.uiColors.backgroundPrimaryColor,
+      borderRadius: BorderRadius.circular(8),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(8),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, size: 20, color: context.uiColors.primaryColor),
+              const SizedBox(height: 4),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 11,
+                  color: context.uiColors.primaryTextColor,
+                ),
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
           ),
         ),
       ),

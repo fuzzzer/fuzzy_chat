@@ -29,10 +29,56 @@ class MainShellPage extends StatelessWidget {
         builder: (context, state) {
           if (state.authState == VaultAuthEnum.unlocked) {
             return IconButton(
-              icon: Icon(Icons.lock_outline,
-                  color: context.uiColors.primaryTextColor),
+              icon: Icon(
+                Icons.more_vert,
+                color: context.uiColors.primaryTextColor,
+              ),
               onPressed: () {
-                context.read<VaultAuthCubit>().lock();
+                showModalBottomSheet<void>(
+                  context: context,
+                  backgroundColor: context.uiColors.backgroundPrimaryColor,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(16)),
+                  ),
+                  builder: (sheetContext) {
+                    return SafeArea(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              width: 40,
+                              height: 4,
+                              margin: const EdgeInsets.only(bottom: 8),
+                              decoration: BoxDecoration(
+                                color: context.uiColors.secondaryTextColor,
+                                borderRadius: BorderRadius.circular(2),
+                              ),
+                            ),
+                            ListTile(
+                              leading: Icon(
+                                Icons.lock_outline,
+                                color: context.uiColors.primaryColor,
+                              ),
+                              title: Text(
+                                loc.vaultLockVault,
+                                style: TextStyle(
+                                  color: context.uiColors.primaryTextColor,
+                                ),
+                              ),
+                              onTap: () {
+                                Navigator.of(sheetContext).pop();
+                                context.read<VaultAuthCubit>().lock();
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
               },
             );
           }
@@ -53,8 +99,10 @@ class MainShellPage extends StatelessWidget {
               builder: (context) {
                 return IconButton(
                   padding: EdgeInsets.zero,
-                  icon: Icon(Icons.menu,
-                      color: context.uiColors.primaryTextColor),
+                  icon: Icon(
+                    Icons.menu,
+                    color: context.uiColors.primaryTextColor,
+                  ),
                   onPressed: () {
                     Scaffold.of(context).openDrawer();
                   },

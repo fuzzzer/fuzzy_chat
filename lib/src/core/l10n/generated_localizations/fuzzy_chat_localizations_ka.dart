@@ -672,4 +672,7 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
 
   @override
   String get vaultNotCreated => 'ბიომეტრიული განბლოკვისთვის ჯერ შექმენით ვოლტი.';
+
+  @override
+  String get vaultLockVault => 'საცავის დაბლოკვა';
 }

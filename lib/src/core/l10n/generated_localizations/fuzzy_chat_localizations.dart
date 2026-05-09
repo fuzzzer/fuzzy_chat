@@ -1408,6 +1408,12 @@ abstract class FuzzyChatLocalizations {
   /// In en, this message translates to:
   /// **'Create a vault first to enable biometric unlock.'**
   String get vaultNotCreated;
+
+  /// No description provided for @vaultLockVault.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock Vault'**
+  String get vaultLockVault;
 }
 
 class _FuzzyChatLocalizationsDelegate extends LocalizationsDelegate<FuzzyChatLocalizations> {

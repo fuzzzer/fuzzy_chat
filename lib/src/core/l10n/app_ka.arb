@@ -455,5 +455,7 @@
   "vaultAuthenticationDescription": "ვოლტის ბიომეტრიული განბლოკვის მართვა",
   "@vaultAuthenticationDescription": {},
   "vaultNotCreated": "ბიომეტრიული განბლოკვისთვის ჯერ შექმენით ვოლტი.",
-  "@vaultNotCreated": {}
+  "@vaultNotCreated": {},
+  "vaultLockVault": "საცავის დაბლოკვა",
+  "@vaultLockVault": {}
 }

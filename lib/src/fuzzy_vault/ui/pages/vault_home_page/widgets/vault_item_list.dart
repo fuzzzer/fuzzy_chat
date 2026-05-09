@@ -168,8 +168,10 @@ class _VaultItemCardState extends State<VaultItemCard> {
                 child: CircularProgressIndicator(strokeWidth: 2),
               )
             : IconButton(
-                icon: Icon(Icons.copy,
-                    color: context.uiColors.secondaryTextColor),
+                icon: Icon(
+                  Icons.copy,
+                  color: context.uiColors.secondaryTextColor,
+                ),
                 onPressed: () {
                   // Need to fetch full item and decrypt to copy. For now just placeholder
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -210,7 +212,8 @@ class _VaultItemCardState extends State<VaultItemCard> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                            currentContextLocalization.vaultFailedToLoadItem),
+                          currentContextLocalization.vaultFailedToLoadItem,
+                        ),
                       ),
                     );
                   }

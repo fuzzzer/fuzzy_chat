@@ -672,4 +672,7 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
 
   @override
   String get vaultNotCreated => 'Create a vault first to enable biometric unlock.';
+
+  @override
+  String get vaultLockVault => 'Lock Vault';
 }
