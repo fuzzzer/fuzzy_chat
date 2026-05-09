@@ -31,7 +31,9 @@ class _FuzzyUserAuthPageContentState extends State<_FuzzyUserAuthPageContent> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _oldPasswordController = TextEditingController();
+  final _vaultPasswordController = TextEditingController();
   bool _isPasswordVisible = false;
+  bool _isVaultPasswordVisible = false;
   bool _showMismatchError = false;
 
   @override
@@ -39,6 +41,7 @@ class _FuzzyUserAuthPageContentState extends State<_FuzzyUserAuthPageContent> {
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     _oldPasswordController.dispose();
+    _vaultPasswordController.dispose();
     super.dispose();
   }
 
@@ -98,13 +101,49 @@ class _FuzzyUserAuthPageContentState extends State<_FuzzyUserAuthPageContent> {
 
   void _onEnableBiometric() {
     final oldPassword = _oldPasswordController.text;
-    if (oldPassword.isEmpty) return;
+    if (oldPassword.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(currentContextLocalization.chatAuthBiometricDescription)),
+      );
+      return;
+    }
 
     context.read<FuzzyUserAuthPreferencesCubit>().enableBiometric(oldPassword);
   }
 
   void _onDisableBiometric() {
     context.read<FuzzyUserAuthPreferencesCubit>().disableBiometric();
+  }
+
+  void _toggleVaultPasswordVisibility() {
+    setState(() => _isVaultPasswordVisible = !_isVaultPasswordVisible);
+  }
+
+  Future<void> _onEnableVaultBiometric() async {
+    final password = _vaultPasswordController.text;
+    final localizations = currentContextLocalization;
+    if (password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(localizations.vaultBiometricDescription)),
+      );
+      return;
+    }
+    final success = await context.read<VaultAuthCubit>().enableBiometric(password);
+    if (!mounted) return;
+    if (success) {
+      _vaultPasswordController.clear();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(localizations.vaultBiometricEnabled)),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(localizations.vaultBiometricInvalidPassword)),
+      );
+    }
+  }
+
+  Future<void> _onDisableVaultBiometric() async {
+    await context.read<VaultAuthCubit>().disableBiometric();
   }
 
   @override
@@ -181,6 +220,32 @@ class _FuzzyUserAuthPageContentState extends State<_FuzzyUserAuthPageContent> {
                               onTogglePasswordVisibility: _togglePasswordVisibility,
                               onEnableAuth: _onEnableAuth,
                             ),
+                          const SizedBox(height: 32),
+                          Divider(color: uiColors.focusColor.withOpacity(0.2)),
+                          const SizedBox(height: 16),
+                          Text(
+                            localizations.vaultAuthentication,
+                            style: theme.textTheme.titleLarge?.copyWith(
+                              color: uiColors.primaryTextColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            localizations.vaultAuthenticationDescription,
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: uiColors.secondaryTextColor,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          _VaultBiometricSection(
+                            passwordController: _vaultPasswordController,
+                            isPasswordVisible: _isVaultPasswordVisible,
+                            onTogglePasswordVisibility: _toggleVaultPasswordVisibility,
+                            onEnableBiometric: _onEnableVaultBiometric,
+                            onDisableBiometric: _onDisableVaultBiometric,
+                          ),
+                          const SizedBox(height: 120),
                         ],
                       ),
                     ),
@@ -321,7 +386,7 @@ class _ChangePasswordSection extends StatelessWidget {
             const SizedBox(height: 24),
             FuzzyTextField(
               controller: oldPasswordController,
-              labelText: localizations.vaultMasterPassword,
+              labelText: localizations.chatAuthPassword,
               obscureText: !isPasswordVisible,
             ),
             const SizedBox(height: 12),
@@ -470,6 +535,110 @@ class _BiometricSectionState extends State<_BiometricSection> {
           ],
         );
       },
+    );
+  }
+}
+
+class _VaultBiometricSection extends StatefulWidget {
+  const _VaultBiometricSection({
+    required this.passwordController,
+    required this.isPasswordVisible,
+    required this.onTogglePasswordVisibility,
+    required this.onEnableBiometric,
+    required this.onDisableBiometric,
+  });
+
+  final TextEditingController passwordController;
+  final bool isPasswordVisible;
+  final VoidCallback onTogglePasswordVisibility;
+  final VoidCallback onEnableBiometric;
+  final VoidCallback onDisableBiometric;
+
+  @override
+  State<_VaultBiometricSection> createState() => _VaultBiometricSectionState();
+}
+
+class _VaultBiometricSectionState extends State<_VaultBiometricSection> {
+  bool? _canUseBiometrics;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkAvailability();
+  }
+
+  Future<void> _checkAvailability() async {
+    final canUse = await sl.get<BiometricAuthRepository>().canUseBiometrics();
+    if (!mounted) return;
+    setState(() => _canUseBiometrics = canUse);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final uiColors = theme.extension<UiColors>()!;
+    final uiTextStyles = theme.extension<UiTextStyles>()!;
+    final localizations = context.fuzzyChatLocalizations;
+    final vaultState = context.watch<VaultAuthCubit>().state;
+    final biometricEnabled = vaultState.biometricEnabled;
+    final hasVault = vaultState.authState != VaultAuthEnum.noVault &&
+        vaultState.authState != VaultAuthEnum.initial;
+    final canUse = _canUseBiometrics;
+
+    if (canUse == false) {
+      return Text(
+        localizations.vaultBiometricUnavailable,
+        style: theme.textTheme.bodySmall?.copyWith(color: uiColors.secondaryTextColor),
+      );
+    }
+
+    if (canUse == null) {
+      return const SizedBox.shrink();
+    }
+
+    if (!hasVault) {
+      return Text(
+        localizations.vaultNotCreated,
+        style: theme.textTheme.bodySmall?.copyWith(color: uiColors.secondaryTextColor),
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (biometricEnabled) ...[
+          _StatusBadge(
+            text: localizations.vaultBiometricEnabled,
+            color: uiColors.focusColor,
+            uiTextStyles: uiTextStyles,
+          ),
+          const SizedBox(height: 12),
+          FuzzyButton(
+            text: localizations.vaultBiometricDisable,
+            onTap: widget.onDisableBiometric,
+          ),
+        ] else ...[
+          Text(
+            localizations.vaultBiometricDescription,
+            style: theme.textTheme.bodySmall?.copyWith(color: uiColors.secondaryTextColor),
+          ),
+          const SizedBox(height: 12),
+          FuzzyTextField(
+            controller: widget.passwordController,
+            labelText: localizations.vaultPassword,
+            obscureText: !widget.isPasswordVisible,
+            suffixIcon: _PasswordVisibilityToggle(
+              isVisible: widget.isPasswordVisible,
+              onPressed: widget.onTogglePasswordVisibility,
+            ),
+          ),
+          const SizedBox(height: 12),
+          FuzzyButton(
+            text: localizations.vaultBiometricEnable,
+            onTap: widget.onEnableBiometric,
+          ),
+        ],
+      ],
     );
   }
 }

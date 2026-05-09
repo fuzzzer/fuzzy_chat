@@ -179,7 +179,7 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
                   const SizedBox(height: 16),
                   FuzzyTextField(
                     controller: _passwordController,
-                    labelText: currentContextLocalization.vaultPassword,
+                    labelText: currentContextLocalization.vaultPasswordLabel,
                     obscureText: !_isPasswordVisible,
                     suffixIcon: IconButton(
                       icon: Icon(

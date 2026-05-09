@@ -893,12 +893,6 @@ abstract class FuzzyChatLocalizations {
   /// **'Username / Email'**
   String get vaultUsernameEmail;
 
-  /// No description provided for @vaultPassword.
-  ///
-  /// In en, this message translates to:
-  /// **'Password'**
-  String get vaultPassword;
-
   /// No description provided for @vaultUrlWebsite.
   ///
   /// In en, this message translates to:
@@ -1025,11 +1019,11 @@ abstract class FuzzyChatLocalizations {
   /// **'Your vault encrypts all passwords and notes locally on your device.\nChoose a strong master password.'**
   String get vaultCreateDescription;
 
-  /// No description provided for @vaultMasterPassword.
+  /// No description provided for @vaultPassword.
   ///
   /// In en, this message translates to:
-  /// **'Master Password'**
-  String get vaultMasterPassword;
+  /// **'Vault Password'**
+  String get vaultPassword;
 
   /// No description provided for @vaultConfirmPassword.
   ///
@@ -1376,8 +1370,26 @@ abstract class FuzzyChatLocalizations {
   /// No description provided for @vaultBiometricInvalidPassword.
   ///
   /// In en, this message translates to:
-  /// **'Incorrect master password.'**
+  /// **'Incorrect vault password.'**
   String get vaultBiometricInvalidPassword;
+
+  /// No description provided for @vaultAuthentication.
+  ///
+  /// In en, this message translates to:
+  /// **'Vault Authentication'**
+  String get vaultAuthentication;
+
+  /// No description provided for @vaultAuthenticationDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage vault biometric unlock'**
+  String get vaultAuthenticationDescription;
+
+  /// No description provided for @vaultNotCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a vault first to enable biometric unlock.'**
+  String get vaultNotCreated;
 }
 
 class _FuzzyChatLocalizationsDelegate extends LocalizationsDelegate<FuzzyChatLocalizations> {

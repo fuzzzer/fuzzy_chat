@@ -408,9 +408,6 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get vaultUsernameEmail => 'მომხმარებელი / ელ-ფოსტა';
 
   @override
-  String get vaultPassword => 'პაროლი';
-
-  @override
   String get vaultUrlWebsite => 'URL (ვებგვერდი)';
 
   @override
@@ -474,7 +471,7 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get vaultCreateDescription => 'თქვენი საცავი ყველა პაროლსა და ჩანაწერს ლოკალურად შიფრავს თქვენს მოწყობილობაზე.\nაირჩიეთ ძლიერი მთავარი პაროლი.';
 
   @override
-  String get vaultMasterPassword => 'მთავარი პაროლი';
+  String get vaultPassword => 'ვოლტის პაროლი';
 
   @override
   String get vaultConfirmPassword => 'პაროლის დადასტურება';
@@ -656,5 +653,14 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get vaultBiometricSettings => 'ბიომეტრიის პარამეტრები';
 
   @override
-  String get vaultBiometricInvalidPassword => 'არასწორი მთავარი პაროლი.';
+  String get vaultBiometricInvalidPassword => 'არასწორი ვოლტის პაროლი.';
+
+  @override
+  String get vaultAuthentication => 'ვოლტის ავთენტიფიკაცია';
+
+  @override
+  String get vaultAuthenticationDescription => 'ვოლტის ბიომეტრიული განბლოკვის მართვა';
+
+  @override
+  String get vaultNotCreated => 'ბიომეტრიული განბლოკვისთვის ჯერ შექმენით ვოლტი.';
 }

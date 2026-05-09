@@ -99,7 +99,7 @@ class _VaultUnlockPageState extends State<VaultUnlockPage> with SingleTickerProv
                     },
                     child: FuzzyTextField(
                       controller: _passwordController,
-                      labelText: currentContextLocalization.vaultMasterPassword,
+                      labelText: currentContextLocalization.vaultPassword,
                       obscureText: !_isPasswordVisible,
                       onSubmitted: (_) => _onUnlock(),
                       suffixIcon: IconButton(

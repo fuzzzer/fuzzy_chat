@@ -41,11 +41,13 @@ class VaultAuthCubit extends Cubit<VaultAuthState> {
     try {
       final password = await biometricAuthRepository.retrievePassword(BiometricScope.vault);
       if (password == null) {
+        logger.w('Vault biometric unlock returned null (cancelled or empty storage)');
         emit(state.copyWith(status: StateStatus.success, authState: VaultAuthEnum.locked));
         return;
       }
       await unlock(password);
-    } catch (_) {
+    } catch (e, stack) {
+      logger.e('Vault biometric unlock failed', error: e, stackTrace: stack);
       emit(state.copyWith(status: StateStatus.success, authState: VaultAuthEnum.locked));
     }
   }

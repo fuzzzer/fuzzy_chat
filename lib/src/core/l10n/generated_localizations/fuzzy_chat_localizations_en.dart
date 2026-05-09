@@ -408,9 +408,6 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get vaultUsernameEmail => 'Username / Email';
 
   @override
-  String get vaultPassword => 'Password';
-
-  @override
   String get vaultUrlWebsite => 'URL (Website)';
 
   @override
@@ -474,7 +471,7 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get vaultCreateDescription => 'Your vault encrypts all passwords and notes locally on your device.\nChoose a strong master password.';
 
   @override
-  String get vaultMasterPassword => 'Master Password';
+  String get vaultPassword => 'Vault Password';
 
   @override
   String get vaultConfirmPassword => 'Confirm Password';
@@ -656,5 +653,14 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get vaultBiometricSettings => 'Biometric Settings';
 
   @override
-  String get vaultBiometricInvalidPassword => 'Incorrect master password.';
+  String get vaultBiometricInvalidPassword => 'Incorrect vault password.';
+
+  @override
+  String get vaultAuthentication => 'Vault Authentication';
+
+  @override
+  String get vaultAuthenticationDescription => 'Manage vault biometric unlock';
+
+  @override
+  String get vaultNotCreated => 'Create a vault first to enable biometric unlock.';
 }

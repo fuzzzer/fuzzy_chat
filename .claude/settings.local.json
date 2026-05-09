@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(./exp.sh)"
+      "Bash(./exp.sh)",
+      "Bash(fvm flutter *)"
     ]
   }
 }

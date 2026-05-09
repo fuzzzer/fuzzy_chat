@@ -93,7 +93,7 @@ class _VaultCreatePageState extends State<VaultCreatePage> {
                   const SizedBox(height: 40),
                   FuzzyTextField(
                     controller: _passwordController,
-                    labelText: currentContextLocalization.vaultMasterPassword,
+                    labelText: currentContextLocalization.vaultPassword,
                     obscureText: !_isPasswordVisible,
                     suffixIcon: IconButton(
                       icon: Icon(

@@ -1,5 +1,6 @@
 import 'package:biometric_storage/biometric_storage.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:fuzzy_chat/lib.dart';
 
 enum BiometricScope { chat, vault }
 
@@ -33,6 +34,7 @@ class BiometricAuthRepository {
 
   Future<bool> canUseBiometrics() async {
     final response = await BiometricStorage().canAuthenticate();
+    logger.i('BiometricStorage.canAuthenticate -> $response');
     return response == CanAuthenticateResponse.success;
   }
 
@@ -42,14 +44,19 @@ class BiometricAuthRepository {
   }
 
   Future<void> enable(BiometricScope scope, String password) async {
+    logger.i('Biometric enable: scope=$scope');
     final storage = await _openStorage(scope);
     await storage.write(password);
     await _secureStorage.write(key: scope._flagKey, value: 'true');
+    logger.i('Biometric enabled: scope=$scope');
   }
 
   Future<String?> retrievePassword(BiometricScope scope) async {
+    logger.i('Biometric retrieve: scope=$scope');
     final storage = await _openStorage(scope);
-    return storage.read();
+    final value = await storage.read();
+    logger.i('Biometric retrieve done: scope=$scope, hasValue=${value != null}');
+    return value;
   }
 
   Future<void> disable(BiometricScope scope) async {
