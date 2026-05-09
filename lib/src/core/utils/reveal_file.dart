@@ -1,7 +1,25 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'share_helper.dart';
+
 class DeviceFileInteractor {
+  static Future<void> shareFile(String filePath, {BuildContext? context}) async {
+    final file = File(filePath);
+    final fileExists = await file.exists();
+    if (!fileExists) {
+      throw FileSystemException('File does not exist', filePath);
+    }
+
+    if (context != null) {
+      await ShareHelper.shareXFiles([XFile(filePath)], context: context);
+    } else {
+      await Share.shareXFiles([XFile(filePath)]);
+    }
+  }
+
   static Future<void> openFile(String filePath) async {
     final file = File(filePath);
     final fileExists = await file.exists();

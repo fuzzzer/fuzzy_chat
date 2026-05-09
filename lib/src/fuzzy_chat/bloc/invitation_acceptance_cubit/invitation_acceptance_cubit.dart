@@ -38,7 +38,7 @@ class InvitationAcceptanceCubit extends Cubit<InvitationAcceptanceState> {
       }
 
       final receivedInvitation = await HandshakeService.parseInvitation(invitationContent);
-      final chatId = generateId();
+      final chatId = receivedInvitation.chatId;
       final otherPartyPublicKey = receivedInvitation.publicKey;
 
       final keyPair = await RSAService.generateRSAKeyPair();

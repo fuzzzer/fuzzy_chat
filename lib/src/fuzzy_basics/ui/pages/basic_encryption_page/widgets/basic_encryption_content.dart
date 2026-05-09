@@ -123,10 +123,10 @@ class BasicEncryptionContent extends StatelessWidget {
                 ),
               const SizedBox(height: 16),
               BlocBuilder<CustomFileProcessingCubit<FileEncryptionOption>, CustomFileProcessingState>(
-                builder: (context, state) => _buildProcessedFilesList(state),
+                builder: (context, state) => _buildProcessedFilesList(state, context),
               ),
               BlocBuilder<CustomFileProcessingCubit<FileDecryptionOption>, CustomFileProcessingState>(
-                builder: (context, state) => _buildProcessedFilesList(state),
+                builder: (context, state) => _buildProcessedFilesList(state, context),
               ),
               const SizedBox(height: 120),
             ],
@@ -136,7 +136,7 @@ class BasicEncryptionContent extends StatelessWidget {
     );
   }
 
-  Widget _buildProcessedFilesList(CustomFileProcessingState state) {
+  Widget _buildProcessedFilesList(CustomFileProcessingState state, BuildContext context) {
     if (state.processedFiles.isEmpty && state.currentProcessingFile == null) {
       return const SizedBox.shrink();
     }
@@ -168,7 +168,7 @@ class BasicEncryptionContent extends StatelessWidget {
                   IconButton(
                     icon: const Icon(Icons.share),
                     onPressed: () {
-                      Share.shareXFiles([XFile(file.outputFilePath!)]);
+                      ShareHelper.shareXFiles([XFile(file.outputFilePath!)], context: context);
                     },
                   ),
                 ],

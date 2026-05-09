@@ -13,15 +13,15 @@ class _OnboardingPageState extends State<OnboardingPage> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
-  void _onNext() {
+  Future<void> _onNext() async {
     if (_currentPage < 2) {
-      _pageController.nextPage(
+      await _pageController.nextPage(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
     } else {
-      sl.get<PreferencesService>().setHasSeenOnboarding(true);
-      context.go(AppRouter.home);
+      await sl.get<PreferencesService>().setHasSeenOnboarding(true);
+      if (mounted) context.go(AppRouter.home);
     }
   }
 
@@ -45,7 +45,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   });
                 },
                 children: [
-                   _buildSlide(
+                  _buildSlide(
                     context,
                     Icons.security,
                     l10n.welcomeToFuzzyChat,

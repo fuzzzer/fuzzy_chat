@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fuzzy_chat/lib.dart';
 
 class ReceivedFileMessageArea extends StatefulWidget {
@@ -94,6 +95,57 @@ class _ReceivedFileMessageAreaState extends State<ReceivedFileMessageArea> {
                           _openDecryptedFile(
                             encryptedMessage: widget.message.encryptedMessage,
                           );
+                        },
+                      ),
+                      const SizedBox(width: 2),
+                      TextAction(
+                        label: localizations.shareFile,
+                        onTap: () {
+                          final filePath = widget.message.encryptedMessage.replaceAll(fuzzIdentificator, '');
+                          DeviceFileInteractor.shareFile(filePath, context: context);
+                          closeOverlay();
+                        },
+                      ),
+                      const SizedBox(width: 2),
+                      TextAction(
+                        label: '🔗',
+                        onTap: () {
+                          final link = FuzzyLinkGenerator.generateFuzzLink(
+                            widget.message.chatId,
+                            widget.message.encryptedMessage,
+                          );
+                          final preparedFuzz = '$fuzzIdentificator${widget.message.encryptedMessage}';
+                          final shareable = FuzzyLinkGenerator.generateShareableContent(
+                            link: link,
+                            rawFuzz: preparedFuzz,
+                            type: FuzzyLinkType.fuzz,
+                          );
+                          ShareHelper.share(shareable, context: context);
+                          closeOverlay();
+                        },
+                      ),
+                      const SizedBox(width: 2),
+                      TextAction(
+                        label: localizations.copyAsLink,
+                        onTap: () {
+                          final link = FuzzyLinkGenerator.generateFuzzLink(
+                            widget.message.chatId,
+                            widget.message.encryptedMessage,
+                          );
+                          Clipboard.setData(ClipboardData(text: link));
+                          FuzzySnackbar.show(label: localizations.linkCopiedToClipboard);
+                          closeOverlay();
+                        },
+                      ),
+                      const SizedBox(width: 2),
+                      TextAction(
+                        hasRightBorder: true,
+                        label: localizations.copy,
+                        onTap: () {
+                          final filePath = widget.message.encryptedMessage.replaceAll(fuzzIdentificator, '');
+                          Clipboard.setData(ClipboardData(text: filePath));
+                          FuzzySnackbar.show(label: localizations.copiedToTheClipboard);
+                          closeOverlay();
                         },
                       ),
                     ],

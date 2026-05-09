@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fuzzy_chat/lib.dart';
-import 'package:share_plus/share_plus.dart';
+
 import 'package:vibration/vibration.dart';
 
 class SentMessageArea extends StatefulWidget {
@@ -200,17 +200,57 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                                             _openEncryptedFileDirectory(
                                               encryptedMessage: encryptedMessage,
                                             );
+                                            closeOverlay();
+                                          },
+                                        ),
+                                        const SizedBox(width: 2),
+                                        TextAction(
+                                          label: localizations.shareFile,
+                                          onTap: () {
+                                            final filePath = encryptedMessage.replaceAll(fuzzIdentificator, '');
+                                            DeviceFileInteractor.shareFile(filePath, context: context);
+                                            closeOverlay();
+                                          },
+                                        ),
+                                        const SizedBox(width: 2),
+                                        TextAction(
+                                          label: localizations.copy,
+                                          onTap: () {
+                                            final filePath = encryptedMessage.replaceAll(fuzzIdentificator, '');
+                                            Clipboard.setData(ClipboardData(text: filePath));
+                                            FuzzySnackbar.show(label: localizations.copiedToTheClipboard);
+                                            closeOverlay();
+                                          },
+                                        ),
+                                        const SizedBox(width: 2),
+                                        TextAction(
+                                          label: '🔗',
+                                          onTap: () {
+                                            final link = FuzzyLinkGenerator.generateFuzzLink(
+                                              widget.message.chatId,
+                                              encryptedMessage,
+                                            );
+                                            final preparedEncryptedMessage = _prepareEncrypredMessage(encryptedMessage);
+                                            final shareable = FuzzyLinkGenerator.generateShareableContent(
+                                              link: link,
+                                              rawFuzz: preparedEncryptedMessage,
+                                              type: FuzzyLinkType.fuzz,
+                                            );
+                                            ShareHelper.share(shareable, context: context);
+                                            closeOverlay();
                                           },
                                         ),
                                         const SizedBox(width: 2),
                                         TextAction(
                                           hasRightBorder: true,
-                                          label: localizations.share,
+                                          label: localizations.copyAsLink,
                                           onTap: () {
-                                            final preparedEncryptedMessage = _prepareEncrypredMessage(encryptedMessage);
-
-                                            Share.share(preparedEncryptedMessage);
-
+                                            final link = FuzzyLinkGenerator.generateFuzzLink(
+                                              widget.message.chatId,
+                                              encryptedMessage,
+                                            );
+                                            Clipboard.setData(ClipboardData(text: link));
+                                            FuzzySnackbar.show(label: localizations.linkCopiedToClipboard);
                                             closeOverlay();
                                           },
                                         ),
@@ -234,8 +274,21 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                                           onTap: () {
                                             final preparedEncryptedMessage = _prepareEncrypredMessage(encryptedMessage);
 
-                                            Share.share(preparedEncryptedMessage);
+                                            ShareHelper.share(preparedEncryptedMessage, context: context);
 
+                                            closeOverlay();
+                                          },
+                                        ),
+                                        const SizedBox(width: 2),
+                                        TextAction(
+                                          label: localizations.copyAsLink,
+                                          onTap: () {
+                                            final link = FuzzyLinkGenerator.generateFuzzLink(
+                                              widget.message.chatId,
+                                              encryptedMessage,
+                                            );
+                                            Clipboard.setData(ClipboardData(text: link));
+                                            FuzzySnackbar.show(label: localizations.linkCopiedToClipboard);
                                             closeOverlay();
                                           },
                                         ),
@@ -254,8 +307,7 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                                               rawFuzz: preparedEncryptedMessage,
                                               type: FuzzyLinkType.fuzz,
                                             );
-                                            Share.share(shareable);
-
+                                            ShareHelper.share(shareable, context: context);
                                             closeOverlay();
                                           },
                                         ),

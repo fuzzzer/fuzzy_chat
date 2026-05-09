@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fuzzy_chat/lib.dart';
-import 'package:share_plus/share_plus.dart';
+
 
 class ChatInvitationContent extends StatefulWidget {
   final String chatName;
@@ -81,13 +81,13 @@ class _ChatInvitationContentState extends State<ChatInvitationContent> {
                 text: localizations.shareInvitation,
                 icon: Icons.share,
                 onTap: () {
-                  Share.share(widget.invitationContent);
+                  ShareHelper.share(widget.invitationContent, context: context);
                 },
               ),
               const SizedBox(height: 12),
               FuzzyButton(
                 text: localizations.shareAsLink,
-                icon: Icons.link,
+                icon: Icons.share,
                 onTap: () {
                   final link = FuzzyLinkGenerator.generateInvitationLink(
                     widget.invitationContent,
@@ -97,7 +97,24 @@ class _ChatInvitationContentState extends State<ChatInvitationContent> {
                     rawFuzz: widget.invitationContent,
                     type: FuzzyLinkType.invitation,
                   );
-                  Share.share(shareable);
+                  ShareHelper.share(shareable, context: context);
+                },
+              ),
+              const SizedBox(height: 12),
+              FuzzyButton(
+                text: localizations.copyAsLink,
+                icon: Icons.link,
+                onTap: () {
+                  deboucer.run(() {
+                    final link = FuzzyLinkGenerator.generateInvitationLink(
+                      widget.invitationContent,
+                    );
+                    Clipboard.setData(ClipboardData(text: link)).then((_) {
+                      FuzzySnackbar.show(
+                        label: localizations.linkCopiedToClipboard,
+                      );
+                    });
+                  });
                 },
               ),
               const SizedBox(height: 32),

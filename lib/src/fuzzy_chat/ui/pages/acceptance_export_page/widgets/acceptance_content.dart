@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fuzzy_chat/lib.dart';
 import 'package:go_router/go_router.dart';
-import 'package:share_plus/share_plus.dart';
+
 
 class AcceptanceContent extends StatelessWidget {
   final String acceptanceContent;
@@ -25,14 +25,23 @@ class AcceptanceContent extends StatelessWidget {
     );
   }
 
-  void _shareAsLink() {
+  void _shareAsLink(BuildContext context) {
     final link = FuzzyLinkGenerator.generateAcceptanceLink(acceptanceContent);
     final shareable = FuzzyLinkGenerator.generateShareableContent(
       link: link,
       rawFuzz: acceptanceContent,
       type: FuzzyLinkType.acceptance,
     );
-    Share.share(shareable);
+    ShareHelper.share(shareable, context: context);
+  }
+
+  void _copyAsLink(BuildContext context) {
+    final localizations = context.fuzzyChatLocalizations;
+    final link = FuzzyLinkGenerator.generateAcceptanceLink(acceptanceContent);
+    Clipboard.setData(ClipboardData(text: link));
+    FuzzySnackbar.show(
+      label: localizations.linkCopiedToClipboard,
+    );
   }
 
   @override
@@ -73,13 +82,19 @@ class AcceptanceContent extends StatelessWidget {
               FuzzyButton(
                 text: localizations.shareAcceptance,
                 icon: Icons.share,
-                onTap: () => Share.share(acceptanceContent),
+                onTap: () => ShareHelper.share(acceptanceContent, context: context),
               ),
               const SizedBox(height: 12),
               FuzzyButton(
                 text: localizations.shareAsLink,
+                icon: Icons.share,
+                onTap: () => _shareAsLink(context),
+              ),
+              const SizedBox(height: 12),
+              FuzzyButton(
+                text: localizations.copyAsLink,
                 icon: Icons.link,
-                onTap: _shareAsLink,
+                onTap: () => _copyAsLink(context),
               ),
               const Spacer(),
               if (hasBackButton)

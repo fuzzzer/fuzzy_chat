@@ -333,6 +333,12 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get shareAsLink => 'Share as Link';
 
   @override
+  String get copyAsLink => 'Copy as Link';
+
+  @override
+  String get linkCopiedToClipboard => 'Link copied to clipboard.';
+
+  @override
   String get shareAcceptance => 'Share acceptance';
 
   @override
@@ -379,4 +385,7 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
 
   @override
   String get failedToProcessMessage => 'Failed to process message link.';
+
+  @override
+  String get shareFile => 'Share File';
 }

@@ -220,6 +220,10 @@
   "@moderateSecurityDescription": {},
   "shareAsLink": "ბმულით გაზიარება",
   "@shareAsLink": {},
+  "copyAsLink": "ბმულის კოპირება",
+  "@copyAsLink": {},
+  "linkCopiedToClipboard": "ბმული კოპირებულია ბუფერში.",
+  "@linkCopiedToClipboard": {},
   "shareAcceptance": "მიღების გაზიარება",
   "@shareAcceptance": {},
   "linkExpired": "ამ ბმულის ვადა ამოიწურა.",
@@ -251,5 +255,7 @@
   "chatNotFoundForMessage": "ამ შეტყობინების ბმულისთვის ჩატი ვერ მოიძებნა.",
   "@chatNotFoundForMessage": {},
   "failedToProcessMessage": "შეტყობინების ბმულის დამუშავება ვერ მოხერხდა.",
-  "@failedToProcessMessage": {}
+  "@failedToProcessMessage": {},
+  "shareFile": "ფაილის გაზიარება",
+  "@shareFile": {}
 }

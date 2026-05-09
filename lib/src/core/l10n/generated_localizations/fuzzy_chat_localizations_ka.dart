@@ -333,6 +333,12 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get shareAsLink => 'ბმულით გაზიარება';
 
   @override
+  String get copyAsLink => 'ბმულის კოპირება';
+
+  @override
+  String get linkCopiedToClipboard => 'ბმული კოპირებულია ბუფერში.';
+
+  @override
   String get shareAcceptance => 'მიღების გაზიარება';
 
   @override
@@ -379,4 +385,7 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
 
   @override
   String get failedToProcessMessage => 'შეტყობინების ბმულის დამუშავება ვერ მოხერხდა.';
+
+  @override
+  String get shareFile => 'ფაილის გაზიარება';
 }

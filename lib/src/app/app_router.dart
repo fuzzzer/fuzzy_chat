@@ -6,6 +6,7 @@ class AppRouter {
   AppRouter._();
 
   static const home = '/';
+  static const onboarding = '/onboarding';
   static const chatCreate = '/chat/create';
   static const chatInvitation = '/chat/invitation';
   static const chatAccept = '/chat/accept';
@@ -28,12 +29,23 @@ class AppRouter {
     _routerInstance ??= GoRouter(
       navigatorKey: navigatorKey,
       initialLocation: home,
+      redirect: (context, state) {
+        final hasSeenOnboarding =
+            sl.get<PreferencesService>().hasSeenOnboarding;
+        final isOnboarding = state.matchedLocation == onboarding;
+
+        if (!hasSeenOnboarding && !isOnboarding) return onboarding;
+        if (hasSeenOnboarding && isOnboarding) return home;
+        return null;
+      },
       routes: [
         GoRoute(
           path: home,
-          builder: (_, __) => sl.get<PreferencesService>().hasSeenOnboarding
-              ? const ChatListPage()
-              : const OnboardingPage(),
+          builder: (_, __) => const ChatListPage(),
+        ),
+        GoRoute(
+          path: onboarding,
+          builder: (_, __) => const OnboardingPage(),
         ),
         GoRoute(
           path: chatCreate,

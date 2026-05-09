@@ -743,6 +743,18 @@ abstract class FuzzyChatLocalizations {
   /// **'Share as Link'**
   String get shareAsLink;
 
+  /// No description provided for @copyAsLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy as Link'**
+  String get copyAsLink;
+
+  /// No description provided for @linkCopiedToClipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Link copied to clipboard.'**
+  String get linkCopiedToClipboard;
+
   /// No description provided for @shareAcceptance.
   ///
   /// In en, this message translates to:
@@ -838,6 +850,12 @@ abstract class FuzzyChatLocalizations {
   /// In en, this message translates to:
   /// **'Failed to process message link.'**
   String get failedToProcessMessage;
+
+  /// No description provided for @shareFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Share File'**
+  String get shareFile;
 }
 
 class _FuzzyChatLocalizationsDelegate extends LocalizationsDelegate<FuzzyChatLocalizations> {

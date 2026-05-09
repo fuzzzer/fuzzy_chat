@@ -106,7 +106,8 @@ class FuzzyLinkHandler {
       // Let the acceptance page handle parsing errors downstream.
     }
 
-    await router.push(
+    _navigateCleanly(
+      router,
       AppRouter.chatAccept,
       extra: payload.rawInvitationContent,
     );
@@ -128,7 +129,8 @@ class FuzzyLinkHandler {
         return;
       }
 
-      await router.push(
+      _navigateCleanly(
+        router,
         AppRouter.chatInvitation,
         extra: ChatInvitationPagePayload(
           chatName: chat.chatName,
@@ -150,7 +152,8 @@ class FuzzyLinkHandler {
         return;
       }
 
-      await router.push(
+      _navigateCleanly(
+        router,
         AppRouter.chatConnected,
         extra: ConnectedChatPagePayload(
           chatGeneralData: chat,
@@ -160,6 +163,11 @@ class FuzzyLinkHandler {
     } catch (_) {
       FuzzySnackbar.show(label: _l10n.failedToProcessMessage);
     }
+  }
+
+  void _navigateCleanly(GoRouter router, String path, {Object? extra}) {
+    router.go(AppRouter.home);
+    router.push(path, extra: extra);
   }
 
   Future<bool> _isAppLocked() async {

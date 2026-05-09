@@ -220,6 +220,10 @@
   "@moderateSecurityDescription": {},
   "shareAsLink": "Share as Link",
   "@shareAsLink": {},
+  "copyAsLink": "Copy as Link",
+  "@copyAsLink": {},
+  "linkCopiedToClipboard": "Link copied to clipboard.",
+  "@linkCopiedToClipboard": {},
   "shareAcceptance": "Share acceptance",
   "@shareAcceptance": {},
   "linkExpired": "This link has expired.",
@@ -251,5 +255,7 @@
   "chatNotFoundForMessage": "Chat not found for this message link.",
   "@chatNotFoundForMessage": {},
   "failedToProcessMessage": "Failed to process message link.",
-  "@failedToProcessMessage": {}
+  "@failedToProcessMessage": {},
+  "shareFile": "Share File",
+  "@shareFile": {}
 }
