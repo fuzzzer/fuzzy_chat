@@ -95,7 +95,14 @@ class _FuzzyUserAuthPageContentState extends State<_FuzzyUserAuthPageContent> {
 
   void _onDisableAuth() {
     final oldPassword = _oldPasswordController.text;
-    if (oldPassword.isEmpty) return;
+    if (oldPassword.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(currentContextLocalization.chatAuthEnterPassword),
+        ),
+      );
+      return;
+    }
 
     context.read<FuzzyUserAuthPreferencesCubit>().disableAuth(oldPassword);
   }
@@ -163,8 +170,23 @@ class _FuzzyUserAuthPageContentState extends State<_FuzzyUserAuthPageContent> {
       listener: (context, state) {
         if (state.activationStatus == StateStatus.success) {
           _clearFields();
+          final String message;
+          switch (state.lastAction) {
+            case AuthPreferencesAction.enable:
+              message = localizations.chatAuthEnabled;
+            case AuthPreferencesAction.disable:
+              message = localizations.chatAuthDisabled;
+            case AuthPreferencesAction.changePassword:
+              message = localizations.chatAuthEnabled;
+            case AuthPreferencesAction.enableBiometric:
+              message = localizations.chatAuthBiometricEnabled;
+            case AuthPreferencesAction.disableBiometric:
+              message = localizations.chatAuthDisabled;
+            case AuthPreferencesAction.none:
+              message = localizations.chatAuthEnabled;
+          }
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(localizations.chatAuthEnabled)),
+            SnackBar(content: Text(message)),
           );
         } else if (state.activationStatus == StateStatus.failed) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -399,13 +421,13 @@ class _ChangePasswordSection extends StatelessWidget {
             const SizedBox(height: 24),
             FuzzyTextField(
               controller: oldPasswordController,
-              labelText: localizations.chatAuthPassword,
+              labelText: localizations.chatAuthCurrentPassword,
               obscureText: !isPasswordVisible,
             ),
             const SizedBox(height: 12),
             FuzzyTextField(
               controller: passwordController,
-              labelText: localizations.chatAuthPassword,
+              labelText: localizations.chatAuthNewPassword,
               obscureText: !isPasswordVisible,
               suffixIcon: _PasswordVisibilityToggle(
                 isVisible: isPasswordVisible,

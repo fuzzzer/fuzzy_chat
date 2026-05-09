@@ -641,6 +641,9 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get chatAuthBiometricFailed => 'ბიომეტრიული ავთენტიფიკაცია ვერ მოხერხდა.';
 
   @override
+  String get chatAuthBiometricInvalidated => 'თქვენი ბიომეტრიული მონაცემები შეიცვალა. ბიომეტრიული განბლოკვა გამოირთო. გთხოვთ ხელახლა ჩართოთ პარამეტრებიდან.';
+
+  @override
   String get vaultBiometricUnlock => 'განბლოკვა ბიომეტრიით';
 
   @override
@@ -665,6 +668,9 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   String get vaultBiometricInvalidPassword => 'არასწორი ვოლტის პაროლი.';
 
   @override
+  String get vaultBiometricInvalidated => 'თქვენი ბიომეტრიული მონაცემები შეიცვალა. ბიომეტრიული განბლოკვა გამოირთო. გთხოვთ ხელახლა ჩართოთ პარამეტრებიდან.';
+
+  @override
   String get vaultAuthentication => 'ვოლტის ავთენტიფიკაცია';
 
   @override
@@ -675,4 +681,13 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
 
   @override
   String get vaultLockVault => 'საცავის დაბლოკვა';
+
+  @override
+  String get chatAuthCurrentPassword => 'მიმდინარე პაროლი';
+
+  @override
+  String get chatAuthNewPassword => 'ახალი პაროლი';
+
+  @override
+  String get chatAuthEnterPassword => 'გთხოვთ შეიყვანოთ მიმდინარე პაროლი';
 }

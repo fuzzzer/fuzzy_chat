@@ -5,31 +5,36 @@ class FuzzyAuthState {
   final AuthData authData;
   final bool verificationFailed;
   final bool biometricEnabled;
+  final bool biometricInvalidated;
 
   const FuzzyAuthState._({
     required this.status,
     required this.authData,
     this.verificationFailed = false,
     this.biometricEnabled = false,
+    this.biometricInvalidated = false,
   });
 
   const FuzzyAuthState.initial()
       : status = AuthStateStatus.initial,
         authData = const AuthData(password: ''),
         verificationFailed = false,
-        biometricEnabled = false;
+        biometricEnabled = false,
+        biometricInvalidated = false;
 
   FuzzyAuthState copyWith({
     AuthStateStatus? status,
     AuthData? authData,
     bool? verificationFailed,
     bool? biometricEnabled,
+    bool? biometricInvalidated,
   }) {
     return FuzzyAuthState._(
       status: status ?? this.status,
       authData: authData ?? this.authData,
       verificationFailed: verificationFailed ?? false,
       biometricEnabled: biometricEnabled ?? this.biometricEnabled,
+      biometricInvalidated: biometricInvalidated ?? false,
     );
   }
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_redundant_argument_values
+
 import 'package:biometric_storage/biometric_storage.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fuzzy_chat/lib.dart';
@@ -55,8 +57,7 @@ class BiometricAuthRepository {
     logger.i('Biometric retrieve: scope=$scope');
     final storage = await _openStorage(scope);
     final value = await storage.read();
-    logger
-        .i('Biometric retrieve done: scope=$scope, hasValue=${value != null}');
+    logger.i('Biometric retrieve done: scope=$scope, hasValue=${value != null}');
     return value;
   }
 
@@ -75,6 +76,8 @@ class BiometricAuthRepository {
       scope._storageName,
       options: StorageFileInitOptions(
         authenticationValidityDurationSeconds: 30,
+        androidBiometricOnly: true,
+        darwinBiometricOnly: true,
       ),
       promptInfo: PromptInfo(
         iosPromptInfo: IosPromptInfo(

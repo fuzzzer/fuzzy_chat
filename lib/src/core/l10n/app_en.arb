@@ -434,6 +434,8 @@
   "@chatAuthBiometricUnavailable": {},
   "chatAuthBiometricFailed": "Biometric authentication failed.",
   "@chatAuthBiometricFailed": {},
+  "chatAuthBiometricInvalidated": "Your biometrics have changed. Biometric unlock has been disabled. Please re-enable it from settings.",
+  "@chatAuthBiometricInvalidated": {},
   "vaultBiometricUnlock": "Unlock with biometrics",
   "@vaultBiometricUnlock": {},
   "vaultBiometricEnable": "Enable Biometric Unlock",
@@ -450,6 +452,8 @@
   "@vaultBiometricSettings": {},
   "vaultBiometricInvalidPassword": "Incorrect vault password.",
   "@vaultBiometricInvalidPassword": {},
+  "vaultBiometricInvalidated": "Your biometrics have changed. Biometric unlock has been disabled. Please re-enable it from settings.",
+  "@vaultBiometricInvalidated": {},
   "vaultAuthentication": "Vault Authentication",
   "@vaultAuthentication": {},
   "vaultAuthenticationDescription": "Manage vault biometric unlock",
@@ -457,5 +461,11 @@
   "vaultNotCreated": "Create a vault first to enable biometric unlock.",
   "@vaultNotCreated": {},
   "vaultLockVault": "Lock Vault",
-  "@vaultLockVault": {}
+  "@vaultLockVault": {},
+  "chatAuthCurrentPassword": "Current Password",
+  "@chatAuthCurrentPassword": {},
+  "chatAuthNewPassword": "New Password",
+  "@chatAuthNewPassword": {},
+  "chatAuthEnterPassword": "Please enter your current password",
+  "@chatAuthEnterPassword": {}
 }

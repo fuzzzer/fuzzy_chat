@@ -9,6 +9,7 @@ class VaultAuthState {
     this.masterKey,
     this.failureType,
     this.biometricEnabled = false,
+    this.biometricInvalidated = false,
   });
 
   final StateStatus status;
@@ -16,6 +17,7 @@ class VaultAuthState {
   final Uint8List? masterKey;
   final VaultFailureType? failureType;
   final bool biometricEnabled;
+  final bool biometricInvalidated;
 
   VaultAuthState copyWith({
     StateStatus? status,
@@ -23,6 +25,7 @@ class VaultAuthState {
     Uint8List? masterKey,
     VaultFailureType? failureType,
     bool? biometricEnabled,
+    bool? biometricInvalidated,
   }) {
     return VaultAuthState(
       status: status ?? this.status,
@@ -31,6 +34,7 @@ class VaultAuthState {
       failureType: failureType ??
           (status == StateStatus.success ? null : this.failureType),
       biometricEnabled: biometricEnabled ?? this.biometricEnabled,
+      biometricInvalidated: biometricInvalidated ?? false,
     );
   }
 }

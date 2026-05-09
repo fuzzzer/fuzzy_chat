@@ -35,14 +35,23 @@ class FuzzyAuthStore extends Cubit<FuzzyAuthState> {
       if (password == null) {
         logger.w(
             'Biometric unlock returned null password (cancelled or empty storage)');
-        emit(state.copyWith(status: AuthStateStatus.locked));
+        await _handleBiometricInvalidation();
         return;
       }
       await unlock(password);
     } catch (e, stack) {
       logger.e('Biometric unlock failed', error: e, stackTrace: stack);
-      emit(state.copyWith(status: AuthStateStatus.locked));
+      await _handleBiometricInvalidation();
     }
+  }
+
+  Future<void> _handleBiometricInvalidation() async {
+    await biometricAuthRepository.disable(BiometricScope.chat);
+    emit(state.copyWith(
+      status: AuthStateStatus.locked,
+      biometricEnabled: false,
+      biometricInvalidated: true,
+    ));
   }
 
   Future<void> unlock(String password) async {

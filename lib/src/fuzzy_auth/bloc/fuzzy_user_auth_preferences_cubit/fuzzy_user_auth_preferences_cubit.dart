@@ -39,7 +39,10 @@ class FuzzyUserAuthPreferencesCubit
       );
       await _chatAuthRepository.setupPassword(password);
       await _fuzzyAuthStore.onPasswordSetup(password);
-      emit(state.copyWith(activationStatus: StateStatus.success));
+      emit(state.copyWith(
+        activationStatus: StateStatus.success,
+        lastAction: AuthPreferencesAction.enable,
+      ));
     } catch (e) {
       emit(
         state.copyWith(
@@ -65,7 +68,10 @@ class FuzzyUserAuthPreferencesCubit
       );
 
       if (success) {
-        emit(state.copyWith(activationStatus: StateStatus.success));
+        emit(state.copyWith(
+          activationStatus: StateStatus.success,
+          lastAction: AuthPreferencesAction.changePassword,
+        ));
       } else {
         emit(
           state.copyWith(
@@ -111,7 +117,10 @@ class FuzzyUserAuthPreferencesCubit
       await _chatAuthRepository.disableAuth();
       await _biometricAuthRepository.disable(BiometricScope.chat);
       await _fuzzyAuthStore.checkAuthStatus();
-      emit(state.copyWith(activationStatus: StateStatus.success));
+      emit(state.copyWith(
+        activationStatus: StateStatus.success,
+        lastAction: AuthPreferencesAction.disable,
+      ));
     } catch (e) {
       emit(
         state.copyWith(
@@ -141,7 +150,10 @@ class FuzzyUserAuthPreferencesCubit
       await _biometricAuthRepository.enable(
           BiometricScope.chat, currentPassword);
       await _fuzzyAuthStore.setBiometricEnabled(enabled: true);
-      emit(state.copyWith(activationStatus: StateStatus.success));
+      emit(state.copyWith(
+        activationStatus: StateStatus.success,
+        lastAction: AuthPreferencesAction.enableBiometric,
+      ));
     } catch (e) {
       emit(
         state.copyWith(
@@ -157,7 +169,10 @@ class FuzzyUserAuthPreferencesCubit
     try {
       await _biometricAuthRepository.disable(BiometricScope.chat);
       await _fuzzyAuthStore.setBiometricEnabled(enabled: false);
-      emit(state.copyWith(activationStatus: StateStatus.success));
+      emit(state.copyWith(
+        activationStatus: StateStatus.success,
+        lastAction: AuthPreferencesAction.disableBiometric,
+      ));
     } catch (e) {
       emit(
         state.copyWith(

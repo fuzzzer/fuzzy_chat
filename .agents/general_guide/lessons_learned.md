@@ -64,3 +64,8 @@
 ### FN-004: Cryptographic Operations May Be CPU-Intensive
 **Nuance:** AES file encryption/decryption can block the UI thread for large files. The `AesService` uses isolates (via `FileProcessingHandler`) to offload this work.
 **Pro-Tip:** Always use the isolate-based file processing for anything beyond small text encryption. Check `FileEncryptionIsolateArguments` and `FileProcessingProgress` for the pattern.
+
+### FN-005: Biometric Storage Requires Biometric-Only Flags
+**Nuance:** `biometric_storage` package defaults `darwinBiometricOnly` to `false`, which allows device passcode as fallback on iOS/macOS (`.userPresence`). To enforce actual biometric-only access, both `androidBiometricOnly: true` and `darwinBiometricOnly: true` must be set in `StorageFileInitOptions`. Note: `androidBiometricOnly` is ignored on API < 30.
+**Pro-Tip:** When biometrics change (finger add/remove, Face ID re-enrollment), `.biometryCurrentSet` invalidates the stored key. `retrievePassword()` returns `null` — always handle this gracefully by falling back to manual password entry.
+

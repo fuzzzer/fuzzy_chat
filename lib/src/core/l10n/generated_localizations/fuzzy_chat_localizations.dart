@@ -1343,6 +1343,12 @@ abstract class FuzzyChatLocalizations {
   /// **'Biometric authentication failed.'**
   String get chatAuthBiometricFailed;
 
+  /// No description provided for @chatAuthBiometricInvalidated.
+  ///
+  /// In en, this message translates to:
+  /// **'Your biometrics have changed. Biometric unlock has been disabled. Please re-enable it from settings.'**
+  String get chatAuthBiometricInvalidated;
+
   /// No description provided for @vaultBiometricUnlock.
   ///
   /// In en, this message translates to:
@@ -1391,6 +1397,12 @@ abstract class FuzzyChatLocalizations {
   /// **'Incorrect vault password.'**
   String get vaultBiometricInvalidPassword;
 
+  /// No description provided for @vaultBiometricInvalidated.
+  ///
+  /// In en, this message translates to:
+  /// **'Your biometrics have changed. Biometric unlock has been disabled. Please re-enable it from settings.'**
+  String get vaultBiometricInvalidated;
+
   /// No description provided for @vaultAuthentication.
   ///
   /// In en, this message translates to:
@@ -1414,6 +1426,24 @@ abstract class FuzzyChatLocalizations {
   /// In en, this message translates to:
   /// **'Lock Vault'**
   String get vaultLockVault;
+
+  /// No description provided for @chatAuthCurrentPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Password'**
+  String get chatAuthCurrentPassword;
+
+  /// No description provided for @chatAuthNewPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'New Password'**
+  String get chatAuthNewPassword;
+
+  /// No description provided for @chatAuthEnterPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your current password'**
+  String get chatAuthEnterPassword;
 }
 
 class _FuzzyChatLocalizationsDelegate extends LocalizationsDelegate<FuzzyChatLocalizations> {

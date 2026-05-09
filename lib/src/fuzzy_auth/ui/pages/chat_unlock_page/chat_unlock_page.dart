@@ -58,6 +58,16 @@ class _ChatUnlockPageState extends State<ChatUnlockPage>
         if (state.verificationFailed) {
           _shakeController.forward(from: 0);
         }
+        if (state.biometricInvalidated) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                currentContextLocalization.chatAuthBiometricInvalidated,
+              ),
+              duration: const Duration(seconds: 5),
+            ),
+          );
+        }
       },
       builder: (context, state) {
         final isLoading = state.status.isUnlocking;

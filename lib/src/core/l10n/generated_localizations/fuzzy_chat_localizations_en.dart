@@ -641,6 +641,9 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get chatAuthBiometricFailed => 'Biometric authentication failed.';
 
   @override
+  String get chatAuthBiometricInvalidated => 'Your biometrics have changed. Biometric unlock has been disabled. Please re-enable it from settings.';
+
+  @override
   String get vaultBiometricUnlock => 'Unlock with biometrics';
 
   @override
@@ -665,6 +668,9 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   String get vaultBiometricInvalidPassword => 'Incorrect vault password.';
 
   @override
+  String get vaultBiometricInvalidated => 'Your biometrics have changed. Biometric unlock has been disabled. Please re-enable it from settings.';
+
+  @override
   String get vaultAuthentication => 'Vault Authentication';
 
   @override
@@ -675,4 +681,13 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
 
   @override
   String get vaultLockVault => 'Lock Vault';
+
+  @override
+  String get chatAuthCurrentPassword => 'Current Password';
+
+  @override
+  String get chatAuthNewPassword => 'New Password';
+
+  @override
+  String get chatAuthEnterPassword => 'Please enter your current password';
 }

@@ -67,6 +67,16 @@ class _VaultUnlockPageState extends State<VaultUnlockPage>
             ),
           );
         }
+        if (state.biometricInvalidated) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                currentContextLocalization.vaultBiometricInvalidated,
+              ),
+              duration: const Duration(seconds: 5),
+            ),
+          );
+        }
       },
       builder: (context, state) {
         final isLoading = state.authState == VaultAuthEnum.unlocking;

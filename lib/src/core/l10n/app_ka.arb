@@ -434,6 +434,8 @@
   "@chatAuthBiometricUnavailable": {},
   "chatAuthBiometricFailed": "ბიომეტრიული ავთენტიფიკაცია ვერ მოხერხდა.",
   "@chatAuthBiometricFailed": {},
+  "chatAuthBiometricInvalidated": "თქვენი ბიომეტრიული მონაცემები შეიცვალა. ბიომეტრიული განბლოკვა გამოირთო. გთხოვთ ხელახლა ჩართოთ პარამეტრებიდან.",
+  "@chatAuthBiometricInvalidated": {},
   "vaultBiometricUnlock": "განბლოკვა ბიომეტრიით",
   "@vaultBiometricUnlock": {},
   "vaultBiometricEnable": "ბიომეტრიული განბლოკვის ჩართვა",
@@ -450,6 +452,8 @@
   "@vaultBiometricSettings": {},
   "vaultBiometricInvalidPassword": "არასწორი ვოლტის პაროლი.",
   "@vaultBiometricInvalidPassword": {},
+  "vaultBiometricInvalidated": "თქვენი ბიომეტრიული მონაცემები შეიცვალა. ბიომეტრიული განბლოკვა გამოირთო. გთხოვთ ხელახლა ჩართოთ პარამეტრებიდან.",
+  "@vaultBiometricInvalidated": {},
   "vaultAuthentication": "ვოლტის ავთენტიფიკაცია",
   "@vaultAuthentication": {},
   "vaultAuthenticationDescription": "ვოლტის ბიომეტრიული განბლოკვის მართვა",
@@ -457,5 +461,11 @@
   "vaultNotCreated": "ბიომეტრიული განბლოკვისთვის ჯერ შექმენით ვოლტი.",
   "@vaultNotCreated": {},
   "vaultLockVault": "საცავის დაბლოკვა",
-  "@vaultLockVault": {}
+  "@vaultLockVault": {},
+  "chatAuthCurrentPassword": "მიმდინარე პაროლი",
+  "@chatAuthCurrentPassword": {},
+  "chatAuthNewPassword": "ახალი პაროლი",
+  "@chatAuthNewPassword": {},
+  "chatAuthEnterPassword": "გთხოვთ შეიყვანოთ მიმდინარე პაროლი",
+  "@chatAuthEnterPassword": {}
 }
