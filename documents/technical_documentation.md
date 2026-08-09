@@ -49,3 +49,22 @@ $ flutter pub get
 Delete `pubspec_overrides.yaml` (or just don't create one) to go back to the pinned git version. When you want fuzzy_chat's pinned kit version to move forward, push your `fuzzy_design` changes, then update the `ref:` under `fuzzzy_ui_kit` in `pubspec.yaml` to the new commit hash and run `flutter pub get` again.
 
 ---
+
+## Android: "Java home supplied is invalid"
+
+`android/gradle.properties` does **not** set `org.gradle.java.home` — that's an absolute path to a JDK install, which differs per machine and doesn't belong in a committed file. If you hit an error like:
+
+```
+Value '...' given for org.gradle.java.home Gradle property is invalid (Java home supplied is invalid)
+```
+
+set it in your own **global** Gradle config instead (never committed, applies to every Gradle project on your machine):
+
+```sh
+# ~/.gradle/gradle.properties
+org.gradle.java.home=/path/to/your/jdk-17
+```
+
+This project needs JDK 17. On macOS with Homebrew: `brew install openjdk@17`, then point `org.gradle.java.home` at `$(brew --prefix openjdk@17)/libexec/openjdk.jdk/Contents/Home`.
+
+---
