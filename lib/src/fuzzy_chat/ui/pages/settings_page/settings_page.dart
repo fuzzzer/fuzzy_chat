@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 import 'package:go_router/go_router.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -28,8 +29,8 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final uiColors = theme.extension<UiColors>()!;
-    final uiTextStyles = theme.extension<UiTextStyles>()!;
+    final fuzzzyColors = context.fuzzzyColors;
+    final fuzzzyTextStyles = context.fuzzzyTextStyles;
     final localizations = context.fuzzyChatLocalizations;
 
     final isStrict = _securityLevel == CopySecurityLevel.strict;
@@ -50,8 +51,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 children: [
                   Text(
                     localizations.securityLevel,
-                    style: uiTextStyles.bodyLarge20.copyWith(
-                      color: uiColors.primaryTextColor,
+                    style: fuzzzyTextStyles.titleM.copyWith(
+                      color: fuzzzyColors.ink,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -61,7 +62,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         ? localizations.strictSecurityDescription
                         : localizations.moderateSecurityDescription,
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      color: uiColors.secondaryTextColor,
+                      color: fuzzzyColors.inkMute,
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -69,22 +70,22 @@ class _SettingsPageState extends State<SettingsPage> {
                     label: localizations.strict,
                     icon: Icons.lock,
                     isSelected: isStrict,
-                    color: uiColors.errorColor,
+                    color: fuzzzyColors.destructiveText,
                     onTap: () =>
                         _onSecurityLevelChanged(CopySecurityLevel.strict),
-                    uiColors: uiColors,
-                    uiTextStyles: uiTextStyles,
+                    fuzzzyColors: fuzzzyColors,
+                    fuzzzyTextStyles: fuzzzyTextStyles,
                   ),
                   const SizedBox(height: 12),
                   _SecurityLevelTile(
                     label: localizations.moderate,
                     icon: Icons.lock_open,
                     isSelected: !isStrict,
-                    color: uiColors.focusColor,
+                    color: fuzzzyColors.focus,
                     onTap: () =>
                         _onSecurityLevelChanged(CopySecurityLevel.moderate),
-                    uiColors: uiColors,
-                    uiTextStyles: uiTextStyles,
+                    fuzzzyColors: fuzzzyColors,
+                    fuzzzyTextStyles: fuzzzyTextStyles,
                   ),
                   const SizedBox(height: 32),
                   _SettingsLinkTile(
@@ -92,8 +93,8 @@ class _SettingsPageState extends State<SettingsPage> {
                     title: localizations.chatAuthentication,
                     subtitle: localizations.chatAuthenticationDescription,
                     onTap: () => context.push(AppRouter.auth),
-                    uiColors: uiColors,
-                    uiTextStyles: uiTextStyles,
+                    fuzzzyColors: fuzzzyColors,
+                    fuzzzyTextStyles: fuzzzyTextStyles,
                   ),
                 ],
               ),
@@ -111,16 +112,16 @@ class _SettingsLinkTile extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.onTap,
-    required this.uiColors,
-    required this.uiTextStyles,
+    required this.fuzzzyColors,
+    required this.fuzzzyTextStyles,
   });
 
   final IconData icon;
   final String title;
   final String subtitle;
   final VoidCallback onTap;
-  final UiColors uiColors;
-  final UiTextStyles uiTextStyles;
+  final FuzzzyColors fuzzzyColors;
+  final FuzzzyTextStyles fuzzzyTextStyles;
 
   @override
   Widget build(BuildContext context) {
@@ -129,17 +130,17 @@ class _SettingsLinkTile extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
-          color: uiColors.backgroundSecondaryColor,
+          color: fuzzzyColors.surface,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
-            color: uiColors.focusColor.withOpacity(0.2),
+            color: fuzzzyColors.focus.withOpacity(0.2),
           ),
         ),
         child: Row(
           children: [
             Icon(
               icon,
-              color: uiColors.primaryColor,
+              color: fuzzzyColors.ink,
               size: 22,
             ),
             const SizedBox(width: 12),
@@ -149,16 +150,16 @@ class _SettingsLinkTile extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: uiTextStyles.body16.copyWith(
-                      color: uiColors.primaryTextColor,
+                    style: fuzzzyTextStyles.body.copyWith(
+                      color: fuzzzyColors.ink,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(height: 2),
                   Text(
                     subtitle,
-                    style: uiTextStyles.bodySmall12.copyWith(
-                      color: uiColors.secondaryTextColor,
+                    style: fuzzzyTextStyles.bodyS.copyWith(
+                      color: fuzzzyColors.inkMute,
                     ),
                   ),
                 ],
@@ -166,7 +167,7 @@ class _SettingsLinkTile extends StatelessWidget {
             ),
             Icon(
               Icons.chevron_right,
-              color: uiColors.secondaryTextColor,
+              color: fuzzzyColors.inkMute,
               size: 22,
             ),
           ],
@@ -182,8 +183,8 @@ class _SecurityLevelTile extends StatelessWidget {
   final bool isSelected;
   final Color color;
   final VoidCallback onTap;
-  final UiColors uiColors;
-  final UiTextStyles uiTextStyles;
+  final FuzzzyColors fuzzzyColors;
+  final FuzzzyTextStyles fuzzzyTextStyles;
 
   const _SecurityLevelTile({
     required this.label,
@@ -191,8 +192,8 @@ class _SecurityLevelTile extends StatelessWidget {
     required this.isSelected,
     required this.color,
     required this.onTap,
-    required this.uiColors,
-    required this.uiTextStyles,
+    required this.fuzzzyColors,
+    required this.fuzzzyTextStyles,
   });
 
   @override
@@ -203,12 +204,10 @@ class _SecurityLevelTile extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
-          color: isSelected
-              ? color.withOpacity(0.12)
-              : uiColors.backgroundSecondaryColor,
+          color: isSelected ? color.withOpacity(0.12) : fuzzzyColors.surface,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
-            color: isSelected ? color : uiColors.focusColor.withOpacity(0.2),
+            color: isSelected ? color : fuzzzyColors.focus.withOpacity(0.2),
             width: isSelected ? 1.5 : 1,
           ),
         ),
@@ -216,15 +215,15 @@ class _SecurityLevelTile extends StatelessWidget {
           children: [
             Icon(
               icon,
-              color: isSelected ? color : uiColors.secondaryTextColor,
+              color: isSelected ? color : fuzzzyColors.inkMute,
               size: 22,
             ),
             const SizedBox(width: 12),
             Expanded(
               child: Text(
                 label,
-                style: uiTextStyles.body16.copyWith(
-                  color: isSelected ? color : uiColors.primaryTextColor,
+                style: fuzzzyTextStyles.body.copyWith(
+                  color: isSelected ? color : fuzzzyColors.ink,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                 ),
               ),

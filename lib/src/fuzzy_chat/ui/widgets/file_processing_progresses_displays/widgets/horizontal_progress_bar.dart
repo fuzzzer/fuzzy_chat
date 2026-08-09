@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 
 class HorizontalProgressBar extends StatelessWidget {
   const HorizontalProgressBar({
@@ -19,8 +19,7 @@ class HorizontalProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final uiColors = theme.extension<UiColors>()!;
+    final fuzzzyColors = context.fuzzzyColors;
 
     const borderWidth = 2.0;
 
@@ -35,7 +34,7 @@ class HorizontalProgressBar extends StatelessWidget {
             decoration: BoxDecoration(
               border: Border.all(
                 width: borderWidth,
-                color: uiColors.backgroundSecondaryColor,
+                color: fuzzzyColors.surface,
               ),
             ),
             child: Align(
@@ -45,7 +44,7 @@ class HorizontalProgressBar extends StatelessWidget {
                 height: thickness - borderWidth * 2,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                    color: progressColor ?? uiColors.backgroundSecondaryColor,
+                    color: progressColor ?? fuzzzyColors.surface,
                   ),
                 ),
               ),

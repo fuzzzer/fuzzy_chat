@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 
 class ReceivedFileMessageArea extends StatefulWidget {
   final MessageData message;
@@ -44,8 +45,8 @@ class _ReceivedFileMessageAreaState extends State<ReceivedFileMessageArea> {
 
   @override
   Widget build(BuildContext context) {
-    final uiTextStyles = context.uiTextStyles;
-    final uiColors = context.uiColors;
+    final fuzzzyTextStyles = context.fuzzzyTextStyles;
+    final fuzzzyColors = context.fuzzzyColors;
 
     final localizations = context.fuzzyChatLocalizations;
 
@@ -68,13 +69,13 @@ class _ReceivedFileMessageAreaState extends State<ReceivedFileMessageArea> {
           child: Align(
             alignment: Alignment.centerLeft,
             child: FuzzyOverlaySpawner(
-              splashColor: uiColors.backgroundPrimaryColor,
+              splashColor: fuzzzyColors.ground,
               splashRadius: borderRadius,
               offset: const Offset(150, -20),
               spawnedChildBuilder: (context, closeOverlay) {
                 return DecoratedBox(
                   decoration: BoxDecoration(
-                    color: uiColors.focusColor,
+                    color: fuzzzyColors.focus,
                     borderRadius: BorderRadius.circular(100),
                   ),
                   child: Row(
@@ -166,7 +167,7 @@ class _ReceivedFileMessageAreaState extends State<ReceivedFileMessageArea> {
                 ),
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: uiColors.backgroundSecondaryColor,
+                  color: fuzzzyColors.surface,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(12),
                     topRight: Radius.circular(12),
@@ -175,8 +176,8 @@ class _ReceivedFileMessageAreaState extends State<ReceivedFileMessageArea> {
                 ),
                 child: Text(
                   widget.message.encryptedMessage,
-                  style: uiTextStyles.body16.copyWith(
-                    color: uiColors.primaryTextColor,
+                  style: fuzzzyTextStyles.body.copyWith(
+                    color: fuzzzyColors.ink,
                   ),
                 ),
               ),

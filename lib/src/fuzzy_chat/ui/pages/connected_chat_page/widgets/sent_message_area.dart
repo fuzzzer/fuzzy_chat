@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 
 import 'package:vibration/vibration.dart';
 
@@ -123,9 +124,8 @@ class _SentMessageAreaState extends State<SentMessageArea> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final uiColors = theme.extension<UiColors>()!;
-    final uiTextStyles = theme.extension<UiTextStyles>()!;
+    final fuzzzyColors = context.fuzzzyColors;
+    final fuzzzyTextStyles = context.fuzzzyTextStyles;
 
     final localizations = context.fuzzyChatLocalizations;
 
@@ -150,7 +150,7 @@ class _SentMessageAreaState extends State<SentMessageArea> {
           }
         },
         child: InkWell(
-          splashColor: uiColors.backgroundPrimaryColor,
+          splashColor: fuzzzyColors.ground,
           onLongPress: () {
             if (isEncryptedFile) {
               _openEncryptedFileDirectory(
@@ -172,7 +172,7 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                 child: Ink(
                   decoration: BoxDecoration(
                     borderRadius: borderRadius,
-                    color: uiColors.secondaryColor,
+                    color: fuzzzyColors.surface,
                   ),
                   child: Stack(
                     children: [
@@ -181,7 +181,7 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                             ? const EdgeInsets.only(bottom: 12)
                             : EdgeInsets.zero,
                         child: FuzzyOverlaySpawner(
-                          splashColor: uiColors.backgroundPrimaryColor,
+                          splashColor: fuzzzyColors.ground,
                           splashRadius: borderRadius,
                           offset: (!showEncrypted &&
                                   widget.message.decryptedMessage.length < 10)
@@ -190,7 +190,7 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                           spawnedChildBuilder: (context, closeOverlay) {
                             return DecoratedBox(
                               decoration: BoxDecoration(
-                                color: uiColors.focusColor,
+                                color: fuzzzyColors.focus,
                                 borderRadius: BorderRadius.circular(100),
                               ),
                               child: Row(
@@ -381,8 +381,8 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                                 overflow: isExpanded
                                     ? TextOverflow.visible
                                     : TextOverflow.ellipsis,
-                                style: uiTextStyles.body16.copyWith(
-                                  color: uiColors.backgroundPrimaryColor,
+                                style: fuzzzyTextStyles.body.copyWith(
+                                  color: fuzzzyColors.ground,
                                 ),
                               ),
                             ),
@@ -408,7 +408,7 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                                       ? Icons.expand_less
                                       : Icons.expand_more,
                                   size: 24,
-                                  color: uiColors.backgroundPrimaryColor,
+                                  color: fuzzzyColors.ground,
                                 ),
                               ],
                             ),

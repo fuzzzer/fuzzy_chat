@@ -23,21 +23,12 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final oldTheme = UiKitTheme.dark();
-    final fuzzzyTheme = FuzzzyTheme.build(inkPack, FuzzzySkin.night);
-    final theme = oldTheme.copyWith(
-      extensions: [
-        ...oldTheme.extensions.values,
-        ...fuzzzyTheme.extensions.values,
-      ],
-    );
-
     return GlobalBlocProviders(
       child: GlobalBlocListeners(
         child: FuzzyLinkListener(
           child: MaterialApp.router(
             scaffoldMessengerKey: scaffoldMessengerKey,
-            theme: theme,
+            theme: FuzzzyTheme.build(inkPack, FuzzzySkin.night),
             localizationsDelegates:
                 FuzzyChatLocalizations.localizationsDelegates,
             supportedLocales: FuzzyChatLocalizations.supportedLocales,

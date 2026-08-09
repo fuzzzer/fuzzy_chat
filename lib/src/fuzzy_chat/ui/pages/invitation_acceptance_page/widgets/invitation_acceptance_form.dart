@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 
 class InvitationAcceptanceForm extends StatelessWidget {
   final TextEditingController chatNameController;
@@ -32,22 +33,20 @@ class InvitationAcceptanceForm extends StatelessWidget {
                 localizations
                     .stepPasteTheirInviteCode, // Note: We only have 'Paste Their Invite Code'
                 textAlign: TextAlign.start,
-                style: Theme.of(context)
-                    .extension<UiTextStyles>()!
-                    .body16
-                    .copyWith(fontWeight: FontWeight.bold, fontSize: 18),
+                style: context.fuzzzyTextStyles.body.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: context.fuzzzyColors.ink,
+                ),
               ),
               const SizedBox(height: 8),
               Text(
                 localizations
                     .askYourContactToShareTheirInviteCodeSecurelyAndPasteItBelow,
                 textAlign: TextAlign.start,
-                style: Theme.of(context)
-                    .extension<UiTextStyles>()!
-                    .body16
-                    .copyWith(
-                      color: context.uiColors.secondaryTextColor,
-                    ),
+                style: context.fuzzzyTextStyles.body.copyWith(
+                  color: context.fuzzzyColors.inkMute,
+                ),
               ),
               const SizedBox(height: 16),
               FuzzyTextField(
@@ -59,27 +58,25 @@ class InvitationAcceptanceForm extends StatelessWidget {
               Divider(
                 height: 20,
                 thickness: 4,
-                color: context.uiColors.secondaryColor,
+                color: context.fuzzzyColors.inkMute,
               ),
               const SizedBox(height: 32),
               Text(
                 localizations.stepNameThisChat,
                 textAlign: TextAlign.start,
-                style: Theme.of(context)
-                    .extension<UiTextStyles>()!
-                    .body16
-                    .copyWith(fontWeight: FontWeight.bold, fontSize: 18),
+                style: context.fuzzzyTextStyles.body.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: context.fuzzzyColors.ink,
+                ),
               ),
               const SizedBox(height: 8),
               Text(
                 localizations.chooseALocalNameForThisChatThisIsOnlyVisibleToYou,
                 textAlign: TextAlign.start,
-                style: Theme.of(context)
-                    .extension<UiTextStyles>()!
-                    .body16
-                    .copyWith(
-                      color: context.uiColors.secondaryTextColor,
-                    ),
+                style: context.fuzzzyTextStyles.body.copyWith(
+                  color: context.fuzzzyColors.inkMute,
+                ),
               ),
               const SizedBox(height: 16),
               FuzzyTextField(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 
 class FuzzyTextField extends StatelessWidget {
   final String labelText;
@@ -39,8 +39,7 @@ class FuzzyTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final uiColors = theme.extension<UiColors>()!;
+    final fuzzzyColors = context.fuzzzyColors;
 
     return TextField(
       controller: controller,
@@ -59,8 +58,8 @@ class FuzzyTextField extends StatelessWidget {
         hintText: hintText,
         helperText: helperText,
         suffixIcon: suffixIcon,
-        fillColor: uiColors.secondaryColor,
-        focusColor: uiColors.focusColor,
+        fillColor: fuzzzyColors.surface,
+        focusColor: fuzzzyColors.focus,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
         ),

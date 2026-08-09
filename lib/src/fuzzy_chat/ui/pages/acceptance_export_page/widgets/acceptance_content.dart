@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 import 'package:go_router/go_router.dart';
 
 class AcceptanceContent extends StatelessWidget {
@@ -45,8 +46,7 @@ class AcceptanceContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final uiTextStyles = theme.extension<UiTextStyles>()!;
+    final fuzzzyTextStyles = context.fuzzzyTextStyles;
 
     final localizations = context.fuzzyChatLocalizations;
 
@@ -69,7 +69,9 @@ class AcceptanceContent extends StatelessWidget {
               Text(
                 localizations.yourAcceptanceHasBeenGeneratedSuccessfully,
                 textAlign: TextAlign.center,
-                style: uiTextStyles.body16,
+                style: fuzzzyTextStyles.body.copyWith(
+                  color: context.fuzzzyColors.ink,
+                ),
               ),
               const SizedBox(height: 16),
               FuzzyButton(

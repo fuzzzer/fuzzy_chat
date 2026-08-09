@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 
 Future<void> showChatDeletionDialog(
   BuildContext context, {
@@ -22,7 +23,7 @@ Future<void> showChatDeletionDialog(
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
             style: TextButton.styleFrom(
-              foregroundColor: context.uiColors.focusColor,
+              foregroundColor: context.fuzzzyColors.focus,
             ),
             child: Text(
               localizations.cancel,
@@ -40,7 +41,7 @@ Future<void> showChatDeletionDialog(
               }
             },
             style: TextButton.styleFrom(
-              foregroundColor: context.uiColors.errorColor,
+              foregroundColor: context.fuzzzyColors.destructiveText,
             ),
             child: Text(
               localizations.delete,

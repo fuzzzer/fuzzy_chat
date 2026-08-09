@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 
 class ChatInvitationContent extends StatefulWidget {
   final String chatName;
@@ -31,9 +32,8 @@ class _ChatInvitationContentState extends State<ChatInvitationContent> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final uiColors = theme.extension<UiColors>()!;
-    final uiTextStyles = theme.extension<UiTextStyles>()!;
+    final fuzzzyColors = context.fuzzzyColors;
+    final fuzzzyTextStyles = context.fuzzzyTextStyles;
 
     final localizations = context.fuzzyChatLocalizations;
 
@@ -51,16 +51,20 @@ class _ChatInvitationContentState extends State<ChatInvitationContent> {
               Text(
                 localizations.stepSendYourInviteCode,
                 textAlign: TextAlign.start,
-                style: uiTextStyles.body16
-                    .copyWith(fontWeight: FontWeight.bold, fontSize: 18),
+                style: fuzzzyTextStyles.body.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: fuzzzyColors.ink,
+                ),
               ),
               const SizedBox(height: 8),
               Text(
                 localizations
                     .sendThisCodeToThePersonYouWantToChatWithUsingAnySecureChannel,
                 textAlign: TextAlign.start,
-                style: uiTextStyles.body16
-                    .copyWith(color: uiColors.secondaryTextColor),
+                style: fuzzzyTextStyles.body.copyWith(
+                  color: fuzzzyColors.inkMute,
+                ),
               ),
               const SizedBox(height: 20),
               FuzzyButton(
@@ -123,22 +127,26 @@ class _ChatInvitationContentState extends State<ChatInvitationContent> {
               Divider(
                 height: 20,
                 thickness: 4,
-                color: uiColors.secondaryColor,
+                color: fuzzzyColors.inkMute,
               ),
               const SizedBox(height: 32),
               Text(
                 localizations.stepPasteTheirAcceptanceCode,
                 textAlign: TextAlign.start,
-                style: uiTextStyles.body16
-                    .copyWith(fontWeight: FontWeight.bold, fontSize: 18),
+                style: fuzzzyTextStyles.body.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: fuzzzyColors.ink,
+                ),
               ),
               const SizedBox(height: 8),
               Text(
                 localizations
                     .onceTheyAcceptYourInviteTheyWillSendACodeBackPasteItBelow,
                 textAlign: TextAlign.start,
-                style: uiTextStyles.body16
-                    .copyWith(color: uiColors.secondaryTextColor),
+                style: fuzzzyTextStyles.body.copyWith(
+                  color: fuzzzyColors.inkMute,
+                ),
               ),
               const SizedBox(height: 16),
               FuzzyTextField(
