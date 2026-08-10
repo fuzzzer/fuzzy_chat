@@ -49,9 +49,9 @@ class InvitationAcceptanceForm extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              FuzzyTextField(
+              FuzzzyTextField(
                 controller: invitationTextController,
-                labelText: localizations.pasteInvitationText,
+                label: localizations.pasteInvitationText,
                 maxLines: 4,
               ),
               const SizedBox(height: 32),
@@ -79,9 +79,9 @@ class InvitationAcceptanceForm extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              FuzzyTextField(
+              FuzzzyTextField(
                 controller: chatNameController,
-                labelText: localizations.enterChatName,
+                label: localizations.enterChatName,
               ),
               const SizedBox(height: 80),
             ],

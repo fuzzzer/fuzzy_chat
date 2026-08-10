@@ -122,13 +122,13 @@ class _ChatUnlockPageState extends State<ChatUnlockPage>
                             child: child,
                           );
                         },
-                        child: FuzzyTextField(
+                        child: FuzzzyTextField(
                           controller: _passwordController,
-                          labelText:
+                          label:
                               currentContextLocalization.chatAuthPassword,
-                          obscureText: !_isPasswordVisible,
+                          obscure: !_isPasswordVisible,
                           onSubmitted: (_) => _onUnlock(),
-                          suffixIcon: IconButton(
+                          suffix: IconButton(
                             icon: Icon(
                               _isPasswordVisible
                                   ? Icons.visibility_off

@@ -117,12 +117,12 @@ class _VaultUnlockPageState extends State<VaultUnlockPage>
                         child: child,
                       );
                     },
-                    child: FuzzyTextField(
+                    child: FuzzzyTextField(
                       controller: _passwordController,
-                      labelText: currentContextLocalization.vaultPassword,
-                      obscureText: !_isPasswordVisible,
+                      label: currentContextLocalization.vaultPassword,
+                      obscure: !_isPasswordVisible,
                       onSubmitted: (_) => _onUnlock(),
-                      suffixIcon: IconButton(
+                      suffix: IconButton(
                         icon: Icon(
                           _isPasswordVisible
                               ? Icons.visibility_off

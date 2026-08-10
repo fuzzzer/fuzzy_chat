@@ -99,11 +99,11 @@ class _VaultCreatePageState extends State<VaultCreatePage> {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 40),
-                  FuzzyTextField(
+                  FuzzzyTextField(
                     controller: _passwordController,
-                    labelText: currentContextLocalization.vaultPassword,
-                    obscureText: !_isPasswordVisible,
-                    suffixIcon: IconButton(
+                    label: currentContextLocalization.vaultPassword,
+                    obscure: !_isPasswordVisible,
+                    suffix: IconButton(
                       icon: Icon(
                         _isPasswordVisible
                             ? Icons.visibility_off
@@ -122,11 +122,11 @@ class _VaultCreatePageState extends State<VaultCreatePage> {
                     ),
                     const SizedBox(height: 24),
                   ],
-                  FuzzyTextField(
+                  FuzzzyTextField(
                     controller: _confirmController,
-                    labelText: currentContextLocalization.vaultConfirmPassword,
-                    obscureText: !_isConfirmVisible,
-                    suffixIcon: IconButton(
+                    label: currentContextLocalization.vaultConfirmPassword,
+                    obscure: !_isConfirmVisible,
+                    suffix: IconButton(
                       icon: Icon(
                         _isConfirmVisible
                             ? Icons.visibility_off

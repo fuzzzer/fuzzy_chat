@@ -343,20 +343,20 @@ class _SetupPasswordSection extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            FuzzyTextField(
+            FuzzzyTextField(
               controller: passwordController,
-              labelText: localizations.chatAuthPassword,
-              obscureText: !isPasswordVisible,
-              suffixIcon: _PasswordVisibilityToggle(
+              label: localizations.chatAuthPassword,
+              obscure: !isPasswordVisible,
+              suffix: _PasswordVisibilityToggle(
                 isVisible: isPasswordVisible,
                 onPressed: onTogglePasswordVisibility,
               ),
             ),
             const SizedBox(height: 12),
-            FuzzyTextField(
+            FuzzzyTextField(
               controller: confirmPasswordController,
-              labelText: localizations.chatAuthConfirmPassword,
-              obscureText: !isPasswordVisible,
+              label: localizations.chatAuthConfirmPassword,
+              obscure: !isPasswordVisible,
               onSubmitted: (_) => onEnableAuth(),
             ),
             if (showMismatchError) ...[
@@ -418,26 +418,26 @@ class _ChangePasswordSection extends StatelessWidget {
               color: fuzzzyColors.focus,
             ),
             const SizedBox(height: 24),
-            FuzzyTextField(
+            FuzzzyTextField(
               controller: oldPasswordController,
-              labelText: localizations.chatAuthCurrentPassword,
-              obscureText: !isPasswordVisible,
+              label: localizations.chatAuthCurrentPassword,
+              obscure: !isPasswordVisible,
             ),
             const SizedBox(height: 12),
-            FuzzyTextField(
+            FuzzzyTextField(
               controller: passwordController,
-              labelText: localizations.chatAuthNewPassword,
-              obscureText: !isPasswordVisible,
-              suffixIcon: _PasswordVisibilityToggle(
+              label: localizations.chatAuthNewPassword,
+              obscure: !isPasswordVisible,
+              suffix: _PasswordVisibilityToggle(
                 isVisible: isPasswordVisible,
                 onPressed: onTogglePasswordVisibility,
               ),
             ),
             const SizedBox(height: 12),
-            FuzzyTextField(
+            FuzzzyTextField(
               controller: confirmPasswordController,
-              labelText: localizations.chatAuthConfirmPassword,
-              obscureText: !isPasswordVisible,
+              label: localizations.chatAuthConfirmPassword,
+              obscure: !isPasswordVisible,
               onSubmitted: (_) => onChangePassword(),
             ),
             if (showMismatchError) ...[
@@ -660,11 +660,11 @@ class _VaultBiometricSectionState extends State<_VaultBiometricSection> {
                 ?.copyWith(color: fuzzzyColors.inkMute),
           ),
           const SizedBox(height: 12),
-          FuzzyTextField(
+          FuzzzyTextField(
             controller: widget.passwordController,
-            labelText: localizations.vaultPassword,
-            obscureText: !widget.isPasswordVisible,
-            suffixIcon: _PasswordVisibilityToggle(
+            label: localizations.vaultPassword,
+            obscure: !widget.isPasswordVisible,
+            suffix: _PasswordVisibilityToggle(
               isVisible: widget.isPasswordVisible,
               onPressed: widget.onTogglePasswordVisibility,
             ),

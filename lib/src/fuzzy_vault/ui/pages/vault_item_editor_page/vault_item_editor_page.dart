@@ -376,25 +376,25 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         if (_type != VaultItemType.password) ...[
-                          FuzzyTextField(
+                          FuzzzyTextField(
                             controller: _titleController,
-                            labelText: currentContextLocalization.vaultTitle,
+                            label: currentContextLocalization.vaultTitle,
                           ),
                           const SizedBox(height: 16),
                         ],
                         if (_type == VaultItemType.password) ...[
-                          FuzzyTextField(
+                          FuzzzyTextField(
                             controller: _usernameController,
-                            labelText:
+                            label:
                                 currentContextLocalization.vaultUsernameEmail,
                           ),
                           const SizedBox(height: 16),
-                          FuzzyTextField(
+                          FuzzzyTextField(
                             controller: _passwordController,
-                            labelText:
+                            label:
                                 currentContextLocalization.vaultPasswordLabel,
-                            obscureText: !_isPasswordVisible,
-                            suffixIcon: IconButton(
+                            obscure: !_isPasswordVisible,
+                            suffix: IconButton(
                               icon: Icon(
                                 _isPasswordVisible
                                     ? Icons.visibility_off
@@ -407,9 +407,9 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
                             ),
                           ),
                           const SizedBox(height: 16),
-                          FuzzyTextField(
+                          FuzzzyTextField(
                             controller: _urlController,
-                            labelText:
+                            label:
                                 currentContextLocalization.vaultUrlWebsite,
                           ),
                           const SizedBox(height: 16),
@@ -510,9 +510,9 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
                           const SizedBox(height: 16),
                         ],
                         if (_type != VaultItemType.file) ...[
-                          FuzzyTextField(
+                          FuzzzyTextField(
                             controller: _notesController,
-                            labelText: _type == VaultItemType.password
+                            label: _type == VaultItemType.password
                                 ? currentContextLocalization.vaultNotesOptional
                                 : currentContextLocalization.vaultSecureNote,
                             minLines: _type == VaultItemType.password ? 1 : 15,

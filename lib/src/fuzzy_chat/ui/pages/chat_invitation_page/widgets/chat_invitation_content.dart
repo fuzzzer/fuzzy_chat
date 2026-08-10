@@ -149,8 +149,8 @@ class _ChatInvitationContentState extends State<ChatInvitationContent> {
                 ),
               ),
               const SizedBox(height: 16),
-              FuzzyTextField(
-                labelText: localizations.acceptanceText,
+              FuzzzyTextField(
+                label: localizations.acceptanceText,
                 controller: widget.acceptanceTextController,
                 maxLines: 5,
                 scrollPadding: const EdgeInsets.only(bottom: 150),
