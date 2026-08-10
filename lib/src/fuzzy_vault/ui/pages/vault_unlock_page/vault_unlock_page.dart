@@ -144,13 +144,11 @@ class _VaultUnlockPageState extends State<VaultUnlockPage>
                     ),
                   ],
                   const SizedBox(height: 40),
-                  FuzzyButton(
-                    text: currentContextLocalization.vaultUnlock,
-                    isEnabled:
-                        _passwordController.text.isNotEmpty && !isLoading,
-                    onTap: _passwordController.text.isNotEmpty && !isLoading
+                  FuzzzyButton(
+                    label: currentContextLocalization.vaultUnlock,
+                    onPressed: _passwordController.text.isNotEmpty && !isLoading
                         ? _onUnlock
-                        : () {},
+                        : null,
                   ),
                   if (state.biometricEnabled) ...[
                     const SizedBox(height: 24),

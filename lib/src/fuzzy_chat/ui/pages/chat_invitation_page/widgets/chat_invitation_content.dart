@@ -67,10 +67,10 @@ class _ChatInvitationContentState extends State<ChatInvitationContent> {
                 ),
               ),
               const SizedBox(height: 20),
-              FuzzyButton(
-                text: localizations.copyInvitation,
-                icon: Icons.copy,
-                onTap: () {
+              FuzzzyButton(
+                label: localizations.copyInvitation,
+                icon: const Icon(Icons.copy),
+                onPressed: () {
                   deboucer.run(() {
                     Clipboard.setData(
                       ClipboardData(text: widget.invitationContent),
@@ -83,18 +83,18 @@ class _ChatInvitationContentState extends State<ChatInvitationContent> {
                 },
               ),
               const SizedBox(height: 12),
-              FuzzyButton(
-                text: localizations.shareInvitation,
-                icon: Icons.share,
-                onTap: () {
+              FuzzzyButton(
+                label: localizations.shareInvitation,
+                icon: const Icon(Icons.share),
+                onPressed: () {
                   ShareHelper.share(widget.invitationContent, context: context);
                 },
               ),
               const SizedBox(height: 12),
-              FuzzyButton(
-                text: localizations.shareAsLink,
-                icon: Icons.share,
-                onTap: () {
+              FuzzzyButton(
+                label: localizations.shareAsLink,
+                icon: const Icon(Icons.share),
+                onPressed: () {
                   final link = FuzzyLinkGenerator.generateInvitationLink(
                     widget.invitationContent,
                   );
@@ -107,10 +107,10 @@ class _ChatInvitationContentState extends State<ChatInvitationContent> {
                 },
               ),
               const SizedBox(height: 12),
-              FuzzyButton(
-                text: localizations.copyAsLink,
-                icon: Icons.link,
-                onTap: () {
+              FuzzzyButton(
+                label: localizations.copyAsLink,
+                icon: const Icon(Icons.link),
+                onPressed: () {
                   deboucer.run(() {
                     final link = FuzzyLinkGenerator.generateInvitationLink(
                       widget.invitationContent,

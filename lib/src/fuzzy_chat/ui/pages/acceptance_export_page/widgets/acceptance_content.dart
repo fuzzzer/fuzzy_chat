@@ -74,37 +74,37 @@ class AcceptanceContent extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              FuzzyButton(
-                text: localizations.copyAcceptance,
-                icon: Icons.copy,
-                onTap: () => _copyAcceptance(context),
+              FuzzzyButton(
+                label: localizations.copyAcceptance,
+                icon: const Icon(Icons.copy),
+                onPressed: () => _copyAcceptance(context),
               ),
               const SizedBox(height: 12),
-              FuzzyButton(
-                text: localizations.shareAcceptance,
-                icon: Icons.share,
-                onTap: () =>
+              FuzzzyButton(
+                label: localizations.shareAcceptance,
+                icon: const Icon(Icons.share),
+                onPressed: () =>
                     ShareHelper.share(acceptanceContent, context: context),
               ),
               const SizedBox(height: 12),
-              FuzzyButton(
-                text: localizations.shareAsLink,
-                icon: Icons.share,
-                onTap: () => _shareAsLink(context),
+              FuzzzyButton(
+                label: localizations.shareAsLink,
+                icon: const Icon(Icons.share),
+                onPressed: () => _shareAsLink(context),
               ),
               const SizedBox(height: 12),
-              FuzzyButton(
-                text: localizations.copyAsLink,
-                icon: Icons.link,
-                onTap: () => _copyAsLink(context),
+              FuzzzyButton(
+                label: localizations.copyAsLink,
+                icon: const Icon(Icons.link),
+                onPressed: () => _copyAsLink(context),
               ),
               const Spacer(),
               if (hasBackButton)
                 const FuzzyBackButton()
               else
-                FuzzyButton(
-                  text: localizations.goToChat,
-                  onTap: () {
+                FuzzzyButton(
+                  label: localizations.goToChat,
+                  onPressed: () {
                     context.go(
                       AppRouter.chatConnected,
                       extra: ConnectedChatPagePayload(

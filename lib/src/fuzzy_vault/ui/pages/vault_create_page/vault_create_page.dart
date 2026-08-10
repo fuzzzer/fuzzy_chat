@@ -175,10 +175,9 @@ class _VaultCreatePageState extends State<VaultCreatePage> {
                     ),
                   ),
                   const SizedBox(height: 40),
-                  FuzzyButton(
-                    text: currentContextLocalization.vaultCreateVault,
-                    isEnabled: _isValid() && !isLoading,
-                    onTap: _isValid() && !isLoading ? _onCreate : () {},
+                  FuzzzyButton(
+                    label: currentContextLocalization.vaultCreateVault,
+                    onPressed: _isValid() && !isLoading ? _onCreate : null,
                   ),
                 ],
               ),

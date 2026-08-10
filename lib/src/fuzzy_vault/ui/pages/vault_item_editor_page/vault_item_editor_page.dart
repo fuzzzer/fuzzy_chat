@@ -501,11 +501,11 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
                             ),
                             const SizedBox(height: 16),
                           ],
-                          FuzzyButton(
-                            text: _pickedFileName != null
+                          FuzzzyButton(
+                            label: _pickedFileName != null
                                 ? currentContextLocalization.vaultEditItem
                                 : 'Select File',
-                            onTap: _pickFile,
+                            onPressed: _pickFile,
                           ),
                           const SizedBox(height: 16),
                         ],
@@ -524,9 +524,9 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
                         if (_isSaving)
                           const Center(child: CircularProgressIndicator())
                         else
-                          FuzzyButton(
-                            text: currentContextLocalization.vaultSave,
-                            onTap: () => _onSave(context),
+                          FuzzzyButton(
+                            label: currentContextLocalization.vaultSave,
+                            onPressed: () => _onSave(context),
                           ),
                       ],
                     ),

@@ -149,13 +149,12 @@ class _ChatUnlockPageState extends State<ChatUnlockPage>
                         ),
                       ],
                       const SizedBox(height: 40),
-                      FuzzyButton(
-                        text: currentContextLocalization.chatAuthUnlock,
-                        isEnabled:
-                            _passwordController.text.isNotEmpty && !isLoading,
-                        onTap: _passwordController.text.isNotEmpty && !isLoading
-                            ? _onUnlock
-                            : () {},
+                      FuzzzyButton(
+                        label: currentContextLocalization.chatAuthUnlock,
+                        onPressed:
+                            _passwordController.text.isNotEmpty && !isLoading
+                                ? _onUnlock
+                                : null,
                       ),
                       if (state.biometricEnabled) ...[
                         const SizedBox(height: 24),

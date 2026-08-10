@@ -367,10 +367,9 @@ class _SetupPasswordSection extends StatelessWidget {
               ),
             ],
             const SizedBox(height: 24),
-            FuzzyButton(
-              text: localizations.chatAuthEnableProtection,
-              isEnabled: !isLoading,
-              onTap: !isLoading ? onEnableAuth : () {},
+            FuzzzyButton(
+              label: localizations.chatAuthEnableProtection,
+              onPressed: !isLoading ? onEnableAuth : null,
             ),
           ],
         );
@@ -448,16 +447,14 @@ class _ChangePasswordSection extends StatelessWidget {
               ),
             ],
             const SizedBox(height: 24),
-            FuzzyButton(
-              text: localizations.chatAuthSetPassword,
-              isEnabled: !isLoading,
-              onTap: !isLoading ? onChangePassword : () {},
+            FuzzzyButton(
+              label: localizations.chatAuthSetPassword,
+              onPressed: !isLoading ? onChangePassword : null,
             ),
             const SizedBox(height: 12),
-            FuzzyButton(
-              text: localizations.chatAuthDisableProtection,
-              isEnabled: !isLoading,
-              onTap: !isLoading ? onDisableAuth : () {},
+            FuzzzyButton(
+              label: localizations.chatAuthDisableProtection,
+              onPressed: !isLoading ? onDisableAuth : null,
             ),
           ],
         );
@@ -550,10 +547,9 @@ class _BiometricSectionState extends State<_BiometricSection> {
                 color: fuzzzyColors.focus,
               ),
               const SizedBox(height: 12),
-              FuzzyButton(
-                text: localizations.chatAuthBiometricDisable,
-                isEnabled: !isLoading,
-                onTap: !isLoading ? widget.onDisableBiometric : () {},
+              FuzzzyButton(
+                label: localizations.chatAuthBiometricDisable,
+                onPressed: !isLoading ? widget.onDisableBiometric : null,
               ),
             ] else ...[
               Text(
@@ -562,10 +558,9 @@ class _BiometricSectionState extends State<_BiometricSection> {
                     ?.copyWith(color: fuzzzyColors.inkMute),
               ),
               const SizedBox(height: 12),
-              FuzzyButton(
-                text: localizations.chatAuthBiometricEnable,
-                isEnabled: !isLoading,
-                onTap: !isLoading ? widget.onEnableBiometric : () {},
+              FuzzzyButton(
+                label: localizations.chatAuthBiometricEnable,
+                onPressed: !isLoading ? widget.onEnableBiometric : null,
               ),
             ],
           ],
@@ -649,9 +644,9 @@ class _VaultBiometricSectionState extends State<_VaultBiometricSection> {
             color: fuzzzyColors.focus,
           ),
           const SizedBox(height: 12),
-          FuzzyButton(
-            text: localizations.vaultBiometricDisable,
-            onTap: widget.onDisableBiometric,
+          FuzzzyButton(
+            label: localizations.vaultBiometricDisable,
+            onPressed: widget.onDisableBiometric,
           ),
         ] else ...[
           Text(
@@ -670,9 +665,9 @@ class _VaultBiometricSectionState extends State<_VaultBiometricSection> {
             ),
           ),
           const SizedBox(height: 12),
-          FuzzyButton(
-            text: localizations.vaultBiometricEnable,
-            onTap: widget.onEnableBiometric,
+          FuzzzyButton(
+            label: localizations.vaultBiometricEnable,
+            onPressed: widget.onEnableBiometric,
           ),
         ],
       ],
