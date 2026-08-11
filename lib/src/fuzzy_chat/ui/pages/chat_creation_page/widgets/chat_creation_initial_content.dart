@@ -24,7 +24,7 @@ class ChatCreationInitialContent extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            FuzzyHeader(
+            FuzzzyAppBar(
               title: localizations.createANewChat,
             ),
             const Spacer(),

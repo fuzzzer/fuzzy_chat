@@ -25,7 +25,7 @@ class InvitationAcceptanceForm extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              FuzzyHeader(
+              FuzzzyAppBar(
                 title: localizations.acceptChatInvitation,
               ),
               const SizedBox(height: 32),

@@ -338,7 +338,7 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                FuzzyHeader(
+                FuzzzyAppBar(
                   title: widget.payload.existingItem == null
                       ? (_type == VaultItemType.password
                           ? currentContextLocalization.vaultNewPassword
@@ -346,10 +346,11 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
                               ? currentContextLocalization.vaultNewNote
                               : currentContextLocalization.vaultFileLabel)
                       : currentContextLocalization.vaultEditItem,
-                  leftAction: const FuzzyBackButton(),
-                  rightAction: widget.payload.existingItem != null
-                      ? _isDeleting
-                          ? const Padding(
+                  leading: const FuzzyBackButton(),
+                  actions: widget.payload.existingItem != null
+                      ? [
+                          if (_isDeleting)
+                            const Padding(
                               padding: EdgeInsets.only(right: 16),
                               child: Center(
                                 child: SizedBox(
@@ -360,13 +361,15 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
                                 ),
                               ),
                             )
-                          : IconButton(
+                          else
+                            IconButton(
                               icon: const Icon(
                                 Icons.delete_outline,
                                 color: Colors.red,
                               ),
                               onPressed: () => _onDelete(context),
-                            )
+                            ),
+                        ]
                       : null,
                 ),
                 Expanded(

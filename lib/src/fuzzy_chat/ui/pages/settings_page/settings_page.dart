@@ -39,7 +39,7 @@ class _SettingsPageState extends State<SettingsPage> {
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
-            child: FuzzyHeader(
+            child: FuzzzyAppBar(
               title: localizations.settings,
             ),
           ),

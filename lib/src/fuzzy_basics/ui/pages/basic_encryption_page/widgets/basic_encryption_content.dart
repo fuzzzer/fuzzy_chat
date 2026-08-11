@@ -31,7 +31,7 @@ class BasicEncryptionContent extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              FuzzyHeader(
+              FuzzzyAppBar(
                   title: context.fuzzyChatLocalizations.basicEncryption,),
               const SizedBox(height: 24),
               AnimatedBuilder(

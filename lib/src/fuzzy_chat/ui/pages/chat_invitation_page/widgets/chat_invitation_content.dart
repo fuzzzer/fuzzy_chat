@@ -44,7 +44,7 @@ class _ChatInvitationContentState extends State<ChatInvitationContent> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              FuzzyHeader(
+              FuzzzyAppBar(
                 title: widget.chatName,
               ),
               const SizedBox(height: 20),

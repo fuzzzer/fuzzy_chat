@@ -64,7 +64,7 @@ class AcceptanceContent extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           child: Column(
             children: [
-              FuzzyHeader(
+              FuzzzyAppBar(
                 title: localizations.exportAcceptance,
               ),
               const Spacer(),

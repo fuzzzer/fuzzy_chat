@@ -208,7 +208,7 @@ class _FuzzyUserAuthPageContentState extends State<_FuzzyUserAuthPageContent> {
               body: CustomScrollView(
                 slivers: [
                   SliverToBoxAdapter(
-                    child: FuzzyHeader(title: localizations.chatAuthSetupTitle),
+                    child: FuzzzyAppBar(title: localizations.chatAuthSetupTitle),
                   ),
                   SliverToBoxAdapter(
                     child: Padding(

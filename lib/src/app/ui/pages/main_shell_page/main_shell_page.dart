@@ -88,30 +88,34 @@ class MainShellPage extends StatelessWidget {
       );
     }
 
+    final shellAppBar = FuzzzyAppBar(
+      title: title,
+      leading: Builder(
+        builder: (context) {
+          return IconButton(
+            padding: EdgeInsets.zero,
+            icon: Icon(
+              Icons.menu,
+              color: context.fuzzzyColors.ink,
+            ),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          );
+        },
+      ),
+      actions: rightAction != null ? [rightAction] : null,
+    );
+
     return Scaffold(
       backgroundColor: context.fuzzzyColors.ground,
       drawer: const MainDrawer(),
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(70),
+        preferredSize: Size.fromHeight(
+          shellAppBar.preferredSize.height + MediaQuery.of(context).padding.top,
+        ),
         child: SafeArea(
-          child: FuzzyHeader(
-            title: title,
-            leftAction: Builder(
-              builder: (context) {
-                return IconButton(
-                  padding: EdgeInsets.zero,
-                  icon: Icon(
-                    Icons.menu,
-                    color: context.fuzzzyColors.ink,
-                  ),
-                  onPressed: () {
-                    Scaffold.of(context).openDrawer();
-                  },
-                );
-              },
-            ),
-            rightAction: rightAction,
-          ),
+          child: shellAppBar,
         ),
       ),
       body: child,
