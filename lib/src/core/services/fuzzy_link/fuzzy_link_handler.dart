@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 import 'package:go_router/go_router.dart';
 
 class FuzzyLinkHandler {
@@ -47,21 +48,24 @@ class FuzzyLinkHandler {
   void _handleUri(Uri uri) {
     final payload = FuzzyLinkParser.parse(uri);
     if (payload == null) {
-      FuzzySnackbar.show(label: _l10n.invalidLink);
+      FuzzzyToast.show(navigatorKey.currentContext!, message: _l10n.invalidLink);
       return;
     }
 
     if (!payload.isSupported) {
-      FuzzySnackbar.show(label: _l10n.updateRequired);
+      FuzzzyToast.show(navigatorKey.currentContext!,
+          message: _l10n.updateRequired,);
       return;
     }
 
     if (payload is InvitationLinkPayload && payload.isExpired) {
-      FuzzySnackbar.show(label: _l10n.invitationLinkExpired);
+      FuzzzyToast.show(navigatorKey.currentContext!,
+          message: _l10n.invitationLinkExpired,);
       return;
     }
     if (payload is AcceptanceLinkPayload && payload.isExpired) {
-      FuzzySnackbar.show(label: _l10n.acceptanceLinkExpired);
+      FuzzzyToast.show(navigatorKey.currentContext!,
+          message: _l10n.acceptanceLinkExpired,);
       return;
     }
 
@@ -100,7 +104,8 @@ class FuzzyLinkHandler {
           await _chatRepository.getChatById(receivedInvitation.chatId);
 
       if (existingChat != null) {
-        FuzzySnackbar.show(label: _l10n.cantAcceptOwnInvitation);
+        FuzzzyToast.show(navigatorKey.currentContext!,
+            message: _l10n.cantAcceptOwnInvitation,);
         return;
       }
     } catch (_) {
@@ -123,12 +128,14 @@ class FuzzyLinkHandler {
       final chat = await _chatRepository.getChatById(chatId);
 
       if (chat == null) {
-        FuzzySnackbar.show(label: _l10n.chatNotFoundForAcceptance);
+        FuzzzyToast.show(navigatorKey.currentContext!,
+            message: _l10n.chatNotFoundForAcceptance,);
         return;
       }
 
       if (chat.setupStatus == ChatSetupStatus.connected) {
-        FuzzySnackbar.show(label: _l10n.alreadyConnected);
+        FuzzzyToast.show(navigatorKey.currentContext!,
+            message: _l10n.alreadyConnected,);
         return;
       }
 
@@ -142,7 +149,8 @@ class FuzzyLinkHandler {
         ),
       );
     } catch (_) {
-      FuzzySnackbar.show(label: _l10n.failedToProcessAcceptance);
+      FuzzzyToast.show(navigatorKey.currentContext!,
+          message: _l10n.failedToProcessAcceptance,);
     }
   }
 
@@ -152,7 +160,8 @@ class FuzzyLinkHandler {
       final chat = await _chatRepository.getChatById(payload.chatId);
 
       if (chat == null) {
-        FuzzySnackbar.show(label: _l10n.chatNotFoundForMessage);
+        FuzzzyToast.show(navigatorKey.currentContext!,
+            message: _l10n.chatNotFoundForMessage,);
         return;
       }
 
@@ -165,7 +174,8 @@ class FuzzyLinkHandler {
         ),
       );
     } catch (_) {
-      FuzzySnackbar.show(label: _l10n.failedToProcessMessage);
+      FuzzzyToast.show(navigatorKey.currentContext!,
+          message: _l10n.failedToProcessMessage,);
     }
   }
 

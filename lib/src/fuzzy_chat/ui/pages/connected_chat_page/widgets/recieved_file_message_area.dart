@@ -139,8 +139,8 @@ class _ReceivedFileMessageAreaState extends State<ReceivedFileMessageArea> {
                             widget.message.encryptedMessage,
                           );
                           Clipboard.setData(ClipboardData(text: link));
-                          FuzzySnackbar.show(
-                              label: localizations.linkCopiedToClipboard,);
+                          FuzzzyToast.show(context,
+                              message: localizations.linkCopiedToClipboard,);
                           closeOverlay();
                         },
                       ),
@@ -152,8 +152,8 @@ class _ReceivedFileMessageAreaState extends State<ReceivedFileMessageArea> {
                           final filePath = widget.message.encryptedMessage
                               .replaceAll(fuzzIdentificator, '');
                           Clipboard.setData(ClipboardData(text: filePath));
-                          FuzzySnackbar.show(
-                              label: localizations.copiedToTheClipboard,);
+                          FuzzzyToast.show(context,
+                              message: localizations.copiedToTheClipboard,);
                           closeOverlay();
                         },
                       ),

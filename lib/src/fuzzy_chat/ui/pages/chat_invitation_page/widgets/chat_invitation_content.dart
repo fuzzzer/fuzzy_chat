@@ -75,8 +75,10 @@ class _ChatInvitationContentState extends State<ChatInvitationContent> {
                     Clipboard.setData(
                       ClipboardData(text: widget.invitationContent),
                     ).then((_) {
-                      FuzzySnackbar.show(
-                        label: localizations.invitationCopiedToClipboard,
+                      if (!mounted) return;
+                      FuzzzyToast.show(
+                        context,
+                        message: localizations.invitationCopiedToClipboard,
                       );
                     });
                   });
@@ -116,8 +118,10 @@ class _ChatInvitationContentState extends State<ChatInvitationContent> {
                       widget.invitationContent,
                     );
                     Clipboard.setData(ClipboardData(text: link)).then((_) {
-                      FuzzySnackbar.show(
-                        label: localizations.linkCopiedToClipboard,
+                      if (!mounted) return;
+                      FuzzzyToast.show(
+                        context,
+                        message: localizations.linkCopiedToClipboard,
                       );
                     });
                   });

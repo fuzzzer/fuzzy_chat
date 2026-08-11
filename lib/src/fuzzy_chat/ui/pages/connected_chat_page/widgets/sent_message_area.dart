@@ -105,7 +105,8 @@ class _SentMessageAreaState extends State<SentMessageArea> {
         text: _prepareEncrypredMessage(encryptedMessage),
       ),
     ).then((_) async {
-      FuzzySnackbar.show(label: localizations.copiedToTheClipboard);
+      if (!mounted) return;
+      FuzzzyToast.show(context, message: localizations.copiedToTheClipboard);
 
       final hasVibrator = await Vibration.hasVibrator();
       if (hasVibrator ?? true) {
@@ -230,8 +231,8 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                                                     fuzzIdentificator, '',);
                                             Clipboard.setData(
                                                 ClipboardData(text: filePath),);
-                                            FuzzySnackbar.show(
-                                                label: localizations
+                                            FuzzzyToast.show(context,
+                                                message: localizations
                                                     .copiedToTheClipboard,);
                                             closeOverlay();
                                           },
@@ -271,8 +272,8 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                                             );
                                             Clipboard.setData(
                                                 ClipboardData(text: link),);
-                                            FuzzySnackbar.show(
-                                                label: localizations
+                                            FuzzzyToast.show(context,
+                                                message: localizations
                                                     .linkCopiedToClipboard,);
                                             closeOverlay();
                                           },
@@ -318,8 +319,8 @@ class _SentMessageAreaState extends State<SentMessageArea> {
                                             );
                                             Clipboard.setData(
                                                 ClipboardData(text: link),);
-                                            FuzzySnackbar.show(
-                                                label: localizations
+                                            FuzzzyToast.show(context,
+                                                message: localizations
                                                     .linkCopiedToClipboard,);
                                             closeOverlay();
                                           },

@@ -193,7 +193,7 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
         listener: (context, state) {
           if (state.status.isFailed) {
             if (state.failure?.message?.isEmpty ?? true) return;
-            FuzzySnackbar.show(label: state.failure?.message ?? '');
+            FuzzzyToast.show(context, message: state.failure?.message ?? '');
           }
         },
         builder: (context, state) {

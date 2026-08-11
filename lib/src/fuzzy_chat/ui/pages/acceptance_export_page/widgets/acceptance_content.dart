@@ -20,8 +20,9 @@ class AcceptanceContent extends StatelessWidget {
     final localizations = context.fuzzyChatLocalizations;
 
     Clipboard.setData(ClipboardData(text: acceptanceContent));
-    FuzzySnackbar.show(
-      label: localizations.acceptanceCopiedToClipboard,
+    FuzzzyToast.show(
+      context,
+      message: localizations.acceptanceCopiedToClipboard,
     );
   }
 
@@ -39,8 +40,9 @@ class AcceptanceContent extends StatelessWidget {
     final localizations = context.fuzzyChatLocalizations;
     final link = FuzzyLinkGenerator.generateAcceptanceLink(acceptanceContent);
     Clipboard.setData(ClipboardData(text: link));
-    FuzzySnackbar.show(
-      label: localizations.linkCopiedToClipboard,
+    FuzzzyToast.show(
+      context,
+      message: localizations.linkCopiedToClipboard,
     );
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 
 export 'components/components.dart';
 export 'widgets/widgets.dart';
@@ -70,12 +71,13 @@ class _ProvidedBasicEncryptionPageState
   void _processFiles() {
     final key = _keyController.text;
     if (key.isEmpty) {
-      FuzzySnackbar.show(label: context.fuzzyChatLocalizations.pleaseEnterAKey);
+      FuzzzyToast.show(context,
+          message: context.fuzzyChatLocalizations.pleaseEnterAKey,);
       return;
     }
     if (_selectedFilePaths?.isNotEmpty != true) {
-      FuzzySnackbar.show(
-          label: context.fuzzyChatLocalizations.pleaseSelectFilesToProcess,);
+      FuzzzyToast.show(context,
+          message: context.fuzzyChatLocalizations.pleaseSelectFilesToProcess,);
       return;
     }
 
@@ -139,8 +141,8 @@ class _ProvidedBasicEncryptionPageState
                 _resultText = state.result ?? '';
               });
             } else if (state.status.isFailed) {
-              FuzzySnackbar.show(
-                  label:
+              FuzzzyToast.show(context,
+                  message:
                       _localizeFailureMessage(context, state.failure?.message),);
             }
           },
