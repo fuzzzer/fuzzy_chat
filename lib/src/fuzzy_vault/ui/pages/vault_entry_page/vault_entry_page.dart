@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 
 class VaultEntryPage extends StatelessWidget {
   const VaultEntryPage({super.key});
@@ -23,7 +24,10 @@ class VaultEntryPage extends StatelessWidget {
         builder: (context, state) {
           switch (state.authState) {
             case VaultAuthEnum.initial:
-              return const FuzzyLoadingPagebuilder();
+              return const FuzzyScaffold(
+                hasAutomaticBackButton: false,
+                body: Center(child: FuzzzyProgressRing(size: 32)),
+              );
             case VaultAuthEnum.noVault:
               return const VaultCreatePage();
             case VaultAuthEnum.locked:

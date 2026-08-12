@@ -118,7 +118,10 @@ class _ProvidedInvitationAcceptancePageState
       },
       builder: (context, state) {
         if (state.status.isLoading) {
-          return const FuzzyLoadingPagebuilder();
+          return const FuzzyScaffold(
+            hasAutomaticBackButton: false,
+            body: Center(child: FuzzzyProgressRing(size: 32)),
+          );
         }
 
         return InvitationAcceptanceForm(

@@ -218,7 +218,7 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
                       ),
                     if (state.status.isLoading)
                       const SliverToBoxAdapter(
-                        child: DefaultLoadingWidget(),
+                        child: Center(child: FuzzzyProgressRing(size: 32)),
                       ),
                     SliverToBoxAdapter(
                       child: FileDecryptionProgressesDisplaylaceholder(

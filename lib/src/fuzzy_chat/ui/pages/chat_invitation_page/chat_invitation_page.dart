@@ -127,8 +127,14 @@ class _ProvidedChatInvitationPageState
         builder: (context, invitationState) {
           return StatusBuilder.buildByStatus(
             status: invitationState.status,
-            onInitial: () => const FuzzyLoadingPagebuilder(),
-            onLoading: () => const FuzzyLoadingPagebuilder(),
+            onInitial: () => const FuzzyScaffold(
+              hasAutomaticBackButton: false,
+              body: Center(child: FuzzzyProgressRing(size: 32)),
+            ),
+            onLoading: () => const FuzzyScaffold(
+              hasAutomaticBackButton: false,
+              body: Center(child: FuzzzyProgressRing(size: 32)),
+            ),
             onSuccess: () => ChatInvitationContent(
               chatName: widget.payload.chatName,
               invitationContent: invitationState.invitation!.invitationContent,
