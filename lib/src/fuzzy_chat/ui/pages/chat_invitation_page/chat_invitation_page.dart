@@ -141,9 +141,14 @@ class _ProvidedChatInvitationPageState
               acceptanceTextController: acceptanceTextController,
               onAccept: _importAcceptanceFromText,
             ),
-            onFailure: () => FuzzyErrorPageBuilder(
-              message: invitationState.failure?.message ??
-                  localizations.failedToGenerateInvitation,
+            onFailure: () => FuzzyScaffold(
+              body: Center(
+                child: FuzzzyEmptyState(
+                  title: invitationState.failure?.message ??
+                      localizations.failedToGenerateInvitation,
+                  message: localizations.unexpectedFailureOccuredPleaseContactUs,
+                ),
+              ),
             ),
           );
         },

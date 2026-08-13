@@ -48,9 +48,14 @@ class ProvidedAcceptanceExportPage extends StatelessWidget {
             hasBackButton: payload.hasBackButton,
             chatGeneralData: payload.chatGeneralData,
           ),
-          onFailure: () => FuzzyErrorPageBuilder(
-            message:
-                state.failure?.message ?? localizations.failedToReadAcceptance,
+          onFailure: () => FuzzyScaffold(
+            body: Center(
+              child: FuzzzyEmptyState(
+                title: state.failure?.message ??
+                    localizations.failedToReadAcceptance,
+                message: localizations.unexpectedFailureOccuredPleaseContactUs,
+              ),
+            ),
           ),
         );
       },

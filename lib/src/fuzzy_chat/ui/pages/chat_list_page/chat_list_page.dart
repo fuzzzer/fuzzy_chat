@@ -44,10 +44,15 @@ class _ProvidedChatListPageState extends State<ProvidedChatListPage> {
             onSuccess: () => ChatListContent(
               chatGeneralDataList: state.chatList!,
             ),
-            onFailure: () => FuzzyErrorPageBuilder(
+            onFailure: () => FuzzyScaffold(
               hasAutomaticBackButton: false,
-              message:
-                  state.failure?.message ?? localizations.failedToLoadChats,
+              body: Center(
+                child: FuzzzyEmptyState(
+                  title:
+                      state.failure?.message ?? localizations.failedToLoadChats,
+                  message: localizations.unexpectedFailureOccuredPleaseContactUs,
+                ),
+              ),
             ),
           );
         },
