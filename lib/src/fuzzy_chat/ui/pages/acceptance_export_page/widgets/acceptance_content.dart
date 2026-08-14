@@ -102,7 +102,12 @@ class AcceptanceContent extends StatelessWidget {
               ),
               const Spacer(),
               if (hasBackButton)
-                const FuzzyBackButton()
+                FuzzzyIconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  variant: FuzzzyIconButtonVariant.filled,
+                  semanticLabel: 'Back',
+                  onPressed: () => context.goBack(),
+                )
               else
                 FuzzzyButton(
                   label: localizations.goToChat,

@@ -346,7 +346,12 @@ class _VaultItemEditorPageState extends State<VaultItemEditorPage> {
                               ? currentContextLocalization.vaultNewNote
                               : currentContextLocalization.vaultFileLabel)
                       : currentContextLocalization.vaultEditItem,
-                  leading: const FuzzyBackButton(),
+                  leading: FuzzzyIconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    variant: FuzzzyIconButtonVariant.filled,
+                    semanticLabel: 'Back',
+                    onPressed: () => context.goBack(),
+                  ),
                   actions: widget.payload.existingItem != null
                       ? [
                           if (_isDeleting)
