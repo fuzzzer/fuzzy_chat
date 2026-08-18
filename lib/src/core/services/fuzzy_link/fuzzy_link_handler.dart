@@ -48,7 +48,9 @@ class FuzzyLinkHandler {
   void _handleUri(Uri uri) {
     final payload = FuzzyLinkParser.parse(uri);
     if (payload == null) {
-      FuzzzyToast.show(navigatorKey.currentContext!, message: _l10n.invalidLink);
+      final context = navigatorKey.currentContext;
+      if (context == null) return;
+      FuzzzyToast.show(context, message: _l10n.invalidLink);
       return;
     }
 

@@ -87,10 +87,7 @@ class _ProvidedChatCreationPageState extends State<ProvidedChatCreationPage> {
       },
       builder: (context, state) {
         if (state.status.isLoading) {
-          return const FuzzyScaffold(
-            hasAutomaticBackButton: false,
-            body: Center(child: FuzzzyProgressRing(size: 32)),
-          );
+          return const FuzzyLoadingPagebuilder();
         }
 
         return ChatCreationInitialContent(

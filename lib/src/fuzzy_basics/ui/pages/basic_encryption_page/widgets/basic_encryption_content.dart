@@ -69,7 +69,7 @@ class BasicEncryptionContent extends StatelessWidget {
               BlocBuilder<BasicEncryptionCubit, BasicEncryptionState>(
                 builder: (context, state) {
                   if (state.status.isLoading) {
-                    return const Center(child: FuzzzyProgressRing(size: 32));
+                    return const DefaultLoadingWidget();
                   }
                   return Row(
                     children: [

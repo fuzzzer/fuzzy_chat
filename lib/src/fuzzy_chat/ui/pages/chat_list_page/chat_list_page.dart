@@ -33,14 +33,8 @@ class _ProvidedChatListPageState extends State<ProvidedChatListPage> {
         builder: (context, state) {
           return StatusBuilder.buildByStatus(
             status: state.status,
-            onInitial: () => const FuzzyScaffold(
-              hasAutomaticBackButton: false,
-              body: Center(child: FuzzzyProgressRing(size: 32)),
-            ),
-            onLoading: () => const FuzzyScaffold(
-              hasAutomaticBackButton: false,
-              body: Center(child: FuzzzyProgressRing(size: 32)),
-            ),
+            onInitial: () => const FuzzyLoadingPagebuilder(),
+            onLoading: () => const FuzzyLoadingPagebuilder(),
             onSuccess: () => ChatListContent(
               chatGeneralDataList: state.chatList!,
             ),

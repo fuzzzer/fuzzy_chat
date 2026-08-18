@@ -24,10 +24,7 @@ class VaultEntryPage extends StatelessWidget {
         builder: (context, state) {
           switch (state.authState) {
             case VaultAuthEnum.initial:
-              return const FuzzyScaffold(
-                hasAutomaticBackButton: false,
-                body: Center(child: FuzzzyProgressRing(size: 32)),
-              );
+              return const FuzzyLoadingPagebuilder();
             case VaultAuthEnum.noVault:
               return const VaultCreatePage();
             case VaultAuthEnum.locked:
