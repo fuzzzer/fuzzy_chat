@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 import 'package:go_router/go_router.dart';
 
 export 'components/components.dart';
@@ -88,8 +89,9 @@ class _ProvidedChatInvitationPageState
             chatId: widget.payload.chatId,
           );
     } else {
-      FuzzySnackbar.show(
-        label: FuzzyChatLocalizations.of(context)
+      FuzzzyToast.show(
+        context,
+        message: FuzzyChatLocalizations.of(context)
                 ?.pleasePasteTheAcceptanceContent ??
             '',
       );
@@ -112,8 +114,9 @@ class _ProvidedChatInvitationPageState
                 ),
               );
             } else if (state.status.isFailed) {
-              FuzzySnackbar.show(
-                label: state.failure?.message ??
+              FuzzzyToast.show(
+                context,
+                message: state.failure?.message ??
                     localizations.failedToCompleteHandshake,
               );
             }
@@ -132,9 +135,14 @@ class _ProvidedChatInvitationPageState
               acceptanceTextController: acceptanceTextController,
               onAccept: _importAcceptanceFromText,
             ),
-            onFailure: () => FuzzyErrorPageBuilder(
-              message: invitationState.failure?.message ??
-                  localizations.failedToGenerateInvitation,
+            onFailure: () => FuzzyScaffold(
+              body: Center(
+                child: FuzzzyEmptyState(
+                  title: invitationState.failure?.message ??
+                      localizations.failedToGenerateInvitation,
+                  message: localizations.unexpectedFailureOccuredPleaseContactUs,
+                ),
+              ),
             ),
           );
         },

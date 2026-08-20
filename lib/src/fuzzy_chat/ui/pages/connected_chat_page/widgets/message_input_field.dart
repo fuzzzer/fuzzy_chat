@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 
 class MessageInputField extends StatelessWidget {
   final TextEditingController controller;
@@ -23,9 +24,8 @@ class MessageInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final uiColors = theme.extension<UiColors>()!;
-    final uiTextStyles = theme.extension<UiTextStyles>()!;
+    final fuzzzyColors = context.fuzzzyColors;
+    final fuzzzyTextStyles = context.fuzzzyTextStyles;
 
     final localizations = context.fuzzyChatLocalizations;
 
@@ -36,13 +36,13 @@ class MessageInputField extends StatelessWidget {
 
     return Container(
       height: height + 2,
-      color: uiColors.backgroundPrimaryColor,
+      color: fuzzzyColors.ground,
       child: Column(
         children: [
           Container(
             height: 2,
             width: fullWidth,
-            color: uiColors.backgroundSecondaryColor,
+            color: fuzzzyColors.surface,
           ),
           Center(
             child: Padding(
@@ -60,10 +60,10 @@ class MessageInputField extends StatelessWidget {
                       ? localizations.encrypting
                       : localizations.decrypting,
                   key: ValueKey<bool>(isEncrypting),
-                  style: uiTextStyles.body16.copyWith(
+                  style: fuzzzyTextStyles.body.copyWith(
                     color: isEncrypting
-                        ? uiColors.diffColor
-                        : uiColors.secondaryColor,
+                        ? fuzzzyColors.inkFaint
+                        : fuzzzyColors.inkMute,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -73,7 +73,7 @@ class MessageInputField extends StatelessWidget {
           Container(
             height: 2,
             width: fullWidth,
-            color: uiColors.backgroundSecondaryColor,
+            color: fuzzzyColors.surface,
           ),
           Expanded(
             child: Row(
@@ -112,14 +112,14 @@ class MessageInputField extends StatelessWidget {
                     height: height,
                     width: 60,
                     decoration: BoxDecoration(
-                      color: uiColors.focusColor,
+                      color: fuzzzyColors.actionPrimaryBg,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Icon(
                       Icons.send,
                       color: isEncrypting
                           ? const Color(0xFF18181A)
-                          : uiColors.backgroundPrimaryColor,
+                          : fuzzzyColors.actionPrimaryFg,
                     ),
                   ),
                 ),

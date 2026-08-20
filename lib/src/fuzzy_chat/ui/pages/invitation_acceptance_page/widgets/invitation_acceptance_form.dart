@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 
 class InvitationAcceptanceForm extends StatelessWidget {
   final TextEditingController chatNameController;
@@ -24,7 +25,7 @@ class InvitationAcceptanceForm extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              FuzzyHeader(
+              FuzzzyAppBar(
                 title: localizations.acceptChatInvitation,
               ),
               const SizedBox(height: 32),
@@ -32,59 +33,55 @@ class InvitationAcceptanceForm extends StatelessWidget {
                 localizations
                     .stepPasteTheirInviteCode, // Note: We only have 'Paste Their Invite Code'
                 textAlign: TextAlign.start,
-                style: Theme.of(context)
-                    .extension<UiTextStyles>()!
-                    .body16
-                    .copyWith(fontWeight: FontWeight.bold, fontSize: 18),
+                style: context.fuzzzyTextStyles.body.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: context.fuzzzyColors.ink,
+                ),
               ),
               const SizedBox(height: 8),
               Text(
                 localizations
                     .askYourContactToShareTheirInviteCodeSecurelyAndPasteItBelow,
                 textAlign: TextAlign.start,
-                style: Theme.of(context)
-                    .extension<UiTextStyles>()!
-                    .body16
-                    .copyWith(
-                      color: context.uiColors.secondaryTextColor,
-                    ),
+                style: context.fuzzzyTextStyles.body.copyWith(
+                  color: context.fuzzzyColors.inkMute,
+                ),
               ),
               const SizedBox(height: 16),
-              FuzzyTextField(
+              FuzzzyTextField(
                 controller: invitationTextController,
-                labelText: localizations.pasteInvitationText,
+                label: localizations.pasteInvitationText,
                 maxLines: 4,
               ),
               const SizedBox(height: 32),
               Divider(
                 height: 20,
                 thickness: 4,
-                color: context.uiColors.secondaryColor,
+                color: context.fuzzzyColors.inkMute,
               ),
               const SizedBox(height: 32),
               Text(
                 localizations.stepNameThisChat,
                 textAlign: TextAlign.start,
-                style: Theme.of(context)
-                    .extension<UiTextStyles>()!
-                    .body16
-                    .copyWith(fontWeight: FontWeight.bold, fontSize: 18),
+                style: context.fuzzzyTextStyles.body.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: context.fuzzzyColors.ink,
+                ),
               ),
               const SizedBox(height: 8),
               Text(
                 localizations.chooseALocalNameForThisChatThisIsOnlyVisibleToYou,
                 textAlign: TextAlign.start,
-                style: Theme.of(context)
-                    .extension<UiTextStyles>()!
-                    .body16
-                    .copyWith(
-                      color: context.uiColors.secondaryTextColor,
-                    ),
+                style: context.fuzzzyTextStyles.body.copyWith(
+                  color: context.fuzzzyColors.inkMute,
+                ),
               ),
               const SizedBox(height: 16),
-              FuzzyTextField(
+              FuzzzyTextField(
                 controller: chatNameController,
-                labelText: localizations.enterChatName,
+                label: localizations.enterChatName,
               ),
               const SizedBox(height: 80),
             ],

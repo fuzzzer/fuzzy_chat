@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 import 'package:go_router/go_router.dart';
 
 export 'widgets/widgets.dart';
@@ -56,8 +57,9 @@ class _ProvidedChatCreationPageState extends State<ProvidedChatCreationPage> {
     if (chatName.isNotEmpty) {
       context.read<ChatCreationCubit>().createChat(chatName: chatName);
     } else {
-      FuzzySnackbar.show(
-        label: FuzzyChatLocalizations.of(context)?.pleaseEnterAChatName ?? '',
+      FuzzzyToast.show(
+        context,
+        message: FuzzyChatLocalizations.of(context)?.pleaseEnterAChatName ?? '',
       );
     }
   }
@@ -77,8 +79,9 @@ class _ProvidedChatCreationPageState extends State<ProvidedChatCreationPage> {
             ),
           );
         } else if (state.status.isFailed) {
-          FuzzySnackbar.show(
-            label: state.failure?.type.toUiMessage(localizations),
+          FuzzzyToast.show(
+            context,
+            message: state.failure?.type.toUiMessage(localizations) ?? '',
           );
         }
       },

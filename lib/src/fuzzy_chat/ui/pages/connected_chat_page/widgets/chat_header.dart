@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 
 class ChatHeader extends StatelessWidget {
   final ChatGeneralData chatGeneralData;
@@ -13,12 +14,11 @@ class ChatHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final uiColors = theme.extension<UiColors>()!;
-    final uiTextStyles = theme.extension<UiTextStyles>()!;
+    final fuzzzyColors = context.fuzzzyColors;
+    final fuzzzyTextStyles = context.fuzzzyTextStyles;
 
     return ColoredBox(
-      color: uiColors.backgroundPrimaryColor,
+      color: fuzzzyColors.ground,
       child: Padding(
         padding: const EdgeInsets.only(
           top: 16,
@@ -33,7 +33,7 @@ class ChatHeader extends StatelessWidget {
             const SizedBox(width: 8),
             Text(
               chatGeneralData.chatName,
-              style: uiTextStyles.bodyLargeBold20,
+              style: fuzzzyTextStyles.titleM.copyWith(color: fuzzzyColors.ink),
             ),
             const Spacer(),
             Padding(

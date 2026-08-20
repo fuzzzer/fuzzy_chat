@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 
 class ChatCreationInitialContent extends StatelessWidget {
   final TextEditingController chatNameController;
@@ -23,15 +24,15 @@ class ChatCreationInitialContent extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            FuzzyHeader(
+            FuzzzyAppBar(
               title: localizations.createANewChat,
             ),
             const Spacer(),
-            FuzzyTextField(
+            FuzzzyTextField(
               controller: chatNameController,
               focusNode: focusNode,
-              labelText: localizations.enterChatName,
-              hintText: '${localizations.eg} ${localizations.chatWithAlice}',
+              label: localizations.enterChatName,
+              hint: '${localizations.eg} ${localizations.chatWithAlice}',
             ),
             const Spacer(),
           ],

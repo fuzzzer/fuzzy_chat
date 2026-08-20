@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 
 class ChatInvitationContent extends StatefulWidget {
   final String chatName;
@@ -31,9 +32,8 @@ class _ChatInvitationContentState extends State<ChatInvitationContent> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final uiColors = theme.extension<UiColors>()!;
-    final uiTextStyles = theme.extension<UiTextStyles>()!;
+    final fuzzzyColors = context.fuzzzyColors;
+    final fuzzzyTextStyles = context.fuzzzyTextStyles;
 
     final localizations = context.fuzzyChatLocalizations;
 
@@ -44,53 +44,59 @@ class _ChatInvitationContentState extends State<ChatInvitationContent> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              FuzzyHeader(
+              FuzzzyAppBar(
                 title: widget.chatName,
               ),
               const SizedBox(height: 20),
               Text(
                 localizations.stepSendYourInviteCode,
                 textAlign: TextAlign.start,
-                style: uiTextStyles.body16
-                    .copyWith(fontWeight: FontWeight.bold, fontSize: 18),
+                style: fuzzzyTextStyles.body.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: fuzzzyColors.ink,
+                ),
               ),
               const SizedBox(height: 8),
               Text(
                 localizations
                     .sendThisCodeToThePersonYouWantToChatWithUsingAnySecureChannel,
                 textAlign: TextAlign.start,
-                style: uiTextStyles.body16
-                    .copyWith(color: uiColors.secondaryTextColor),
+                style: fuzzzyTextStyles.body.copyWith(
+                  color: fuzzzyColors.inkMute,
+                ),
               ),
               const SizedBox(height: 20),
-              FuzzyButton(
-                text: localizations.copyInvitation,
-                icon: Icons.copy,
-                onTap: () {
+              FuzzzyButton(
+                label: localizations.copyInvitation,
+                icon: const Icon(Icons.copy),
+                onPressed: () {
                   deboucer.run(() {
                     Clipboard.setData(
                       ClipboardData(text: widget.invitationContent),
                     ).then((_) {
-                      FuzzySnackbar.show(
-                        label: localizations.invitationCopiedToClipboard,
+                      if (!mounted) return;
+                      FuzzzyToast.show(
+                        context,
+                        message: localizations.invitationCopiedToClipboard,
                       );
                     });
                   });
                 },
               ),
               const SizedBox(height: 12),
-              FuzzyButton(
-                text: localizations.shareInvitation,
-                icon: Icons.share,
-                onTap: () {
+              FuzzzyButton(
+                label: localizations.shareInvitation,
+                icon: const Icon(Icons.share),
+                onPressed: () {
                   ShareHelper.share(widget.invitationContent, context: context);
                 },
               ),
               const SizedBox(height: 12),
-              FuzzyButton(
-                text: localizations.shareAsLink,
-                icon: Icons.share,
-                onTap: () {
+              FuzzzyButton(
+                label: localizations.shareAsLink,
+                icon: const Icon(Icons.share),
+                onPressed: () {
                   final link = FuzzyLinkGenerator.generateInvitationLink(
                     widget.invitationContent,
                   );
@@ -103,17 +109,19 @@ class _ChatInvitationContentState extends State<ChatInvitationContent> {
                 },
               ),
               const SizedBox(height: 12),
-              FuzzyButton(
-                text: localizations.copyAsLink,
-                icon: Icons.link,
-                onTap: () {
+              FuzzzyButton(
+                label: localizations.copyAsLink,
+                icon: const Icon(Icons.link),
+                onPressed: () {
                   deboucer.run(() {
                     final link = FuzzyLinkGenerator.generateInvitationLink(
                       widget.invitationContent,
                     );
                     Clipboard.setData(ClipboardData(text: link)).then((_) {
-                      FuzzySnackbar.show(
-                        label: localizations.linkCopiedToClipboard,
+                      if (!mounted) return;
+                      FuzzzyToast.show(
+                        context,
+                        message: localizations.linkCopiedToClipboard,
                       );
                     });
                   });
@@ -123,26 +131,30 @@ class _ChatInvitationContentState extends State<ChatInvitationContent> {
               Divider(
                 height: 20,
                 thickness: 4,
-                color: uiColors.secondaryColor,
+                color: fuzzzyColors.inkMute,
               ),
               const SizedBox(height: 32),
               Text(
                 localizations.stepPasteTheirAcceptanceCode,
                 textAlign: TextAlign.start,
-                style: uiTextStyles.body16
-                    .copyWith(fontWeight: FontWeight.bold, fontSize: 18),
+                style: fuzzzyTextStyles.body.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: fuzzzyColors.ink,
+                ),
               ),
               const SizedBox(height: 8),
               Text(
                 localizations
                     .onceTheyAcceptYourInviteTheyWillSendACodeBackPasteItBelow,
                 textAlign: TextAlign.start,
-                style: uiTextStyles.body16
-                    .copyWith(color: uiColors.secondaryTextColor),
+                style: fuzzzyTextStyles.body.copyWith(
+                  color: fuzzzyColors.inkMute,
+                ),
               ),
               const SizedBox(height: 16),
-              FuzzyTextField(
-                labelText: localizations.acceptanceText,
+              FuzzzyTextField(
+                label: localizations.acceptanceText,
                 controller: widget.acceptanceTextController,
                 maxLines: 5,
                 scrollPadding: const EdgeInsets.only(bottom: 150),

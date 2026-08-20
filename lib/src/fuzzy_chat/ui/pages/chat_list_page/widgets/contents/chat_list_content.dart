@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 import 'package:go_router/go_router.dart';
 
 class ChatListContent extends StatelessWidget {
@@ -27,14 +28,14 @@ class ChatListContent extends StatelessWidget {
                   Icon(
                     Icons.chat_bubble_outline,
                     size: 80,
-                    color: context.uiColors.secondaryColor,
+                    color: context.fuzzzyColors.inkMute,
                   ),
                   const SizedBox(height: 24),
                   Text(
                     localizations.noOngoingChats,
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: context.uiColors.primaryTextColor,
+                          color: context.fuzzzyColors.ink,
                         ),
                     textAlign: TextAlign.center,
                   ),
@@ -43,7 +44,7 @@ class ChatListContent extends StatelessWidget {
                     localizations
                         .tapTheButtonBelowToCreateANewSecureHandshakeOrAcceptAnInvitation,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: context.uiColors.secondaryTextColor,
+                          color: context.fuzzzyColors.inkMute,
                         ),
                     textAlign: TextAlign.center,
                   ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 
 class CopyGuard {
   static Future<void> copyPlaintext({
@@ -22,14 +23,14 @@ class CopyGuard {
               TextButton(
                 onPressed: () => Navigator.of(context).pop(false),
                 style: TextButton.styleFrom(
-                  foregroundColor: context.uiColors.focusColor,
+                  foregroundColor: context.fuzzzyColors.focus,
                 ),
                 child: Text(localizations.cancel),
               ),
               TextButton(
                 onPressed: () => Navigator.of(context).pop(true),
                 style: TextButton.styleFrom(
-                  foregroundColor: context.uiColors.errorColor,
+                  foregroundColor: context.fuzzzyColors.destructiveText,
                 ),
                 child: Text(localizations.copy),
               ),
@@ -42,6 +43,6 @@ class CopyGuard {
     }
 
     await Clipboard.setData(ClipboardData(text: textToCopy));
-    FuzzySnackbar.show(label: localizations.copiedToTheClipboard);
+    FuzzzyToast.show(context, message: localizations.copiedToTheClipboard);
   }
 }

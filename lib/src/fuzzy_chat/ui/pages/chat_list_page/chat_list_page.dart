@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 import 'package:go_router/go_router.dart';
 
 export 'widgets/widgets.dart';
@@ -37,10 +38,15 @@ class _ProvidedChatListPageState extends State<ProvidedChatListPage> {
             onSuccess: () => ChatListContent(
               chatGeneralDataList: state.chatList!,
             ),
-            onFailure: () => FuzzyErrorPageBuilder(
+            onFailure: () => FuzzyScaffold(
               hasAutomaticBackButton: false,
-              message:
-                  state.failure?.message ?? localizations.failedToLoadChats,
+              body: Center(
+                child: FuzzzyEmptyState(
+                  title:
+                      state.failure?.message ?? localizations.failedToLoadChats,
+                  message: localizations.unexpectedFailureOccuredPleaseContactUs,
+                ),
+              ),
             ),
           );
         },

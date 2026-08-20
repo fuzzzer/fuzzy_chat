@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 
 class VaultUnlockPage extends StatefulWidget {
   const VaultUnlockPage({super.key});
@@ -92,14 +93,14 @@ class _VaultUnlockPageState extends State<VaultUnlockPage>
                   Icon(
                     Icons.lock_rounded,
                     size: 80,
-                    color: context.uiColors.primaryColor,
+                    color: context.fuzzzyColors.ink,
                   ),
                   const SizedBox(height: 24),
                   Text(
                     currentContextLocalization.vaultUnlockVault,
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: context.uiColors.primaryTextColor,
+                          color: context.fuzzzyColors.ink,
                         ),
                     textAlign: TextAlign.center,
                   ),
@@ -116,17 +117,17 @@ class _VaultUnlockPageState extends State<VaultUnlockPage>
                         child: child,
                       );
                     },
-                    child: FuzzyTextField(
+                    child: FuzzzyTextField(
                       controller: _passwordController,
-                      labelText: currentContextLocalization.vaultPassword,
-                      obscureText: !_isPasswordVisible,
+                      label: currentContextLocalization.vaultPassword,
+                      obscure: !_isPasswordVisible,
                       onSubmitted: (_) => _onUnlock(),
-                      suffixIcon: IconButton(
+                      suffix: IconButton(
                         icon: Icon(
                           _isPasswordVisible
                               ? Icons.visibility_off
                               : Icons.visibility,
-                          color: context.uiColors.secondaryTextColor,
+                          color: context.fuzzzyColors.inkMute,
                         ),
                         onPressed: () => setState(
                           () => _isPasswordVisible = !_isPasswordVisible,
@@ -143,13 +144,11 @@ class _VaultUnlockPageState extends State<VaultUnlockPage>
                     ),
                   ],
                   const SizedBox(height: 40),
-                  FuzzyButton(
-                    text: currentContextLocalization.vaultUnlock,
-                    isEnabled:
-                        _passwordController.text.isNotEmpty && !isLoading,
-                    onTap: _passwordController.text.isNotEmpty && !isLoading
+                  FuzzzyButton(
+                    label: currentContextLocalization.vaultUnlock,
+                    onPressed: _passwordController.text.isNotEmpty && !isLoading
                         ? _onUnlock
-                        : () {},
+                        : null,
                   ),
                   if (state.biometricEnabled) ...[
                     const SizedBox(height: 24),
@@ -163,7 +162,7 @@ class _VaultUnlockPageState extends State<VaultUnlockPage>
                             Icon(
                               Icons.fingerprint,
                               size: 56,
-                              color: context.uiColors.primaryColor,
+                              color: context.fuzzzyColors.ink,
                             ),
                             const SizedBox(height: 8),
                             Text(
@@ -172,7 +171,7 @@ class _VaultUnlockPageState extends State<VaultUnlockPage>
                                   .textTheme
                                   .bodySmall
                                   ?.copyWith(
-                                    color: context.uiColors.secondaryTextColor,
+                                    color: context.fuzzzyColors.inkMute,
                                   ),
                             ),
                           ],
@@ -184,7 +183,7 @@ class _VaultUnlockPageState extends State<VaultUnlockPage>
                   Text(
                     currentContextLocalization.vaultForgotPassword,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: context.uiColors.secondaryTextColor,
+                          color: context.fuzzzyColors.inkMute,
                         ),
                     textAlign: TextAlign.center,
                   ),

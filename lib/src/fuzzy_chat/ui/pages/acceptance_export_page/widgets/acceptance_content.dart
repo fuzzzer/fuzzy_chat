@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 import 'package:go_router/go_router.dart';
 
 class AcceptanceContent extends StatelessWidget {
@@ -19,8 +20,9 @@ class AcceptanceContent extends StatelessWidget {
     final localizations = context.fuzzyChatLocalizations;
 
     Clipboard.setData(ClipboardData(text: acceptanceContent));
-    FuzzySnackbar.show(
-      label: localizations.acceptanceCopiedToClipboard,
+    FuzzzyToast.show(
+      context,
+      message: localizations.acceptanceCopiedToClipboard,
     );
   }
 
@@ -38,15 +40,15 @@ class AcceptanceContent extends StatelessWidget {
     final localizations = context.fuzzyChatLocalizations;
     final link = FuzzyLinkGenerator.generateAcceptanceLink(acceptanceContent);
     Clipboard.setData(ClipboardData(text: link));
-    FuzzySnackbar.show(
-      label: localizations.linkCopiedToClipboard,
+    FuzzzyToast.show(
+      context,
+      message: localizations.linkCopiedToClipboard,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final uiTextStyles = theme.extension<UiTextStyles>()!;
+    final fuzzzyTextStyles = context.fuzzzyTextStyles;
 
     final localizations = context.fuzzyChatLocalizations;
 
@@ -62,47 +64,54 @@ class AcceptanceContent extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           child: Column(
             children: [
-              FuzzyHeader(
+              FuzzzyAppBar(
                 title: localizations.exportAcceptance,
               ),
               const Spacer(),
               Text(
                 localizations.yourAcceptanceHasBeenGeneratedSuccessfully,
                 textAlign: TextAlign.center,
-                style: uiTextStyles.body16,
+                style: fuzzzyTextStyles.body.copyWith(
+                  color: context.fuzzzyColors.ink,
+                ),
               ),
               const SizedBox(height: 16),
-              FuzzyButton(
-                text: localizations.copyAcceptance,
-                icon: Icons.copy,
-                onTap: () => _copyAcceptance(context),
+              FuzzzyButton(
+                label: localizations.copyAcceptance,
+                icon: const Icon(Icons.copy),
+                onPressed: () => _copyAcceptance(context),
               ),
               const SizedBox(height: 12),
-              FuzzyButton(
-                text: localizations.shareAcceptance,
-                icon: Icons.share,
-                onTap: () =>
+              FuzzzyButton(
+                label: localizations.shareAcceptance,
+                icon: const Icon(Icons.share),
+                onPressed: () =>
                     ShareHelper.share(acceptanceContent, context: context),
               ),
               const SizedBox(height: 12),
-              FuzzyButton(
-                text: localizations.shareAsLink,
-                icon: Icons.share,
-                onTap: () => _shareAsLink(context),
+              FuzzzyButton(
+                label: localizations.shareAsLink,
+                icon: const Icon(Icons.share),
+                onPressed: () => _shareAsLink(context),
               ),
               const SizedBox(height: 12),
-              FuzzyButton(
-                text: localizations.copyAsLink,
-                icon: Icons.link,
-                onTap: () => _copyAsLink(context),
+              FuzzzyButton(
+                label: localizations.copyAsLink,
+                icon: const Icon(Icons.link),
+                onPressed: () => _copyAsLink(context),
               ),
               const Spacer(),
               if (hasBackButton)
-                const FuzzyBackButton()
+                FuzzzyIconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  variant: FuzzzyIconButtonVariant.filled,
+                  semanticLabel: 'Back',
+                  onPressed: () => context.goBack(),
+                )
               else
-                FuzzyButton(
-                  text: localizations.goToChat,
-                  onTap: () {
+                FuzzzyButton(
+                  label: localizations.goToChat,
+                  onPressed: () {
                     context.go(
                       AppRouter.chatConnected,
                       extra: ConnectedChatPagePayload(

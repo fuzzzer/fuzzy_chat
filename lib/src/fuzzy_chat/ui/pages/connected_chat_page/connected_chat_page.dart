@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 
 export 'components/components.dart';
 export 'widgets/widgets.dart';
@@ -192,7 +193,7 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
         listener: (context, state) {
           if (state.status.isFailed) {
             if (state.failure?.message?.isEmpty ?? true) return;
-            FuzzySnackbar.show(label: state.failure?.message ?? '');
+            FuzzzyToast.show(context, message: state.failure?.message ?? '');
           }
         },
         builder: (context, state) {
@@ -217,7 +218,7 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
                       ),
                     if (state.status.isLoading)
                       const SliverToBoxAdapter(
-                        child: DefaultLoadingWidget(),
+                        child: Center(child: FuzzzyProgressRing(size: 32)),
                       ),
                     SliverToBoxAdapter(
                       child: FileDecryptionProgressesDisplaylaceholder(
@@ -278,15 +279,15 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
   Widget _buildTutorialBanner(
       BuildContext context, FuzzyChatLocalizations localizations,) {
     final theme = Theme.of(context);
-    final uiColors = theme.extension<UiColors>()!;
+    final fuzzzyColors = context.fuzzzyColors;
 
     return Container(
       margin: const EdgeInsets.all(8),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: uiColors.secondaryColor,
+        color: fuzzzyColors.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: uiColors.diffColor, width: 2),
+        border: Border.all(color: fuzzzyColors.inkFaint, width: 2),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -298,7 +299,7 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
                 localizations.firstEncryption,
                 style: theme.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: uiColors.primaryTextColor,
+                  color: fuzzzyColors.ink,
                 ),
               ),
               GestureDetector(
@@ -308,7 +309,7 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
                     _showTutorial = false;
                   });
                 },
-                child: Icon(Icons.close, color: uiColors.primaryTextColor),
+                child: Icon(Icons.close, color: fuzzzyColors.ink),
               ),
             ],
           ),
@@ -317,7 +318,7 @@ class _ProvidedConnectedChatPageState extends State<ProvidedConnectedChatPage> {
             localizations
                 .typeAMessageAndPressSendItWillBeEncryptedLocallyAndYouCanThenCopyTheSecureFuzzedText,
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: uiColors.secondaryTextColor,
+              color: fuzzzyColors.inkMute,
             ),
           ),
         ],

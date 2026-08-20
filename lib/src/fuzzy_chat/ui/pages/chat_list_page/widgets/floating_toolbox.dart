@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 
 class FloatingToolbox extends StatefulWidget {
   final VoidCallback onNewChatPressed;
@@ -42,8 +43,7 @@ class _FloatingToolboxState extends State<FloatingToolbox>
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final uiColors = theme.extension<UiColors>()!;
+    final fuzzzyColors = context.fuzzzyColors;
 
     final localizations = context.fuzzyChatLocalizations;
 
@@ -65,8 +65,8 @@ class _FloatingToolboxState extends State<FloatingToolbox>
                     widget.onNewChatPressed();
                   },
                   icon: const Icon(Icons.add),
-                  backgroundColor: uiColors.primaryColor,
-                  foregroundColor: uiColors.backgroundPrimaryColor,
+                  backgroundColor: fuzzzyColors.actionPrimaryBg,
+                  foregroundColor: fuzzzyColors.ground,
                   label: SizedBox(
                     width: 70,
                     child: Text(
@@ -85,8 +85,8 @@ class _FloatingToolboxState extends State<FloatingToolbox>
                       widget.onAcceptInvitationPressed();
                     },
                     icon: const Icon(Icons.mail),
-                    backgroundColor: uiColors.primaryColor,
-                    foregroundColor: uiColors.backgroundPrimaryColor,
+                    backgroundColor: fuzzzyColors.actionPrimaryBg,
+                    foregroundColor: fuzzzyColors.ground,
                     label: SizedBox(
                       width: 70,
                       child: Text(
@@ -101,7 +101,7 @@ class _FloatingToolboxState extends State<FloatingToolbox>
           ),
           FloatingActionButton(
             onPressed: _toggleMenu,
-            backgroundColor: uiColors.diffColor,
+            backgroundColor: fuzzzyColors.inkFaint,
             foregroundColor: const Color(0xFF18181A),
             child: AnimatedIcon(
               icon: AnimatedIcons.menu_close,

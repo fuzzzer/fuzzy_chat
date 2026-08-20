@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 
 class ReceivedTextMessageArea extends StatelessWidget {
   final MessageData message;
@@ -11,19 +12,18 @@ class ReceivedTextMessageArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final uiColors = theme.extension<UiColors>()!;
-    final uiTextStyles = theme.extension<UiTextStyles>()!;
+    final fuzzzyColors = context.fuzzzyColors;
+    final fuzzzyTextStyles = context.fuzzzyTextStyles;
 
     final isStrict = sl.get<PreferencesService>().copySecurityLevel ==
         CopySecurityLevel.strict;
 
-    final textStyle = uiTextStyles.body16.copyWith(
-      color: uiColors.primaryTextColor,
+    final textStyle = fuzzzyTextStyles.body.copyWith(
+      color: fuzzzyColors.ink,
     );
 
     final decoration = BoxDecoration(
-      color: uiColors.backgroundSecondaryColor,
+      color: fuzzzyColors.surface,
       borderRadius: const BorderRadius.only(
         topLeft: Radius.circular(12),
         topRight: Radius.circular(12),

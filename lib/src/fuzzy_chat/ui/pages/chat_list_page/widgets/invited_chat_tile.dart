@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 
 class InvitedChatTile extends StatelessWidget {
   final String name;
@@ -15,9 +16,8 @@ class InvitedChatTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final uiColors = theme.extension<UiColors>()!;
-    final uiTextStyles = theme.extension<UiTextStyles>()!;
+    final fuzzzyColors = context.fuzzzyColors;
+    final fuzzzyTextStyles = context.fuzzzyTextStyles;
 
     final localizations = context.fuzzyChatLocalizations;
 
@@ -26,7 +26,7 @@ class InvitedChatTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       clipBehavior: Clip.antiAlias,
-      color: uiColors.backgroundSecondaryColor.withOpacity(0.4),
+      color: fuzzzyColors.surface.withOpacity(0.4),
       margin: const EdgeInsets.symmetric(
         horizontal: 16,
         vertical: 8,
@@ -41,16 +41,16 @@ class InvitedChatTile extends StatelessWidget {
         ),
         title: Text(
           name,
-          style: uiTextStyles.body16,
+          style: fuzzzyTextStyles.body.copyWith(color: fuzzzyColors.ink),
         ),
         subtitle: Text(
           localizations.waitingForAcceptance,
-          style: uiTextStyles.bodySmall12,
+          style: fuzzzyTextStyles.bodyS.copyWith(color: fuzzzyColors.ink),
         ),
         trailing: Icon(
           Icons.chevron_right,
           size: 32,
-          color: uiColors.secondaryColor,
+          color: fuzzzyColors.inkMute,
         ),
       ),
     );

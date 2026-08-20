@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -30,7 +31,7 @@ class BasicEncryptionContent extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              FuzzyHeader(
+              FuzzzyAppBar(
                   title: context.fuzzyChatLocalizations.basicEncryption,),
               const SizedBox(height: 24),
               AnimatedBuilder(
@@ -50,18 +51,18 @@ class BasicEncryptionContent extends StatelessWidget {
                       helper = currentContextLocalization.keyStrengthGood;
                     }
                   }
-                  return FuzzyTextField(
+                  return FuzzzyTextField(
                     controller: keyController,
-                    labelText: context.fuzzyChatLocalizations.customKey,
-                    hintText: context.fuzzyChatLocalizations.enterYourSecretKey,
-                    helperText: helper,
+                    label: context.fuzzyChatLocalizations.customKey,
+                    hint: context.fuzzyChatLocalizations.enterYourSecretKey,
+                    helper: helper,
                   );
                 },
               ),
               const SizedBox(height: 16),
-              FuzzyTextField(
+              FuzzzyTextField(
                 controller: textController,
-                labelText: context.fuzzyChatLocalizations.textToEncryptDecrypt,
+                label: context.fuzzyChatLocalizations.textToEncryptDecrypt,
                 maxLines: 4,
               ),
               const SizedBox(height: 16),
@@ -73,9 +74,9 @@ class BasicEncryptionContent extends StatelessWidget {
                   return Row(
                     children: [
                       Expanded(
-                        child: FuzzyButton(
-                          text: context.fuzzyChatLocalizations.encryptText,
-                          onTap: () {
+                        child: FuzzzyButton(
+                          label: context.fuzzyChatLocalizations.encryptText,
+                          onPressed: () {
                             context.read<BasicEncryptionCubit>().encryptText(
                                   text: textController.text,
                                   key: keyController.text,
@@ -85,9 +86,9 @@ class BasicEncryptionContent extends StatelessWidget {
                       ),
                       const SizedBox(width: 16),
                       Expanded(
-                        child: FuzzyButton(
-                          text: context.fuzzyChatLocalizations.decryptText,
-                          onTap: () {
+                        child: FuzzzyButton(
+                          label: context.fuzzyChatLocalizations.decryptText,
+                          onPressed: () {
                             context.read<BasicEncryptionCubit>().decryptText(
                                   encryptedText: textController.text,
                                   key: keyController.text,
@@ -119,9 +120,9 @@ class BasicEncryptionContent extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               if (selectedFilePaths?.isNotEmpty == true)
-                FuzzyButton(
-                  text: context.fuzzyChatLocalizations.processSelectedFiles,
-                  onTap: onProcessFiles,
+                FuzzzyButton(
+                  label: context.fuzzyChatLocalizations.processSelectedFiles,
+                  onPressed: onProcessFiles,
                 ),
               const SizedBox(height: 16),
               BlocBuilder<CustomFileProcessingCubit<FileEncryptionOption>,

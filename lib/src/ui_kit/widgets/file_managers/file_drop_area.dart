@@ -1,6 +1,7 @@
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:flutter/material.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 
 class FileDropArea extends StatefulWidget {
   final Widget child;
@@ -39,7 +40,9 @@ class _FileDropAreaState extends State<FileDropArea> {
               child: Center(
                 child: Text(
                   context.fuzzyChatLocalizations.dropFilesHere,
-                  style: context.uiTextStyles.bodyLargeBold20,
+                  style: context.fuzzzyTextStyles.titleM.copyWith(
+                    color: context.fuzzzyColors.ink,
+                  ),
                 ),
               ),
             ),

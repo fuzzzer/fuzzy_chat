@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 
 class VaultCreatePage extends StatefulWidget {
   const VaultCreatePage({super.key});
@@ -78,14 +79,14 @@ class _VaultCreatePageState extends State<VaultCreatePage> {
                   Icon(
                     Icons.lock_person_rounded,
                     size: 64,
-                    color: context.uiColors.primaryColor,
+                    color: context.fuzzzyColors.ink,
                   ),
                   const SizedBox(height: 24),
                   Text(
                     currentContextLocalization.vaultCreateYourVault,
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: context.uiColors.primaryTextColor,
+                          color: context.fuzzzyColors.ink,
                         ),
                     textAlign: TextAlign.center,
                   ),
@@ -93,21 +94,21 @@ class _VaultCreatePageState extends State<VaultCreatePage> {
                   Text(
                     currentContextLocalization.vaultCreateDescription,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: context.uiColors.secondaryTextColor,
+                          color: context.fuzzzyColors.inkMute,
                         ),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 40),
-                  FuzzyTextField(
+                  FuzzzyTextField(
                     controller: _passwordController,
-                    labelText: currentContextLocalization.vaultPassword,
-                    obscureText: !_isPasswordVisible,
-                    suffixIcon: IconButton(
+                    label: currentContextLocalization.vaultPassword,
+                    obscure: !_isPasswordVisible,
+                    suffix: IconButton(
                       icon: Icon(
                         _isPasswordVisible
                             ? Icons.visibility_off
                             : Icons.visibility,
-                        color: context.uiColors.secondaryTextColor,
+                        color: context.fuzzzyColors.inkMute,
                       ),
                       onPressed: () => setState(
                         () => _isPasswordVisible = !_isPasswordVisible,
@@ -121,16 +122,16 @@ class _VaultCreatePageState extends State<VaultCreatePage> {
                     ),
                     const SizedBox(height: 24),
                   ],
-                  FuzzyTextField(
+                  FuzzzyTextField(
                     controller: _confirmController,
-                    labelText: currentContextLocalization.vaultConfirmPassword,
-                    obscureText: !_isConfirmVisible,
-                    suffixIcon: IconButton(
+                    label: currentContextLocalization.vaultConfirmPassword,
+                    obscure: !_isConfirmVisible,
+                    suffix: IconButton(
                       icon: Icon(
                         _isConfirmVisible
                             ? Icons.visibility_off
                             : Icons.visibility,
-                        color: context.uiColors.secondaryTextColor,
+                        color: context.fuzzzyColors.inkMute,
                       ),
                       onPressed: () => setState(
                         () => _isConfirmVisible = !_isConfirmVisible,
@@ -174,10 +175,9 @@ class _VaultCreatePageState extends State<VaultCreatePage> {
                     ),
                   ),
                   const SizedBox(height: 40),
-                  FuzzyButton(
-                    text: currentContextLocalization.vaultCreateVault,
-                    isEnabled: _isValid() && !isLoading,
-                    onTap: _isValid() && !isLoading ? _onCreate : () {},
+                  FuzzzyButton(
+                    label: currentContextLocalization.vaultCreateVault,
+                    onPressed: _isValid() && !isLoading ? _onCreate : null,
                   ),
                 ],
               ),

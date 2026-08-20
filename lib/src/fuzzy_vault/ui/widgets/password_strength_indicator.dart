@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 
 class PasswordStrengthIndicator extends StatelessWidget {
   final String password;
@@ -35,7 +36,7 @@ class PasswordStrengthIndicator extends StatelessWidget {
             Text(
               currentContextLocalization.vaultPasswordStrength,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: context.uiColors.secondaryTextColor,
+                    color: context.fuzzzyColors.inkMute,
                   ),
             ),
             Text(
@@ -52,7 +53,7 @@ class PasswordStrengthIndicator extends StatelessWidget {
           borderRadius: BorderRadius.circular(4),
           child: LinearProgressIndicator(
             value: strength.score / 100.0,
-            backgroundColor: context.uiColors.secondaryColor,
+            backgroundColor: context.fuzzzyColors.surface,
             color: color,
             minHeight: 8,
           ),

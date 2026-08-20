@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 import 'package:go_router/go_router.dart';
 
 export 'components/components.dart';
@@ -80,8 +81,9 @@ class _ProvidedInvitationAcceptancePageState
             chatName: chatName,
           );
     } else {
-      FuzzySnackbar.show(
-        label: FuzzyChatLocalizations.of(context)
+      FuzzzyToast.show(
+        context,
+        message: FuzzyChatLocalizations.of(context)
                 ?.pleaseProvideInvitationTextAndChatName ??
             '',
       );
@@ -103,12 +105,14 @@ class _ProvidedInvitationAcceptancePageState
             ),
           );
         } else if (state.status.isFailed) {
-          FuzzySnackbar.show(
-            label: state.failure?.type.toUiMessage(
-              localizations,
-              customUnknownMessage:
-                  FuzzyChatLocalizations.of(context)?.failedToAcceptInvitation,
-            ),
+          FuzzzyToast.show(
+            context,
+            message: state.failure?.type.toUiMessage(
+                  localizations,
+                  customUnknownMessage: FuzzyChatLocalizations.of(context)
+                      ?.failedToAcceptInvitation,
+                ) ??
+                '',
           );
         }
       },

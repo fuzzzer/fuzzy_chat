@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 
 class SettingsToolbox extends StatefulWidget {
   final ChatGeneralData chatGeneralData;
@@ -37,8 +38,10 @@ class _SettingsToolboxState extends State<SettingsToolbox> {
           localizations: localizations,
         );
       } else {
-        FuzzySnackbar.show(
-          label: localizations.failedToGetAcceptance,
+        if (!mounted) return;
+        FuzzzyToast.show(
+          context,
+          message: localizations.failedToGetAcceptance,
         );
       }
     });
@@ -53,8 +56,10 @@ class _SettingsToolboxState extends State<SettingsToolbox> {
         text: acceptanceContent,
       ),
     ).then((_) {
-      FuzzySnackbar.show(
-        label: localizations.acceptanceCopiedToClipboard,
+      if (!mounted) return;
+      FuzzzyToast.show(
+        context,
+        message: localizations.acceptanceCopiedToClipboard,
       );
     });
   }

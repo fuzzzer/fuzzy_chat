@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 import 'package:go_router/go_router.dart';
 
 class OnboardingPage extends StatefulWidget {
@@ -29,10 +30,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = FuzzyChatLocalizations.of(context)!;
-    final colors = theme.extension<UiColors>()!;
+    final fuzzzyColors = context.fuzzzyColors;
 
     return Scaffold(
-      backgroundColor: colors.backgroundPrimaryColor,
+      backgroundColor: fuzzzyColors.ground,
       body: SafeArea(
         child: Column(
           children: [
@@ -81,8 +82,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         width: _currentPage == index ? 24 : 8,
                         decoration: BoxDecoration(
                           color: _currentPage == index
-                              ? colors.diffColor
-                              : colors.secondaryColor,
+                              ? fuzzzyColors.inkFaint
+                              : fuzzzyColors.surface,
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),
@@ -93,7 +94,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     width: double.infinity,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: colors.diffColor,
+                        backgroundColor: fuzzzyColors.inkFaint,
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -126,7 +127,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     String description,
   ) {
     final theme = Theme.of(context);
-    final colors = theme.extension<UiColors>()!;
+    final fuzzzyColors = context.fuzzzyColors;
 
     return Padding(
       padding: const EdgeInsets.all(40),
@@ -136,14 +137,14 @@ class _OnboardingPageState extends State<OnboardingPage> {
           Icon(
             icon,
             size: 100,
-            color: colors.diffColor,
+            color: fuzzzyColors.inkFaint,
           ),
           const SizedBox(height: 48),
           Text(
             title,
             style: theme.textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.w800,
-              color: colors.primaryTextColor,
+              color: fuzzzyColors.ink,
             ),
             textAlign: TextAlign.center,
           ),
@@ -151,7 +152,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
           Text(
             description,
             style: theme.textTheme.bodyLarge?.copyWith(
-              color: colors.secondaryTextColor,
+              color: fuzzzyColors.inkMute,
               height: 1.5,
             ),
             textAlign: TextAlign.center,

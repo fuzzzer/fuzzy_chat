@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuzzy_chat/lib.dart';
+import 'package:fuzzzy_ui_kit/fuzzzy_ui_kit.dart';
 
 export 'components/components.dart';
 export 'widgets/widgets.dart';
@@ -34,8 +35,14 @@ class ProvidedAcceptanceExportPage extends StatelessWidget {
       builder: (context, state) {
         return StatusBuilder.buildByStatus(
           status: state.status,
-          onInitial: () => const FuzzyLoadingPagebuilder(),
-          onLoading: () => const FuzzyLoadingPagebuilder(),
+          onInitial: () => const FuzzyScaffold(
+            hasAutomaticBackButton: false,
+            body: Center(child: FuzzzyProgressRing(size: 32)),
+          ),
+          onLoading: () => const FuzzyScaffold(
+            hasAutomaticBackButton: false,
+            body: Center(child: FuzzzyProgressRing(size: 32)),
+          ),
           onSuccess: () => AcceptanceContent(
             acceptanceContent: state.acceptance!.acceptanceContent,
             hasBackButton: payload.hasBackButton,
@@ -43,7 +50,7 @@ class ProvidedAcceptanceExportPage extends StatelessWidget {
           ),
           onFailure: () => FuzzyErrorPageBuilder(
             message:
-                state.failure?.message ?? localizations.failedToReadAcceptance,
+            state.failure?.message ?? localizations.failedToReadAcceptance,
           ),
         );
       },
