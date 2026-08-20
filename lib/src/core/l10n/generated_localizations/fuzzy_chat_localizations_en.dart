@@ -742,4 +742,28 @@ class FuzzyChatLocalizationsEn extends FuzzyChatLocalizations {
   @override
   String get vaultFileSaveWarning =>
       '⚠️ The original file is NOT auto-deleted. After a successful save, the user\'s source file remains on disk untouched. The app currently doesn\'t warn about this.';
+
+  @override
+  String get tourMenuTitle => 'Menu';
+
+  @override
+  String get tourMenuDescription =>
+      'Tap here to open the navigation menu and switch between Chat, Vault and Settings.';
+
+  @override
+  String get tourRightActionTitle => 'Quick action';
+
+  @override
+  String get tourEncryptionActionDescription =>
+      'Tap here to learn how encryption keeps your chats private.';
+
+  @override
+  String get tourVaultActionDescription =>
+      'Tap here for vault options, like locking the vault.';
+
+  @override
+  String get tourNext => 'Next';
+
+  @override
+  String get tourGotIt => 'Got it';
 }

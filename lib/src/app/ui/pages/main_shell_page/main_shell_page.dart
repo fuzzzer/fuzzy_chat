@@ -6,10 +6,62 @@ import 'package:go_router/go_router.dart';
 
 export 'widgets/widgets.dart';
 
-class MainShellPage extends StatelessWidget {
+class MainShellPage extends StatefulWidget {
   final Widget child;
 
   const MainShellPage({super.key, required this.child});
+
+  @override
+  State<MainShellPage> createState() => _MainShellPageState();
+}
+
+class _MainShellPageState extends State<MainShellPage> {
+  // TODO: showing on every launch for now.
+  static bool _tourShown = false;
+
+  final GlobalKey _menuButtonKey = GlobalKey();
+  final GlobalKey _rightActionKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _maybeShowTour());
+  }
+
+  void _maybeShowTour() {
+    if (_tourShown || !mounted) return;
+    _tourShown = true;
+
+    final loc = context.fuzzyChatLocalizations;
+    final currentLoc = GoRouterState.of(context).uri.toString();
+    final isChat = currentLoc == AppRouter.home;
+    final isVault = currentLoc.startsWith('/vault');
+
+    final rightActionDescription = isChat
+        ? loc.tourEncryptionActionDescription
+        : isVault
+            ? loc.tourVaultActionDescription
+            : null;
+
+    showAppTour(
+      context,
+      steps: [
+        AppTourStep(
+          targetKey: _menuButtonKey,
+          title: loc.tourMenuTitle,
+          description: loc.tourMenuDescription,
+        ),
+        if (rightActionDescription != null)
+          AppTourStep(
+            targetKey: _rightActionKey,
+            title: loc.tourRightActionTitle,
+            description: rightActionDescription,
+          ),
+      ],
+      nextLabel: loc.tourNext,
+      doneLabel: loc.tourGotIt,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,6 +145,7 @@ class MainShellPage extends StatelessWidget {
       leading: Builder(
         builder: (context) {
           return IconButton(
+            key: _menuButtonKey,
             padding: EdgeInsets.zero,
             icon: Icon(
               Icons.menu,
@@ -104,7 +157,9 @@ class MainShellPage extends StatelessWidget {
           );
         },
       ),
-      actions: rightAction != null ? [rightAction] : null,
+      actions: rightAction != null
+          ? [KeyedSubtree(key: _rightActionKey, child: rightAction)]
+          : null,
     );
 
     return Scaffold(
@@ -118,7 +173,7 @@ class MainShellPage extends StatelessWidget {
           child: shellAppBar,
         ),
       ),
-      body: child,
+      body: widget.child,
     );
   }
 }

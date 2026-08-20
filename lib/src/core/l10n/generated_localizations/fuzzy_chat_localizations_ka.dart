@@ -751,4 +751,28 @@ class FuzzyChatLocalizationsKa extends FuzzyChatLocalizations {
   @override
   String get vaultFileSaveWarning =>
       '⚠️ ორიგინალი ფაილი არ იშლება ავტომატურად. შენახვის შემდეგ ფაილი რჩება მოწყობილობაზე. გთხოვთ წაშალოთ ის უსაფრთხოების მიზნით.';
+
+  @override
+  String get tourMenuTitle => 'მენიუ';
+
+  @override
+  String get tourMenuDescription =>
+      'დააჭირეთ აქ ნავიგაციის მენიუს გასახსნელად და გადადით Chat, Vault-სა და პარამეტრებში.';
+
+  @override
+  String get tourRightActionTitle => 'სწრაფი მოქმედება';
+
+  @override
+  String get tourEncryptionActionDescription =>
+      'დააჭირეთ, რათა გაიგოთ, როგორ იცავს ენკრიფცია თქვენს მიმოწერას.';
+
+  @override
+  String get tourVaultActionDescription =>
+      'დააჭირეთ აქ Vault-ის პარამეტრებისთვის, მაგალითად მისი დაბლოკვისთვის.';
+
+  @override
+  String get tourNext => 'შემდეგი';
+
+  @override
+  String get tourGotIt => 'გასაგებია';
 }
