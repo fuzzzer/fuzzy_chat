@@ -16,9 +16,6 @@ class MainShellPage extends StatefulWidget {
 }
 
 class _MainShellPageState extends State<MainShellPage> {
-  // TODO: showing on every launch for now.
-  static bool _tourShown = false;
-
   final GlobalKey _menuButtonKey = GlobalKey();
   final GlobalKey _rightActionKey = GlobalKey();
 
@@ -28,9 +25,12 @@ class _MainShellPageState extends State<MainShellPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) => _maybeShowTour());
   }
 
-  void _maybeShowTour() {
-    if (_tourShown || !mounted) return;
-    _tourShown = true;
+  Future<void> _maybeShowTour() async {
+    final tourCubit = context.read<AppTourCubit>();
+    await tourCubit.ready;
+
+    if (tourCubit.state.tourShown || !mounted) return;
+    await tourCubit.markTourShown();
 
     final loc = context.fuzzyChatLocalizations;
     final currentLoc = GoRouterState.of(context).uri.toString();

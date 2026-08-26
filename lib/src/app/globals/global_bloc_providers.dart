@@ -23,6 +23,9 @@ class GlobalBlocProviders extends StatelessWidget {
         BlocProvider<ThemeCubit>(
           create: (_) => ThemeCubit(),
         ),
+        BlocProvider<AppTourCubit>(
+          create: (_) => AppTourCubit(),
+        ),
         BlocProvider<ChatGeneralDataListCubit>(
           create: (context) => ChatGeneralDataListCubit(
             chatRepository: sl.get<ChatGeneralDataListRepository>(),
