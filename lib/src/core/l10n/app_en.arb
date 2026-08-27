@@ -473,5 +473,19 @@
   "chatAuthEnterPassword": "Please enter your current password",
   "@chatAuthEnterPassword": {},
   "vaultFileSaveWarning": "⚠️ The original file is NOT auto-deleted. After a successful save, the user's source file remains on disk untouched. The app currently doesn't warn about this.",
-  "@vaultFileSaveWarning": {}
+  "@vaultFileSaveWarning": {},
+  "tourMenuTitle": "Menu",
+  "@tourMenuTitle": {},
+  "tourMenuDescription": "Tap here to open the navigation menu and switch between Chat, Vault and Settings.",
+  "@tourMenuDescription": {},
+  "tourRightActionTitle": "Quick action",
+  "@tourRightActionTitle": {},
+  "tourEncryptionActionDescription": "Tap here to learn how encryption keeps your chats private.",
+  "@tourEncryptionActionDescription": {},
+  "tourVaultActionDescription": "Tap here for vault options, like locking the vault.",
+  "@tourVaultActionDescription": {},
+  "tourNext": "Next",
+  "@tourNext": {},
+  "tourGotIt": "Got it",
+  "@tourGotIt": {}
 }

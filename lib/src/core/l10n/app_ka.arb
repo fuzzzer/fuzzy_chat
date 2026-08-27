@@ -473,5 +473,19 @@
   "chatAuthEnterPassword": "გთხოვთ შეიყვანოთ მიმდინარე პაროლი",
   "@chatAuthEnterPassword": {},
   "vaultFileSaveWarning": "⚠️ ორიგინალი ფაილი არ იშლება ავტომატურად. შენახვის შემდეგ ფაილი რჩება მოწყობილობაზე. გთხოვთ წაშალოთ ის უსაფრთხოების მიზნით.",
-  "@vaultFileSaveWarning": {}
+  "@vaultFileSaveWarning": {},
+  "tourMenuTitle": "მენიუ",
+  "@tourMenuTitle": {},
+  "tourMenuDescription": "დააჭირეთ აქ ნავიგაციის მენიუს გასახსნელად და გადადით Chat, Vault-სა და პარამეტრებში.",
+  "@tourMenuDescription": {},
+  "tourRightActionTitle": "სწრაფი მოქმედება",
+  "@tourRightActionTitle": {},
+  "tourEncryptionActionDescription": "დააჭირეთ, რათა გაიგოთ, როგორ იცავს ენკრიფცია თქვენს მიმოწერას.",
+  "@tourEncryptionActionDescription": {},
+  "tourVaultActionDescription": "დააჭირეთ აქ Vault-ის პარამეტრებისთვის, მაგალითად მისი დაბლოკვისთვის.",
+  "@tourVaultActionDescription": {},
+  "tourNext": "შემდეგი",
+  "@tourNext": {},
+  "tourGotIt": "გასაგებია",
+  "@tourGotIt": {}
 }

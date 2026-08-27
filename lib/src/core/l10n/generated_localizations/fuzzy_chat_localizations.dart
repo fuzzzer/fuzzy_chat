@@ -1469,6 +1469,48 @@ abstract class FuzzyChatLocalizations {
   /// In en, this message translates to:
   /// **'⚠️ The original file is NOT auto-deleted. After a successful save, the user\'s source file remains on disk untouched. The app currently doesn\'t warn about this.'**
   String get vaultFileSaveWarning;
+
+  /// No description provided for @tourMenuTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Menu'**
+  String get tourMenuTitle;
+
+  /// No description provided for @tourMenuDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap here to open the navigation menu and switch between Chat, Vault, and Settings.'**
+  String get tourMenuDescription;
+
+  /// No description provided for @tourRightActionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick action'**
+  String get tourRightActionTitle;
+
+  /// No description provided for @tourEncryptionActionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap here to learn how encryption keeps your chats private.'**
+  String get tourEncryptionActionDescription;
+
+  /// No description provided for @tourVaultActionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap here for vault options, like locking the vault.'**
+  String get tourVaultActionDescription;
+
+  /// No description provided for @tourNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get tourNext;
+
+  /// No description provided for @tourGotIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get tourGotIt;
 }
 
 class _FuzzyChatLocalizationsDelegate
